@@ -45,8 +45,8 @@
     <Bison
       Condition="'@(Bison)' != '' and '%(Bison.ExcludedFromBuild)' != 'true'"
       CommandLineTemplate="%(Bison.CommandLineTemplate)"
-      OutputFile="%(Bison.OutputFile)"
-      DefinesFile="%(Bison.DefinesFile)"
+      OutputFile="MIPT_Compiler/Analyzer/%(Bison.OutputFile)"
+      DefinesFile="MIPT_Compiler/Analyzer/%(Bison.DefinesFile)"
       Debug="%(Bison.Debug)"
       Verbose="%(Bison.Verbose)"
       NoLines="%(Bison.NoLines)"

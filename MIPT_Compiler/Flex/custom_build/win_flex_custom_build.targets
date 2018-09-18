@@ -45,8 +45,8 @@
     <Flex
       Condition="'@(Flex)' != '' and '%(Flex.ExcludedFromBuild)' != 'true'"
       CommandLineTemplate="%(Flex.CommandLineTemplate)"
-      OutputFile="%(Flex.OutputFile)"
-      HeaderFile="%(Flex.HeaderFile)"
+      OutputFile="MIPT_Compiler/Analyzer/%(Flex.OutputFile)"
+      HeaderFile="MIPT_Compiler/Analyzer/%(Flex.HeaderFile)"
       Prefix="%(Flex.Prefix)"
       Wincompat="%(Flex.Wincompat)"
       CaseInsensitive="%(Flex.CaseInsensitive)"

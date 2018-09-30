@@ -14,7 +14,7 @@
       <OutputFile>%(Filename).flex.cpp</OutputFile>
       <Wincompat>true</Wincompat>
       <CommandLineTemplate>
-        start /B /WAIT /D "%(RootDir)%(Directory)"..\..\ win_flex.exe [AllOptions] [AdditionalOptions] MIPT_Compiler\Flex\%(Filename)%(Extension)
+        start /B /WAIT /D %(RootDir)%(Directory)..\..\ win_flex.exe [AllOptions] [AdditionalOptions] MIPT_Compiler\Flex\%(Filename)%(Extension)
         exit /b %errorlevel%</CommandLineTemplate>
       <Outputs>%(RootDir)%(Directory)%(OutputFile);</Outputs>
       <ExecutionDescription>Process "%(Filename)%(Extension)" flex file</ExecutionDescription>

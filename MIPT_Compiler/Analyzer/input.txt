@@ -1,0 +1,8 @@
+int match0(int a) {
+	if (her) {
+		a = 6 + 8 / 9;
+		System.out.println(a);
+	}
+}
+
+

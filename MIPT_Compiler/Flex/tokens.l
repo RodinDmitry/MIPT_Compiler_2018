@@ -4,7 +4,7 @@
 #include <iostream>
 #include <Defines.h>
 
-#define YY_DECL int ParseTokens()
+#define YY_DECL int yylex()
 
 %}
 

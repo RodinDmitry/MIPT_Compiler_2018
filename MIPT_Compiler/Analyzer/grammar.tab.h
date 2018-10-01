@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_MIPT_COMPILER_ANALYZER_SAMPLE_TAB_H_INCLUDED
-# define YY_YY_MIPT_COMPILER_ANALYZER_SAMPLE_TAB_H_INCLUDED
+#ifndef YY_YY_MIPT_COMPILER_ANALYZER_GRAMMAR_TAB_H_INCLUDED
+# define YY_YY_MIPT_COMPILER_ANALYZER_GRAMMAR_TAB_H_INCLUDED
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -92,7 +92,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 10 "MIPT_Compiler\\Bison\\sample.y"
+#line 10 "MIPT_Compiler\\Bison\\grammar.y"
 
 	int integerValue;
 	bool logicalValue;
@@ -100,7 +100,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 104 "MIPT_Compiler/Analyzer/sample.tab.h"
+#line 104 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -123,4 +123,4 @@ int yyparse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !YY_YY_MIPT_COMPILER_ANALYZER_SAMPLE_TAB_H_INCLUDED  */
+#endif /* !YY_YY_MIPT_COMPILER_ANALYZER_GRAMMAR_TAB_H_INCLUDED  */

@@ -63,7 +63,7 @@
 
 /* Copy the first part of user declarations.  */
 /* Line 371 of yacc.c  */
-#line 1 "MIPT_Compiler\\Bison\\sample.y"
+#line 1 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -73,7 +73,7 @@ extern FILE* yyin;
 void yyerror(const char* s);
 
 /* Line 371 of yacc.c  */
-#line 77 "MIPT_Compiler/Analyzer/sample.tab.cpp"
+#line 77 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -92,9 +92,9 @@ void yyerror(const char* s);
 #endif
 
 /* In a future release of Bison, this section will be replaced
-   by #include "sample.tab.h".  */
-#ifndef YY_YY_MIPT_COMPILER_ANALYZER_SAMPLE_TAB_H_INCLUDED
-# define YY_YY_MIPT_COMPILER_ANALYZER_SAMPLE_TAB_H_INCLUDED
+   by #include "grammar.tab.h".  */
+#ifndef YY_YY_MIPT_COMPILER_ANALYZER_GRAMMAR_TAB_H_INCLUDED
+# define YY_YY_MIPT_COMPILER_ANALYZER_GRAMMAR_TAB_H_INCLUDED
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -155,7 +155,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 10 "MIPT_Compiler\\Bison\\sample.y"
+#line 10 "MIPT_Compiler\\Bison\\grammar.y"
 
 	int integerValue;
 	bool logicalValue;
@@ -163,7 +163,7 @@ typedef union YYSTYPE
 
 
 /* Line 387 of yacc.c  */
-#line 167 "MIPT_Compiler/Analyzer/sample.tab.cpp"
+#line 167 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -186,12 +186,12 @@ int yyparse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !YY_YY_MIPT_COMPILER_ANALYZER_SAMPLE_TAB_H_INCLUDED  */
+#endif /* !YY_YY_MIPT_COMPILER_ANALYZER_GRAMMAR_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 195 "MIPT_Compiler/Analyzer/sample.tab.cpp"
+#line 195 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 #ifdef short
 # undef short
@@ -1381,7 +1381,7 @@ yyreduce:
     {
       
 /* Line 1792 of yacc.c  */
-#line 1385 "MIPT_Compiler/Analyzer/sample.tab.cpp"
+#line 1385 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1613,16 +1613,5 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 58 "MIPT_Compiler\\Bison\\sample.y"
+#line 58 "MIPT_Compiler\\Bison\\grammar.y"
 
-int main() {
-	yyin = stdin;
-	do { 
-		yyparse();
-	} while(!feof(yyin));
-	return 0;
-}
-void yyerror(const char* s) {
-	fprintf(stderr, "Parse error: %s\n", s);
-	exit(1);
-}

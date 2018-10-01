@@ -15,6 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Bison Include="sample.y" />
+    <Bison Include="grammar.y" />
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@
 "void" {std::cout << PT_Void << " ";};
 "main" {std::cout << PT_Main << " ";};
 "class" {std::cout << PT_Class << " ";};
-"extends" {std::cout << PT_Extends << " "}
+"extends" {std::cout << PT_Extends << " ";}
 "(" {std::cout << PT_LeftRoundBracket << " ";};
 ")" {std::cout << PT_RightRoundBracket << " ";};
 "String" {std::cout << PT_String << " ";};
@@ -38,7 +38,7 @@
 "false" {std::cout << PT_False << " ";};
 "this" {std::cout << PT_This << " " ;};
 "new" {std::cout << PT_New << " ";};
-"return" {std::cout << PT_Return << " "}
+"return" {std::cout << PT_Return << " ";}
 "!" {std::cout << PT_Negation << " ";};
 "&&" {std::cout << PT_And << " ";};
 "<" {std::cout << PT_Less << " ";};

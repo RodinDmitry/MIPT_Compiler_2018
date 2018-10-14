@@ -39,6 +39,15 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+/* Line 2058 of yacc.c  */
+#line 11 "MIPT_Compiler\\Bison\\grammar.y"
+
+#include "../Analyzer/BisonUtils.h"
+
+
+/* Line 2058 of yacc.c  */
+#line 51 "MIPT_Compiler/Analyzer/grammar.tab.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -48,9 +57,9 @@ extern int yydebug;
    enum yytokentype {
      PT_Void = 258,
      PT_String = 259,
-     PT_Integer = 260,
-     PT_Number = 261,
-     PT_Boolean = 262,
+     PT_Number = 260,
+     PT_Boolean = 261,
+     PT_Integer = 262,
      PT_True = 263,
      PT_False = 264,
      PT_Class = 265,
@@ -97,15 +106,17 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 10 "MIPT_Compiler\\Bison\\grammar.y"
+#line 15 "MIPT_Compiler\\Bison\\grammar.y"
 
 	int integerValue;
 	bool logicalValue;
-	std::strnig stringValue;
+	std::string stringValue;
+	
+	Tree* node;
 
 
 /* Line 2058 of yacc.c  */
-#line 109 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 120 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
   </ItemGroup>
@@ -124,8 +125,10 @@
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BisonUtils.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entities.h" />
+    <ClInclude Include="grammar.tab.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

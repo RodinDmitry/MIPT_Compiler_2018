@@ -21,6 +21,9 @@
     <ClCompile Include="tokens.flex.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="grammar.tab.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -32,6 +35,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="grammar.tab.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="BisonUtils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

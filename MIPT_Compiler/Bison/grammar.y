@@ -1,23 +1,30 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
 void yyerror(const char* s);
 %}
 
+%code requires {
+#include "../Analyzer/BisonUtils.h"
+}
+
 %union {
 	int integerValue;
 	bool logicalValue;
-	std::strnig stringValue;
+	std::string stringValue;
+	
+	Tree* node;
 }
 
 // Типы
 %token PT_Void
 %token<stringValue> PT_String 
-%token<integerValue> PT_Integer PT_Number
-%token<logicalValue> PT_Boolean
+%token<integerValue> PT_Number
+%token PT_Boolean PT_Integer
 //Логические константы
 %token<logicalValue> PT_True PT_False
 // Части для классов
@@ -45,17 +52,24 @@ void yyerror(const char* s);
 // Точка с запятой
 %token PT_Semicolon
 // Переменная
-%token PT_ID
+%token<stringValue> PT_ID
 %token PT_EOF
 %token PT_Dot
 %token PT_Coma
 %token PT_Return
 
+%type<node> ValueT
+%type<node> Expression
+%type<node> BinaryOperator
+%type<node> FunctionCall
+%type<node> Expressions
+%type<node> ExpressionList
+
 %start Goal
 
 %%
 
-Goal: MainClass ClassDeclaration EndOfFile { printf("Start \n"); }  
+Goal: MainClass ClassDeclaration PT_EOF { printf("Start \n"); }  
 ;
 
 MainClass: ClassWord PT_ID LeftBrace MainClassInternals RightBrace { printf("MainClass \n"); } 
@@ -128,30 +142,28 @@ StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
 
 ;
 
-Expression: Expression BinaryOperator Expression
-	| Expression LeftSquareBracket Expression RightSquareBracket
-	| Expression MethodCall Length
-	| Expression MethodCall FunctionCall
-	| IntegerLiteral
-	| True
-	| False
-	| PT_ID
-	| This
-	| New Integer LeftSquareBracket Expression RightSquareBracket
-	| New PT_ID LeftRoundBracket RightRoundBracket
-	| Not Expression
-	| LeftRoundBracket Expression RightRoundBracket
+Expression: Expression BinaryOperator Expression { $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}
+	| Expression LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
+	| Expression MethodCall Length { $$=new Expression(ToExpr($1), exst::Length_STATE);}
+	| Expression MethodCall FunctionCall { $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
+	| ValueT { $$=new Expression(ToVal($1), exst::Value_STATE);}
+	| PT_ID { $$=new Expression(new Identifier($1), exst::ID_STATE);}
+	| This { $$=new Expression(exst::This_State);}
+	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($4), exst::Array_STATE);}
+	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new Expression(new Identifier($2), exst::NewObj_STATE);}
+	| Not Expression { $$=new Expression(exst::Not_STATE); }
+	| LeftRoundBracket Expression RightRoundBracket { $$=$2;}
 ;
 
-BinaryOperator : PT_Plus
-	| PT_Minus
-	| PT_Division
-	| PT_IntegerDivision
-	| PT_And
-	| PT_Or
-	| PT_Multiplication
-	| PT_Less
-	| PT_More
+BinaryOperator : PT_Plus { $$=new BinaryOperator(boot::PT_Plus); }
+	| PT_Minus { $$=new BinaryOperator(boot::PT_Minus); }
+	| PT_Division { $$=new BinaryOperator(boot::PT_Division); }
+	| PT_IntegerDivision { $$=new BinaryOperator(boot::PT_IntegerDivision); }
+	| PT_And { $$=new BinaryOperator(boot::PT_And); }
+	| PT_Or { $$=new BinaryOperator(boot::PT_Or); }
+	| PT_Multiplication { $$=new BinaryOperator(boot::PT_Multiplication); }
+	| PT_Less { $$=new BinaryOperator(boot::PT_Less); }
+	| PT_More { $$=new BinaryOperator(boot::PT_More); }
 ;
 
 ElseOptional: 
@@ -161,21 +173,20 @@ ElseOptional:
 MethodCall: PT_Dot
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new FunctionCall(ToExpr($3), new Identifier($1)); }
 ;
 
-ExpressionList: 
-	| Expressions
+ExpressionList: { $$=new Expression(exst::Empty_STATE);}
+	| Expressions { $$=new Expression(ToExpr($1), exst::List_STATE);}
 ;
 
-Expressions : Expression
-	| Expression PT_Coma Expression
+Expressions : Expression { $$=new Expression(ToExpr($1), exst::List_STATE);}
+	| Expression PT_Coma Expressions { $$=new Expression(ToExpr($1), ToExpr($3), exst::List_STATE);}
 ;
 
-True: PT_True
-;
-
-False: PT_False
+ValueT: PT_True { $$=new Value(true);}
+	| PT_False { $$=new Value(false);}
+	| PT_Number { $$=new Value($1);}
 ;
 
 This: PT_This
@@ -183,8 +194,6 @@ This: PT_This
 
 ClassWord: PT_Class { printf("Class \n"); }
 ;
-
-EndOfFile: PT_EOF { printf("EOF \n"); }
 
 ExtendsWord: PT_Extends { printf("Extends \n"); }
 ;
@@ -196,9 +205,6 @@ If: PT_If
 ;
 
 Integer: PT_Integer
-;
-
-IntegerLiteral: PT_Number
 ;
 
 Boolean: PT_Boolean

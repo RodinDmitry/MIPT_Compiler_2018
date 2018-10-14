@@ -34,7 +34,7 @@
 # define YY_YY_MIPT_COMPILER_ANALYZER_GRAMMAR_TAB_H_INCLUDED
 /* Enabling traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -59,36 +59,44 @@ extern int yydebug;
      PT_Private = 268,
      PT_Extends = 269,
      PT_Main = 270,
-     PT_LeftRoundBracket = 271,
-     PT_LeftSquareBracket = 272,
-     PT_LeftBrace = 273,
-     PT_RightRoundBracket = 274,
-     PT_RightSquareBracket = 275,
-     PT_RightBrace = 276,
-     PT_Print = 277,
-     PT_If = 278,
-     PT_While = 279,
-     PT_Else = 280,
-     PT_Length = 281,
-     PT_This = 282,
-     PT_New = 283,
-     PT_Negation = 284,
-     PT_And = 285,
-     PT_Or = 286,
-     PT_More = 287,
-     PT_Less = 288,
-     PT_Plus = 289,
-     PT_Minus = 290,
-     PT_Multiplication = 291,
-     PT_Division = 292,
-     PT_IntegerDivision = 293,
-     PT_Equal = 294,
-     PT_Semicolon = 295,
-     PT_ID = 296,
-     PT_EOF = 297,
-     PT_Dot = 298,
-     PT_Coma = 299,
-     PT_Return = 300
+     PT_Print = 271,
+     PT_If = 272,
+     PT_While = 273,
+     PT_Else = 274,
+     PT_Length = 275,
+     PT_This = 276,
+     PT_New = 277,
+     PT_Semicolon = 278,
+     PT_ID = 279,
+     PT_EOF = 280,
+     PT_Dot = 281,
+     PT_Coma = 282,
+     PT_Return = 283,
+     PT_LeftBrace = 284,
+     PT_LeftSquareBracket = 285,
+     PT_LeftRoundBracket = 286,
+     PT_RightBrace = 287,
+     PT_RightSquareBracket = 288,
+     PT_RightRoundBracket = 289,
+     PT_Or = 290,
+     PT_And = 291,
+     PT_IntegerDivision = 292,
+     PT_Division = 293,
+     PT_Multiplication = 294,
+     PT_Less = 295,
+     PT_More = 296,
+     PT_Equal = 297,
+     PT_Minus = 298,
+     PT_Plus = 299,
+     PT_Negation = 300,
+     BRACKETS = 301,
+     ARRAY = 302,
+     LENGTH = 303,
+     CALL = 304,
+     NEW_ID = 305,
+     NEW_INT = 306,
+     BINARY = 307,
+     NOT = 308
    };
 #endif
 
@@ -105,7 +113,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 109 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 117 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

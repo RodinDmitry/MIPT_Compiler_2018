@@ -90,6 +90,12 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Bison>
+      <Debug>true</Debug>
+    </Bison>
+    <Bison>
+      <Verbose>true</Verbose>
+    </Bison>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

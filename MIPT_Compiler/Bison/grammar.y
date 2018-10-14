@@ -24,9 +24,6 @@ void yyerror(const char* s);
 %token PT_Class PT_Static PT_Public PT_Private PT_Extends
 //Точка входа
 %token PT_Main
-// Скобки 
-%token PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
-%token PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
 // Принт
 %token PT_Print
 //Условные операторы
@@ -35,14 +32,6 @@ void yyerror(const char* s);
 %token PT_Length
 // Ключевые слова
 %token PT_This PT_New
-// Логические операции
-%token PT_Negation PT_And PT_Or
-// Сравнения
-%token PT_More PT_Less
-// Арифмметические операции
-%token PT_Plus PT_Minus
-%token PT_Multiplication PT_Division PT_IntegerDivision PT_Equal
-// Точка с запятой
 %token PT_Semicolon
 // Переменная
 %token PT_ID
@@ -51,6 +40,23 @@ void yyerror(const char* s);
 %token PT_Coma
 %token PT_Return
 
+%left PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
+%left PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
+%left PT_Dot
+%left PT_And PT_Or
+%left PT_Multiplication PT_Division PT_IntegerDivision
+%left PT_More PT_Less
+%left PT_Equal
+%left PT_Plus PT_Minus
+%left PT_Negation
+
+%left BRACKETS
+%left ARRAY
+%left CALL LENGTH
+%left NEW_INT NEW_ID
+%left BINARY
+%left NOT
+
 %start Goal
 
 %%
@@ -58,7 +64,7 @@ void yyerror(const char* s);
 Goal: MainClass ClassDeclaration EndOfFile { printf("Start \n"); }  
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainClassInternals RightBrace { printf("MainClass \n"); } 
+MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { printf("MainClass \n"); } 
 ;
 
 ClassDeclaration: 
@@ -74,9 +80,6 @@ Extends:
 	| ExtendsWord PT_ID
 ;
 
-MainClassInternals: ClassInternals MainFunction ClassInternals
-;
-
 ClassInternals: { printf("Empty internals \n"); }
 	| Function ClassInternals { printf("Function \n"); }
 	| Variable ClassInternals { printf("Filed \n"); }
@@ -85,7 +88,7 @@ ClassInternals: { printf("Empty internals \n"); }
 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace { printf("Main \n"); }
 ;
 
-MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID
+MainArgument: PT_String PT_LeftSquareBracket PT_RightSquareBracket PT_ID
 ;
 
 Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { printf("Function Decl \n"); }
@@ -120,27 +123,27 @@ Statement: { printf("Empty Statement \n"); }
 ;
 
 StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
-	| If LeftRoundBracket Expression RightRoundBracket StatementList ElseOptional
+	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement
 	| While LeftRoundBracket Expression RightRoundBracket  StatementList
 	| Print LeftRoundBracket Expression RightRoundBracket Semicolon
 	| PT_ID Equals Expression Semicolon
-	| PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon
+	| PT_ID PT_LeftSquareBracket Expression PT_RightSquareBracket Equals Expression Semicolon
 
 ;
 
-Expression: Expression BinaryOperator Expression
-	| Expression LeftSquareBracket Expression RightSquareBracket
-	| Expression MethodCall Length
-	| Expression MethodCall FunctionCall
+Expression: Expression BinaryOperator Expression %prec BINARY
+	| Expression PT_LeftSquareBracket Expression PT_RightSquareBracket %prec ARRAY
+	| Expression MethodCall Length %prec LENGTH
+	| Expression MethodCall FunctionCall %prec CALL
 	| IntegerLiteral
 	| True
 	| False
 	| PT_ID
 	| This
-	| New Integer LeftSquareBracket Expression RightSquareBracket
-	| New PT_ID LeftRoundBracket RightRoundBracket
-	| Not Expression
-	| LeftRoundBracket Expression RightRoundBracket
+	| New Integer PT_LeftSquareBracket Expression PT_RightSquareBracket %prec NEW_INT
+	| New PT_ID LeftRoundBracket RightRoundBracket  %prec NEW_ID
+	| Not Expression %prec NOT
+	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS
 ;
 
 BinaryOperator : PT_Plus
@@ -152,10 +155,6 @@ BinaryOperator : PT_Plus
 	| PT_Multiplication
 	| PT_Less
 	| PT_More
-;
-
-ElseOptional: 
-	| PT_Else Statement
 ;
 
 MethodCall: PT_Dot
@@ -216,12 +215,6 @@ LeftRoundBracket: PT_LeftRoundBracket
 RightRoundBracket: PT_RightRoundBracket
 ;
 
-LeftSquareBracket: PT_LeftSquareBracket
-;
-
-RightSquareBracket: PT_RightSquareBracket
-;
-
 Length: PT_Length
 ;
 
@@ -241,3 +234,7 @@ While: PT_While
 ;
 
 %%
+
+%left PT_Less PT_More PT_Equals
+%left PT_Plus PT_Minus
+%left PT_Division PT_IntegerDivision PT_Multiplication

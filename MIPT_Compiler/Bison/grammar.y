@@ -33,9 +33,6 @@ void yyerror(const char* s){};
 %token PT_Class PT_Static PT_Public PT_Private PT_Extends
 //Точка входа
 %token PT_Main
-// Скобки 
-%token PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
-%token PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
 // Принт
 %token PT_Print
 //Условные операторы
@@ -45,12 +42,7 @@ void yyerror(const char* s){};
 // Ключевые слова
 %token PT_This PT_New
 // Логические операции
-%token PT_Negation PT_And PT_Or
-// Сравнения
-%token PT_More PT_Less
-// Арифмметические операции
-%token PT_Plus PT_Minus
-%token PT_Multiplication PT_Division PT_IntegerDivision PT_Equal
+
 // Точка с запятой
 %token PT_Semicolon
 // Переменная
@@ -67,6 +59,20 @@ void yyerror(const char* s){};
 %type<node> Expressions
 %type<node> ExpressionList
 
+%left PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
+%left PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
+%left PT_Dot
+%left PT_Negation 
+%left PT_Multiplication PT_Division PT_IntegerDivision 
+%left PT_Equal PT_And PT_Or PT_More PT_Less PT_Plus PT_Minus
+
+%left BRACKETS
+%left ARRAY
+%left LENGTH CALL
+%right NOT 
+%left BINARY 
+
+
 %start Goal
 
 %%
@@ -74,7 +80,7 @@ void yyerror(const char* s){};
 Goal: MainClass ClassDeclaration PT_EOF { printf("Start \n"); }  
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainClassInternals RightBrace { printf("MainClass \n"); } 
+MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { printf("MainClass \n"); } 
 ;
 
 ClassDeclaration: 
@@ -88,9 +94,6 @@ ClassStart: ClassWord PT_ID Extends
 
 Extends: 
 	| ExtendsWord PT_ID
-;
-
-MainClassInternals: ClassInternals MainFunction ClassInternals
 ;
 
 ClassInternals: { printf("Empty internals \n"); }
@@ -136,7 +139,7 @@ Statement: { printf("Empty Statement \n"); }
 ;
 
 StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
-	| If LeftRoundBracket Expression RightRoundBracket StatementList ElseOptional
+	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement
 	| While LeftRoundBracket Expression RightRoundBracket  StatementList
 	| Print LeftRoundBracket Expression RightRoundBracket Semicolon
 	| PT_ID Equals Expression Semicolon
@@ -144,17 +147,17 @@ StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
 
 ;
 
-Expression: Expression BinaryOperator Expression { $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}
-	| Expression LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
-	| Expression MethodCall Length { $$=new Expression(ToExpr($1), exst::Length_STATE);}
-	| Expression MethodCall FunctionCall { $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
+Expression: Expression BinaryOperator Expression %prec BINARY { $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}
+	| Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
+	| Expression MethodCall Length %prec LENGTH { $$=new Expression(ToExpr($1), exst::Length_STATE);}
+	| Expression MethodCall FunctionCall %prec CALL { $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
 	| ValueT { $$=new Expression(ToVal($1), exst::Value_STATE);}
 	| PT_ID { $$=new Expression(new Identifier($1), exst::ID_STATE);}
 	| This { $$=new Expression(exst::This_State);}
 	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($4), exst::Array_STATE);}
 	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new Expression(new Identifier($2), exst::NewObj_STATE);}
-	| Not Expression { $$=new Expression(exst::Not_STATE); }
-	| LeftRoundBracket Expression RightRoundBracket { $$=$2;}
+	| Not Expression %prec NOT { $$=new Expression(exst::Not_STATE); }
+	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$=$2;}
 ;
 
 BinaryOperator : PT_Plus { $$=new BinaryOperator(boot::PT_Plus); }
@@ -166,10 +169,6 @@ BinaryOperator : PT_Plus { $$=new BinaryOperator(boot::PT_Plus); }
 	| PT_Multiplication { $$=new BinaryOperator(boot::PT_Multiplication); }
 	| PT_Less { $$=new BinaryOperator(boot::PT_Less); }
 	| PT_More { $$=new BinaryOperator(boot::PT_More); }
-;
-
-ElseOptional: 
-	| PT_Else Statement
 ;
 
 MethodCall: PT_Dot

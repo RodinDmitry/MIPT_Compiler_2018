@@ -17,4 +17,9 @@
   <ItemGroup>
     <Flex Include="tokens.l" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Analyzer\grammar.tab.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

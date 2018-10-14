@@ -12,48 +12,48 @@
 
 [\n] ; // ignore end lines
 [ \t]	; // ignore all whitespace
-[0-9]+		{ std::cout << PT_Number << yytext << " ";};
-"static" { std::cout << PT_Static << " ";};
-"public" { std::cout << PT_Public << " ";};
-"private" { std::cout << PT_Private << " ";};
+[0-9]+		{ return PT_Number  ;};
+"static" { return PT_Static  ;};
+"public" { return PT_Public  ;};
+"private" { return PT_Private  ;};
 
-"void" {std::cout << PT_Void << " ";};
-"main" {std::cout << PT_Main << " ";};
-"class" {std::cout << PT_Class << " ";};
-"extends" {std::cout << PT_Extends << " ";}
-"(" {std::cout << PT_LeftRoundBracket << " ";};
-")" {std::cout << PT_RightRoundBracket << " ";};
-"String" {std::cout << PT_String << " ";};
-"[" {std::cout << PT_LeftSquareBracket << " ";};
-"]" {std::cout << PT_LeftSquareBracket << " ";};
-"{" {std::cout << PT_LeftBrace << " ";};
-"}" {std::cout << PT_RightBrace << " ";};
-"int" {std::cout << PT_Integer << " ";};
-"boolean" {std::cout << PT_Boolean << " ";};
-"System.out.println" {std::cout << PT_Print << " ";};
-"if" {std::cout << PT_If << " ";};
-"while" {std::cout << PT_While << " ";};
-"length" {std::cout << PT_Length << " ";};
-"true" {std::cout << PT_True << " ";};
-"false" {std::cout << PT_False << " ";};
-"this" {std::cout << PT_This << " " ;};
-"new" {std::cout << PT_New << " ";};
-"return" {std::cout << PT_Return << " ";}
-"!" {std::cout << PT_Negation << " ";};
-"&&" {std::cout << PT_And << " ";};
-"<" {std::cout << PT_Less << " ";};
-">" {std::cout << PT_More << " ";};
-"+" {std::cout << PT_Plus << " ";};
-"-" {std::cout << PT_Minus << " ";};
-"*" {std::cout << PT_Multiplication << " ";};
-"%" {std::cout << PT_IntegerDivision << " ";};
-"/" {std::cout << PT_Division << " ";}
-"||" {std::cout << PT_Or << " ";};
-"=" {std::cout << PT_Equal << " ";};
-";" {std::cout << PT_Semicolon << " ";};
-"." {std::cout << PT_Dot << " ";};
-"," {std::cout << PT_Coma << " ";}
-[a-zA-z]+[a-zA-Z0-9_]* {{ std::cout << PT_ID << yytext << " ";};}
+"void" {return PT_Void  ;};
+"main" {return PT_Main  ;};
+"class" {return PT_Class  ;};
+"extends" {return PT_Extends;  }
+"(" {return PT_LeftRoundBracket  ;};
+")" {return PT_RightRoundBracket  ;};
+"String" {return PT_String  ;};
+"[" {return PT_LeftSquareBracket  ;};
+"]" {return PT_LeftSquareBracket  ;};
+"{" {return PT_LeftBrace  ;};
+"}" {return PT_RightBrace  ;};
+"int" {return PT_Integer  ;};
+"boolean" {return PT_Boolean  ;};
+"System.out.println" {return PT_Print  ;};
+"if" {return PT_If  ;};
+"while" {return PT_While  ;};
+"length" {return PT_Length  ;};
+"true" {return PT_True  ;};
+"false" {return PT_False  ;};
+"this" {return PT_This   ;};
+"new" {return PT_New  ;};
+"return" {return PT_Return ; }
+"!" {return PT_Negation  ;};
+"&&" {return PT_And  ;};
+"<" {return PT_Less  ;};
+">" {return PT_More  ;};
+"+" {return PT_Plus  ;};
+"-" {return PT_Minus  ;};
+"*" {return PT_Multiplication  ;};
+"%" {return PT_IntegerDivision  ;};
+"/" {return PT_Division  ;}
+"||" {return PT_Or  ;};
+"=" {return PT_Equal  ;};
+";" {return PT_Semicolon  ;};
+"." {return PT_Dot  ;};
+"," {return PT_Coma  ;}
+[a-zA-z]+[a-zA-Z0-9_]* {{ return PT_ID  ;};}
 
 
 %%

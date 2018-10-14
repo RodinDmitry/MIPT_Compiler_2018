@@ -58,7 +58,7 @@ void yyerror(const char* s);
 Goal: MainClass ClassDeclaration EndOfFile { printf("Start \n"); }  
 ;
 
-MainClass: ClassWord ClassName LeftBrace MainClassInternals RightBrace { printf("MainClass \n"); } 
+MainClass: ClassWord PT_ID LeftBrace MainClassInternals RightBrace { printf("MainClass \n"); } 
 ;
 
 ClassDeclaration: 
@@ -67,11 +67,11 @@ ClassDeclaration:
 Class: ClassStart LeftBrace ClassInternals RightBrace { printf("Class \n"); }
 ;
 
-ClassStart: ClassWord ClassName Extends
+ClassStart: ClassWord PT_ID Extends
 ;
 
 Extends: 
-	| ExtendsWord ClassName
+	| ExtendsWord PT_ID
 ;
 
 MainClassInternals: ClassInternals MainFunction ClassInternals
@@ -85,10 +85,10 @@ ClassInternals: { printf("Empty internals \n"); }
 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace { printf("Main \n"); }
 ;
 
-MainArgument: PT_String LeftSquareBracket RightSquareBracket VariableId
+MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID
 ;
 
-Function: Visibility FunctionId ArgumentsList LeftBrace Statement Return RightBrace { printf("Function Decl \n"); }
+Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { printf("Function Decl \n"); }
 ;
 
 Visibility: PT_Public
@@ -106,13 +106,13 @@ Argument : Variable { printf("Last Variable \n"); }
 	| Variable PT_Coma Argument { printf("Variable \n"); }
 ;
 
-Variable: Type VariableId Semicolon { printf("Variable \n"); }
+Variable: Type PT_ID Semicolon { printf("Variable \n"); }
 ;
 
 Type: Integer  { printf("Integer \n"); }
 	| Integer PT_LeftSquareBracket PT_RightSquareBracket { printf("Array of Int \n"); }
 	| Boolean { printf("Bool \n"); }
-	| ClassName { printf("User Type \n"); }
+	| PT_ID { printf("User Type \n"); }
 ;
 
 Statement: { printf("Empty Statement \n"); }
@@ -123,8 +123,8 @@ StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
 	| If LeftRoundBracket Expression RightRoundBracket StatementList ElseOptional
 	| While LeftRoundBracket Expression RightRoundBracket  StatementList
 	| Print LeftRoundBracket Expression RightRoundBracket Semicolon
-	| VariableId Equals Expression Semicolon
-	| VariableId LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon
+	| PT_ID Equals Expression Semicolon
+	| PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon
 
 ;
 
@@ -161,7 +161,7 @@ ElseOptional:
 MethodCall: PT_Dot
 ;
 
-FunctionCall: FunctionId LeftRoundBracket ExpressionList RightRoundBracket
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket
 ;
 
 ExpressionList: 
@@ -181,21 +181,12 @@ False: PT_False
 This: PT_This
 ;
 
-ClassName: PT_ID { printf("Class ID \n"); }
-;
-
-FunctionId: PT_ID
-;
-
 ClassWord: PT_Class { printf("Class \n"); }
 ;
 
 EndOfFile: PT_EOF { printf("EOF \n"); }
 
 ExtendsWord: PT_Extends { printf("Extends \n"); }
-;
-
-VariableId : PT_ID { printf("Variable ID \n"); }
 ;
 
 Equals: PT_Equal

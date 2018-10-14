@@ -41,7 +41,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 11 "MIPT_Compiler\\Bison\\grammar.y"
+#line 12 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
 
@@ -106,17 +106,18 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 15 "MIPT_Compiler\\Bison\\grammar.y"
+#line 16 "MIPT_Compiler\\Bison\\grammar.y"
+
 
 	int integerValue;
 	bool logicalValue;
-	std::string stringValue;
+	char* stringValue;
 	
 	Tree* node;
 
 
 /* Line 2058 of yacc.c  */
-#line 120 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 121 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

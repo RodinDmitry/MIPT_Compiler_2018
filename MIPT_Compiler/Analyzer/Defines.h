@@ -1,6 +1,5 @@
 #pragma once
 
-extern "C++" int yylex();
 
 enum ParserTokens {
 	// Типы

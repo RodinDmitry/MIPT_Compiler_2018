@@ -3,9 +3,10 @@
 #include <stdlib.h>
 
 extern int yylex();
-extern int yyparse();
+extern "C++" int yyparse();
 extern FILE* yyin;
-void yyerror(const char* s);
+
+void yyerror(const char* s){};
 %}
 
 %code requires {
@@ -13,16 +14,17 @@ void yyerror(const char* s);
 }
 
 %union {
+
 	int integerValue;
 	bool logicalValue;
-	std::string stringValue;
+	char* stringValue;
 	
 	Tree* node;
 }
 
 // Типы
 %token PT_Void
-%token<stringValue> PT_String 
+%token PT_String 
 %token<integerValue> PT_Number
 %token PT_Boolean PT_Integer
 //Логические константы

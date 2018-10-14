@@ -69,12 +69,13 @@
 #include <stdlib.h>
 
 extern int yylex();
-extern int yyparse();
+extern "C++" int yyparse();
 extern FILE* yyin;
-void yyerror(const char* s);
+
+void yyerror(const char* s){};
 
 /* Line 371 of yacc.c  */
-#line 78 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 79 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -105,13 +106,13 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 387 of yacc.c  */
-#line 11 "MIPT_Compiler\\Bison\\grammar.y"
+#line 12 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
 
 
 /* Line 387 of yacc.c  */
-#line 115 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 116 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -170,17 +171,18 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 15 "MIPT_Compiler\\Bison\\grammar.y"
+#line 16 "MIPT_Compiler\\Bison\\grammar.y"
+
 
 	int integerValue;
 	bool logicalValue;
-	std::string stringValue;
+	char* stringValue;
 	
 	Tree* node;
 
 
 /* Line 387 of yacc.c  */
-#line 184 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 186 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -208,7 +210,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 212 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 214 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 #ifdef short
 # undef short
@@ -532,15 +534,15 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    72,    72,    75,    78,    79,    81,    84,    87,    88,
-      91,    94,    95,    96,    99,   102,   105,   108,   109,   112,
-     115,   116,   119,   120,   123,   126,   127,   128,   129,   132,
-     133,   136,   137,   138,   139,   140,   141,   145,   146,   147,
-     148,   149,   150,   151,   152,   153,   154,   155,   158,   159,
-     160,   161,   162,   163,   164,   165,   166,   169,   170,   173,
-     176,   179,   180,   183,   184,   187,   188,   189,   192,   195,
-     198,   201,   204,   207,   210,   213,   216,   219,   222,   225,
-     228,   231,   234,   237,   240,   243,   246
+       0,    74,    74,    77,    80,    81,    83,    86,    89,    90,
+      93,    96,    97,    98,   101,   104,   107,   110,   111,   114,
+     117,   118,   121,   122,   125,   128,   129,   130,   131,   134,
+     135,   138,   139,   140,   141,   142,   143,   147,   148,   149,
+     150,   151,   152,   153,   154,   155,   156,   157,   160,   161,
+     162,   163,   164,   165,   166,   167,   168,   171,   172,   175,
+     178,   181,   182,   185,   186,   189,   190,   191,   194,   197,
+     200,   203,   206,   209,   212,   215,   218,   221,   224,   227,
+     230,   233,   236,   239,   242,   245,   248
 };
 #endif
 
@@ -1565,307 +1567,307 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 72 "MIPT_Compiler\\Bison\\grammar.y"
+#line 74 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Start \n"); }
     break;
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 75 "MIPT_Compiler\\Bison\\grammar.y"
+#line 77 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("MainClass \n"); }
     break;
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 81 "MIPT_Compiler\\Bison\\grammar.y"
+#line 83 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Class \n"); }
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 94 "MIPT_Compiler\\Bison\\grammar.y"
+#line 96 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Empty internals \n"); }
     break;
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 95 "MIPT_Compiler\\Bison\\grammar.y"
+#line 97 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Function \n"); }
     break;
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 96 "MIPT_Compiler\\Bison\\grammar.y"
+#line 98 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Filed \n"); }
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 99 "MIPT_Compiler\\Bison\\grammar.y"
+#line 101 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Main \n"); }
     break;
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 105 "MIPT_Compiler\\Bison\\grammar.y"
+#line 107 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Function Decl \n"); }
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 115 "MIPT_Compiler\\Bison\\grammar.y"
+#line 117 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Zero Argumens \n"); }
     break;
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 116 "MIPT_Compiler\\Bison\\grammar.y"
+#line 118 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Argument List \n"); }
     break;
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 119 "MIPT_Compiler\\Bison\\grammar.y"
+#line 121 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Last Variable \n"); }
     break;
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 120 "MIPT_Compiler\\Bison\\grammar.y"
+#line 122 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Variable \n"); }
     break;
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 123 "MIPT_Compiler\\Bison\\grammar.y"
+#line 125 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Variable \n"); }
     break;
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 126 "MIPT_Compiler\\Bison\\grammar.y"
+#line 128 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Integer \n"); }
     break;
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 127 "MIPT_Compiler\\Bison\\grammar.y"
+#line 129 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Array of Int \n"); }
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 128 "MIPT_Compiler\\Bison\\grammar.y"
+#line 130 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Bool \n"); }
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 129 "MIPT_Compiler\\Bison\\grammar.y"
+#line 131 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("User Type \n"); }
     break;
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 132 "MIPT_Compiler\\Bison\\grammar.y"
+#line 134 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Empty Statement \n"); }
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 133 "MIPT_Compiler\\Bison\\grammar.y"
+#line 135 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Non empty statement \n"); }
     break;
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 136 "MIPT_Compiler\\Bison\\grammar.y"
+#line 138 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Visibility \n"); }
     break;
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 145 "MIPT_Compiler\\Bison\\grammar.y"
+#line 147 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), ToBinOp((yyvsp[(2) - (3)].node)), exst::BinaryOperator_STATE);}
     break;
 
   case 38:
 /* Line 1792 of yacc.c  */
-#line 146 "MIPT_Compiler\\Bison\\grammar.y"
+#line 148 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (4)].node)), ToExpr((yyvsp[(3) - (4)].node)), exst::SquareBracket_STATE);}
     break;
 
   case 39:
 /* Line 1792 of yacc.c  */
-#line 147 "MIPT_Compiler\\Bison\\grammar.y"
+#line 149 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), exst::Length_STATE);}
     break;
 
   case 40:
 /* Line 1792 of yacc.c  */
-#line 148 "MIPT_Compiler\\Bison\\grammar.y"
+#line 150 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToFcall((yyvsp[(3) - (3)].node)), exst::FunctionCall_STATE);}
     break;
 
   case 41:
 /* Line 1792 of yacc.c  */
-#line 149 "MIPT_Compiler\\Bison\\grammar.y"
+#line 151 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToVal((yyvsp[(1) - (1)].node)), exst::Value_STATE);}
     break;
 
   case 42:
 /* Line 1792 of yacc.c  */
-#line 150 "MIPT_Compiler\\Bison\\grammar.y"
+#line 152 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(new Identifier((yyvsp[(1) - (1)].stringValue)), exst::ID_STATE);}
     break;
 
   case 43:
 /* Line 1792 of yacc.c  */
-#line 151 "MIPT_Compiler\\Bison\\grammar.y"
+#line 153 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(exst::This_State);}
     break;
 
   case 44:
 /* Line 1792 of yacc.c  */
-#line 152 "MIPT_Compiler\\Bison\\grammar.y"
+#line 154 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(4) - (5)].node)), exst::Array_STATE);}
     break;
 
   case 45:
 /* Line 1792 of yacc.c  */
-#line 153 "MIPT_Compiler\\Bison\\grammar.y"
+#line 155 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(new Identifier((yyvsp[(2) - (4)].stringValue)), exst::NewObj_STATE);}
     break;
 
   case 46:
 /* Line 1792 of yacc.c  */
-#line 154 "MIPT_Compiler\\Bison\\grammar.y"
+#line 156 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(exst::Not_STATE); }
     break;
 
   case 47:
 /* Line 1792 of yacc.c  */
-#line 155 "MIPT_Compiler\\Bison\\grammar.y"
+#line 157 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=(yyvsp[(2) - (3)].node);}
     break;
 
   case 48:
 /* Line 1792 of yacc.c  */
-#line 158 "MIPT_Compiler\\Bison\\grammar.y"
+#line 160 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_Plus); }
     break;
 
   case 49:
 /* Line 1792 of yacc.c  */
-#line 159 "MIPT_Compiler\\Bison\\grammar.y"
+#line 161 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_Minus); }
     break;
 
   case 50:
 /* Line 1792 of yacc.c  */
-#line 160 "MIPT_Compiler\\Bison\\grammar.y"
+#line 162 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_Division); }
     break;
 
   case 51:
 /* Line 1792 of yacc.c  */
-#line 161 "MIPT_Compiler\\Bison\\grammar.y"
+#line 163 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_IntegerDivision); }
     break;
 
   case 52:
 /* Line 1792 of yacc.c  */
-#line 162 "MIPT_Compiler\\Bison\\grammar.y"
+#line 164 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_And); }
     break;
 
   case 53:
 /* Line 1792 of yacc.c  */
-#line 163 "MIPT_Compiler\\Bison\\grammar.y"
+#line 165 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_Or); }
     break;
 
   case 54:
 /* Line 1792 of yacc.c  */
-#line 164 "MIPT_Compiler\\Bison\\grammar.y"
+#line 166 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_Multiplication); }
     break;
 
   case 55:
 /* Line 1792 of yacc.c  */
-#line 165 "MIPT_Compiler\\Bison\\grammar.y"
+#line 167 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_Less); }
     break;
 
   case 56:
 /* Line 1792 of yacc.c  */
-#line 166 "MIPT_Compiler\\Bison\\grammar.y"
+#line 168 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new BinaryOperator(boot::PT_More); }
     break;
 
   case 60:
 /* Line 1792 of yacc.c  */
-#line 176 "MIPT_Compiler\\Bison\\grammar.y"
+#line 178 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new FunctionCall(ToExpr((yyvsp[(3) - (4)].node)), new Identifier((yyvsp[(1) - (4)].stringValue))); }
     break;
 
   case 61:
 /* Line 1792 of yacc.c  */
-#line 179 "MIPT_Compiler\\Bison\\grammar.y"
+#line 181 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(exst::Empty_STATE);}
     break;
 
   case 62:
 /* Line 1792 of yacc.c  */
-#line 180 "MIPT_Compiler\\Bison\\grammar.y"
+#line 182 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
     break;
 
   case 63:
 /* Line 1792 of yacc.c  */
-#line 183 "MIPT_Compiler\\Bison\\grammar.y"
+#line 185 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
     break;
 
   case 64:
 /* Line 1792 of yacc.c  */
-#line 184 "MIPT_Compiler\\Bison\\grammar.y"
+#line 186 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), exst::List_STATE);}
     break;
 
   case 65:
 /* Line 1792 of yacc.c  */
-#line 187 "MIPT_Compiler\\Bison\\grammar.y"
+#line 189 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Value(true);}
     break;
 
   case 66:
 /* Line 1792 of yacc.c  */
-#line 188 "MIPT_Compiler\\Bison\\grammar.y"
+#line 190 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Value(false);}
     break;
 
   case 67:
 /* Line 1792 of yacc.c  */
-#line 189 "MIPT_Compiler\\Bison\\grammar.y"
+#line 191 "MIPT_Compiler\\Bison\\grammar.y"
     { (yyval.node)=new Value((yyvsp[(1) - (1)].integerValue));}
     break;
 
   case 69:
 /* Line 1792 of yacc.c  */
-#line 195 "MIPT_Compiler\\Bison\\grammar.y"
+#line 197 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Class \n"); }
     break;
 
   case 70:
 /* Line 1792 of yacc.c  */
-#line 198 "MIPT_Compiler\\Bison\\grammar.y"
+#line 200 "MIPT_Compiler\\Bison\\grammar.y"
     { printf("Extends \n"); }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1869 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 1871 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2097,5 +2099,5 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 249 "MIPT_Compiler\\Bison\\grammar.y"
+#line 251 "MIPT_Compiler\\Bison\\grammar.y"
 

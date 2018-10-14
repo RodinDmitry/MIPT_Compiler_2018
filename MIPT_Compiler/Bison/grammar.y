@@ -1,29 +1,39 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
 void yyerror(const char* s);
 %}
 
+%code requires {
+#include "../Analyzer/BisonUtils.h"
+}
+
 %union {
 	int integerValue;
 	bool logicalValue;
-	std::strnig stringValue;
+	std::string stringValue;
+	
+	Tree* node;
 }
 
 // Типы
 %token PT_Void
 %token<stringValue> PT_String 
-%token<integerValue> PT_Integer PT_Number
-%token<logicalValue> PT_Boolean
+%token<integerValue> PT_Number
+%token PT_Boolean PT_Integer
 //Логические константы
 %token<logicalValue> PT_True PT_False
 // Части для классов
 %token PT_Class PT_Static PT_Public PT_Private PT_Extends
 //Точка входа
 %token PT_Main
+// Скобки 
+%token PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
+%token PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
 // Принт
 %token PT_Print
 //Условные операторы
@@ -32,39 +42,37 @@ void yyerror(const char* s);
 %token PT_Length
 // Ключевые слова
 %token PT_This PT_New
+// Логические операции
+%token PT_Negation PT_And PT_Or
+// Сравнения
+%token PT_More PT_Less
+// Арифмметические операции
+%token PT_Plus PT_Minus
+%token PT_Multiplication PT_Division PT_IntegerDivision PT_Equal
+// Точка с запятой
 %token PT_Semicolon
 // Переменная
-%token PT_ID
+%token<stringValue> PT_ID
 %token PT_EOF
 %token PT_Dot
 %token PT_Coma
 %token PT_Return
 
-%left PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
-%left PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
-%left PT_Dot
-%left PT_And PT_Or
-%left PT_Multiplication PT_Division PT_IntegerDivision
-%left PT_More PT_Less
-%left PT_Equal
-%left PT_Plus PT_Minus
-%left PT_Negation
-
-%left BRACKETS
-%left ARRAY
-%left CALL LENGTH
-%left NEW_INT NEW_ID
-%left BINARY
-%left NOT
+%type<node> ValueT
+%type<node> Expression
+%type<node> BinaryOperator
+%type<node> FunctionCall
+%type<node> Expressions
+%type<node> ExpressionList
 
 %start Goal
 
 %%
 
-Goal: MainClass ClassDeclaration EndOfFile { printf("Start \n"); }  
+Goal: MainClass ClassDeclaration PT_EOF { printf("Start \n"); }  
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { printf("MainClass \n"); } 
+MainClass: ClassWord PT_ID LeftBrace MainClassInternals RightBrace { printf("MainClass \n"); } 
 ;
 
 ClassDeclaration: 
@@ -80,6 +88,9 @@ Extends:
 	| ExtendsWord PT_ID
 ;
 
+MainClassInternals: ClassInternals MainFunction ClassInternals
+;
+
 ClassInternals: { printf("Empty internals \n"); }
 	| Function ClassInternals { printf("Function \n"); }
 	| Variable ClassInternals { printf("Filed \n"); }
@@ -88,7 +99,7 @@ ClassInternals: { printf("Empty internals \n"); }
 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace { printf("Main \n"); }
 ;
 
-MainArgument: PT_String PT_LeftSquareBracket PT_RightSquareBracket PT_ID
+MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID
 ;
 
 Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { printf("Function Decl \n"); }
@@ -123,58 +134,59 @@ Statement: { printf("Empty Statement \n"); }
 ;
 
 StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
-	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement
+	| If LeftRoundBracket Expression RightRoundBracket StatementList ElseOptional
 	| While LeftRoundBracket Expression RightRoundBracket  StatementList
 	| Print LeftRoundBracket Expression RightRoundBracket Semicolon
 	| PT_ID Equals Expression Semicolon
-	| PT_ID PT_LeftSquareBracket Expression PT_RightSquareBracket Equals Expression Semicolon
+	| PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon
 
 ;
 
-Expression: Expression BinaryOperator Expression %prec BINARY
-	| Expression PT_LeftSquareBracket Expression PT_RightSquareBracket %prec ARRAY
-	| Expression MethodCall Length %prec LENGTH
-	| Expression MethodCall FunctionCall %prec CALL
-	| IntegerLiteral
-	| True
-	| False
-	| PT_ID
-	| This
-	| New Integer PT_LeftSquareBracket Expression PT_RightSquareBracket %prec NEW_INT
-	| New PT_ID LeftRoundBracket RightRoundBracket  %prec NEW_ID
-	| Not Expression %prec NOT
-	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS
+Expression: Expression BinaryOperator Expression { $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}
+	| Expression LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
+	| Expression MethodCall Length { $$=new Expression(ToExpr($1), exst::Length_STATE);}
+	| Expression MethodCall FunctionCall { $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
+	| ValueT { $$=new Expression(ToVal($1), exst::Value_STATE);}
+	| PT_ID { $$=new Expression(new Identifier($1), exst::ID_STATE);}
+	| This { $$=new Expression(exst::This_State);}
+	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($4), exst::Array_STATE);}
+	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new Expression(new Identifier($2), exst::NewObj_STATE);}
+	| Not Expression { $$=new Expression(exst::Not_STATE); }
+	| LeftRoundBracket Expression RightRoundBracket { $$=$2;}
 ;
 
-BinaryOperator : PT_Plus
-	| PT_Minus
-	| PT_Division
-	| PT_IntegerDivision
-	| PT_And
-	| PT_Or
-	| PT_Multiplication
-	| PT_Less
-	| PT_More
+BinaryOperator : PT_Plus { $$=new BinaryOperator(boot::PT_Plus); }
+	| PT_Minus { $$=new BinaryOperator(boot::PT_Minus); }
+	| PT_Division { $$=new BinaryOperator(boot::PT_Division); }
+	| PT_IntegerDivision { $$=new BinaryOperator(boot::PT_IntegerDivision); }
+	| PT_And { $$=new BinaryOperator(boot::PT_And); }
+	| PT_Or { $$=new BinaryOperator(boot::PT_Or); }
+	| PT_Multiplication { $$=new BinaryOperator(boot::PT_Multiplication); }
+	| PT_Less { $$=new BinaryOperator(boot::PT_Less); }
+	| PT_More { $$=new BinaryOperator(boot::PT_More); }
+;
+
+ElseOptional: 
+	| PT_Else Statement
 ;
 
 MethodCall: PT_Dot
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new FunctionCall(ToExpr($3), new Identifier($1)); }
 ;
 
-ExpressionList: 
-	| Expressions
+ExpressionList: { $$=new Expression(exst::Empty_STATE);}
+	| Expressions { $$=new Expression(ToExpr($1), exst::List_STATE);}
 ;
 
-Expressions : Expression
-	| Expression PT_Coma Expression
+Expressions : Expression { $$=new Expression(ToExpr($1), exst::List_STATE);}
+	| Expression PT_Coma Expressions { $$=new Expression(ToExpr($1), ToExpr($3), exst::List_STATE);}
 ;
 
-True: PT_True
-;
-
-False: PT_False
+ValueT: PT_True { $$=new Value(true);}
+	| PT_False { $$=new Value(false);}
+	| PT_Number { $$=new Value($1);}
 ;
 
 This: PT_This
@@ -182,8 +194,6 @@ This: PT_This
 
 ClassWord: PT_Class { printf("Class \n"); }
 ;
-
-EndOfFile: PT_EOF { printf("EOF \n"); }
 
 ExtendsWord: PT_Extends { printf("Extends \n"); }
 ;
@@ -195,9 +205,6 @@ If: PT_If
 ;
 
 Integer: PT_Integer
-;
-
-IntegerLiteral: PT_Number
 ;
 
 Boolean: PT_Boolean
@@ -213,6 +220,12 @@ LeftRoundBracket: PT_LeftRoundBracket
 ;
 
 RightRoundBracket: PT_RightRoundBracket
+;
+
+LeftSquareBracket: PT_LeftSquareBracket
+;
+
+RightSquareBracket: PT_RightSquareBracket
 ;
 
 Length: PT_Length
@@ -234,7 +247,3 @@ While: PT_While
 ;
 
 %%
-
-%left PT_Less PT_More PT_Equals
-%left PT_Plus PT_Minus
-%left PT_Division PT_IntegerDivision PT_Multiplication

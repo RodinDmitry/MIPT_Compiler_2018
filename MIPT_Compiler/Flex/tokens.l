@@ -20,7 +20,7 @@
 "void" {return PT_Void  ;};
 "main" {return PT_Main  ;};
 "class" {return PT_Class  ;};
-"extends" {return PT_Extends  }
+"extends" {return PT_Extends;  }
 "(" {return PT_LeftRoundBracket  ;};
 ")" {return PT_RightRoundBracket  ;};
 "String" {return PT_String  ;};
@@ -38,7 +38,7 @@
 "false" {return PT_False  ;};
 "this" {return PT_This   ;};
 "new" {return PT_New  ;};
-"return" {return PT_Return  }
+"return" {return PT_Return ; }
 "!" {return PT_Negation  ;};
 "&&" {return PT_And  ;};
 "<" {return PT_Less  ;};

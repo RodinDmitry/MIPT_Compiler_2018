@@ -57,33 +57,38 @@ extern int yydebug;
      PT_Static = 266,
      PT_Public = 267,
      PT_Private = 268,
-     PT_Main = 269,
-     PT_LeftRoundBracket = 270,
-     PT_LeftSquareBracket = 271,
-     PT_LeftBrace = 272,
-     PT_RightRoundBracket = 273,
-     PT_RightSquareBracket = 274,
-     PT_RightBrace = 275,
-     PT_Print = 276,
-     PT_If = 277,
-     PT_While = 278,
-     PT_Else = 279,
-     PT_Length = 280,
-     PT_This = 281,
-     PT_New = 282,
-     PT_Negation = 283,
-     PT_And = 284,
-     PT_Or = 285,
-     PT_More = 286,
-     PT_Less = 287,
-     PT_Plus = 288,
-     PT_Minus = 289,
-     PT_Multiplication = 290,
-     PT_Division = 291,
-     PT_IntegerDivision = 292,
-     PT_Equal = 293,
-     PT_Semicolon = 294,
-     PT_ID = 295
+     PT_Extends = 269,
+     PT_Main = 270,
+     PT_LeftRoundBracket = 271,
+     PT_LeftSquareBracket = 272,
+     PT_LeftBrace = 273,
+     PT_RightRoundBracket = 274,
+     PT_RightSquareBracket = 275,
+     PT_RightBrace = 276,
+     PT_Print = 277,
+     PT_If = 278,
+     PT_While = 279,
+     PT_Else = 280,
+     PT_Length = 281,
+     PT_This = 282,
+     PT_New = 283,
+     PT_Negation = 284,
+     PT_And = 285,
+     PT_Or = 286,
+     PT_More = 287,
+     PT_Less = 288,
+     PT_Plus = 289,
+     PT_Minus = 290,
+     PT_Multiplication = 291,
+     PT_Division = 292,
+     PT_IntegerDivision = 293,
+     PT_Equal = 294,
+     PT_Semicolon = 295,
+     PT_ID = 296,
+     PT_EOF = 297,
+     PT_Dot = 298,
+     PT_Coma = 299,
+     PT_Return = 300
    };
 #endif
 
@@ -100,7 +105,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 104 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 109 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

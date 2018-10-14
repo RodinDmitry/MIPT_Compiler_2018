@@ -855,7 +855,7 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 15 "MIPT_Compiler\\Flex\\tokens.l"
-{ std::cout << PT_Number << " ";};
+{ std::cout << PT_Number << yytext << " ";};
 	YY_BREAK
 case 4:
 YY_RULE_SETUP

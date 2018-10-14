@@ -21,6 +21,9 @@
   <ItemGroup>
     <Flex Include="tokens.l" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Analyzer\grammar.tab.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{00393446-7EB6-43BC-8E62-394D8253076B}</ProjectGuid>

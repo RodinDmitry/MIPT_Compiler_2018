@@ -58,6 +58,13 @@ void yyerror(const char* s){};
 %type<node> FunctionCall
 %type<node> Expressions
 %type<node> ExpressionList
+%type<node> Type
+%type<node> Statement
+%type<node> StatementList
+%type<node> Variable
+%type<node> Argument
+%type<node> ArgumentsList
+
 
 %left PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
 %left PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
@@ -107,43 +114,44 @@ MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Stateme
 MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID
 ;
 
-Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { printf("Function Decl \n"); }
+Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { $$ = new MethodDeclaration(ToMod($1),
+				new Identifier($2), ToArg($3), ToState($5), ToExpr($6)); }
 ;
 
-Visibility: PT_Public
-	| PT_Private
+Visibility: PT_Public { $$ = new Modifier(mv::PT_Public); }
+	| PT_Private { $$ = new Modifier(mv::PT_Private);}
 ;
 
-Return: PT_Return Expression Semicolon
+Return: PT_Return Expression Semicolon { $$=new Expression(ToExpr($2), exst::RETURN_STATE);}
 ;
 
-ArgumentsList: LeftRoundBracket RightRoundBracket { printf("Zero Argumens \n"); }
-	| LeftRoundBracket Argument RightRoundBracket { printf("Argument List \n"); }
+ArgumentsList: LeftRoundBracket RightRoundBracket { $$ = new Argument(aas::EMPTY_STATE); }
+	| LeftRoundBracket Argument RightRoundBracket { $$ = $2;}
 ;
 
-Argument : Variable { printf("Last Variable \n"); }
-	| Variable PT_Coma Argument { printf("Variable \n"); }
+Argument : Variable { $$ = new Argument(ToVar($1), aas::LAST_STATE); }
+	| Variable PT_Coma Argument { $$ = new Argument(ToArg($3), ToVar($1), aas::LIST_STATE); }
 ;
 
-Variable: Type PT_ID Semicolon { printf("Variable \n"); }
+Variable: Type PT_ID Semicolon { $$ = new VarDeclaration(ToType($1), new Identifier($2)); }
 ;
 
-Type: Integer  { printf("Integer \n"); }
-	| Integer PT_LeftSquareBracket PT_RightSquareBracket { printf("Array of Int \n"); }
-	| Boolean { printf("Bool \n"); }
-	| PT_ID { printf("User Type \n"); }
+Type: Integer  { $$ = new TypeIdentifier(titt::INT_TYPE); }
+	| Integer PT_LeftSquareBracket PT_RightSquareBracket  { $$ = new TypeIdentifier(titt::INTA_TYPE); }
+	| Boolean  { $$ = new TypeIdentifier(titt::BOOL_TYPE); }
+	| PT_ID  { $$ = new TypeIdentifier(new Identifier($1), titt::USER_TYPE); }
 ;
 
-Statement: { printf("Empty Statement \n"); }
-	| StatementList { printf("Non empty statement \n"); }
+Statement: { $$ = new Statement(sst::EMPTY_TYPE); }
+	| StatementList { $$ = new Statement(ToState($1), sst::LIST_TYPE); }
 ;
 
-StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
-	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement
-	| While LeftRoundBracket Expression RightRoundBracket  StatementList
-	| Print LeftRoundBracket Expression RightRoundBracket Semicolon
-	| PT_ID Equals Expression Semicolon
-	| PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon
+StatementList: LeftBrace StatementList RightBrace { $$ = new Statement(ToState($2), sst::SHADE_TYPE); }
+	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement { $$ = new Statement(ToExpr($3), ToState($5), ToState($7), sst::IF_TYPE); }
+	| While LeftRoundBracket Expression RightRoundBracket  StatementList { $$ = new Statement(ToExpr($3), ToState($5), sst::WHILE_TYPE); }
+	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { $$ = new Statement(ToExpr($3), sst::PRINT_TYPE); }
+	| PT_ID Equals Expression Semicolon { $$ = new Statement(ToExpr($3), new Identifier($1), sst::ASSIGN_TYPE); }
+	| PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon { $$ = new Statement(ToExpr($3), new Identifier($1), ToExpr($6), sst::ARR_ASSIGN_TYPE); }
 
 ;
 

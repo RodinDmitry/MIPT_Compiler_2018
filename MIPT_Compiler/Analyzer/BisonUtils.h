@@ -7,6 +7,8 @@ using titt = TypeIdentifier::TypeType;
 using sst = Statement::StatementType;
 using aas = Argument::ArgumentState;
 using mv = Modifier::Value;
+using cit = ClassInternals::Type;
+using cdt = ClassDeclaration::Type;
 
 inline Expression* ToExpr(Tree* node)
 {
@@ -61,4 +63,24 @@ inline Modifier* ToMod(Tree* node)
 inline MethodDeclaration* ToFunc(Tree* node)
 {
 	return static_cast<MethodDeclaration*>(node);
+}
+
+inline ClassInternals* ToClInt(Tree* node)
+{
+	return static_cast<ClassInternals*>(node);
+}
+
+inline ClassDeclaration* ToClDecl(Tree* node)
+{
+	return static_cast<ClassDeclaration*>(node);
+}
+
+inline ClassStart* ToClSt(Tree* node)
+{
+	return static_cast<ClassStart*>(node);
+}
+
+inline MainClass* ToMCl(Tree* node)
+{
+	return static_cast<MainClass*>(node);
 }

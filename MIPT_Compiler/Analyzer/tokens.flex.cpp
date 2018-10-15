@@ -886,77 +886,77 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 20 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_Void;};
+{printf("Class \n");return PT_Void;};
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 21 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_Main;};
+{printf("Class \n");return PT_Main;};
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 22 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_Class;};
+{printf("Class \n");return PT_Class;};
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 23 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_Extends; }
+{printf("Class \n");return PT_Extends; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 24 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_LeftRoundBracket;};
+{printf("Class \n");return PT_LeftRoundBracket;};
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 25 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_RightRoundBracket;};
+{printf("Class \n");return PT_RightRoundBracket;};
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 26 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_String;};
+{printf("Class \n");return PT_String;};
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 27 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_LeftSquareBracket;};
+{printf("Class \n");return PT_LeftSquareBracket;};
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 28 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_LeftSquareBracket;};
+{printf("Class \n");return PT_LeftSquareBracket;};
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 29 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_LeftBrace;};
+{printf("Class \n");return PT_LeftBrace;};
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 30 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_RightBrace;};
+{printf("Class \n");return PT_RightBrace;};
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 31 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_Integer;};
+{printf("Class \n");return PT_Integer;};
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 32 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_Boolean;};
+{printf("Class \n");return PT_Boolean;};
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 33 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_Print;};
+{printf("Class \n");return PT_Print;};
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 34 "MIPT_Compiler\\Flex\\tokens.l"
-{return PT_If;};
+{printf("Class \n");return PT_If;};
 	YY_BREAK
 case 22:
 YY_RULE_SETUP

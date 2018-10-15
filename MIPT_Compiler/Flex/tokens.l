@@ -17,21 +17,21 @@
 "public" { return PT_Public;};
 "private" { return PT_Private;};
 
-"void" {return PT_Void;};
-"main" {return PT_Main;};
-"class" {return PT_Class;};
-"extends" {return PT_Extends; }
-"(" {return PT_LeftRoundBracket;};
-")" {return PT_RightRoundBracket;};
-"String" {return PT_String;};
-"[" {return PT_LeftSquareBracket;};
-"]" {return PT_LeftSquareBracket;};
-"{" {return PT_LeftBrace;};
-"}" {return PT_RightBrace;};
-"int" {return PT_Integer;};
-"boolean" {return PT_Boolean;};
-"System.out.println" {return PT_Print;};
-"if" {return PT_If;};
+"void" {printf("Class \n");return PT_Void;};
+"main" {printf("Class \n");return PT_Main;};
+"class" {printf("Class \n");return PT_Class;};
+"extends" {printf("Class \n");return PT_Extends; }
+"(" {printf("Class \n");return PT_LeftRoundBracket;};
+")" {printf("Class \n");return PT_RightRoundBracket;};
+"String" {printf("Class \n");return PT_String;};
+"[" {printf("Class \n");return PT_LeftSquareBracket;};
+"]" {printf("Class \n");return PT_LeftSquareBracket;};
+"{" {printf("Class \n");return PT_LeftBrace;};
+"}" {printf("Class \n");return PT_RightBrace;};
+"int" {printf("Class \n");return PT_Integer;};
+"boolean" {printf("Class \n");return PT_Boolean;};
+"System.out.println" {printf("Class \n");return PT_Print;};
+"if" {printf("Class \n");return PT_If;};
 "while" {return PT_While;};
 "length" {return PT_Length;};
 "true" {yylval.logicalValue = true; return PT_True;};

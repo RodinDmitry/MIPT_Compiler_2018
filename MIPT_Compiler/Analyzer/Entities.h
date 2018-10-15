@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <cassert>
+#include <iostream>
 
 class Tree {
 public:
@@ -42,6 +43,7 @@ public:
 	explicit Value(int a) : intValue(a)
 	{
 		state = INT_STATE;
+		std::cout << "woohoo" << std::endl;
 	}
 
 	explicit Value(bool a) : boolValue(a)
@@ -185,6 +187,17 @@ public:
 	TypeIdentifier(Identifier* userType, TypeType tp) : type(tp), id(userType) {}
 };
 
+class MainMethodDeclaration : public Tree
+{
+public:
+	Argument* arguments;
+	Statement* body;
+
+	MainMethodDeclaration(Argument* args, Statement* stats)
+		: arguments(args),
+		body(stats) {}
+};
+
 class MethodDeclaration : public Tree
 {
 public:
@@ -192,19 +205,15 @@ public:
 	Identifier* name;
 	Argument* arguments;
 	Statement* body;
+	Expression* ret;
 
-	MethodDeclaration(Modifier* visibility, Identifier* id, Argument* args, Statement* stats)
+	MethodDeclaration(Modifier* visibility, Identifier* id, Argument* args, Statement* stats, Expression* res)
 		: modifier(visibility),
 		name(id),
 		arguments(args),
-		body(stats) {}
+		body(stats),
+		ret(res) {}
 };
-
-class ClassDeclaration : public Tree {};
-
-class MainClass : public Tree {};
-
-class Goal : public Tree {};
 
 class VarDeclaration : public Tree
 {
@@ -229,10 +238,95 @@ public:
 
 	Argument* arg;
 	VarDeclaration* var;
+	Identifier* id;
 	Argument(ArgumentState st): state(st) {}
+
+	Argument(Identifier* ident, ArgumentState st) : id(ident), state(st) {}
 
 	Argument(VarDeclaration* variab, ArgumentState st): var(variab), state(st) {}
 
 	Argument(Argument* argum, VarDeclaration* variab, ArgumentState st): var(variab), arg(argum), state(st) {}
 };
 
+class ClassInternals : public Tree
+{
+public:
+	enum Type
+	{
+		METHOD_TYPE,
+		MEMBER_TYPE,
+		EMPTY_TYPE
+	} type;
+	MethodDeclaration* method;
+	VarDeclaration* member;
+	ClassInternals* next;
+
+	ClassInternals(Type typ): type(typ) {}
+
+	ClassInternals(MethodDeclaration* meth, ClassInternals* intern, Type typ) 
+		: method(meth),
+		next(intern),
+		type(typ) {}
+
+	ClassInternals(VarDeclaration* mem, ClassInternals* intern, Type typ)
+		: member(mem),
+		next(intern),
+		type(typ) {}
+};
+
+class ClassStart : public Tree
+{
+public:
+	Identifier* name;
+	char* extend;
+
+	ClassStart(Identifier* id, char* ext) : name(id), extend(ext) {}
+};
+
+class ClassDeclaration : public Tree
+{
+public:
+	ClassStart* title;
+	ClassInternals* internals;
+	ClassDeclaration* first;
+	ClassDeclaration* next;
+
+	enum Type
+	{
+		CLASS_TYPE,
+		LIST_TYPE,
+		EMPTY_TYPE
+	} type;
+
+	ClassDeclaration(Type typ): type(typ) {}
+
+	ClassDeclaration(ClassStart* name,	ClassInternals* inter, Type typ) 
+		: title(name),
+		internals(inter),
+		type(typ) {}
+
+	ClassDeclaration(ClassDeclaration* fir, ClassDeclaration* nex, Type typ) 
+		: first(fir),
+		next(nex),
+		type(typ) {}
+};
+
+class MainClass : public Tree
+{
+public:
+	MethodDeclaration* method;
+	Identifier* name;
+	MainClass(MethodDeclaration* meth, Identifier* id): method(meth), name(id) {}
+};
+
+class Goal : public Tree
+{
+public:
+	MainClass* mClass;
+	ClassDeclaration* decls;
+
+	Goal(MainClass* mClas, ClassDeclaration* decl): mClass(mClas), decls(decl)
+	{
+		std::cout << "woohoo" << std::endl;
+	}
+};

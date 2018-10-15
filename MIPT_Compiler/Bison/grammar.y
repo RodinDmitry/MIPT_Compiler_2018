@@ -6,7 +6,7 @@ extern int yylex();
 extern "C++" int yyparse();
 extern FILE* yyin;
 
-void yyerror(const char* s){};
+extern void yyerror(const char* s);
 %}
 
 %code requires {
@@ -64,6 +64,19 @@ void yyerror(const char* s){};
 %type<node> Variable
 %type<node> Argument
 %type<node> ArgumentsList
+%type<node> Function
+%type<node> MainArgument
+%type<node> Return
+%type<node> Visibility
+%type<node> MainFunction
+%type<node> ClassInternals
+%type<stringValue> Extends
+%type<node> Goal
+%type<node> MainClass
+%type<node> Class
+%type<node> ClassStart
+%type<node> ClassDeclaration
+
 
 
 %left PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
@@ -84,34 +97,37 @@ void yyerror(const char* s){};
 
 %%
 
-Goal: MainClass ClassDeclaration PT_EOF { printf("Start \n"); }  
+Goal: MainClass ClassDeclaration PT_EOF { $$ = new Goal(ToMCl($1), ToClDecl($2)); }  
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { printf("MainClass \n"); } 
+MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { $$ = new MainClass(ToFunc($4), new Identifier($2)); } 
 ;
 
-ClassDeclaration: 
-	| Class ClassDeclaration
+ClassDeclaration: { $$ = new ClassDeclaration(cdt::EMPTY_TYPE); }
+	| Class ClassDeclaration { $$ = new ClassDeclaration(ToClDecl($1),
+		ToClDecl($2), cdt::LIST_TYPE); }
 
-Class: ClassStart LeftBrace ClassInternals RightBrace { printf("Class \n"); }
+Class: ClassStart LeftBrace ClassInternals RightBrace { $$ = new ClassDeclaration(ToClSt($1),
+		ToClInt($3), cdt::CLASS_TYPE); }
 ;
 
-ClassStart: ClassWord PT_ID Extends
+ClassStart: ClassWord PT_ID Extends {$$ = new ClassStart(new Identifier($2), $3);}
 ;
 
-Extends: 
-	| ExtendsWord PT_ID
+Extends: { $$ = 0; }
+	| ExtendsWord PT_ID {$$ = $2;}
 ;
 
-ClassInternals: { printf("Empty internals \n"); }
-	| Function ClassInternals { printf("Function \n"); }
-	| Variable ClassInternals { printf("Filed \n"); }
+ClassInternals: { $$ = new ClassInternals(cit::EMPTY_TYPE); }
+	| Function ClassInternals { $$ = new ClassInternals(ToFunc($1), ToClInt($2), cit::METHOD_TYPE); }
+	| Variable ClassInternals { $$ = new ClassInternals(ToVar($1), ToClInt($2), cit::MEMBER_TYPE);}
 ;
 
-MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace { printf("Main \n"); }
+MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace { 
+		$$ = new MainMethodDeclaration( ToArg($5), ToState($7) ); }
 ;
 
-MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID
+MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID { $$ = new Argument(new Identifier($4), aas::LAST_STATE); }
 ;
 
 Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { $$ = new MethodDeclaration(ToMod($1),
@@ -195,10 +211,10 @@ Expressions : Expression { $$=new Expression(ToExpr($1), exst::List_STATE);}
 
 ValueT: PT_True { $$=new Value(true);}
 	| PT_False { $$=new Value(false);}
-	| PT_Number { $$=new Value($1);}
+	| PT_Number { $$=new Value($1);printf("number \n");}
 ;
 
-This: PT_This
+This: PT_This { printf("this \n"); }
 ;
 
 ClassWord: PT_Class { printf("Class \n"); }
@@ -207,52 +223,52 @@ ClassWord: PT_Class { printf("Class \n"); }
 ExtendsWord: PT_Extends { printf("Extends \n"); }
 ;
 
-Equals: PT_Equal
+Equals: PT_Equal { printf("equal \n"); }
 ;
 
-If: PT_If
+If: PT_If { printf("if \n"); }
 ;
 
-Integer: PT_Integer
+Integer: PT_Integer { printf("integer \n"); }
 ;
 
-Boolean: PT_Boolean
+Boolean: PT_Boolean { printf("bool \n"); }
 ;
 
-LeftBrace: PT_LeftBrace
+LeftBrace: PT_LeftBrace { printf("{ \n"); }
 ;
 
-RightBrace: PT_RightBrace
+RightBrace: PT_RightBrace { printf("} \n"); }
 ;
 
-LeftRoundBracket: PT_LeftRoundBracket
+LeftRoundBracket: PT_LeftRoundBracket { printf("( \n"); }
 ;
 
-RightRoundBracket: PT_RightRoundBracket
+RightRoundBracket: PT_RightRoundBracket { printf(") \n"); }
 ;
 
-LeftSquareBracket: PT_LeftSquareBracket
+LeftSquareBracket: PT_LeftSquareBracket { printf("[ \n"); }
 ;
 
-RightSquareBracket: PT_RightSquareBracket
+RightSquareBracket: PT_RightSquareBracket { printf("] \n"); }
 ;
 
-Length: PT_Length
+Length: PT_Length { printf("length \n"); }
 ;
 
-New: PT_New
+New: PT_New { printf("new \n"); }
 ;
 
-Not: PT_Negation
+Not: PT_Negation { printf("not \n"); }
 ;
 
-Print: PT_Print
+Print: PT_Print { printf("print \n"); }
 ;
 
-Semicolon: PT_Semicolon
+Semicolon: PT_Semicolon { printf("; \n"); }
 ;
 
-While: PT_While
+While: PT_While { printf("while \n"); }
 ;
 
 %%

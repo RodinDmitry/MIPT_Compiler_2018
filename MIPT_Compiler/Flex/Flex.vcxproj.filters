@@ -15,11 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="tokens.l" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\Analyzer\grammar.tab.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="tokens.l">
+      <Filter>Исходные файлы</Filter>
+    </Flex>
   </ItemGroup>
 </Project>

@@ -2,58 +2,60 @@
 
 %{
 #include <iostream>
+#include <string>
 #include <grammar.tab.h>
 
 #define YY_DECL int yylex()
-
+extern void dumpToken(std::string token);
 %}
 
 %%
 
 [\n] ; // ignore end lines
 [ \t]	; // ignore all whitespace
-[0-9]+  { yylval.integerValue = atoi(yytext); return PT_Number;};
-"static" { return PT_Static;};
-"public" { return PT_Public;};
-"private" { return PT_Private;};
+[0-9]+  { dumpToken("number"); yylval.integerValue = atoi(yytext); return PT_Number;};
+"static" { dumpToken("static"); return PT_Static;};
+"public" { dumpToken("public"); return PT_Public;};
+"private" { dumpToken("private"); return PT_Private;};
 
-"void" {return PT_Void;};
-"main" {return PT_Main;};
-"class" {return PT_Class;};
-"extends" {return PT_Extends; }
-"(" {return PT_LeftRoundBracket;};
-")" {return PT_RightRoundBracket;};
-"String" {return PT_String;};
-"[" {return PT_LeftSquareBracket;};
-"]" {return PT_LeftSquareBracket;};
-"{" {return PT_LeftBrace;};
-"}" {return PT_RightBrace;};
-"int" {return PT_Integer;};
-"boolean" {return PT_Boolean;};
-"System.out.println" {return PT_Print;};
-"if" {return PT_If;};
-"while" {return PT_While;};
-"length" {return PT_Length;};
-"true" {yylval.logicalValue = true; return PT_True;};
-"false" {yylval.logicalValue = false; return PT_False;};
-"this" {return PT_This;};
-"new" {return PT_New;};
-"return" {return PT_Return;}
-"!" {return PT_Negation;};
-"&&" {return PT_And;};
-"<" {return PT_Less;};
-">" {return PT_More;};
-"+" {return PT_Plus;};
-"-" {return PT_Minus;};
-"*" {return PT_Multiplication;};
-"%" {return PT_IntegerDivision;};
-"/" {return PT_Division;}
-"||" {return PT_Or;};
-"=" {return PT_Equal;};
-";" {return PT_Semicolon;};
-"." {return PT_Dot;};
-"," {return PT_Coma;};
-[a-zA-z]+[a-zA-Z0-9_]* {
+"void" {dumpToken("void"); return PT_Void;};
+"main" {dumpToken("main"); return PT_Main;};
+"class" {dumpToken("class"); return PT_Class;};
+"extends" {dumpToken("extends"); return PT_Extends; }
+"(" {dumpToken("("); return PT_LeftRoundBracket;};
+")" {dumpToken(")"); return PT_RightRoundBracket;};
+"String" {dumpToken("String"); return PT_String;};
+"[" {dumpToken("["); return PT_LeftSquareBracket;};
+"]" {dumpToken("]"); return PT_RightSquareBracket;};
+"{" {dumpToken("{"); return PT_LeftBrace;};
+"}" {dumpToken("}"); return PT_RightBrace;};
+"int" {dumpToken("int"); return PT_Integer;};
+"boolean" {dumpToken("boolean"); return PT_Boolean;};
+"System.out.println" {dumpToken("println"); return PT_Print;};
+"if" {dumpToken("if"); return PT_If;};
+"while" {dumpToken("while"); return PT_While;};
+"length" {dumpToken("length"); return PT_Length;};
+"true" {dumpToken("true"); yylval.logicalValue = true; return PT_True;};
+"false" {dumpToken("false"); yylval.logicalValue = false; return PT_False;};
+"this" {dumpToken("this"); return PT_This;};
+"new" {dumpToken("new"); return PT_New;};
+"return" {dumpToken("return"); return PT_Return;}
+"!" {dumpToken("!"); return PT_Negation;};
+"&&" {dumpToken("&&"); return PT_And;};
+"<" {dumpToken("<"); return PT_Less;};
+">" {dumpToken(">"); return PT_More;};
+"+" {dumpToken("+"); return PT_Plus;};
+"-" {dumpToken("-"); return PT_Minus;};
+"*" {dumpToken("*"); return PT_Multiplication;};
+"%" {dumpToken("%"); return PT_IntegerDivision;};
+"/" {dumpToken("/"); return PT_Division;}
+"||" {dumpToken("||"); return PT_Or;};
+"=" {dumpToken("="); return PT_Equal;};
+";" {dumpToken(";"); return PT_Semicolon;};
+"." {dumpToken("."); return PT_Dot;};
+"," {dumpToken(","); return PT_Coma;};
+[a-zA-z]+[a-zA-Z0-9_]* { 
+		dumpToken("ID");
 		yylval.stringValue = (char*) std::malloc(strlen(yytext)+1);
 		strcpy_s(yylval.stringValue, strlen(yytext)+1, yytext);
 		return PT_ID;

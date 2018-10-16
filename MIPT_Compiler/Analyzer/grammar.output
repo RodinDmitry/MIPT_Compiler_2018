@@ -20,7 +20,7 @@ Grammar
    10               | Function ClassInternals
    11               | Variable ClassInternals
 
-   12 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace
 
    13 MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID
 
@@ -258,9 +258,9 @@ LeftBrace (85)
 RightBrace (86)
     on left: 72, on right: 2 5 12 14 29
 LeftRoundBracket (87)
-    on left: 73, on right: 18 19 30 31 32 43 45 56
+    on left: 73, on right: 12 18 19 30 31 32 43 45 56
 RightRoundBracket (88)
-    on left: 74, on right: 18 19 30 31 32 43 45 56
+    on left: 74, on right: 12 18 19 30 31 32 43 45 56
 LeftSquareBracket (89)
     on left: 75, on right: 13 34 36 42
 RightSquareBracket (90)
@@ -581,7 +581,7 @@ State 31
 
 State 32
 
-   12 MainFunction: PT_Public . PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace
+   12 MainFunction: PT_Public . PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace
 
     PT_Static  shift, and go to state 42
 
@@ -658,7 +658,7 @@ State 41
 
 State 42
 
-   12 MainFunction: PT_Public PT_Static . PT_Void PT_Main MainArgument LeftBrace Statement RightBrace
+   12 MainFunction: PT_Public PT_Static . PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace
 
     PT_Void  shift, and go to state 50
 
@@ -727,7 +727,7 @@ State 49
 
 State 50
 
-   12 MainFunction: PT_Public PT_Static PT_Void . PT_Main MainArgument LeftBrace Statement RightBrace
+   12 MainFunction: PT_Public PT_Static PT_Void . PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace
 
     PT_Main  shift, and go to state 56
 
@@ -787,11 +787,11 @@ State 55
 
 State 56
 
-   12 MainFunction: PT_Public PT_Static PT_Void PT_Main . MainArgument LeftBrace Statement RightBrace
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main . LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace
 
-    PT_String  shift, and go to state 69
+    PT_LeftRoundBracket  shift, and go to state 44
 
-    MainArgument  go to state 70
+    LeftRoundBracket  go to state 69
 
 
 State 57
@@ -820,20 +820,20 @@ State 60
    33 StatementList: PT_ID . Equals Expression Semicolon
    34              | PT_ID . LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon
 
-    PT_LeftSquareBracket  shift, and go to state 71
-    PT_Equal              shift, and go to state 72
+    PT_LeftSquareBracket  shift, and go to state 70
+    PT_Equal              shift, and go to state 71
 
-    Equals             go to state 73
-    LeftSquareBracket  go to state 74
+    Equals             go to state 72
+    LeftSquareBracket  go to state 73
 
 
 State 61
 
    14 Function: Visibility PT_ID ArgumentsList LeftBrace Statement . Return RightBrace
 
-    PT_Return  shift, and go to state 75
+    PT_Return  shift, and go to state 74
 
-    Return  go to state 76
+    Return  go to state 75
 
 
 State 62
@@ -849,7 +849,7 @@ State 63
 
     PT_LeftRoundBracket  shift, and go to state 44
 
-    LeftRoundBracket  go to state 77
+    LeftRoundBracket  go to state 76
 
 
 State 64
@@ -862,7 +862,7 @@ State 64
     PT_ID         shift, and go to state 60
     PT_LeftBrace  shift, and go to state 13
 
-    StatementList  go to state 78
+    StatementList  go to state 77
     If             go to state 63
     LeftBrace      go to state 64
     Print          go to state 65
@@ -875,7 +875,7 @@ State 65
 
     PT_LeftRoundBracket  shift, and go to state 44
 
-    LeftRoundBracket  go to state 79
+    LeftRoundBracket  go to state 78
 
 
 State 66
@@ -884,7 +884,7 @@ State 66
 
     PT_LeftRoundBracket  shift, and go to state 44
 
-    LeftRoundBracket  go to state 80
+    LeftRoundBracket  go to state 79
 
 
 State 67
@@ -902,7 +902,7 @@ State 68
     PT_Integer  shift, and go to state 18
     PT_ID       shift, and go to state 21
 
-    Argument  go to state 81
+    Argument  go to state 80
     Variable  go to state 54
     Type      go to state 26
     Integer   go to state 27
@@ -911,266 +911,246 @@ State 68
 
 State 69
 
-   13 MainArgument: PT_String . LeftSquareBracket RightSquareBracket PT_ID
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket . MainArgument RightRoundBracket LeftBrace Statement RightBrace
 
-    PT_LeftSquareBracket  shift, and go to state 71
+    PT_String  shift, and go to state 81
 
-    LeftSquareBracket  go to state 82
+    MainArgument  go to state 82
 
 
 State 70
-
-   12 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument . LeftBrace Statement RightBrace
-
-    PT_LeftBrace  shift, and go to state 13
-
-    LeftBrace  go to state 83
-
-
-State 71
 
    75 LeftSquareBracket: PT_LeftSquareBracket .
 
     $default  reduce using rule 75 (LeftSquareBracket)
 
 
-State 72
+State 71
 
    67 Equals: PT_Equal .
 
     $default  reduce using rule 67 (Equals)
 
 
-State 73
+State 72
 
    33 StatementList: PT_ID Equals . Expression Semicolon
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 91
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 90
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
+
+
+State 73
+
+   34 StatementList: PT_ID LeftSquareBracket . Expression RightSquareBracket Equals Expression Semicolon
+
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
+    PT_LeftRoundBracket  shift, and go to state 44
+    PT_Negation          shift, and go to state 89
+
+    Expression        go to state 96
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
 State 74
 
-   34 StatementList: PT_ID LeftSquareBracket . Expression RightSquareBracket Equals Expression Semicolon
+   17 Return: PT_Return . Expression Semicolon
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
     Expression        go to state 97
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
 State 75
-
-   17 Return: PT_Return . Expression Semicolon
-
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
-    PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
-
-    Expression        go to state 98
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
-
-
-State 76
 
    14 Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return . RightBrace
 
     PT_RightBrace  shift, and go to state 34
 
-    RightBrace  go to state 99
+    RightBrace  go to state 98
 
 
-State 77
+State 76
 
    30 StatementList: If LeftRoundBracket . Expression RightRoundBracket StatementList PT_Else Statement
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 100
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 99
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
-State 78
+State 77
 
    29 StatementList: LeftBrace StatementList . RightBrace
 
     PT_RightBrace  shift, and go to state 34
 
-    RightBrace  go to state 101
+    RightBrace  go to state 100
+
+
+State 78
+
+   32 StatementList: Print LeftRoundBracket . Expression RightRoundBracket Semicolon
+
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
+    PT_LeftRoundBracket  shift, and go to state 44
+    PT_Negation          shift, and go to state 89
+
+    Expression        go to state 101
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
 State 79
 
-   32 StatementList: Print LeftRoundBracket . Expression RightRoundBracket Semicolon
+   31 StatementList: While LeftRoundBracket . Expression RightRoundBracket StatementList
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
     Expression        go to state 102
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
 State 80
-
-   31 StatementList: While LeftRoundBracket . Expression RightRoundBracket StatementList
-
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
-    PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
-
-    Expression        go to state 103
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
-
-
-State 81
 
    21 Argument: Variable PT_Coma Argument .
 
     $default  reduce using rule 21 (Argument)
 
 
+State 81
+
+   13 MainArgument: PT_String . LeftSquareBracket RightSquareBracket PT_ID
+
+    PT_LeftSquareBracket  shift, and go to state 70
+
+    LeftSquareBracket  go to state 103
+
+
 State 82
 
-   13 MainArgument: PT_String LeftSquareBracket . RightSquareBracket PT_ID
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument . RightRoundBracket LeftBrace Statement RightBrace
 
-    PT_RightSquareBracket  shift, and go to state 104
+    PT_RightRoundBracket  shift, and go to state 52
 
-    RightSquareBracket  go to state 105
+    RightRoundBracket  go to state 104
 
 
 State 83
-
-   12 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace . Statement RightBrace
-
-    PT_Print      shift, and go to state 57
-    PT_If         shift, and go to state 58
-    PT_While      shift, and go to state 59
-    PT_ID         shift, and go to state 60
-    PT_LeftBrace  shift, and go to state 13
-
-    $default  reduce using rule 27 (Statement)
-
-    Statement      go to state 106
-    StatementList  go to state 62
-    If             go to state 63
-    LeftBrace      go to state 64
-    Print          go to state 65
-    While          go to state 66
-
-
-State 84
 
    63 ValueT: PT_Number .
 
     $default  reduce using rule 63 (ValueT)
 
 
-State 85
+State 84
 
    61 ValueT: PT_True .
 
     $default  reduce using rule 61 (ValueT)
 
 
-State 86
+State 85
 
    62 ValueT: PT_False .
 
     $default  reduce using rule 62 (ValueT)
 
 
-State 87
+State 86
 
    64 This: PT_This .
 
     $default  reduce using rule 64 (This)
 
 
-State 88
+State 87
 
    78 New: PT_New .
 
     $default  reduce using rule 78 (New)
 
 
-State 89
+State 88
 
    40 Expression: PT_ID .
 
     $default  reduce using rule 40 (Expression)
 
 
-State 90
+State 89
 
    79 Not: PT_Negation .
 
     $default  reduce using rule 79 (Not)
 
 
-State 91
+State 90
 
    33 StatementList: PT_ID Equals Expression . Semicolon
    35 Expression: Expression . BinaryOperator Expression
@@ -1179,92 +1159,92 @@ State 91
    38           | Expression . MethodCall FunctionCall
 
     PT_Semicolon          shift, and go to state 47
-    PT_Dot                shift, and go to state 107
-    PT_LeftSquareBracket  shift, and go to state 71
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_Dot                shift, and go to state 105
+    PT_LeftSquareBracket  shift, and go to state 70
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    LeftSquareBracket  go to state 119
-    Semicolon          go to state 120
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    LeftSquareBracket  go to state 117
+    Semicolon          go to state 118
 
 
-State 92
+State 91
 
    39 Expression: ValueT .
 
     $default  reduce using rule 39 (Expression)
 
 
-State 93
+State 92
 
    41 Expression: This .
 
     $default  reduce using rule 41 (Expression)
 
 
-State 94
+State 93
 
    45 Expression: LeftRoundBracket . Expression RightRoundBracket
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 121
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 119
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
-State 95
+State 94
 
    42 Expression: New . Integer LeftSquareBracket Expression RightSquareBracket
    43           | New . PT_ID LeftRoundBracket RightRoundBracket
 
     PT_Integer  shift, and go to state 18
-    PT_ID       shift, and go to state 122
+    PT_ID       shift, and go to state 120
 
-    Integer  go to state 123
+    Integer  go to state 121
 
 
-State 96
+State 95
 
    44 Expression: Not . Expression
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 124
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 122
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
-State 97
+State 96
 
    34 StatementList: PT_ID LeftSquareBracket Expression . RightSquareBracket Equals Expression Semicolon
    35 Expression: Expression . BinaryOperator Expression
@@ -1272,26 +1252,26 @@ State 97
    37           | Expression . MethodCall Length
    38           | Expression . MethodCall FunctionCall
 
-    PT_Dot                 shift, and go to state 107
-    PT_LeftSquareBracket   shift, and go to state 71
-    PT_RightSquareBracket  shift, and go to state 104
-    PT_IntegerDivision     shift, and go to state 108
-    PT_Division            shift, and go to state 109
-    PT_Multiplication      shift, and go to state 110
-    PT_Minus               shift, and go to state 111
-    PT_Plus                shift, and go to state 112
-    PT_Less                shift, and go to state 113
-    PT_More                shift, and go to state 114
-    PT_Or                  shift, and go to state 115
-    PT_And                 shift, and go to state 116
+    PT_Dot                 shift, and go to state 105
+    PT_LeftSquareBracket   shift, and go to state 70
+    PT_RightSquareBracket  shift, and go to state 123
+    PT_IntegerDivision     shift, and go to state 106
+    PT_Division            shift, and go to state 107
+    PT_Multiplication      shift, and go to state 108
+    PT_Minus               shift, and go to state 109
+    PT_Plus                shift, and go to state 110
+    PT_Less                shift, and go to state 111
+    PT_More                shift, and go to state 112
+    PT_Or                  shift, and go to state 113
+    PT_And                 shift, and go to state 114
 
-    BinaryOperator      go to state 117
-    MethodCall          go to state 118
-    LeftSquareBracket   go to state 119
-    RightSquareBracket  go to state 125
+    BinaryOperator      go to state 115
+    MethodCall          go to state 116
+    LeftSquareBracket   go to state 117
+    RightSquareBracket  go to state 124
 
 
-State 98
+State 97
 
    17 Return: PT_Return Expression . Semicolon
    35 Expression: Expression . BinaryOperator Expression
@@ -1300,32 +1280,32 @@ State 98
    38           | Expression . MethodCall FunctionCall
 
     PT_Semicolon          shift, and go to state 47
-    PT_Dot                shift, and go to state 107
-    PT_LeftSquareBracket  shift, and go to state 71
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_Dot                shift, and go to state 105
+    PT_LeftSquareBracket  shift, and go to state 70
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    LeftSquareBracket  go to state 119
-    Semicolon          go to state 126
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    LeftSquareBracket  go to state 117
+    Semicolon          go to state 125
 
 
-State 99
+State 98
 
    14 Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace .
 
     $default  reduce using rule 14 (Function)
 
 
-State 100
+State 99
 
    30 StatementList: If LeftRoundBracket Expression . RightRoundBracket StatementList PT_Else Statement
    35 Expression: Expression . BinaryOperator Expression
@@ -1333,33 +1313,33 @@ State 100
    37           | Expression . MethodCall Length
    38           | Expression . MethodCall FunctionCall
 
-    PT_Dot                shift, and go to state 107
-    PT_LeftSquareBracket  shift, and go to state 71
+    PT_Dot                shift, and go to state 105
+    PT_LeftSquareBracket  shift, and go to state 70
     PT_RightRoundBracket  shift, and go to state 52
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    RightRoundBracket  go to state 127
-    LeftSquareBracket  go to state 119
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    RightRoundBracket  go to state 126
+    LeftSquareBracket  go to state 117
 
 
-State 101
+State 100
 
    29 StatementList: LeftBrace StatementList RightBrace .
 
     $default  reduce using rule 29 (StatementList)
 
 
-State 102
+State 101
 
    32 StatementList: Print LeftRoundBracket Expression . RightRoundBracket Semicolon
    35 Expression: Expression . BinaryOperator Expression
@@ -1367,26 +1347,26 @@ State 102
    37           | Expression . MethodCall Length
    38           | Expression . MethodCall FunctionCall
 
-    PT_Dot                shift, and go to state 107
-    PT_LeftSquareBracket  shift, and go to state 71
+    PT_Dot                shift, and go to state 105
+    PT_LeftSquareBracket  shift, and go to state 70
     PT_RightRoundBracket  shift, and go to state 52
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    RightRoundBracket  go to state 128
-    LeftSquareBracket  go to state 119
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    RightRoundBracket  go to state 127
+    LeftSquareBracket  go to state 117
 
 
-State 103
+State 102
 
    31 StatementList: While LeftRoundBracket Expression . RightRoundBracket StatementList
    35 Expression: Expression . BinaryOperator Expression
@@ -1394,180 +1374,175 @@ State 103
    37           | Expression . MethodCall Length
    38           | Expression . MethodCall FunctionCall
 
-    PT_Dot                shift, and go to state 107
-    PT_LeftSquareBracket  shift, and go to state 71
+    PT_Dot                shift, and go to state 105
+    PT_LeftSquareBracket  shift, and go to state 70
     PT_RightRoundBracket  shift, and go to state 52
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    RightRoundBracket  go to state 129
-    LeftSquareBracket  go to state 119
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    RightRoundBracket  go to state 128
+    LeftSquareBracket  go to state 117
+
+
+State 103
+
+   13 MainArgument: PT_String LeftSquareBracket . RightSquareBracket PT_ID
+
+    PT_RightSquareBracket  shift, and go to state 123
+
+    RightSquareBracket  go to state 129
 
 
 State 104
 
-   76 RightSquareBracket: PT_RightSquareBracket .
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket . LeftBrace Statement RightBrace
 
-    $default  reduce using rule 76 (RightSquareBracket)
+    PT_LeftBrace  shift, and go to state 13
+
+    LeftBrace  go to state 130
 
 
 State 105
-
-   13 MainArgument: PT_String LeftSquareBracket RightSquareBracket . PT_ID
-
-    PT_ID  shift, and go to state 130
-
-
-State 106
-
-   12 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement . RightBrace
-
-    PT_RightBrace  shift, and go to state 34
-
-    RightBrace  go to state 131
-
-
-State 107
 
    55 MethodCall: PT_Dot .
 
     $default  reduce using rule 55 (MethodCall)
 
 
-State 108
+State 106
 
    49 BinaryOperator: PT_IntegerDivision .
 
     $default  reduce using rule 49 (BinaryOperator)
 
 
-State 109
+State 107
 
    48 BinaryOperator: PT_Division .
 
     $default  reduce using rule 48 (BinaryOperator)
 
 
-State 110
+State 108
 
    52 BinaryOperator: PT_Multiplication .
 
     $default  reduce using rule 52 (BinaryOperator)
 
 
-State 111
+State 109
 
    47 BinaryOperator: PT_Minus .
 
     $default  reduce using rule 47 (BinaryOperator)
 
 
-State 112
+State 110
 
    46 BinaryOperator: PT_Plus .
 
     $default  reduce using rule 46 (BinaryOperator)
 
 
-State 113
+State 111
 
    53 BinaryOperator: PT_Less .
 
     $default  reduce using rule 53 (BinaryOperator)
 
 
-State 114
+State 112
 
    54 BinaryOperator: PT_More .
 
     $default  reduce using rule 54 (BinaryOperator)
 
 
-State 115
+State 113
 
    51 BinaryOperator: PT_Or .
 
     $default  reduce using rule 51 (BinaryOperator)
 
 
-State 116
+State 114
 
    50 BinaryOperator: PT_And .
 
     $default  reduce using rule 50 (BinaryOperator)
 
 
-State 117
+State 115
 
    35 Expression: Expression BinaryOperator . Expression
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 132
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 131
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
-State 118
+State 116
 
    37 Expression: Expression MethodCall . Length
    38           | Expression MethodCall . FunctionCall
 
-    PT_Length  shift, and go to state 133
-    PT_ID      shift, and go to state 134
+    PT_Length  shift, and go to state 132
+    PT_ID      shift, and go to state 133
 
-    FunctionCall  go to state 135
-    Length        go to state 136
+    FunctionCall  go to state 134
+    Length        go to state 135
 
 
-State 119
+State 117
 
    36 Expression: Expression LeftSquareBracket . Expression RightSquareBracket
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 137
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 136
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
-State 120
+State 118
 
    33 StatementList: PT_ID Equals Expression Semicolon .
 
     $default  reduce using rule 33 (StatementList)
 
 
-State 121
+State 119
 
    35 Expression: Expression . BinaryOperator Expression
    36           | Expression . LeftSquareBracket Expression RightSquareBracket
@@ -1575,44 +1550,44 @@ State 121
    38           | Expression . MethodCall FunctionCall
    45           | LeftRoundBracket Expression . RightRoundBracket
 
-    PT_Dot                shift, and go to state 107
-    PT_LeftSquareBracket  shift, and go to state 71
+    PT_Dot                shift, and go to state 105
+    PT_LeftSquareBracket  shift, and go to state 70
     PT_RightRoundBracket  shift, and go to state 52
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    RightRoundBracket  go to state 138
-    LeftSquareBracket  go to state 119
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    RightRoundBracket  go to state 137
+    LeftSquareBracket  go to state 117
 
 
-State 122
+State 120
 
    43 Expression: New PT_ID . LeftRoundBracket RightRoundBracket
 
     PT_LeftRoundBracket  shift, and go to state 44
 
-    LeftRoundBracket  go to state 139
+    LeftRoundBracket  go to state 138
 
 
-State 123
+State 121
 
    42 Expression: New Integer . LeftSquareBracket Expression RightSquareBracket
 
-    PT_LeftSquareBracket  shift, and go to state 71
+    PT_LeftSquareBracket  shift, and go to state 70
 
-    LeftSquareBracket  go to state 140
+    LeftSquareBracket  go to state 139
 
 
-State 124
+State 122
 
    35 Expression: Expression . BinaryOperator Expression
    36           | Expression . LeftSquareBracket Expression RightSquareBracket
@@ -1622,28 +1597,35 @@ State 124
 
     $default  reduce using rule 44 (Expression)
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    LeftSquareBracket  go to state 119
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    LeftSquareBracket  go to state 117
 
 
-State 125
+State 123
+
+   76 RightSquareBracket: PT_RightSquareBracket .
+
+    $default  reduce using rule 76 (RightSquareBracket)
+
+
+State 124
 
    34 StatementList: PT_ID LeftSquareBracket Expression RightSquareBracket . Equals Expression Semicolon
 
-    PT_Equal  shift, and go to state 72
+    PT_Equal  shift, and go to state 71
 
-    Equals  go to state 141
+    Equals  go to state 140
 
 
-State 126
+State 125
 
    17 Return: PT_Return Expression Semicolon .
 
     $default  reduce using rule 17 (Return)
 
 
-State 127
+State 126
 
    30 StatementList: If LeftRoundBracket Expression RightRoundBracket . StatementList PT_Else Statement
 
@@ -1653,23 +1635,23 @@ State 127
     PT_ID         shift, and go to state 60
     PT_LeftBrace  shift, and go to state 13
 
-    StatementList  go to state 142
+    StatementList  go to state 141
     If             go to state 63
     LeftBrace      go to state 64
     Print          go to state 65
     While          go to state 66
 
 
-State 128
+State 127
 
    32 StatementList: Print LeftRoundBracket Expression RightRoundBracket . Semicolon
 
     PT_Semicolon  shift, and go to state 47
 
-    Semicolon  go to state 143
+    Semicolon  go to state 142
 
 
-State 129
+State 128
 
    31 StatementList: While LeftRoundBracket Expression RightRoundBracket . StatementList
 
@@ -1679,28 +1661,41 @@ State 129
     PT_ID         shift, and go to state 60
     PT_LeftBrace  shift, and go to state 13
 
-    StatementList  go to state 144
+    StatementList  go to state 143
     If             go to state 63
     LeftBrace      go to state 64
     Print          go to state 65
     While          go to state 66
 
 
+State 129
+
+   13 MainArgument: PT_String LeftSquareBracket RightSquareBracket . PT_ID
+
+    PT_ID  shift, and go to state 144
+
+
 State 130
 
-   13 MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID .
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace . Statement RightBrace
 
-    $default  reduce using rule 13 (MainArgument)
+    PT_Print      shift, and go to state 57
+    PT_If         shift, and go to state 58
+    PT_While      shift, and go to state 59
+    PT_ID         shift, and go to state 60
+    PT_LeftBrace  shift, and go to state 13
+
+    $default  reduce using rule 27 (Statement)
+
+    Statement      go to state 145
+    StatementList  go to state 62
+    If             go to state 63
+    LeftBrace      go to state 64
+    Print          go to state 65
+    While          go to state 66
 
 
 State 131
-
-   12 MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace .
-
-    $default  reduce using rule 12 (MainFunction)
-
-
-State 132
 
    35 Expression: Expression . BinaryOperator Expression
    35           | Expression BinaryOperator Expression .
@@ -1710,42 +1705,42 @@ State 132
 
     $default  reduce using rule 35 (Expression)
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    LeftSquareBracket  go to state 119
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    LeftSquareBracket  go to state 117
 
 
-State 133
+State 132
 
    77 Length: PT_Length .
 
     $default  reduce using rule 77 (Length)
 
 
-State 134
+State 133
 
    56 FunctionCall: PT_ID . LeftRoundBracket ExpressionList RightRoundBracket
 
     PT_LeftRoundBracket  shift, and go to state 44
 
-    LeftRoundBracket  go to state 145
+    LeftRoundBracket  go to state 146
 
 
-State 135
+State 134
 
    38 Expression: Expression MethodCall FunctionCall .
 
     $default  reduce using rule 38 (Expression)
 
 
-State 136
+State 135
 
    37 Expression: Expression MethodCall Length .
 
     $default  reduce using rule 37 (Expression)
 
 
-State 137
+State 136
 
    35 Expression: Expression . BinaryOperator Expression
    36           | Expression . LeftSquareBracket Expression RightSquareBracket
@@ -1753,144 +1748,160 @@ State 137
    37           | Expression . MethodCall Length
    38           | Expression . MethodCall FunctionCall
 
-    PT_Dot                 shift, and go to state 107
-    PT_LeftSquareBracket   shift, and go to state 71
-    PT_RightSquareBracket  shift, and go to state 104
-    PT_IntegerDivision     shift, and go to state 108
-    PT_Division            shift, and go to state 109
-    PT_Multiplication      shift, and go to state 110
-    PT_Minus               shift, and go to state 111
-    PT_Plus                shift, and go to state 112
-    PT_Less                shift, and go to state 113
-    PT_More                shift, and go to state 114
-    PT_Or                  shift, and go to state 115
-    PT_And                 shift, and go to state 116
+    PT_Dot                 shift, and go to state 105
+    PT_LeftSquareBracket   shift, and go to state 70
+    PT_RightSquareBracket  shift, and go to state 123
+    PT_IntegerDivision     shift, and go to state 106
+    PT_Division            shift, and go to state 107
+    PT_Multiplication      shift, and go to state 108
+    PT_Minus               shift, and go to state 109
+    PT_Plus                shift, and go to state 110
+    PT_Less                shift, and go to state 111
+    PT_More                shift, and go to state 112
+    PT_Or                  shift, and go to state 113
+    PT_And                 shift, and go to state 114
 
-    BinaryOperator      go to state 117
-    MethodCall          go to state 118
-    LeftSquareBracket   go to state 119
-    RightSquareBracket  go to state 146
+    BinaryOperator      go to state 115
+    MethodCall          go to state 116
+    LeftSquareBracket   go to state 117
+    RightSquareBracket  go to state 147
 
 
-State 138
+State 137
 
    45 Expression: LeftRoundBracket Expression RightRoundBracket .
 
     $default  reduce using rule 45 (Expression)
 
 
-State 139
+State 138
 
    43 Expression: New PT_ID LeftRoundBracket . RightRoundBracket
 
     PT_RightRoundBracket  shift, and go to state 52
 
-    RightRoundBracket  go to state 147
+    RightRoundBracket  go to state 148
+
+
+State 139
+
+   42 Expression: New Integer LeftSquareBracket . Expression RightSquareBracket
+
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
+    PT_LeftRoundBracket  shift, and go to state 44
+    PT_Negation          shift, and go to state 89
+
+    Expression        go to state 149
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
 State 140
 
-   42 Expression: New Integer LeftSquareBracket . Expression RightSquareBracket
+   34 StatementList: PT_ID LeftSquareBracket Expression RightSquareBracket Equals . Expression Semicolon
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 148
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 150
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
 State 141
 
-   34 StatementList: PT_ID LeftSquareBracket Expression RightSquareBracket Equals . Expression Semicolon
+   30 StatementList: If LeftRoundBracket Expression RightRoundBracket StatementList . PT_Else Statement
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
-    PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
-
-    Expression        go to state 149
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    PT_Else  shift, and go to state 151
 
 
 State 142
-
-   30 StatementList: If LeftRoundBracket Expression RightRoundBracket StatementList . PT_Else Statement
-
-    PT_Else  shift, and go to state 150
-
-
-State 143
 
    32 StatementList: Print LeftRoundBracket Expression RightRoundBracket Semicolon .
 
     $default  reduce using rule 32 (StatementList)
 
 
-State 144
+State 143
 
    31 StatementList: While LeftRoundBracket Expression RightRoundBracket StatementList .
 
     $default  reduce using rule 31 (StatementList)
 
 
+State 144
+
+   13 MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID .
+
+    $default  reduce using rule 13 (MainArgument)
+
+
 State 145
 
-   56 FunctionCall: PT_ID LeftRoundBracket . ExpressionList RightRoundBracket
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement . RightBrace
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
-    PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_RightBrace  shift, and go to state 34
 
-    $default  reduce using rule 57 (ExpressionList)
-
-    Expression        go to state 151
-    ExpressionList    go to state 152
-    Expressions       go to state 153
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    RightBrace  go to state 152
 
 
 State 146
+
+   56 FunctionCall: PT_ID LeftRoundBracket . ExpressionList RightRoundBracket
+
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
+    PT_LeftRoundBracket  shift, and go to state 44
+    PT_Negation          shift, and go to state 89
+
+    $default  reduce using rule 57 (ExpressionList)
+
+    Expression        go to state 153
+    ExpressionList    go to state 154
+    Expressions       go to state 155
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
+
+
+State 147
 
    36 Expression: Expression LeftSquareBracket Expression RightSquareBracket .
 
     $default  reduce using rule 36 (Expression)
 
 
-State 147
+State 148
 
    43 Expression: New PT_ID LeftRoundBracket RightRoundBracket .
 
     $default  reduce using rule 43 (Expression)
 
 
-State 148
+State 149
 
    35 Expression: Expression . BinaryOperator Expression
    36           | Expression . LeftSquareBracket Expression RightSquareBracket
@@ -1898,26 +1909,26 @@ State 148
    38           | Expression . MethodCall FunctionCall
    42           | New Integer LeftSquareBracket Expression . RightSquareBracket
 
-    PT_Dot                 shift, and go to state 107
-    PT_LeftSquareBracket   shift, and go to state 71
-    PT_RightSquareBracket  shift, and go to state 104
-    PT_IntegerDivision     shift, and go to state 108
-    PT_Division            shift, and go to state 109
-    PT_Multiplication      shift, and go to state 110
-    PT_Minus               shift, and go to state 111
-    PT_Plus                shift, and go to state 112
-    PT_Less                shift, and go to state 113
-    PT_More                shift, and go to state 114
-    PT_Or                  shift, and go to state 115
-    PT_And                 shift, and go to state 116
+    PT_Dot                 shift, and go to state 105
+    PT_LeftSquareBracket   shift, and go to state 70
+    PT_RightSquareBracket  shift, and go to state 123
+    PT_IntegerDivision     shift, and go to state 106
+    PT_Division            shift, and go to state 107
+    PT_Multiplication      shift, and go to state 108
+    PT_Minus               shift, and go to state 109
+    PT_Plus                shift, and go to state 110
+    PT_Less                shift, and go to state 111
+    PT_More                shift, and go to state 112
+    PT_Or                  shift, and go to state 113
+    PT_And                 shift, and go to state 114
 
-    BinaryOperator      go to state 117
-    MethodCall          go to state 118
-    LeftSquareBracket   go to state 119
-    RightSquareBracket  go to state 154
+    BinaryOperator      go to state 115
+    MethodCall          go to state 116
+    LeftSquareBracket   go to state 117
+    RightSquareBracket  go to state 156
 
 
-State 149
+State 150
 
    34 StatementList: PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression . Semicolon
    35 Expression: Expression . BinaryOperator Expression
@@ -1926,25 +1937,25 @@ State 149
    38           | Expression . MethodCall FunctionCall
 
     PT_Semicolon          shift, and go to state 47
-    PT_Dot                shift, and go to state 107
-    PT_LeftSquareBracket  shift, and go to state 71
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_Dot                shift, and go to state 105
+    PT_LeftSquareBracket  shift, and go to state 70
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    LeftSquareBracket  go to state 119
-    Semicolon          go to state 155
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    LeftSquareBracket  go to state 117
+    Semicolon          go to state 157
 
 
-State 150
+State 151
 
    30 StatementList: If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else . Statement
 
@@ -1956,7 +1967,7 @@ State 150
 
     $default  reduce using rule 27 (Statement)
 
-    Statement      go to state 156
+    Statement      go to state 158
     StatementList  go to state 62
     If             go to state 63
     LeftBrace      go to state 64
@@ -1964,7 +1975,14 @@ State 150
     While          go to state 66
 
 
-State 151
+State 152
+
+   12 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace .
+
+    $default  reduce using rule 12 (MainFunction)
+
+
+State 153
 
    35 Expression: Expression . BinaryOperator Expression
    36           | Expression . LeftSquareBracket Expression RightSquareBracket
@@ -1973,93 +1991,93 @@ State 151
    59 Expressions: Expression .
    60            | Expression . PT_Coma Expressions
 
-    PT_Dot                shift, and go to state 107
-    PT_Coma               shift, and go to state 157
-    PT_LeftSquareBracket  shift, and go to state 71
-    PT_IntegerDivision    shift, and go to state 108
-    PT_Division           shift, and go to state 109
-    PT_Multiplication     shift, and go to state 110
-    PT_Minus              shift, and go to state 111
-    PT_Plus               shift, and go to state 112
-    PT_Less               shift, and go to state 113
-    PT_More               shift, and go to state 114
-    PT_Or                 shift, and go to state 115
-    PT_And                shift, and go to state 116
+    PT_Dot                shift, and go to state 105
+    PT_Coma               shift, and go to state 159
+    PT_LeftSquareBracket  shift, and go to state 70
+    PT_IntegerDivision    shift, and go to state 106
+    PT_Division           shift, and go to state 107
+    PT_Multiplication     shift, and go to state 108
+    PT_Minus              shift, and go to state 109
+    PT_Plus               shift, and go to state 110
+    PT_Less               shift, and go to state 111
+    PT_More               shift, and go to state 112
+    PT_Or                 shift, and go to state 113
+    PT_And                shift, and go to state 114
 
     $default  reduce using rule 59 (Expressions)
 
-    BinaryOperator     go to state 117
-    MethodCall         go to state 118
-    LeftSquareBracket  go to state 119
+    BinaryOperator     go to state 115
+    MethodCall         go to state 116
+    LeftSquareBracket  go to state 117
 
 
-State 152
+State 154
 
    56 FunctionCall: PT_ID LeftRoundBracket ExpressionList . RightRoundBracket
 
     PT_RightRoundBracket  shift, and go to state 52
 
-    RightRoundBracket  go to state 158
+    RightRoundBracket  go to state 160
 
 
-State 153
+State 155
 
    58 ExpressionList: Expressions .
 
     $default  reduce using rule 58 (ExpressionList)
 
 
-State 154
+State 156
 
    42 Expression: New Integer LeftSquareBracket Expression RightSquareBracket .
 
     $default  reduce using rule 42 (Expression)
 
 
-State 155
+State 157
 
    34 StatementList: PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon .
 
     $default  reduce using rule 34 (StatementList)
 
 
-State 156
+State 158
 
    30 StatementList: If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement .
 
     $default  reduce using rule 30 (StatementList)
 
 
-State 157
+State 159
 
    60 Expressions: Expression PT_Coma . Expressions
 
-    PT_Number            shift, and go to state 84
-    PT_True              shift, and go to state 85
-    PT_False             shift, and go to state 86
-    PT_This              shift, and go to state 87
-    PT_New               shift, and go to state 88
-    PT_ID                shift, and go to state 89
+    PT_Number            shift, and go to state 83
+    PT_True              shift, and go to state 84
+    PT_False             shift, and go to state 85
+    PT_This              shift, and go to state 86
+    PT_New               shift, and go to state 87
+    PT_ID                shift, and go to state 88
     PT_LeftRoundBracket  shift, and go to state 44
-    PT_Negation          shift, and go to state 90
+    PT_Negation          shift, and go to state 89
 
-    Expression        go to state 151
-    Expressions       go to state 159
-    ValueT            go to state 92
-    This              go to state 93
-    LeftRoundBracket  go to state 94
-    New               go to state 95
-    Not               go to state 96
+    Expression        go to state 153
+    Expressions       go to state 161
+    ValueT            go to state 91
+    This              go to state 92
+    LeftRoundBracket  go to state 93
+    New               go to state 94
+    Not               go to state 95
 
 
-State 158
+State 160
 
    56 FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket .
 
     $default  reduce using rule 56 (FunctionCall)
 
 
-State 159
+State 161
 
    60 Expressions: Expression PT_Coma Expressions .
 

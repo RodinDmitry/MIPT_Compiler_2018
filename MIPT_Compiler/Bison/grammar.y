@@ -123,8 +123,8 @@ ClassInternals: { $$ = new ClassInternals(cit::EMPTY_TYPE); }
 	| Variable ClassInternals { $$ = new ClassInternals(ToVar($1), ToClInt($2), cit::MEMBER_TYPE);}
 ;
 
-MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace { 
-		$$ = new MainMethodDeclaration( ToArg($5), ToState($7) ); }
+MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace { 
+		$$ = new MainMethodDeclaration( ToArg($6), ToState($9) ); }
 ;
 
 MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID { $$ = new Argument(new Identifier($4), aas::LAST_STATE); }

@@ -1,9 +1,7 @@
-Class 
-Class 
-Class 
+п»їClass 
 { 
-Class 
-Class 
-Class 
-пиздень 
+( 
+error 
+syntax error
+error 
 syntax error

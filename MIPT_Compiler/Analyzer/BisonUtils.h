@@ -10,6 +10,12 @@ using mv = Modifier::Value;
 using cit = ClassInternals::Type;
 using cdt = ClassDeclaration::Type;
 
+template<class T>
+inline T* To(Tree* node)
+{
+	return static_cast<T*>(node);
+}
+
 inline Expression* ToExpr(Tree* node)
 {
 	return static_cast<Expression*>(node);

@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Expressions.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
@@ -128,7 +129,10 @@
     <ClInclude Include="BisonUtils.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entities.h" />
+    <ClInclude Include="Expressions.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="Tree.h" />
+    <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -132,6 +132,7 @@
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Value.h" />
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

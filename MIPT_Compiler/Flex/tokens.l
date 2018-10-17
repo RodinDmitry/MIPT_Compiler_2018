@@ -11,7 +11,7 @@ extern void dumpToken(std::string token);
 
 %%
 
-[\n] ; // ignore end lines
+[\n] ; {dumpToken("\n");}
 [ \t]	; // ignore all whitespace
 [0-9]+  { dumpToken("number"); yylval.integerValue = atoi(yytext); return PT_Number;};
 "static" { dumpToken("static"); return PT_Static;};
@@ -33,6 +33,7 @@ extern void dumpToken(std::string token);
 "boolean" {dumpToken("boolean"); return PT_Boolean;};
 "System.out.println" {dumpToken("println"); return PT_Print;};
 "if" {dumpToken("if"); return PT_If;};
+"else" {dumpToken("else"); return PT_Else;};
 "while" {dumpToken("while"); return PT_While;};
 "length" {dumpToken("length"); return PT_Length;};
 "true" {dumpToken("true"); yylval.logicalValue = true; return PT_True;};
@@ -54,7 +55,7 @@ extern void dumpToken(std::string token);
 ";" {dumpToken(";"); return PT_Semicolon;};
 "." {dumpToken("."); return PT_Dot;};
 "," {dumpToken(","); return PT_Coma;};
-[a-zA-z]+[a-zA-Z0-9_]* { 
+[a-zA-Z]+[a-zA-Z0-9_]* { 
 		dumpToken("ID");
 		yylval.stringValue = (char*) std::malloc(strlen(yytext)+1);
 		strcpy_s(yylval.stringValue, strlen(yytext)+1, yytext);

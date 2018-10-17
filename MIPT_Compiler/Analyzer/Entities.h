@@ -18,6 +18,8 @@ class Expression;
 
 class Argument;
 
+class VarDeclaration;
+
 class Modifier : public Tree
 {
 public:
@@ -43,7 +45,6 @@ public:
 	explicit Value(int a) : intValue(a)
 	{
 		state = INT_STATE;
-		std::cout << "woohoo" << std::endl;
 	}
 
 	explicit Value(bool a) : boolValue(a)
@@ -68,7 +69,8 @@ public:
 	Expression* expr2;
 	Statement* elseState;
 	Identifier* id;
-
+	VarDeclaration* decl;
+	Statement* next;
 	enum StatementType
 	{
 		SHADE_TYPE,
@@ -79,22 +81,26 @@ public:
 		ARR_ASSIGN_TYPE,
 		LIST_TYPE,
 		EMPTY_TYPE,
+		VAR_TYPE,
 	} type;
 
-	Statement(StatementType state): type(state) {};
-	Statement(Statement* st, StatementType state) : statement(st), type(state) {};
-	Statement(Expression* condition, Statement* st, Statement* elseSt, StatementType state)
+	Statement(Statement* nex, StatementType state): next(nex), type(state) {};
+	Statement(Statement* st, Statement* nex, StatementType state) : statement(st), next(nex), type(state) {};
+	Statement(VarDeclaration* var, Statement* nex, StatementType state) : decl(var), next(nex), type(state) {};
+	Statement(Expression* condition, Statement* st, Statement* elseSt, Statement* nex, StatementType state)
 			: statement(st),
 			expr1(condition),
 			elseState(elseSt),
+			next(nex),
 			type(state) {};
-	Statement(Expression* condition, Statement* st, StatementType state) : statement(st), expr1(condition), type(state) {};
-	Statement(Expression* expres, StatementType state) : expr1(expres), type(state) {};
-	Statement(Expression* expres, Identifier* ident, StatementType state) : id(ident), expr1(expres), type(state) {};
-	Statement(Expression* expres, Identifier* ident, Expression* value, StatementType state) 
+	Statement(Expression* condition, Statement* st, Statement* nex, StatementType state) : statement(st), expr1(condition), next(nex), type(state) {};
+	Statement(Expression* expres, Statement* nex, StatementType state) : expr1(expres), next(nex), type(state) {};
+	Statement(Expression* expres, Identifier* ident, Statement* nex, StatementType state) : id(ident), expr1(expres), next(nex), type(state) {};
+	Statement(Expression* expres, Identifier* ident, Expression* value, Statement* nex, StatementType state)
 			: id(ident),
 			expr1(expres),
 			expr2(value),
+			next(nex),
 			type(state) {};
 
 };
@@ -178,7 +184,8 @@ public:
 		INT_TYPE,
 		BOOL_TYPE,
 		INTA_TYPE,
-		USER_TYPE
+		USER_TYPE,
+		VOID_TYPE
 	} type;
 	Identifier* id;
 
@@ -206,13 +213,15 @@ public:
 	Argument* arguments;
 	Statement* body;
 	Expression* ret;
+	TypeIdentifier* retType;
 
-	MethodDeclaration(Modifier* visibility, Identifier* id, Argument* args, Statement* stats, Expression* res)
+	MethodDeclaration(Modifier* visibility, Identifier* id, Argument* args, Statement* stats, Expression* res, TypeIdentifier* rett)
 		: modifier(visibility),
 		name(id),
 		arguments(args),
 		body(stats),
-		ret(res) {}
+		ret(res),
+		retType(rett) {}
 };
 
 class VarDeclaration : public Tree

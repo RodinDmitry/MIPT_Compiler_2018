@@ -1,12 +1,13 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string>
 extern int yylex();
 extern "C++" int yyparse();
 extern FILE* yyin;
 
 extern void yyerror(const char* s);
+extern void dumpBisonToken(std::string token);
 %}
 
 %code requires {
@@ -97,178 +98,180 @@ extern void yyerror(const char* s);
 
 %%
 
-Goal: MainClass ClassDeclaration PT_EOF { $$ = new Goal(ToMCl($1), ToClDecl($2)); }  
+Goal: MainClass ClassDeclaration {  dumpBisonToken("Red:Goal");$$ = new Goal(ToMCl($1), ToClDecl($2)); }  
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { $$ = new MainClass(ToFunc($4), new Identifier($2)); } 
+MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace {  dumpBisonToken("Red:MainClass");$$ = new MainClass(ToFunc($4), new Identifier($2)); } 
 ;
 
-ClassDeclaration: { $$ = new ClassDeclaration(cdt::EMPTY_TYPE); }
-	| Class ClassDeclaration { $$ = new ClassDeclaration(ToClDecl($1),
+ClassDeclaration: {  dumpBisonToken("Red:ClasDecl");$$ = new ClassDeclaration(cdt::EMPTY_TYPE); }
+	| Class ClassDeclaration {  dumpBisonToken("Red:ClasDecl");$$ = new ClassDeclaration(ToClDecl($1),
 		ToClDecl($2), cdt::LIST_TYPE); }
 
-Class: ClassStart LeftBrace ClassInternals RightBrace { $$ = new ClassDeclaration(ToClSt($1),
+Class: ClassStart LeftBrace ClassInternals RightBrace {  dumpBisonToken("Red:Class");$$ = new ClassDeclaration(ToClSt($1),
 		ToClInt($3), cdt::CLASS_TYPE); }
 ;
 
-ClassStart: ClassWord PT_ID Extends {$$ = new ClassStart(new Identifier($2), $3);}
+ClassStart: ClassWord PT_ID Extends { dumpBisonToken("Red:ClasStart");$$ = new ClassStart(new Identifier($2), $3);}
 ;
 
-Extends: { $$ = 0; }
-	| ExtendsWord PT_ID {$$ = $2;}
+Extends: {  dumpBisonToken("Red:extend");$$ = 0; }
+	| ExtendsWord PT_ID { dumpBisonToken("Red:extend");$$ = $2;}
 ;
 
-ClassInternals: { $$ = new ClassInternals(cit::EMPTY_TYPE); }
-	| Function ClassInternals { $$ = new ClassInternals(ToFunc($1), ToClInt($2), cit::METHOD_TYPE); }
-	| Variable ClassInternals { $$ = new ClassInternals(ToVar($1), ToClInt($2), cit::MEMBER_TYPE);}
+ClassInternals: {  dumpBisonToken("Red:ClasInt");$$ = new ClassInternals(cit::EMPTY_TYPE); }
+	| Function ClassInternals {  dumpBisonToken("Red:ClasInt");$$ = new ClassInternals(ToFunc($1), ToClInt($2), cit::METHOD_TYPE); }
+	| Variable Semicolon ClassInternals {  dumpBisonToken("Red:ClasInt");$$ = new ClassInternals(ToVar($1), ToClInt($3), cit::MEMBER_TYPE);}
 ;
 
 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace { 
-		$$ = new MainMethodDeclaration( ToArg($6), ToState($9) ); }
+		 dumpBisonToken("Red:MainFunc");$$ = new MainMethodDeclaration( ToArg($6), ToState($9) ); }
 ;
 
-MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID { $$ = new Argument(new Identifier($4), aas::LAST_STATE); }
+MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  dumpBisonToken("Red:MainArg");$$ = new Argument(new Identifier($4), aas::LAST_STATE); }
 ;
 
-Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { $$ = new MethodDeclaration(ToMod($1),
-				new Identifier($2), ToArg($3), ToState($5), ToExpr($6)); }
+Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace {  dumpBisonToken("Red:function"); $$ = new MethodDeclaration(ToMod($1),
+				new Identifier($3), ToArg($4), ToState($6), ToExpr($7), ToType($2)); }
 ;
 
-Visibility: PT_Public { $$ = new Modifier(mv::PT_Public); }
-	| PT_Private { $$ = new Modifier(mv::PT_Private);}
+Visibility: PT_Public {  dumpBisonToken("Red:public");$$ = new Modifier(mv::PT_Public); }
+	| PT_Private {  dumpBisonToken("Red:private");$$ = new Modifier(mv::PT_Private);}
 ;
 
-Return: PT_Return Expression Semicolon { $$=new Expression(ToExpr($2), exst::RETURN_STATE);}
+Return: PT_Return Expression Semicolon {  dumpBisonToken("Red:return"); $$=new Expression(ToExpr($2), exst::RETURN_STATE);}
 ;
 
-ArgumentsList: LeftRoundBracket RightRoundBracket { $$ = new Argument(aas::EMPTY_STATE); }
-	| LeftRoundBracket Argument RightRoundBracket { $$ = $2;}
+ArgumentsList: LeftRoundBracket RightRoundBracket { dumpBisonToken("Red:ArgumentList"); $$ = new Argument(aas::EMPTY_STATE); }
+	| LeftRoundBracket Argument RightRoundBracket { dumpBisonToken("Red:ArgumentList"); $$ = $2;}
 ;
 
-Argument : Variable { $$ = new Argument(ToVar($1), aas::LAST_STATE); }
-	| Variable PT_Coma Argument { $$ = new Argument(ToArg($3), ToVar($1), aas::LIST_STATE); }
+Argument : Variable { dumpBisonToken("Red:Argument"); $$ = new Argument(ToVar($1), aas::LAST_STATE); }
+	| Variable PT_Coma Argument { dumpBisonToken("Red:Argument"); $$ = new Argument(ToArg($3), ToVar($1), aas::LIST_STATE); }
 ;
 
-Variable: Type PT_ID Semicolon { $$ = new VarDeclaration(ToType($1), new Identifier($2)); }
+Variable: Type PT_ID { dumpBisonToken("Red:Variable"); $$ = new VarDeclaration(ToType($1), new Identifier($2)); }
 ;
 
-Type: Integer  { $$ = new TypeIdentifier(titt::INT_TYPE); }
-	| Integer PT_LeftSquareBracket PT_RightSquareBracket  { $$ = new TypeIdentifier(titt::INTA_TYPE); }
-	| Boolean  { $$ = new TypeIdentifier(titt::BOOL_TYPE); }
-	| PT_ID  { $$ = new TypeIdentifier(new Identifier($1), titt::USER_TYPE); }
+Type: Integer  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::INT_TYPE); }
+	| Integer PT_LeftSquareBracket PT_RightSquareBracket  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::INTA_TYPE); }
+	| Boolean  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::BOOL_TYPE); }
+	| PT_ID  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(new Identifier($1), titt::USER_TYPE); }
+	| PT_Void  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::VOID_TYPE); }
 ;
 
-Statement: { $$ = new Statement(sst::EMPTY_TYPE); }
-	| StatementList { $$ = new Statement(ToState($1), sst::LIST_TYPE); }
+Statement: { dumpBisonToken("Red:Statement"); $$ = new Statement(ToState(nullptr), sst::EMPTY_TYPE); }
+	| StatementList { dumpBisonToken("Red:Statement"); $$ = new Statement(ToState($1), ToState(nullptr), sst::LIST_TYPE); }
 ;
 
-StatementList: LeftBrace StatementList RightBrace { $$ = new Statement(ToState($2), sst::SHADE_TYPE); }
-	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement { $$ = new Statement(ToExpr($3), ToState($5), ToState($7), sst::IF_TYPE); }
-	| While LeftRoundBracket Expression RightRoundBracket  StatementList { $$ = new Statement(ToExpr($3), ToState($5), sst::WHILE_TYPE); }
-	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { $$ = new Statement(ToExpr($3), sst::PRINT_TYPE); }
-	| PT_ID Equals Expression Semicolon { $$ = new Statement(ToExpr($3), new Identifier($1), sst::ASSIGN_TYPE); }
-	| PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon { $$ = new Statement(ToExpr($3), new Identifier($1), ToExpr($6), sst::ARR_ASSIGN_TYPE); }
+StatementList: LeftBrace StatementList RightBrace Statement { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToState($2),  ToState($4), sst::SHADE_TYPE); }
+	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement Statement { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), ToState($7), ToState($8), sst::IF_TYPE); }
+	| While LeftRoundBracket Expression RightRoundBracket  StatementList Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), ToState($6), sst::WHILE_TYPE); }
+	| Print LeftRoundBracket Expression RightRoundBracket Semicolon Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($6), sst::PRINT_TYPE); }
+	| PT_ID Equals Expression Semicolon Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), new Identifier($1), ToState($5), sst::ASSIGN_TYPE); }
+	| Variable Semicolon Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToVar($1), ToState($3), sst::VAR_TYPE); }
+
 
 ;
 
-Expression: Expression BinaryOperator Expression %prec BINARY { $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}
-	| Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
-	| Expression MethodCall Length %prec LENGTH { $$=new Expression(ToExpr($1), exst::Length_STATE);}
-	| Expression MethodCall FunctionCall %prec CALL { $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
-	| ValueT { $$=new Expression(ToVal($1), exst::Value_STATE);}
-	| PT_ID { $$=new Expression(new Identifier($1), exst::ID_STATE);}
-	| This { $$=new Expression(exst::This_State);}
-	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($4), exst::Array_STATE);}
-	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new Expression(new Identifier($2), exst::NewObj_STATE);}
-	| Not Expression %prec NOT { $$=new Expression(exst::Not_STATE); }
-	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$=$2;}
+Expression: Expression BinaryOperator Expression %prec BINARY { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}
+	| Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
+	| Expression MethodCall Length %prec LENGTH { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), exst::Length_STATE);}
+	| Expression MethodCall FunctionCall %prec CALL { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
+	| ValueT { dumpBisonToken("Red:Expression"); $$=new Expression(ToVal($1), exst::Value_STATE);}
+	| PT_ID { dumpBisonToken("Red:Expression"); $$=new Expression(new Identifier($1), exst::ID_STATE);}
+	| This { dumpBisonToken("Red:Expression"); $$=new Expression(exst::This_State);}
+	| New Integer LeftSquareBracket Expression RightSquareBracket { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($4), exst::Array_STATE);}
+	| New PT_ID LeftRoundBracket RightRoundBracket { dumpBisonToken("Red:Expression"); $$=new Expression(new Identifier($2), exst::NewObj_STATE);}
+	| Not Expression %prec NOT { dumpBisonToken("Red:Expression"); $$=new Expression(exst::Not_STATE); }
+	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { dumpBisonToken("Red:Expression"); $$=$2;}
 ;
 
-BinaryOperator : PT_Plus { $$=new BinaryOperator(boot::PT_Plus); }
-	| PT_Minus { $$=new BinaryOperator(boot::PT_Minus); }
-	| PT_Division { $$=new BinaryOperator(boot::PT_Division); }
-	| PT_IntegerDivision { $$=new BinaryOperator(boot::PT_IntegerDivision); }
-	| PT_And { $$=new BinaryOperator(boot::PT_And); }
-	| PT_Or { $$=new BinaryOperator(boot::PT_Or); }
-	| PT_Multiplication { $$=new BinaryOperator(boot::PT_Multiplication); }
-	| PT_Less { $$=new BinaryOperator(boot::PT_Less); }
-	| PT_More { $$=new BinaryOperator(boot::PT_More); }
+BinaryOperator : PT_Plus { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Plus); }
+	| PT_Minus { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Minus); }
+	| PT_Division { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Division); }
+	| PT_IntegerDivision { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_IntegerDivision); }
+	| PT_And { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_And); }
+	| PT_Or { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Or); }
+	| PT_Multiplication {  dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Multiplication); }
+	| PT_Less {  dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Less); }
+	| PT_More {  dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_More); }
 ;
 
-MethodCall: PT_Dot
+MethodCall: PT_Dot { dumpBisonToken("Red:Dot");}
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new FunctionCall(ToExpr($3), new Identifier($1)); }
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket {  dumpBisonToken("Red:functionCall"); $$=new FunctionCall(ToExpr($3), new Identifier($1)); }
 ;
 
-ExpressionList: { $$=new Expression(exst::Empty_STATE);}
-	| Expressions { $$=new Expression(ToExpr($1), exst::List_STATE);}
+ExpressionList: {  dumpBisonToken("Red:expressionList"); $$=new Expression(exst::Empty_STATE);}
+	| Expressions {  dumpBisonToken("Red:expresionList"); $$=new Expression(ToExpr($1), exst::List_STATE);}
 ;
 
-Expressions : Expression { $$=new Expression(ToExpr($1), exst::List_STATE);}
-	| Expression PT_Coma Expressions { $$=new Expression(ToExpr($1), ToExpr($3), exst::List_STATE);}
+Expressions : Expression {  dumpBisonToken("Red:expressions"); $$=new Expression(ToExpr($1), exst::List_STATE);}
+	| Expression PT_Coma Expressions {  dumpBisonToken("Red:expressions"); $$=new Expression(ToExpr($1), ToExpr($3), exst::List_STATE);}
 ;
 
-ValueT: PT_True { $$=new Value(true);}
-	| PT_False { $$=new Value(false);}
-	| PT_Number { $$=new Value($1);printf("number \n");}
+ValueT: PT_True {  dumpBisonToken("Red:value"); $$=new Value(true);}
+	| PT_False {  dumpBisonToken("Red:value"); $$=new Value(false);}
+	| PT_Number {  dumpBisonToken("Red:value"); $$=new Value($1);}
 ;
 
-This: PT_This { printf("this \n"); }
+This: PT_This {  dumpBisonToken("this"); }
 ;
 
-ClassWord: PT_Class { printf("Class \n"); }
+ClassWord: PT_Class {  dumpBisonToken("class"); }
 ;
 
-ExtendsWord: PT_Extends { printf("Extends \n"); }
+ExtendsWord: PT_Extends { dumpBisonToken("extend"); }
 ;
 
-Equals: PT_Equal { printf("equal \n"); }
+Equals: PT_Equal {  dumpBisonToken("equal"); }
 ;
 
-If: PT_If { printf("if \n"); }
+If: PT_If {  dumpBisonToken("if"); }
 ;
 
-Integer: PT_Integer { printf("integer \n"); }
+Integer: PT_Integer {  dumpBisonToken("int"); }
 ;
 
-Boolean: PT_Boolean { printf("bool \n"); }
+Boolean: PT_Boolean {  dumpBisonToken("bool"); }
 ;
 
-LeftBrace: PT_LeftBrace { printf("{ \n"); }
+LeftBrace: PT_LeftBrace {  dumpBisonToken("{"); }
 ;
 
-RightBrace: PT_RightBrace { printf("} \n"); }
+RightBrace: PT_RightBrace {  dumpBisonToken("}"); }
 ;
 
-LeftRoundBracket: PT_LeftRoundBracket { printf("( \n"); }
+LeftRoundBracket: PT_LeftRoundBracket {  dumpBisonToken("("); }
 ;
 
-RightRoundBracket: PT_RightRoundBracket { printf(") \n"); }
+RightRoundBracket: PT_RightRoundBracket {  dumpBisonToken(")"); }
 ;
 
-LeftSquareBracket: PT_LeftSquareBracket { printf("[ \n"); }
+LeftSquareBracket: PT_LeftSquareBracket {  dumpBisonToken("["); }
 ;
 
-RightSquareBracket: PT_RightSquareBracket { printf("] \n"); }
+RightSquareBracket: PT_RightSquareBracket {  dumpBisonToken("]"); }
 ;
 
-Length: PT_Length { printf("length \n"); }
+Length: PT_Length {  dumpBisonToken("length"); }
 ;
 
-New: PT_New { printf("new \n"); }
+New: PT_New {  dumpBisonToken("new"); }
 ;
 
-Not: PT_Negation { printf("not \n"); }
+Not: PT_Negation {  dumpBisonToken("!"); }
 ;
 
-Print: PT_Print { printf("print \n"); }
+Print: PT_Print {  dumpBisonToken("print"); }
 ;
 
-Semicolon: PT_Semicolon { printf("; \n"); }
+Semicolon: PT_Semicolon {  dumpBisonToken("semicolon"); }
 ;
 
-While: PT_While { printf("while \n"); }
+While: PT_While { dumpBisonToken("while"); }
 ;
 
 %%

@@ -41,7 +41,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 12 "MIPT_Compiler\\Bison\\grammar.y"
+#line 13 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
 
@@ -112,7 +112,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 16 "MIPT_Compiler\\Bison\\grammar.y"
+#line 17 "MIPT_Compiler\\Bison\\grammar.y"
 
 
 	int integerValue;

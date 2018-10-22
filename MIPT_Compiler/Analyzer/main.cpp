@@ -21,10 +21,15 @@ int main() {
 		yyparse();
 	} while (!feof(stdin));
 	CPrettyPrinter printer("printer.txt");
-	while (!printerStack.empty()) {
-		ITree* node = *printerStack.begin();
+	while (!printerSet.empty()) {
+		ITree* node = printerStack.front();
+		printerStack.pop_front();
+		while (printerSet.find(node) == printerSet.end()) {
+			node = printerStack.front();
+			printerStack.pop_front();
+		}
 		node->Accept(&printer);
-		printerStack.erase(node);
+		printerSet.erase(node);
 	}
 	printer.close();
 }

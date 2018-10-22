@@ -162,15 +162,15 @@ Type: Integer  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::INT_T
 ;
 
 Statement: { dumpBisonToken("Red:Statement"); $$ = new Statement(ToState(nullptr), sst::EMPTY_TYPE); }
-	| StatementList { dumpBisonToken("Red:Statement"); $$ = new Statement(ToState($1), ToState(nullptr), sst::LIST_TYPE); }
+	| StatementList Semicolon Statement { dumpBisonToken("Red:Statement"); $$ = new Statement(ToState($1), ToState(nullptr), sst::LIST_TYPE); }
 ;
 
-StatementList: LeftBrace StatementList RightBrace Statement { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToState($2),  ToState($4), sst::SHADE_TYPE); }
-	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement Statement { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), ToState($7), ToState($8), sst::IF_TYPE); }
-	| While LeftRoundBracket Expression RightRoundBracket  StatementList Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), ToState($6), sst::WHILE_TYPE); }
-	| Print LeftRoundBracket Expression RightRoundBracket Semicolon Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($6), sst::PRINT_TYPE); }
-	| PT_ID Equals Expression Semicolon Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), new Identifier($1), ToState($5), sst::ASSIGN_TYPE); }
-	| Variable Semicolon Statement{ dumpBisonToken("Red:StatementList"); $$ = new Statement(ToVar($1), ToState($3), sst::VAR_TYPE); }
+StatementList: LeftBrace StatementList RightBrace { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToState($2), sst::SHADE_TYPE); }
+	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else StatementList { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), ToState($7), sst::IF_TYPE); }
+	| While LeftRoundBracket Expression RightRoundBracket  StatementList { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), sst::WHILE_TYPE); }
+	| Print LeftRoundBracket Expression RightRoundBracket { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), sst::PRINT_TYPE); }
+	| PT_ID Equals Expression { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), new Identifier($1), sst::ASSIGN_TYPE); }
+	| Variable { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToVar($1), sst::VAR_TYPE); }
 
 
 ;

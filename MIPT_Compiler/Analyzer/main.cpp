@@ -5,6 +5,8 @@ std::ofstream lexDumpFile;
 bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
+Goal* result;
+
 
 int main() {
 	LEX_DUMP = true;
@@ -14,12 +16,17 @@ int main() {
 	FILE *stream;
 	freopen_s(&stream, "input.txt", "r", stdin);
 	freopen_s(&stream, "output.txt", "w", stdout);
-	//yyin = stdin;
-	//yyparse();
+	yyin = stdin;
 	do {
 		yyparse();
-		//yylex();
 	} while (!feof(stdin));
+	CPrettyPrinter printer("printer.txt");
+	while (!printerStack.empty()) {
+		ITree* node = *printerStack.begin();
+		node->Accept(&printer);
+		printerStack.erase(node);
+	}
+	printer.close();
 }
 
 void dumpToken(std::string token) {

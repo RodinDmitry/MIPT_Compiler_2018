@@ -12,6 +12,7 @@ extern void dumpBisonToken(std::string token);
 
 %code requires {
 #include "../Analyzer/BisonUtils.h"
+extern Goal* result;
 }
 
 %union {
@@ -20,7 +21,7 @@ extern void dumpBisonToken(std::string token);
 	bool logicalValue;
 	char* stringValue;
 	
-	Tree* node;
+	ITree* node;
 }
 
 // Типы
@@ -98,7 +99,7 @@ extern void dumpBisonToken(std::string token);
 
 %%
 
-Goal: MainClass ClassDeclaration {  dumpBisonToken("Red:Goal");$$ = new Goal(ToMCl($1), ToClDecl($2)); }  
+Goal: MainClass ClassDeclaration {  dumpBisonToken("Red:Goal");result = new Goal(ToMCl($1), ToClDecl($2)); $$ = result;}  
 ;
 
 MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace {  dumpBisonToken("Red:MainClass");$$ = new MainClass(ToFunc($4), new Identifier($2)); } 

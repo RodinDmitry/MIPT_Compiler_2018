@@ -33,6 +33,12 @@
     <ClCompile Include="Expressions.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
+    <ClCompile Include="Visitor.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">

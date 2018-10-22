@@ -44,10 +44,11 @@ extern int yydebug;
 #line 13 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
+extern Goal* result;
 
 
 /* Line 2058 of yacc.c  */
-#line 51 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 52 "MIPT_Compiler/Analyzer/grammar.tab.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -112,18 +113,18 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 17 "MIPT_Compiler\\Bison\\grammar.y"
+#line 18 "MIPT_Compiler\\Bison\\grammar.y"
 
 
 	int integerValue;
 	bool logicalValue;
 	char* stringValue;
 	
-	Tree* node;
+	ITree* node;
 
 
 /* Line 2058 of yacc.c  */
-#line 127 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 128 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

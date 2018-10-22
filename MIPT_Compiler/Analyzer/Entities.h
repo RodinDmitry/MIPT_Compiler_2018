@@ -1,76 +1,62 @@
 #pragma once
-#include <vector>
 #include <string>
-#include <cassert>
 #include <iostream>
+#include <Visitor.h>
 
-class Tree {
-public:
 
-	void SetParent(Tree* parent);
-
-protected:
-	Tree* parent;
-	std::vector<Tree*> children;
-};
-
-class Expression;
-
-class Argument;
-
-class VarDeclaration;
-
-class Modifier : public Tree
+class Modifier : public ITree
 {
 public:
 	enum Value
 	{
 		PT_Public,
-		PT_Private
-	} value;
+		PT_Private,
+		NO_STATE
+	} value = NO_STATE;
 
-	Modifier(Value val): value(val) {}
+	Modifier(Value val);
+
+	void Accept(IVisitor* visitor);
 };
 
-class Value : public Tree
+class Value : public ITree
 {
 public:
-	int intValue;
-	bool boolValue;
+	int intValue = 0;
+	bool boolValue = false;
 	enum ValueState {
 		INT_STATE,
-		BOOL_STATE
-	} state;
+		BOOL_STATE,
+		NO_STATE
+	} state = NO_STATE;
 
-	explicit Value(int a) : intValue(a)
-	{
-		state = INT_STATE;
-	}
+	explicit Value(int a);
 
-	explicit Value(bool a) : boolValue(a)
-	{
-		state = BOOL_STATE;
-	}
+	explicit Value(bool a);
+
+	void Accept(IVisitor* visitor);
 };
 
-class Identifier : public Tree
+class Identifier : public ITree
 {
 public:
-	std::string name;
+	std::string name = "default";
 
-	Identifier(std::string str): name(str) {}
+	Identifier(std::string str);
+
+	void Accept(IVisitor* visitor);
 };
 
-class Statement: public Tree
+class Statement: public ITree
 {
 public:
-	Statement* statement;
-	Expression* expr1;
-	Expression* expr2;
-	Statement* elseState;
-	Identifier* id;
-	VarDeclaration* decl;
-	Statement* next;
+	Statement* statement = nullptr;
+	Expression* expr1 = nullptr;
+	Expression* expr2 = nullptr;
+	Statement* elseState = nullptr;
+	Identifier* id = nullptr;
+	VarDeclaration* decl = nullptr;
+	Statement* next = nullptr;
 	enum StatementType
 	{
 		SHADE_TYPE,
@@ -82,39 +68,34 @@ public:
 		LIST_TYPE,
 		EMPTY_TYPE,
 		VAR_TYPE,
-	} type;
+		NO_TYPE
+	} type = NO_TYPE;
 
-	Statement(Statement* nex, StatementType state): next(nex), type(state) {};
-	Statement(Statement* st, Statement* nex, StatementType state) : statement(st), next(nex), type(state) {};
-	Statement(VarDeclaration* var, Statement* nex, StatementType state) : decl(var), next(nex), type(state) {};
-	Statement(Expression* condition, Statement* st, Statement* elseSt, Statement* nex, StatementType state)
-			: statement(st),
-			expr1(condition),
-			elseState(elseSt),
-			next(nex),
-			type(state) {};
-	Statement(Expression* condition, Statement* st, Statement* nex, StatementType state) : statement(st), expr1(condition), next(nex), type(state) {};
-	Statement(Expression* expres, Statement* nex, StatementType state) : expr1(expres), next(nex), type(state) {};
-	Statement(Expression* expres, Identifier* ident, Statement* nex, StatementType state) : id(ident), expr1(expres), next(nex), type(state) {};
-	Statement(Expression* expres, Identifier* ident, Expression* value, Statement* nex, StatementType state)
-			: id(ident),
-			expr1(expres),
-			expr2(value),
-			next(nex),
-			type(state) {};
+	Statement(Statement* nex, StatementType state);
+	Statement(Statement* st, Statement* nex, StatementType state);;
+	Statement(VarDeclaration* var, Statement* nex, StatementType state);;
+	Statement(Expression* condition, Statement* st, Statement* elseSt, Statement* nex, StatementType state);;
+	Statement(Expression* condition, Statement* st, Statement* nex, StatementType state);;
+	Statement(Expression* expres, Statement* nex, StatementType state);;
+	Statement(Expression* expres, Identifier* ident, Statement* nex, StatementType state);;
+	Statement(Expression* expres, Identifier* ident, Expression* value, Statement* nex, StatementType state);;
+
+	void Accept(IVisitor* visitor);
 
 };
 
-class FunctionCall : public Tree
+class FunctionCall : public ITree
 {
 public:
-	Expression* expr;
-	Identifier* id;
+	Expression* expr = nullptr;
+	Identifier* id = nullptr;
 
-	FunctionCall(Expression* exp, Identifier* ident): expr(exp), id(ident) {}
+	FunctionCall(Expression* exp, Identifier* ident);
+
+	void Accept(IVisitor* visitor);
 };
 
-class BinaryOperator : public Tree
+class BinaryOperator : public ITree
 {
 public:
 	enum OperationType
@@ -127,21 +108,24 @@ public:
 		PT_Or,
 		PT_Multiplication,
 		PT_Less,
-		PT_More
-	} type;
+		PT_More,
+		NO_TYPE
+	} type = NO_TYPE;
 
-	BinaryOperator(OperationType oper): type(oper) {}
+	BinaryOperator(OperationType oper);
+
+	void Accept(IVisitor* visitor);
 };
 
-class Expression : public Tree
+class Expression : public ITree
 {
 public:
 	Expression* expr1 = nullptr;
 	Expression* expr2 = nullptr;
-	FunctionCall* fcall;
-	Value* value;
-	Identifier* id;
-	BinaryOperator* binaryOperator;
+	FunctionCall* fcall = nullptr;
+	Value* value = nullptr;
+	Identifier* id = nullptr;
+	BinaryOperator* binaryOperator = nullptr;
 
 	enum ExpressionState {
 		BinaryOperator_STATE,
@@ -156,26 +140,28 @@ public:
 		Not_STATE,
 		List_STATE,
 		Empty_STATE,
-		RETURN_STATE
-	} state;
+		RETURN_STATE,
+		NO_STATE
+	} state = NO_STATE;
 
-	Expression(Value* a, ExpressionState st) : value(a), state(st) {}
+	Expression(Value* a, ExpressionState st);
 
-	Expression(Expression* a, Expression* b, BinaryOperator* oper, ExpressionState st) : expr1(a), expr2(b),
-			binaryOperator(oper), state(st) {}
+	Expression(Expression* a, Expression* b, BinaryOperator* oper, ExpressionState st);
 
-	Expression(Expression* a, Expression* b, ExpressionState st) : expr1(a), expr2(b), state(st) {}
+	Expression(Expression* a, Expression* b, ExpressionState st);
 
-	Expression(Expression* a, ExpressionState st) : expr1(a), state(st) {}
+	Expression(Expression* a, ExpressionState st);
 
-	Expression(Expression* a, FunctionCall* b, ExpressionState st) : expr1(a), fcall(b), state(st) {}
+	Expression(Expression* a, FunctionCall* b, ExpressionState st);
 
-	Expression(Identifier* a, ExpressionState st) : id(a), state(st) {}
+	Expression(Identifier* a, ExpressionState st);
 
-	explicit Expression(ExpressionState st) : state(st) {}
+	explicit Expression(ExpressionState st);
+
+	void Accept(IVisitor* visitor);
 };
 	
-class TypeIdentifier : public Tree
+class TypeIdentifier : public ITree
 {
 public:
 	// :)
@@ -185,55 +171,56 @@ public:
 		BOOL_TYPE,
 		INTA_TYPE,
 		USER_TYPE,
-		VOID_TYPE
-	} type;
-	Identifier* id;
+		VOID_TYPE,
+		NO_TYPE
+	} type = NO_TYPE;
+	Identifier* id = nullptr;
 
-	TypeIdentifier(TypeType tp): type(tp) {}
+	TypeIdentifier(TypeType tp);
 
-	TypeIdentifier(Identifier* userType, TypeType tp) : type(tp), id(userType) {}
+	TypeIdentifier(Identifier* userType, TypeType tp);
+
+	void Accept(IVisitor* visitor);
 };
 
-class MainMethodDeclaration : public Tree
+class MainMethodDeclaration : public ITree
 {
 public:
-	Argument* arguments;
-	Statement* body;
+	Argument* arguments = nullptr;
+	Statement* body = nullptr;
 
-	MainMethodDeclaration(Argument* args, Statement* stats)
-		: arguments(args),
-		body(stats) {}
+	MainMethodDeclaration(Argument* args, Statement* stats);
+
+	void Accept(IVisitor* visitor);
 };
 
-class MethodDeclaration : public Tree
+class MethodDeclaration : public ITree
 {
 public:
-	Modifier* modifier;
-	Identifier* name;
-	Argument* arguments;
-	Statement* body;
-	Expression* ret;
-	TypeIdentifier* retType;
+	Modifier* modifier = nullptr;
+	Identifier* name = nullptr;
+	Argument* arguments = nullptr;
+	Statement* body = nullptr;
+	Expression* ret = nullptr;
+	TypeIdentifier* retType = nullptr;
 
-	MethodDeclaration(Modifier* visibility, Identifier* id, Argument* args, Statement* stats, Expression* res, TypeIdentifier* rett)
-		: modifier(visibility),
-		name(id),
-		arguments(args),
-		body(stats),
-		ret(res),
-		retType(rett) {}
+	MethodDeclaration(Modifier* visibility, Identifier* id, Argument* args, Statement* stats, Expression* res, TypeIdentifier* rett);
+
+	void Accept(IVisitor* visitor);
 };
 
-class VarDeclaration : public Tree
+class VarDeclaration : public ITree
 {
 public:
-	TypeIdentifier* type;
-	Identifier* id;
+	TypeIdentifier* type = nullptr;
+	Identifier* id = nullptr;
 
-	VarDeclaration(TypeIdentifier* tid, Identifier* name): type(tid), id(name) {}
+	VarDeclaration(TypeIdentifier* tid, Identifier* name);
+
+	void Accept(IVisitor* visitor);
 };
 
-class Argument : public Tree
+class Argument : public ITree
 {
 public:
 	enum ArgumentState
@@ -242,100 +229,100 @@ public:
 		LAST_STATE,
 		ONE_STATE,
 		LIST_STATE,
-		MAIN_STATE
-	} state;
+		MAIN_STATE,
+		NO_STATE
+	} state = NO_STATE;
 
-	Argument* arg;
-	VarDeclaration* var;
-	Identifier* id;
-	Argument(ArgumentState st): state(st) {}
+	Argument* arg = nullptr;
+	VarDeclaration* var = nullptr;
+	Identifier* id = nullptr;
+	Argument(ArgumentState st);
 
-	Argument(Identifier* ident, ArgumentState st) : id(ident), state(st) {}
+	Argument(Identifier* ident, ArgumentState st);
 
-	Argument(VarDeclaration* variab, ArgumentState st): var(variab), state(st) {}
+	Argument(VarDeclaration* variab, ArgumentState st);
 
-	Argument(Argument* argum, VarDeclaration* variab, ArgumentState st): var(variab), arg(argum), state(st) {}
+	Argument(Argument* argum, VarDeclaration* variab, ArgumentState st);
+
+	void Accept(IVisitor* visitor);
 };
 
-class ClassInternals : public Tree
+class ClassInternals : public ITree
 {
 public:
 	enum Type
 	{
 		METHOD_TYPE,
 		MEMBER_TYPE,
-		EMPTY_TYPE
-	} type;
-	MethodDeclaration* method;
-	VarDeclaration* member;
-	ClassInternals* next;
+		EMPTY_TYPE,
+		NO_TYPE
+	} type = NO_TYPE;
+	MethodDeclaration* method = nullptr;
+	VarDeclaration* member = nullptr;
+	ClassInternals* next = nullptr;
 
-	ClassInternals(Type typ): type(typ) {}
+	ClassInternals(Type typ);
 
-	ClassInternals(MethodDeclaration* meth, ClassInternals* intern, Type typ) 
-		: method(meth),
-		next(intern),
-		type(typ) {}
+	ClassInternals(MethodDeclaration* meth, ClassInternals* intern, Type typ);
 
-	ClassInternals(VarDeclaration* mem, ClassInternals* intern, Type typ)
-		: member(mem),
-		next(intern),
-		type(typ) {}
+	ClassInternals(VarDeclaration* mem, ClassInternals* intern, Type typ);
+
+	void Accept(IVisitor* visitor);
 };
 
-class ClassStart : public Tree
+class ClassStart : public ITree
 {
 public:
-	Identifier* name;
+	Identifier* name = nullptr;
 	char* extend;
 
-	ClassStart(Identifier* id, char* ext) : name(id), extend(ext) {}
+	ClassStart(Identifier* id, char* ext);
+
+	void Accept(IVisitor* visitor);
 };
 
-class ClassDeclaration : public Tree
+class ClassDeclaration : public ITree
 {
 public:
-	ClassStart* title;
-	ClassInternals* internals;
-	ClassDeclaration* first;
-	ClassDeclaration* next;
+	ClassStart* title = nullptr;
+	ClassInternals* internals = nullptr;
+	ClassDeclaration* first = nullptr;
+	ClassDeclaration* next = nullptr;
 
 	enum Type
 	{
 		CLASS_TYPE,
 		LIST_TYPE,
-		EMPTY_TYPE
-	} type;
+		EMPTY_TYPE,
+		NO_TYPE
+	} type = NO_TYPE;
 
-	ClassDeclaration(Type typ): type(typ) {}
+	ClassDeclaration(Type typ);
 
-	ClassDeclaration(ClassStart* name,	ClassInternals* inter, Type typ) 
-		: title(name),
-		internals(inter),
-		type(typ) {}
+	ClassDeclaration(ClassStart* name, ClassInternals* inter, Type typ);
 
-	ClassDeclaration(ClassDeclaration* fir, ClassDeclaration* nex, Type typ) 
-		: first(fir),
-		next(nex),
-		type(typ) {}
+	ClassDeclaration(ClassDeclaration* fir, ClassDeclaration* nex, Type typ);
+	
+	void Accept(IVisitor* visitor);
 };
 
-class MainClass : public Tree
+class MainClass : public ITree
 {
 public:
-	MethodDeclaration* method;
-	Identifier* name;
-	MainClass(MethodDeclaration* meth, Identifier* id): method(meth), name(id) {}
+	MethodDeclaration* method = nullptr;
+	Identifier* name = nullptr;
+	MainClass(MethodDeclaration* meth, Identifier* id);
+
+	void Accept(IVisitor* visitor);
 };
 
-class Goal : public Tree
+class Goal : public ITree
 {
 public:
-	MainClass* mClass;
-	ClassDeclaration* decls;
+	MainClass* mClass = nullptr;
+	ClassDeclaration* decls = nullptr;
 
-	Goal(MainClass* mClas, ClassDeclaration* decl): mClass(mClas), decls(decl)
-	{
-		std::cout << "woohoo" << std::endl;
-	}
+	Goal(MainClass* mClas, ClassDeclaration* decl);
+
+	void Accept(IVisitor* visitor);
 };

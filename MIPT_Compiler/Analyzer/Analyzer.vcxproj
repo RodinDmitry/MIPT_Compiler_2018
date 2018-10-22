@@ -84,8 +84,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\rodin\Documents\repos\MIPT_Compiler_2018;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018\MIPT_Compiler;../../..;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Graphviz2.38\include\graphviz;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018\MIPT_Compiler;../../..;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\Graphviz2.38\lib\release\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -116,10 +119,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entities.cpp" />
     <ClCompile Include="Expressions.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
+    <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />

@@ -11,82 +11,82 @@ using cit = ClassInternals::Type;
 using cdt = ClassDeclaration::Type;
 
 template<class T>
-inline T* To(Tree* node)
+inline T* To(ITree* node)
 {
 	return static_cast<T*>(node);
 }
 
-inline Expression* ToExpr(Tree* node)
+inline Expression* ToExpr(ITree* node)
 {
 	return static_cast<Expression*>(node);
 }
 
-inline BinaryOperator* ToBinOp(Tree* node)
+inline BinaryOperator* ToBinOp(ITree* node)
 {
 	return static_cast<BinaryOperator*>(node);
 }
 
-inline FunctionCall* ToFcall(Tree* node)
+inline FunctionCall* ToFcall(ITree* node)
 {
 	return static_cast<FunctionCall*>(node);
 }
 
-inline Value* ToVal(Tree* node)
+inline Value* ToVal(ITree* node)
 {
 	return static_cast<Value*>(node);
 }
 
-inline Identifier* ToID(Tree* node)
+inline Identifier* ToID(ITree* node)
 {
 	return static_cast<Identifier*>(node);
 }
 
-inline Statement* ToState(Tree* node)
+inline Statement* ToState(ITree* node)
 {
 	return static_cast<Statement*>(node);
 }
 
-inline TypeIdentifier* ToType(Tree* node)
+inline TypeIdentifier* ToType(ITree* node)
 {
 	return static_cast<TypeIdentifier*>(node);
 }
 
-inline VarDeclaration* ToVar(Tree* node)
+inline VarDeclaration* ToVar(ITree* node)
 {
 	return static_cast<VarDeclaration*>(node);
 }
 
-inline Argument* ToArg(Tree* node)
+inline Argument* ToArg(ITree* node)
 {
 	return static_cast<Argument*>(node);
 }
 
-inline Modifier* ToMod(Tree* node)
+inline Modifier* ToMod(ITree* node)
 {
 	return static_cast<Modifier*>(node);
 }
 
-inline MethodDeclaration* ToFunc(Tree* node)
+inline MethodDeclaration* ToFunc(ITree* node)
 {
 	return static_cast<MethodDeclaration*>(node);
 }
 
-inline ClassInternals* ToClInt(Tree* node)
+inline ClassInternals* ToClInt(ITree* node)
 {
 	return static_cast<ClassInternals*>(node);
 }
 
-inline ClassDeclaration* ToClDecl(Tree* node)
+inline ClassDeclaration* ToClDecl(ITree* node)
 {
 	return static_cast<ClassDeclaration*>(node);
 }
 
-inline ClassStart* ToClSt(Tree* node)
+inline ClassStart* ToClSt(ITree* node)
 {
 	return static_cast<ClassStart*>(node);
 }
 
-inline MainClass* ToMCl(Tree* node)
+inline MainClass* ToMCl(ITree* node)
 {
 	return static_cast<MainClass*>(node);
 }

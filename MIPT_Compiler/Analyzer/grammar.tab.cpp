@@ -110,10 +110,11 @@ extern int yydebug;
 #line 13 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
+extern Goal* result;
 
 
 /* Line 387 of yacc.c  */
-#line 117 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 118 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -178,18 +179,18 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 17 "MIPT_Compiler\\Bison\\grammar.y"
+#line 18 "MIPT_Compiler\\Bison\\grammar.y"
 
 
 	int integerValue;
 	bool logicalValue;
 	char* stringValue;
 	
-	Tree* node;
+	ITree* node;
 
 
 /* Line 387 of yacc.c  */
-#line 193 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 194 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -217,7 +218,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 221 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 222 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 #ifdef short
 # undef short
@@ -541,15 +542,15 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   101,   101,   104,   107,   108,   111,   115,   118,   119,
-     122,   123,   124,   127,   131,   134,   138,   139,   142,   145,
-     146,   149,   150,   153,   156,   157,   158,   159,   160,   163,
-     164,   167,   168,   169,   170,   171,   172,   177,   178,   179,
-     180,   181,   182,   183,   184,   185,   186,   187,   190,   191,
-     192,   193,   194,   195,   196,   197,   198,   201,   204,   207,
-     208,   211,   212,   215,   216,   217,   220,   223,   226,   229,
-     232,   235,   238,   241,   244,   247,   250,   253,   256,   259,
-     262,   265,   268,   271,   274
+       0,   102,   102,   105,   108,   109,   112,   116,   119,   120,
+     123,   124,   125,   128,   132,   135,   139,   140,   143,   146,
+     147,   150,   151,   154,   157,   158,   159,   160,   161,   164,
+     165,   168,   169,   170,   171,   172,   173,   178,   179,   180,
+     181,   182,   183,   184,   185,   186,   187,   188,   191,   192,
+     193,   194,   195,   196,   197,   198,   199,   202,   205,   208,
+     209,   212,   213,   216,   217,   218,   221,   224,   227,   230,
+     233,   236,   239,   242,   245,   248,   251,   254,   257,   260,
+     263,   266,   269,   272,   275
 };
 #endif
 
@@ -1573,509 +1574,509 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 101 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:Goal");(yyval.node) = new Goal(ToMCl((yyvsp[(1) - (2)].node)), ToClDecl((yyvsp[(2) - (2)].node))); }
+#line 102 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("Red:Goal");result = new Goal(ToMCl((yyvsp[(1) - (2)].node)), ToClDecl((yyvsp[(2) - (2)].node))); (yyval.node) = result;}
     break;
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 104 "MIPT_Compiler\\Bison\\grammar.y"
+#line 105 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:MainClass");(yyval.node) = new MainClass(ToFunc((yyvsp[(4) - (5)].node)), new Identifier((yyvsp[(2) - (5)].stringValue))); }
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 107 "MIPT_Compiler\\Bison\\grammar.y"
+#line 108 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasDecl");(yyval.node) = new ClassDeclaration(cdt::EMPTY_TYPE); }
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 108 "MIPT_Compiler\\Bison\\grammar.y"
+#line 109 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasDecl");(yyval.node) = new ClassDeclaration(ToClDecl((yyvsp[(1) - (2)].node)),
 		ToClDecl((yyvsp[(2) - (2)].node)), cdt::LIST_TYPE); }
     break;
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 111 "MIPT_Compiler\\Bison\\grammar.y"
+#line 112 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Class");(yyval.node) = new ClassDeclaration(ToClSt((yyvsp[(1) - (4)].node)),
 		ToClInt((yyvsp[(3) - (4)].node)), cdt::CLASS_TYPE); }
     break;
 
   case 7:
 /* Line 1792 of yacc.c  */
-#line 115 "MIPT_Compiler\\Bison\\grammar.y"
+#line 116 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:ClasStart");(yyval.node) = new ClassStart(new Identifier((yyvsp[(2) - (3)].stringValue)), (yyvsp[(3) - (3)].stringValue));}
     break;
 
   case 8:
 /* Line 1792 of yacc.c  */
-#line 118 "MIPT_Compiler\\Bison\\grammar.y"
+#line 119 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:extend");(yyval.stringValue) = 0; }
     break;
 
   case 9:
 /* Line 1792 of yacc.c  */
-#line 119 "MIPT_Compiler\\Bison\\grammar.y"
+#line 120 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:extend");(yyval.stringValue) = (yyvsp[(2) - (2)].stringValue);}
     break;
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 122 "MIPT_Compiler\\Bison\\grammar.y"
+#line 123 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasInt");(yyval.node) = new ClassInternals(cit::EMPTY_TYPE); }
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 123 "MIPT_Compiler\\Bison\\grammar.y"
+#line 124 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasInt");(yyval.node) = new ClassInternals(ToFunc((yyvsp[(1) - (2)].node)), ToClInt((yyvsp[(2) - (2)].node)), cit::METHOD_TYPE); }
     break;
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 124 "MIPT_Compiler\\Bison\\grammar.y"
+#line 125 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasInt");(yyval.node) = new ClassInternals(ToVar((yyvsp[(1) - (3)].node)), ToClInt((yyvsp[(3) - (3)].node)), cit::MEMBER_TYPE);}
     break;
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 127 "MIPT_Compiler\\Bison\\grammar.y"
+#line 128 "MIPT_Compiler\\Bison\\grammar.y"
     { 
 		 dumpBisonToken("Red:MainFunc");(yyval.node) = new MainMethodDeclaration( ToArg((yyvsp[(6) - (10)].node)), ToState((yyvsp[(9) - (10)].node)) ); }
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 131 "MIPT_Compiler\\Bison\\grammar.y"
+#line 132 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:MainArg");(yyval.node) = new Argument(new Identifier((yyvsp[(4) - (4)].stringValue)), aas::LAST_STATE); }
     break;
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 134 "MIPT_Compiler\\Bison\\grammar.y"
+#line 135 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:function"); (yyval.node) = new MethodDeclaration(ToMod((yyvsp[(1) - (8)].node)),
 				new Identifier((yyvsp[(3) - (8)].stringValue)), ToArg((yyvsp[(4) - (8)].node)), ToState((yyvsp[(6) - (8)].node)), ToExpr((yyvsp[(7) - (8)].node)), ToType((yyvsp[(2) - (8)].node))); }
     break;
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 138 "MIPT_Compiler\\Bison\\grammar.y"
+#line 139 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:public");(yyval.node) = new Modifier(mv::PT_Public); }
     break;
 
   case 17:
 /* Line 1792 of yacc.c  */
-#line 139 "MIPT_Compiler\\Bison\\grammar.y"
+#line 140 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:private");(yyval.node) = new Modifier(mv::PT_Private);}
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 142 "MIPT_Compiler\\Bison\\grammar.y"
+#line 143 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:return"); (yyval.node)=new Expression(ToExpr((yyvsp[(2) - (3)].node)), exst::RETURN_STATE);}
     break;
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 145 "MIPT_Compiler\\Bison\\grammar.y"
+#line 146 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:ArgumentList"); (yyval.node) = new Argument(aas::EMPTY_STATE); }
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 146 "MIPT_Compiler\\Bison\\grammar.y"
+#line 147 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:ArgumentList"); (yyval.node) = (yyvsp[(2) - (3)].node);}
     break;
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 149 "MIPT_Compiler\\Bison\\grammar.y"
+#line 150 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Argument"); (yyval.node) = new Argument(ToVar((yyvsp[(1) - (1)].node)), aas::LAST_STATE); }
     break;
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 150 "MIPT_Compiler\\Bison\\grammar.y"
+#line 151 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Argument"); (yyval.node) = new Argument(ToArg((yyvsp[(3) - (3)].node)), ToVar((yyvsp[(1) - (3)].node)), aas::LIST_STATE); }
     break;
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 153 "MIPT_Compiler\\Bison\\grammar.y"
+#line 154 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Variable"); (yyval.node) = new VarDeclaration(ToType((yyvsp[(1) - (2)].node)), new Identifier((yyvsp[(2) - (2)].stringValue))); }
     break;
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 156 "MIPT_Compiler\\Bison\\grammar.y"
+#line 157 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::INT_TYPE); }
     break;
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 157 "MIPT_Compiler\\Bison\\grammar.y"
+#line 158 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::INTA_TYPE); }
     break;
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 158 "MIPT_Compiler\\Bison\\grammar.y"
+#line 159 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::BOOL_TYPE); }
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 159 "MIPT_Compiler\\Bison\\grammar.y"
+#line 160 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(new Identifier((yyvsp[(1) - (1)].stringValue)), titt::USER_TYPE); }
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 160 "MIPT_Compiler\\Bison\\grammar.y"
+#line 161 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::VOID_TYPE); }
     break;
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 163 "MIPT_Compiler\\Bison\\grammar.y"
+#line 164 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Statement"); (yyval.node) = new Statement(ToState(nullptr), sst::EMPTY_TYPE); }
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 164 "MIPT_Compiler\\Bison\\grammar.y"
+#line 165 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Statement"); (yyval.node) = new Statement(ToState((yyvsp[(1) - (1)].node)), ToState(nullptr), sst::LIST_TYPE); }
     break;
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 167 "MIPT_Compiler\\Bison\\grammar.y"
+#line 168 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToState((yyvsp[(2) - (4)].node)),  ToState((yyvsp[(4) - (4)].node)), sst::SHADE_TYPE); }
     break;
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 168 "MIPT_Compiler\\Bison\\grammar.y"
+#line 169 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (8)].node)), ToState((yyvsp[(5) - (8)].node)), ToState((yyvsp[(7) - (8)].node)), ToState((yyvsp[(8) - (8)].node)), sst::IF_TYPE); }
     break;
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 169 "MIPT_Compiler\\Bison\\grammar.y"
+#line 170 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (6)].node)), ToState((yyvsp[(5) - (6)].node)), ToState((yyvsp[(6) - (6)].node)), sst::WHILE_TYPE); }
     break;
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 170 "MIPT_Compiler\\Bison\\grammar.y"
+#line 171 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (6)].node)), ToState((yyvsp[(6) - (6)].node)), sst::PRINT_TYPE); }
     break;
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 171 "MIPT_Compiler\\Bison\\grammar.y"
+#line 172 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (5)].node)), new Identifier((yyvsp[(1) - (5)].stringValue)), ToState((yyvsp[(5) - (5)].node)), sst::ASSIGN_TYPE); }
     break;
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 172 "MIPT_Compiler\\Bison\\grammar.y"
+#line 173 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToVar((yyvsp[(1) - (3)].node)), ToState((yyvsp[(3) - (3)].node)), sst::VAR_TYPE); }
     break;
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 177 "MIPT_Compiler\\Bison\\grammar.y"
+#line 178 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), ToBinOp((yyvsp[(2) - (3)].node)), exst::BinaryOperator_STATE);}
     break;
 
   case 38:
 /* Line 1792 of yacc.c  */
-#line 178 "MIPT_Compiler\\Bison\\grammar.y"
+#line 179 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (4)].node)), ToExpr((yyvsp[(3) - (4)].node)), exst::SquareBracket_STATE);}
     break;
 
   case 39:
 /* Line 1792 of yacc.c  */
-#line 179 "MIPT_Compiler\\Bison\\grammar.y"
+#line 180 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), exst::Length_STATE);}
     break;
 
   case 40:
 /* Line 1792 of yacc.c  */
-#line 180 "MIPT_Compiler\\Bison\\grammar.y"
+#line 181 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToFcall((yyvsp[(3) - (3)].node)), exst::FunctionCall_STATE);}
     break;
 
   case 41:
 /* Line 1792 of yacc.c  */
-#line 181 "MIPT_Compiler\\Bison\\grammar.y"
+#line 182 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToVal((yyvsp[(1) - (1)].node)), exst::Value_STATE);}
     break;
 
   case 42:
 /* Line 1792 of yacc.c  */
-#line 182 "MIPT_Compiler\\Bison\\grammar.y"
+#line 183 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(new Identifier((yyvsp[(1) - (1)].stringValue)), exst::ID_STATE);}
     break;
 
   case 43:
 /* Line 1792 of yacc.c  */
-#line 183 "MIPT_Compiler\\Bison\\grammar.y"
+#line 184 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(exst::This_State);}
     break;
 
   case 44:
 /* Line 1792 of yacc.c  */
-#line 184 "MIPT_Compiler\\Bison\\grammar.y"
+#line 185 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(4) - (5)].node)), exst::Array_STATE);}
     break;
 
   case 45:
 /* Line 1792 of yacc.c  */
-#line 185 "MIPT_Compiler\\Bison\\grammar.y"
+#line 186 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(new Identifier((yyvsp[(2) - (4)].stringValue)), exst::NewObj_STATE);}
     break;
 
   case 46:
 /* Line 1792 of yacc.c  */
-#line 186 "MIPT_Compiler\\Bison\\grammar.y"
+#line 187 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(exst::Not_STATE); }
     break;
 
   case 47:
 /* Line 1792 of yacc.c  */
-#line 187 "MIPT_Compiler\\Bison\\grammar.y"
+#line 188 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Expression"); (yyval.node)=(yyvsp[(2) - (3)].node);}
     break;
 
   case 48:
 /* Line 1792 of yacc.c  */
-#line 190 "MIPT_Compiler\\Bison\\grammar.y"
+#line 191 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Plus); }
     break;
 
   case 49:
 /* Line 1792 of yacc.c  */
-#line 191 "MIPT_Compiler\\Bison\\grammar.y"
+#line 192 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Minus); }
     break;
 
   case 50:
 /* Line 1792 of yacc.c  */
-#line 192 "MIPT_Compiler\\Bison\\grammar.y"
+#line 193 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Division); }
     break;
 
   case 51:
 /* Line 1792 of yacc.c  */
-#line 193 "MIPT_Compiler\\Bison\\grammar.y"
+#line 194 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_IntegerDivision); }
     break;
 
   case 52:
 /* Line 1792 of yacc.c  */
-#line 194 "MIPT_Compiler\\Bison\\grammar.y"
+#line 195 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_And); }
     break;
 
   case 53:
 /* Line 1792 of yacc.c  */
-#line 195 "MIPT_Compiler\\Bison\\grammar.y"
+#line 196 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Or); }
     break;
 
   case 54:
 /* Line 1792 of yacc.c  */
-#line 196 "MIPT_Compiler\\Bison\\grammar.y"
+#line 197 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Multiplication); }
     break;
 
   case 55:
 /* Line 1792 of yacc.c  */
-#line 197 "MIPT_Compiler\\Bison\\grammar.y"
+#line 198 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Less); }
     break;
 
   case 56:
 /* Line 1792 of yacc.c  */
-#line 198 "MIPT_Compiler\\Bison\\grammar.y"
+#line 199 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_More); }
     break;
 
   case 57:
 /* Line 1792 of yacc.c  */
-#line 201 "MIPT_Compiler\\Bison\\grammar.y"
+#line 202 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Dot");}
     break;
 
   case 58:
 /* Line 1792 of yacc.c  */
-#line 204 "MIPT_Compiler\\Bison\\grammar.y"
+#line 205 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:functionCall"); (yyval.node)=new FunctionCall(ToExpr((yyvsp[(3) - (4)].node)), new Identifier((yyvsp[(1) - (4)].stringValue))); }
     break;
 
   case 59:
 /* Line 1792 of yacc.c  */
-#line 207 "MIPT_Compiler\\Bison\\grammar.y"
+#line 208 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:expressionList"); (yyval.node)=new Expression(exst::Empty_STATE);}
     break;
 
   case 60:
 /* Line 1792 of yacc.c  */
-#line 208 "MIPT_Compiler\\Bison\\grammar.y"
+#line 209 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:expresionList"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
     break;
 
   case 61:
 /* Line 1792 of yacc.c  */
-#line 211 "MIPT_Compiler\\Bison\\grammar.y"
+#line 212 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:expressions"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
     break;
 
   case 62:
 /* Line 1792 of yacc.c  */
-#line 212 "MIPT_Compiler\\Bison\\grammar.y"
+#line 213 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:expressions"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), exst::List_STATE);}
     break;
 
   case 63:
 /* Line 1792 of yacc.c  */
-#line 215 "MIPT_Compiler\\Bison\\grammar.y"
+#line 216 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:value"); (yyval.node)=new Value(true);}
     break;
 
   case 64:
 /* Line 1792 of yacc.c  */
-#line 216 "MIPT_Compiler\\Bison\\grammar.y"
+#line 217 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:value"); (yyval.node)=new Value(false);}
     break;
 
   case 65:
 /* Line 1792 of yacc.c  */
-#line 217 "MIPT_Compiler\\Bison\\grammar.y"
+#line 218 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:value"); (yyval.node)=new Value((yyvsp[(1) - (1)].integerValue));}
     break;
 
   case 66:
 /* Line 1792 of yacc.c  */
-#line 220 "MIPT_Compiler\\Bison\\grammar.y"
+#line 221 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("this"); }
     break;
 
   case 67:
 /* Line 1792 of yacc.c  */
-#line 223 "MIPT_Compiler\\Bison\\grammar.y"
+#line 224 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("class"); }
     break;
 
   case 68:
 /* Line 1792 of yacc.c  */
-#line 226 "MIPT_Compiler\\Bison\\grammar.y"
+#line 227 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("extend"); }
     break;
 
   case 69:
 /* Line 1792 of yacc.c  */
-#line 229 "MIPT_Compiler\\Bison\\grammar.y"
+#line 230 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("equal"); }
     break;
 
   case 70:
 /* Line 1792 of yacc.c  */
-#line 232 "MIPT_Compiler\\Bison\\grammar.y"
+#line 233 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("if"); }
     break;
 
   case 71:
 /* Line 1792 of yacc.c  */
-#line 235 "MIPT_Compiler\\Bison\\grammar.y"
+#line 236 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("int"); }
     break;
 
   case 72:
 /* Line 1792 of yacc.c  */
-#line 238 "MIPT_Compiler\\Bison\\grammar.y"
+#line 239 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("bool"); }
     break;
 
   case 73:
 /* Line 1792 of yacc.c  */
-#line 241 "MIPT_Compiler\\Bison\\grammar.y"
+#line 242 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("{"); }
     break;
 
   case 74:
 /* Line 1792 of yacc.c  */
-#line 244 "MIPT_Compiler\\Bison\\grammar.y"
+#line 245 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("}"); }
     break;
 
   case 75:
 /* Line 1792 of yacc.c  */
-#line 247 "MIPT_Compiler\\Bison\\grammar.y"
+#line 248 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("("); }
     break;
 
   case 76:
 /* Line 1792 of yacc.c  */
-#line 250 "MIPT_Compiler\\Bison\\grammar.y"
+#line 251 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken(")"); }
     break;
 
   case 77:
 /* Line 1792 of yacc.c  */
-#line 253 "MIPT_Compiler\\Bison\\grammar.y"
+#line 254 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("["); }
     break;
 
   case 78:
 /* Line 1792 of yacc.c  */
-#line 256 "MIPT_Compiler\\Bison\\grammar.y"
+#line 257 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("]"); }
     break;
 
   case 79:
 /* Line 1792 of yacc.c  */
-#line 259 "MIPT_Compiler\\Bison\\grammar.y"
+#line 260 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("length"); }
     break;
 
   case 80:
 /* Line 1792 of yacc.c  */
-#line 262 "MIPT_Compiler\\Bison\\grammar.y"
+#line 263 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("new"); }
     break;
 
   case 81:
 /* Line 1792 of yacc.c  */
-#line 265 "MIPT_Compiler\\Bison\\grammar.y"
+#line 266 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("!"); }
     break;
 
   case 82:
 /* Line 1792 of yacc.c  */
-#line 268 "MIPT_Compiler\\Bison\\grammar.y"
+#line 269 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("print"); }
     break;
 
   case 83:
 /* Line 1792 of yacc.c  */
-#line 271 "MIPT_Compiler\\Bison\\grammar.y"
+#line 272 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("semicolon"); }
     break;
 
   case 84:
 /* Line 1792 of yacc.c  */
-#line 274 "MIPT_Compiler\\Bison\\grammar.y"
+#line 275 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("while"); }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 2079 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 2080 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2307,5 +2308,5 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 277 "MIPT_Compiler\\Bison\\grammar.y"
+#line 278 "MIPT_Compiler\\Bison\\grammar.y"
 

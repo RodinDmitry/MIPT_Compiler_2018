@@ -84,7 +84,7 @@ inline void CPrettyPrinter::visitNullable(ITree* node, std::string& currentNode)
 		node->Accept(this);
 		output << currentNode << " -- " << nodes.front() << std::endl;
 		nodes.pop_front();
-		printerStack.erase(node);
+		printerSet.erase(node);
 	}
 }
 

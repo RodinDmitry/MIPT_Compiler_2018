@@ -16,6 +16,7 @@ public:
 	};
 
 	CValue(int value, TType type);
+	virtual void Accept(IVisitor* visitor) override;
 
 	int value;
 	TType type;

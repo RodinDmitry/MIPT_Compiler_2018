@@ -123,7 +123,9 @@
     <ClCompile Include="Expressions.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Modifier.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
+    <ClCompile Include="Value.cpp" />
     <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +138,7 @@
     <ClInclude Include="Entities.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="Modifier.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Visitor.h" />

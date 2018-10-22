@@ -39,6 +39,12 @@
     <ClCompile Include="Entities.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Value.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Modifier.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -71,6 +77,9 @@
       <Filter>Tree</Filter>
     </ClInclude>
     <ClInclude Include="Value.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Modifier.h">
       <Filter>Tree</Filter>
     </ClInclude>
   </ItemGroup>

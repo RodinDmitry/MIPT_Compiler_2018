@@ -2,7 +2,8 @@
 #include <Entities.h>
 
 static int lastId = 0;
-std::set< ITree* > printerStack;
+std::set< ITree* > printerSet;
+std::deque< ITree* > printerStack;
 
 void CPrettyPrinter::visit(ITree *)
 {

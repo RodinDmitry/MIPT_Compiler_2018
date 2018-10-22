@@ -32,6 +32,8 @@ class CArrayExpression : public IExpression
 public:
 	CArrayExpression(IExpression* caller, IExpression* index);
 
+	virtual void Accept(IVisitor* visitor) override;
+
 	IExpression* caller;
 	IExpression* index;
 };
@@ -43,17 +45,21 @@ class IArgumentList;
 class CCallExpression : public IExpression
 {
 public:
-	CCallExpression(IExpression* caller, IExpression* index, IArgumentList* list);
+	CCallExpression(IExpression* caller, IId* function, IArgumentList* list);
+
+	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* caller;
 	IId* function;
 	IArgumentList* list;
 };
 
-class CCallLenghtExpression : public IExpression
+class CCallLengthExpression : public IExpression
 {
 public:
-	CCallLenghtExpression(IExpression* caller);
+	CCallLengthExpression(IExpression* caller);
+
+	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* caller;
 };
@@ -64,13 +70,18 @@ class CValueExpression : public IExpression
 {
 public:
 	CValueExpression(IValue* value);
+
+	virtual void Accept(IVisitor* visitor) override;
+
 	IValue* value;
 };
 
 class CNewArrayExpression : public IExpression
 {
 public:
-	CNewArrayExpression(IId id, IExpression* expression);
+	CNewArrayExpression(IId* id, IExpression* expression);
+
+	virtual void Accept(IVisitor* visitor) override;
 
 	IId* id;
 	IExpression* expression;
@@ -80,6 +91,9 @@ class CIdExpression : public IExpression
 {	
 public:
 	CIdExpression(IId* id);
+
+	virtual void Accept(IVisitor* visitor) override;
+
 	IId* id;
 };
 
@@ -87,12 +101,16 @@ class CThisExpression : public IExpression
 {
 public:
 	CThisExpression();
+
+	virtual void Accept(IVisitor* visitor) override;
 };
 
 class CNotExpression : public IExpression
 {
 public:
 	CNotExpression(IExpression* expression);
+
+	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
 };
@@ -101,6 +119,8 @@ class CBracketsExpression : public IExpression
 {
 public:
 	CBracketsExpression(IExpression* expression);
+
+	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
 };

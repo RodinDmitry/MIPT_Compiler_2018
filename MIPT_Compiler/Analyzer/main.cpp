@@ -11,8 +11,8 @@ Goal* result;
 int main() {
 	LEX_DUMP = true;
 	BISON_DUMP = true;
-	lexDumpFile.open("lex_dump.txt", std::ofstream::out);
-	bisonDumpFile.open("bison_dump.txt", std::ofstream::out);
+	lexDumpFile.open("dumps/lex_dump.txt", std::ofstream::out);
+	bisonDumpFile.open("dumps/bison_dump.txt", std::ofstream::out);
 	FILE *stream;
 	freopen_s(&stream, "input.txt", "r", stdin);
 	freopen_s(&stream, "output.txt", "w", stdout);
@@ -20,7 +20,7 @@ int main() {
 	do {
 		yyparse();
 	} while (!feof(stdin));
-	CPrettyPrinter printer("printer.txt");
+	CPrettyPrinter printer("graphs/printer.txt");
 	while (!printerSet.empty()) {
 		ITree* node = printerStack.front();
 		printerStack.pop_front();

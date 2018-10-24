@@ -1,3 +1,8 @@
 Debug/
 .vs/
 ~*
+*.output
+*.bmp
+*.svg
+*.png
+printer.txt

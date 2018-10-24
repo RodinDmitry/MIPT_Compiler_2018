@@ -78,33 +78,32 @@ extern Goal* result;
      PT_New = 277,
      PT_Semicolon = 278,
      PT_ID = 279,
-     PT_EOF = 280,
-     PT_Dot = 281,
-     PT_Coma = 282,
-     PT_Return = 283,
-     PT_LeftBrace = 284,
-     PT_LeftSquareBracket = 285,
-     PT_LeftRoundBracket = 286,
-     PT_RightBrace = 287,
-     PT_RightSquareBracket = 288,
-     PT_RightRoundBracket = 289,
-     PT_Negation = 290,
-     PT_IntegerDivision = 291,
-     PT_Division = 292,
-     PT_Multiplication = 293,
-     PT_Minus = 294,
-     PT_Plus = 295,
-     PT_Less = 296,
-     PT_More = 297,
-     PT_Or = 298,
-     PT_And = 299,
-     PT_Equal = 300,
-     BRACKETS = 301,
-     ARRAY = 302,
-     CALL = 303,
-     LENGTH = 304,
-     NOT = 305,
-     BINARY = 306
+     PT_Dot = 280,
+     PT_Coma = 281,
+     PT_Return = 282,
+     PT_LeftBrace = 283,
+     PT_LeftSquareBracket = 284,
+     PT_LeftRoundBracket = 285,
+     PT_RightBrace = 286,
+     PT_RightSquareBracket = 287,
+     PT_RightRoundBracket = 288,
+     PT_Negation = 289,
+     PT_IntegerDivision = 290,
+     PT_Division = 291,
+     PT_Multiplication = 292,
+     PT_Minus = 293,
+     PT_Plus = 294,
+     PT_Less = 295,
+     PT_More = 296,
+     PT_Or = 297,
+     PT_And = 298,
+     PT_Equal = 299,
+     BRACKETS = 300,
+     ARRAY = 301,
+     CALL = 302,
+     LENGTH = 303,
+     NOT = 304,
+     BINARY = 305
    };
 #endif
 
@@ -124,7 +123,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 128 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 127 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

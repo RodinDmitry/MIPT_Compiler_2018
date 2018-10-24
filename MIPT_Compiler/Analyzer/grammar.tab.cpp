@@ -144,33 +144,32 @@ extern Goal* result;
      PT_New = 277,
      PT_Semicolon = 278,
      PT_ID = 279,
-     PT_EOF = 280,
-     PT_Dot = 281,
-     PT_Coma = 282,
-     PT_Return = 283,
-     PT_LeftBrace = 284,
-     PT_LeftSquareBracket = 285,
-     PT_LeftRoundBracket = 286,
-     PT_RightBrace = 287,
-     PT_RightSquareBracket = 288,
-     PT_RightRoundBracket = 289,
-     PT_Negation = 290,
-     PT_IntegerDivision = 291,
-     PT_Division = 292,
-     PT_Multiplication = 293,
-     PT_Minus = 294,
-     PT_Plus = 295,
-     PT_Less = 296,
-     PT_More = 297,
-     PT_Or = 298,
-     PT_And = 299,
-     PT_Equal = 300,
-     BRACKETS = 301,
-     ARRAY = 302,
-     CALL = 303,
-     LENGTH = 304,
-     NOT = 305,
-     BINARY = 306
+     PT_Dot = 280,
+     PT_Coma = 281,
+     PT_Return = 282,
+     PT_LeftBrace = 283,
+     PT_LeftSquareBracket = 284,
+     PT_LeftRoundBracket = 285,
+     PT_RightBrace = 286,
+     PT_RightSquareBracket = 287,
+     PT_RightRoundBracket = 288,
+     PT_Negation = 289,
+     PT_IntegerDivision = 290,
+     PT_Division = 291,
+     PT_Multiplication = 292,
+     PT_Minus = 293,
+     PT_Plus = 294,
+     PT_Less = 295,
+     PT_More = 296,
+     PT_Or = 297,
+     PT_And = 298,
+     PT_Equal = 299,
+     BRACKETS = 300,
+     ARRAY = 301,
+     CALL = 302,
+     LENGTH = 303,
+     NOT = 304,
+     BINARY = 305
    };
 #endif
 
@@ -190,7 +189,7 @@ typedef union YYSTYPE
 
 
 /* Line 387 of yacc.c  */
-#line 194 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 193 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -218,7 +217,7 @@ int yyparse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 390 of yacc.c  */
-#line 222 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 221 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
 
 #ifdef short
 # undef short
@@ -438,20 +437,20 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   226
+#define YYLAST   247
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  52
+#define YYNTOKENS  51
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  45
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  84
+#define YYNRULES  85
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  166
+#define YYNSTATES  162
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   306
+#define YYMAXUTOK   305
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -489,7 +488,7 @@ static const yytype_uint8 yytranslate[] =
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51
+      45,    46,    47,    48,    49,    50
 };
 
 #if YYDEBUG
@@ -500,57 +499,57 @@ static const yytype_uint16 yyprhs[] =
        0,     0,     3,     6,    12,    13,    16,    21,    25,    26,
       29,    30,    33,    37,    48,    53,    62,    64,    66,    70,
       73,    77,    79,    83,    86,    88,    92,    94,    96,    98,
-      99,   103,   109,   121,   129,   134,   138,   140,   144,   149,
-     153,   157,   159,   161,   163,   169,   174,   177,   181,   183,
-     185,   187,   189,   191,   193,   195,   197,   199,   201,   206,
-     207,   209,   211,   215,   217,   219,   221,   223,   225,   227,
-     229,   231,   233,   235,   237,   239,   241,   243,   245,   247,
-     249,   251,   253,   255,   257
+      99,   102,   106,   114,   120,   126,   132,   137,   140,   145,
+     149,   151,   153,   155,   159,   163,   165,   171,   176,   179,
+     183,   185,   187,   189,   191,   193,   195,   197,   199,   201,
+     203,   208,   209,   211,   213,   217,   219,   221,   223,   225,
+     227,   229,   231,   233,   235,   237,   239,   241,   243,   245,
+     247,   249,   251,   253,   255,   257
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      53,     0,    -1,    54,    55,    -1,    79,    24,    85,    60,
-      86,    -1,    -1,    56,    55,    -1,    57,    85,    59,    86,
-      -1,    79,    24,    58,    -1,    -1,    80,    24,    -1,    -1,
-      62,    59,    -1,    67,    95,    59,    -1,    12,    11,     3,
-      15,    87,    61,    88,    85,    69,    86,    -1,     4,    89,
-      90,    24,    -1,    63,    68,    24,    65,    85,    69,    64,
-      86,    -1,    12,    -1,    13,    -1,    28,    71,    95,    -1,
-      87,    88,    -1,    87,    66,    88,    -1,    67,    -1,    67,
-      27,    66,    -1,    68,    24,    -1,    83,    -1,    83,    30,
-      33,    -1,    84,    -1,    24,    -1,     3,    -1,    -1,    70,
-      95,    69,    -1,    85,    70,    95,    69,    86,    -1,    82,
-      87,    71,    88,    70,    95,    69,    19,    70,    95,    69,
-      -1,    96,    87,    71,    88,    70,    95,    69,    -1,    94,
-      87,    71,    88,    -1,    24,    81,    71,    -1,    67,    -1,
-      71,    72,    71,    -1,    71,    89,    71,    90,    -1,    71,
-      73,    91,    -1,    71,    73,    74,    -1,    77,    -1,    24,
-      -1,    78,    -1,    92,    83,    89,    71,    90,    -1,    92,
-      24,    87,    88,    -1,    93,    71,    -1,    87,    71,    88,
-      -1,    40,    -1,    39,    -1,    37,    -1,    36,    -1,    44,
-      -1,    43,    -1,    38,    -1,    41,    -1,    42,    -1,    26,
-      -1,    24,    87,    75,    88,    -1,    -1,    76,    -1,    71,
-      -1,    71,    27,    76,    -1,     8,    -1,     9,    -1,     5,
-      -1,    21,    -1,    10,    -1,    14,    -1,    45,    -1,    17,
-      -1,     7,    -1,     6,    -1,    29,    -1,    32,    -1,    31,
-      -1,    34,    -1,    30,    -1,    33,    -1,    20,    -1,    22,
-      -1,    35,    -1,    16,    -1,    23,    -1,    18,    -1
+      52,     0,    -1,    53,    54,    -1,    79,    24,    84,    59,
+      85,    -1,    -1,    55,    54,    -1,    56,    84,    58,    85,
+      -1,    79,    24,    57,    -1,    -1,    80,    24,    -1,    -1,
+      61,    58,    -1,    66,    94,    58,    -1,    12,    11,     3,
+      15,    86,    60,    87,    84,    68,    85,    -1,     4,    88,
+      89,    24,    -1,    62,    67,    24,    64,    84,    68,    63,
+      85,    -1,    12,    -1,    13,    -1,    27,    71,    94,    -1,
+      86,    87,    -1,    86,    65,    87,    -1,    66,    -1,    66,
+      26,    65,    -1,    67,    24,    -1,    82,    -1,    82,    29,
+      32,    -1,    83,    -1,    24,    -1,     3,    -1,    -1,    69,
+      68,    -1,    84,    68,    85,    -1,    17,    86,    71,    87,
+      69,    19,    69,    -1,    17,    86,    71,    87,    69,    -1,
+      95,    86,    71,    87,    69,    -1,    93,    86,    71,    87,
+      94,    -1,    70,    81,    71,    94,    -1,    66,    94,    -1,
+      71,    88,    71,    89,    -1,    71,    73,    74,    -1,    24,
+      -1,    78,    -1,    70,    -1,    71,    72,    71,    -1,    71,
+      73,    90,    -1,    77,    -1,    91,    82,    88,    71,    89,
+      -1,    91,    24,    86,    87,    -1,    92,    71,    -1,    86,
+      71,    87,    -1,    39,    -1,    38,    -1,    36,    -1,    35,
+      -1,    43,    -1,    42,    -1,    37,    -1,    40,    -1,    41,
+      -1,    25,    -1,    24,    86,    75,    87,    -1,    -1,    76,
+      -1,    71,    -1,    71,    26,    76,    -1,     8,    -1,     9,
+      -1,     5,    -1,    21,    -1,    10,    -1,    14,    -1,    44,
+      -1,     7,    -1,     6,    -1,    28,    -1,    31,    -1,    30,
+      -1,    33,    -1,    29,    -1,    32,    -1,    20,    -1,    22,
+      -1,    34,    -1,    16,    -1,    23,    -1,    18,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   102,   102,   105,   108,   109,   112,   116,   119,   120,
-     123,   124,   125,   128,   132,   135,   139,   140,   143,   146,
-     147,   150,   151,   154,   157,   158,   159,   160,   161,   164,
-     165,   168,   169,   170,   171,   172,   173,   178,   179,   180,
-     181,   182,   183,   184,   185,   186,   187,   188,   191,   192,
-     193,   194,   195,   196,   197,   198,   199,   202,   205,   208,
-     209,   212,   213,   216,   217,   218,   221,   224,   227,   230,
-     233,   236,   239,   242,   245,   248,   251,   254,   257,   260,
-     263,   266,   269,   272,   275
+       0,   103,   103,   106,   109,   110,   113,   117,   120,   121,
+     124,   125,   126,   129,   133,   136,   140,   141,   144,   147,
+     148,   151,   152,   155,   158,   159,   160,   161,   162,   165,
+     166,   169,   170,   171,   172,   173,   174,   175,   179,   180,
+     181,   182,   185,   186,   187,   188,   189,   190,   191,   192,
+     195,   196,   197,   198,   199,   200,   201,   202,   203,   206,
+     209,   212,   213,   216,   217,   220,   221,   222,   225,   228,
+     231,   234,   237,   240,   243,   246,   249,   252,   255,   258,
+     261,   264,   267,   270,   273,   276
 };
 #endif
 
@@ -563,20 +562,20 @@ static const char *const yytname[] =
   "PT_Boolean", "PT_Integer", "PT_True", "PT_False", "PT_Class",
   "PT_Static", "PT_Public", "PT_Private", "PT_Extends", "PT_Main",
   "PT_Print", "PT_If", "PT_While", "PT_Else", "PT_Length", "PT_This",
-  "PT_New", "PT_Semicolon", "PT_ID", "PT_EOF", "PT_Dot", "PT_Coma",
-  "PT_Return", "PT_LeftBrace", "PT_LeftSquareBracket",
-  "PT_LeftRoundBracket", "PT_RightBrace", "PT_RightSquareBracket",
-  "PT_RightRoundBracket", "PT_Negation", "PT_IntegerDivision",
-  "PT_Division", "PT_Multiplication", "PT_Minus", "PT_Plus", "PT_Less",
-  "PT_More", "PT_Or", "PT_And", "PT_Equal", "BRACKETS", "ARRAY", "CALL",
-  "LENGTH", "NOT", "BINARY", "$accept", "Goal", "MainClass",
-  "ClassDeclaration", "Class", "ClassStart", "Extends", "ClassInternals",
-  "MainFunction", "MainArgument", "Function", "Visibility", "Return",
-  "ArgumentsList", "Argument", "Variable", "Type", "Statement",
-  "StatementList", "Expression", "BinaryOperator", "MethodCall",
+  "PT_New", "PT_Semicolon", "PT_ID", "PT_Dot", "PT_Coma", "PT_Return",
+  "PT_LeftBrace", "PT_LeftSquareBracket", "PT_LeftRoundBracket",
+  "PT_RightBrace", "PT_RightSquareBracket", "PT_RightRoundBracket",
+  "PT_Negation", "PT_IntegerDivision", "PT_Division", "PT_Multiplication",
+  "PT_Minus", "PT_Plus", "PT_Less", "PT_More", "PT_Or", "PT_And",
+  "PT_Equal", "BRACKETS", "ARRAY", "CALL", "LENGTH", "NOT", "BINARY",
+  "$accept", "Goal", "MainClass", "ClassDeclaration", "Class",
+  "ClassStart", "Extends", "ClassInternals", "MainFunction",
+  "MainArgument", "Function", "Visibility", "Return", "ArgumentsList",
+  "Argument", "Variable", "Type", "Statement", "StatementItem",
+  "LvalueExpression", "Expression", "BinaryOperator", "MethodCall",
   "FunctionCall", "ExpressionList", "Expressions", "ValueT", "This",
-  "ClassWord", "ExtendsWord", "Equals", "If", "Integer", "Boolean",
-  "LeftBrace", "RightBrace", "LeftRoundBracket", "RightRoundBracket",
+  "ClassWord", "ExtendsWord", "Equals", "Integer", "Boolean", "LeftBrace",
+  "RightBrace", "LeftRoundBracket", "RightRoundBracket",
   "LeftSquareBracket", "RightSquareBracket", "Length", "New", "Not",
   "Print", "Semicolon", "While", YY_NULL
 };
@@ -592,22 +591,22 @@ static const yytype_uint16 yytoknum[] =
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
      285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
      295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,   306
+     305
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    52,    53,    54,    55,    55,    56,    57,    58,    58,
-      59,    59,    59,    60,    61,    62,    63,    63,    64,    65,
-      65,    66,    66,    67,    68,    68,    68,    68,    68,    69,
-      69,    70,    70,    70,    70,    70,    70,    71,    71,    71,
-      71,    71,    71,    71,    71,    71,    71,    71,    72,    72,
-      72,    72,    72,    72,    72,    72,    72,    73,    74,    75,
-      75,    76,    76,    77,    77,    77,    78,    79,    80,    81,
-      82,    83,    84,    85,    86,    87,    88,    89,    90,    91,
-      92,    93,    94,    95,    96
+       0,    51,    52,    53,    54,    54,    55,    56,    57,    57,
+      58,    58,    58,    59,    60,    61,    62,    62,    63,    64,
+      64,    65,    65,    66,    67,    67,    67,    67,    67,    68,
+      68,    69,    69,    69,    69,    69,    69,    69,    70,    70,
+      70,    70,    71,    71,    71,    71,    71,    71,    71,    71,
+      72,    72,    72,    72,    72,    72,    72,    72,    72,    73,
+      74,    75,    75,    76,    76,    77,    77,    77,    78,    79,
+      80,    81,    82,    83,    84,    85,    86,    87,    88,    89,
+      90,    91,    92,    93,    94,    95
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -616,12 +615,12 @@ static const yytype_uint8 yyr2[] =
        0,     2,     2,     5,     0,     2,     4,     3,     0,     2,
        0,     2,     3,    10,     4,     8,     1,     1,     3,     2,
        3,     1,     3,     2,     1,     3,     1,     1,     1,     0,
-       3,     5,    11,     7,     4,     3,     1,     3,     4,     3,
-       3,     1,     1,     1,     5,     4,     2,     3,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     4,     0,
-       1,     1,     3,     1,     1,     1,     1,     1,     1,     1,
+       2,     3,     7,     5,     5,     5,     4,     2,     4,     3,
+       1,     1,     1,     3,     3,     1,     5,     4,     2,     3,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1
+       4,     0,     1,     1,     3,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -629,154 +628,158 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,    67,     0,     4,     0,     1,     2,     4,     0,     0,
-       0,     5,    73,    10,     8,     0,    28,    72,    71,    16,
-      17,    27,     0,    10,     0,     0,     0,    24,    26,    68,
-       7,     0,     0,     0,    74,     6,    11,     0,    83,    10,
-      23,     0,     9,     0,     3,     0,    12,    25,     0,    75,
-       0,     0,     0,    29,    76,     0,    21,    19,     0,    82,
-      70,    84,    27,    36,     0,     0,     0,     0,     0,     0,
-      20,     0,     0,     0,    69,     0,     0,     0,    29,     0,
-       0,     0,     0,    22,    77,     0,     0,    65,    63,    64,
-      66,    80,    42,    81,    35,    41,    43,     0,     0,     0,
-       0,    15,    30,     0,    29,     0,     0,    78,     0,    29,
-      57,    51,    50,    54,    49,    48,    55,    56,    53,    52,
-       0,     0,     0,     0,     0,     0,    46,    18,     0,     0,
-      34,     0,    14,     0,    37,    79,     0,    40,    39,     0,
-      47,     0,     0,     0,    31,     0,    13,    59,    38,    45,
-       0,    29,    29,    61,     0,    60,    44,     0,    33,     0,
-      58,     0,    62,     0,    29,    32
+       0,    69,     0,     4,     0,     1,     2,     4,     0,     0,
+       0,     5,    74,    10,     8,     0,    28,    73,    72,    16,
+      17,    27,     0,    10,     0,     0,     0,    24,    26,    70,
+       7,     0,     0,     0,    75,     6,    11,     0,    84,    10,
+      23,     0,     9,     0,     3,     0,    12,    25,     0,    76,
+       0,     0,     0,    29,    77,     0,    21,    19,     0,    67,
+      65,    66,    83,     0,    85,    68,    81,    40,    82,     0,
+       0,    29,    42,     0,    45,    41,    29,     0,     0,     0,
+       0,     0,    20,     0,     0,     0,     0,    37,     0,     0,
+      30,    71,     0,    59,    78,    53,    52,    56,    51,    50,
+      57,    58,    55,    54,     0,     0,     0,     0,    40,    42,
+       0,     0,     0,    48,     0,     0,    22,     0,     0,     0,
+       0,    15,     0,    43,    80,     0,    39,    44,     0,    31,
+      49,     0,     0,     0,     0,    79,     0,    29,     0,    18,
+      36,    61,    38,    47,     0,     0,     0,    14,     0,    33,
+      63,     0,    62,    46,    35,    34,    13,     0,     0,    60,
+      32,    64
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-      -1,     2,     3,     6,     7,     8,    30,    22,    33,    73,
-      23,    24,    77,    50,    55,    63,    26,    64,    65,   153,
-     120,   121,   137,   154,   155,    95,    96,     9,    31,    75,
-      66,    27,    28,    67,    35,    97,    57,   122,   108,   138,
-      98,    99,    68,    39,    69
+      -1,     2,     3,     6,     7,     8,    30,    22,    33,    85,
+      23,    24,    89,    50,    55,    69,    26,    70,    71,   109,
+      73,   104,   105,   126,   151,   152,    74,    75,     9,    31,
+      92,    27,    28,    76,    35,    77,    57,   106,   136,   127,
+      78,    79,    80,    39,    81
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -126
+#define YYPACT_NINF -107
 static const yytype_int16 yypact[] =
 {
-       5,  -126,    22,     5,    11,  -126,  -126,     5,     0,    15,
-       0,  -126,  -126,   102,    27,    31,  -126,  -126,  -126,  -126,
-    -126,  -126,    13,   102,    25,    28,    24,    26,  -126,  -126,
-    -126,    30,    44,    13,  -126,  -126,  -126,    33,  -126,   102,
-    -126,    29,  -126,    55,  -126,    32,  -126,  -126,    45,  -126,
-       0,     6,    32,   104,  -126,    35,    34,  -126,    60,  -126,
-    -126,  -126,    41,  -126,    39,    28,    32,   104,    32,    32,
-    -126,    25,    43,    35,  -126,    82,    82,    13,   104,    82,
-      28,    82,    82,  -126,  -126,    47,     0,  -126,  -126,  -126,
-    -126,  -126,  -126,  -126,   182,  -126,  -126,    82,    14,    82,
-     106,  -126,  -126,   125,   104,   125,   125,  -126,    50,   104,
-    -126,  -126,  -126,  -126,  -126,  -126,  -126,  -126,  -126,  -126,
-      82,    -1,    82,   125,    32,    43,  -126,  -126,   104,    13,
-    -126,   104,  -126,    13,  -126,  -126,    32,  -126,  -126,   144,
-    -126,    35,    82,    28,  -126,    28,  -126,    82,  -126,  -126,
-     144,   104,   104,   163,    35,  -126,  -126,    57,  -126,    82,
-    -126,   104,  -126,    28,   104,  -126
+       7,  -107,    23,     7,     2,  -107,  -107,     7,    25,     8,
+      25,  -107,  -107,   137,    37,    42,  -107,  -107,  -107,  -107,
+    -107,  -107,    27,   137,    33,    38,    40,    41,  -107,  -107,
+    -107,    47,    51,    27,  -107,  -107,  -107,    48,  -107,   137,
+    -107,    44,  -107,    70,  -107,    49,  -107,  -107,    62,  -107,
+      25,     4,    49,   111,  -107,    58,    54,  -107,    78,  -107,
+    -107,  -107,  -107,    49,  -107,  -107,  -107,    68,  -107,    38,
+      66,   111,    50,   204,  -107,  -107,   111,   100,    43,   100,
+      49,    49,  -107,    33,    67,    58,   100,  -107,   100,    27,
+    -107,  -107,   100,  -107,  -107,  -107,  -107,  -107,  -107,  -107,
+    -107,  -107,  -107,  -107,   100,    28,   100,    27,  -107,  -107,
+     147,    49,    67,  -107,   100,   100,  -107,    65,    25,   147,
+     128,  -107,   128,  -107,  -107,    49,  -107,  -107,   166,  -107,
+    -107,    58,   100,   147,   147,  -107,    74,   111,   111,  -107,
+    -107,   100,  -107,  -107,   166,    38,   111,  -107,    27,    80,
+     185,    58,  -107,  -107,  -107,  -107,  -107,   111,   100,  -107,
+    -107,  -107
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-    -126,  -126,  -126,    85,  -126,  -126,  -126,    -6,  -126,  -126,
-    -126,  -126,  -126,  -126,    18,    -5,    78,   -67,   -63,    -4,
-    -126,  -126,  -126,  -126,   -47,  -126,  -126,   119,  -126,  -126,
-    -126,    36,  -126,    -3,   -33,   -42,   -53,   -66,  -125,  -126,
-    -126,  -126,  -126,   -64,  -126
+    -107,  -107,  -107,    93,  -107,  -107,  -107,    -9,  -107,  -107,
+    -107,  -107,  -107,  -107,    19,    -5,    79,   -47,   -91,   -51,
+     -73,  -107,  -107,  -107,  -107,   -54,  -107,  -107,   107,  -107,
+    -107,    32,  -107,    -7,   -33,   -36,   -50,   -63,  -106,  -107,
+    -107,  -107,  -107,   -57,  -107
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -1
-static const yytype_uint8 yytable[] =
+#define YYTABLE_NINF -28
+static const yytype_int16 yytable[] =
 {
-      44,    78,    70,    51,    80,    13,    85,    15,    25,    16,
-      58,   102,    17,    18,   148,     1,   104,    36,    25,   135,
-      86,    18,     5,   136,    79,   156,    81,    82,    16,    12,
-      21,    17,    18,    46,    25,    10,   127,   129,   124,    14,
-      54,    29,   133,    32,   101,    34,    56,    53,    40,    21,
-     128,    38,   130,   131,    42,    43,    41,    45,    48,   142,
-      52,    71,    47,    49,    72,   143,    56,    76,   145,    54,
-     140,    94,   100,    84,   132,   103,   161,   105,   106,   151,
-     107,   152,   141,   109,   157,   158,    74,    87,   149,    83,
-      88,    89,    11,   123,   147,   126,   144,   165,   163,   164,
-     146,   160,    37,    90,    91,    16,    92,    16,    17,    18,
-      17,    18,   162,    49,    19,    20,   134,    93,   139,     4,
-      59,    60,    61,     0,     0,     0,    21,     0,    62,    38,
-       0,     0,   110,    12,   125,     0,    84,     0,   150,     0,
-       0,     0,   111,   112,   113,   114,   115,   116,   117,   118,
-     119,   110,     0,     0,     0,    84,     0,     0,     0,    54,
-       0,   111,   112,   113,   114,   115,   116,   117,   118,   119,
-     110,     0,     0,     0,    84,     0,     0,   107,     0,     0,
-     111,   112,   113,   114,   115,   116,   117,   118,   119,   110,
-     159,     0,     0,    84,     0,     0,     0,     0,     0,   111,
-     112,   113,   114,   115,   116,   117,   118,   119,   110,     0,
-       0,     0,    84,     0,     0,     0,     0,     0,   111,   112,
-     113,   114,   115,   116,   117,   118,   119
+      44,    13,    72,    15,   110,    82,   113,    16,    25,    51,
+      17,    18,    87,   119,    36,   120,    58,     1,    25,   122,
+      72,   117,   142,     5,    90,    72,    10,    86,    21,   107,
+      46,   123,    14,   128,    25,   118,    16,    54,   153,    17,
+      18,   133,   134,    53,   114,   115,    56,   149,   124,   132,
+      18,    29,   125,    12,    32,   155,   121,    21,    34,   144,
+     130,    38,    43,   139,    40,   140,   160,   111,   150,   138,
+      41,    42,    45,    48,   129,   131,    47,    52,    56,    49,
+      83,   143,    84,   145,   146,   150,    72,    72,   154,   141,
+     148,    54,   -27,    88,    91,    72,    94,   135,   147,   157,
+      11,   159,   116,    37,   161,    59,    72,     4,    60,    61,
+     112,   137,     0,     0,    16,   156,    59,    17,    18,    60,
+      61,    65,    66,     0,   108,     0,     0,    62,    63,    64,
+      49,     0,    65,    66,    68,    67,     0,     0,     0,    12,
+      16,    49,     0,    17,    18,    68,     0,     0,     0,    19,
+      20,    38,     0,    93,     0,     0,     0,    94,     0,     0,
+       0,    21,     0,    95,    96,    97,    98,    99,   100,   101,
+     102,   103,    93,     0,     0,     0,    94,     0,     0,     0,
+      54,     0,    95,    96,    97,    98,    99,   100,   101,   102,
+     103,    93,     0,     0,     0,    94,     0,     0,   135,     0,
+       0,    95,    96,    97,    98,    99,   100,   101,   102,   103,
+      93,   158,     0,     0,    94,     0,     0,     0,     0,     0,
+      95,    96,    97,    98,    99,   100,   101,   102,   103,    93,
+       0,     0,     0,    94,     0,     0,     0,     0,     0,    95,
+      96,    97,    98,    99,   100,   101,   102,   103
 };
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-126)))
+  (!!((Yystate) == (-107)))
 
 #define yytable_value_is_error(Yytable_value) \
   YYID (0)
 
 static const yytype_int16 yycheck[] =
 {
-      33,    65,    55,    45,    67,     8,    72,    10,    13,     3,
-      52,    78,     6,     7,   139,    10,    80,    23,    23,    20,
-      73,     7,     0,    24,    66,   150,    68,    69,     3,    29,
-      24,     6,     7,    39,    39,    24,   100,   104,    24,    24,
-      34,    14,   109,    12,    77,    32,    51,    50,    24,    24,
-     103,    23,   105,   106,    24,    11,    30,    24,     3,   125,
-      15,    27,    33,    31,     4,   128,    71,    28,   131,    34,
-     123,    75,    76,    30,    24,    79,    19,    81,    82,   143,
-      33,   145,   124,    86,   151,   152,    45,     5,   141,    71,
-       8,     9,     7,    97,   136,    99,   129,   164,   161,   163,
-     133,   154,    24,    21,    22,     3,    24,     3,     6,     7,
-       6,     7,   159,    31,    12,    13,   120,    35,   122,     0,
-      16,    17,    18,    -1,    -1,    -1,    24,    -1,    24,    23,
-      -1,    -1,    26,    29,    98,    -1,    30,    -1,   142,    -1,
-      -1,    -1,    36,    37,    38,    39,    40,    41,    42,    43,
-      44,    26,    -1,    -1,    -1,    30,    -1,    -1,    -1,    34,
-      -1,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      26,    -1,    -1,    -1,    30,    -1,    -1,    33,    -1,    -1,
-      36,    37,    38,    39,    40,    41,    42,    43,    44,    26,
-      27,    -1,    -1,    30,    -1,    -1,    -1,    -1,    -1,    36,
-      37,    38,    39,    40,    41,    42,    43,    44,    26,    -1,
-      -1,    -1,    30,    -1,    -1,    -1,    -1,    -1,    36,    37,
-      38,    39,    40,    41,    42,    43,    44
+      33,     8,    53,    10,    77,    55,    79,     3,    13,    45,
+       6,     7,    69,    86,    23,    88,    52,    10,    23,    92,
+      71,    84,   128,     0,    71,    76,    24,    63,    24,    76,
+      39,   104,    24,   106,    39,    85,     3,    33,   144,     6,
+       7,   114,   115,    50,    80,    81,    51,   138,    20,   112,
+       7,    14,    24,    28,    12,   146,    89,    24,    31,   132,
+     110,    23,    11,   120,    24,   122,   157,    24,   141,   119,
+      29,    24,    24,     3,   107,   111,    32,    15,    83,    30,
+      26,   131,     4,   133,   134,   158,   137,   138,   145,   125,
+     137,    33,    24,    27,    44,   146,    29,    32,    24,    19,
+       7,   151,    83,    24,   158,     5,   157,     0,     8,     9,
+      78,   118,    -1,    -1,     3,   148,     5,     6,     7,     8,
+       9,    21,    22,    -1,    24,    -1,    -1,    16,    17,    18,
+      30,    -1,    21,    22,    34,    24,    -1,    -1,    -1,    28,
+       3,    30,    -1,     6,     7,    34,    -1,    -1,    -1,    12,
+      13,    23,    -1,    25,    -1,    -1,    -1,    29,    -1,    -1,
+      -1,    24,    -1,    35,    36,    37,    38,    39,    40,    41,
+      42,    43,    25,    -1,    -1,    -1,    29,    -1,    -1,    -1,
+      33,    -1,    35,    36,    37,    38,    39,    40,    41,    42,
+      43,    25,    -1,    -1,    -1,    29,    -1,    -1,    32,    -1,
+      -1,    35,    36,    37,    38,    39,    40,    41,    42,    43,
+      25,    26,    -1,    -1,    29,    -1,    -1,    -1,    -1,    -1,
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    25,
+      -1,    -1,    -1,    29,    -1,    -1,    -1,    -1,    -1,    35,
+      36,    37,    38,    39,    40,    41,    42,    43
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    10,    53,    54,    79,     0,    55,    56,    57,    79,
-      24,    55,    29,    85,    24,    85,     3,     6,     7,    12,
-      13,    24,    59,    62,    63,    67,    68,    83,    84,    14,
-      58,    80,    12,    60,    32,    86,    59,    68,    23,    95,
-      24,    30,    24,    11,    86,    24,    59,    33,     3,    31,
-      65,    87,    15,    85,    34,    66,    67,    88,    87,    16,
-      17,    18,    24,    67,    69,    70,    82,    85,    94,    96,
-      88,    27,     4,    61,    45,    81,    28,    64,    95,    87,
-      70,    87,    87,    66,    30,    89,    88,     5,     8,     9,
-      21,    22,    24,    35,    71,    77,    78,    87,    92,    93,
-      71,    86,    69,    71,    95,    71,    71,    33,    90,    85,
-      26,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      72,    73,    89,    71,    24,    83,    71,    95,    88,    69,
-      88,    88,    24,    69,    71,    20,    24,    74,    91,    71,
-      88,    87,    89,    70,    86,    70,    86,    87,    90,    88,
-      71,    95,    95,    71,    75,    76,    90,    69,    69,    27,
-      88,    19,    76,    70,    95,    69
+       0,    10,    52,    53,    79,     0,    54,    55,    56,    79,
+      24,    54,    28,    84,    24,    84,     3,     6,     7,    12,
+      13,    24,    58,    61,    62,    66,    67,    82,    83,    14,
+      57,    80,    12,    59,    31,    85,    58,    67,    23,    94,
+      24,    29,    24,    11,    85,    24,    58,    32,     3,    30,
+      64,    86,    15,    84,    33,    65,    66,    87,    86,     5,
+       8,     9,    16,    17,    18,    21,    22,    24,    34,    66,
+      68,    69,    70,    71,    77,    78,    84,    86,    91,    92,
+      93,    95,    87,    26,     4,    60,    86,    94,    27,    63,
+      68,    44,    81,    25,    29,    35,    36,    37,    38,    39,
+      40,    41,    42,    43,    72,    73,    88,    68,    24,    70,
+      71,    24,    82,    71,    86,    86,    65,    88,    87,    71,
+      71,    85,    71,    71,    20,    24,    74,    90,    71,    85,
+      87,    86,    88,    71,    71,    32,    89,    84,    87,    94,
+      94,    86,    89,    87,    71,    87,    87,    24,    68,    69,
+      71,    75,    76,    89,    94,    69,    85,    19,    26,    87,
+      69,    76
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1578,222 +1581,222 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 102 "MIPT_Compiler\\Bison\\grammar.y"
+#line 103 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Goal");result = new Goal(ToMCl((yyvsp[(1) - (2)].node)), ToClDecl((yyvsp[(2) - (2)].node))); (yyval.node) = result;}
     break;
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 105 "MIPT_Compiler\\Bison\\grammar.y"
+#line 106 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:MainClass");(yyval.node) = new MainClass(ToFunc((yyvsp[(4) - (5)].node)), new Identifier((yyvsp[(2) - (5)].stringValue))); }
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 108 "MIPT_Compiler\\Bison\\grammar.y"
+#line 109 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasDecl");(yyval.node) = new ClassDeclaration(cdt::EMPTY_TYPE); }
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 109 "MIPT_Compiler\\Bison\\grammar.y"
+#line 110 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasDecl");(yyval.node) = new ClassDeclaration(ToClDecl((yyvsp[(1) - (2)].node)),
 		ToClDecl((yyvsp[(2) - (2)].node)), cdt::LIST_TYPE); }
     break;
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 112 "MIPT_Compiler\\Bison\\grammar.y"
+#line 113 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Class");(yyval.node) = new ClassDeclaration(ToClSt((yyvsp[(1) - (4)].node)),
 		ToClInt((yyvsp[(3) - (4)].node)), cdt::CLASS_TYPE); }
     break;
 
   case 7:
 /* Line 1792 of yacc.c  */
-#line 116 "MIPT_Compiler\\Bison\\grammar.y"
+#line 117 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:ClasStart");(yyval.node) = new ClassStart(new Identifier((yyvsp[(2) - (3)].stringValue)), (yyvsp[(3) - (3)].stringValue));}
     break;
 
   case 8:
 /* Line 1792 of yacc.c  */
-#line 119 "MIPT_Compiler\\Bison\\grammar.y"
+#line 120 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:extend");(yyval.stringValue) = 0; }
     break;
 
   case 9:
 /* Line 1792 of yacc.c  */
-#line 120 "MIPT_Compiler\\Bison\\grammar.y"
+#line 121 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:extend");(yyval.stringValue) = (yyvsp[(2) - (2)].stringValue);}
     break;
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 123 "MIPT_Compiler\\Bison\\grammar.y"
+#line 124 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasInt");(yyval.node) = new ClassInternals(cit::EMPTY_TYPE); }
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 124 "MIPT_Compiler\\Bison\\grammar.y"
+#line 125 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasInt");(yyval.node) = new ClassInternals(ToFunc((yyvsp[(1) - (2)].node)), ToClInt((yyvsp[(2) - (2)].node)), cit::METHOD_TYPE); }
     break;
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 125 "MIPT_Compiler\\Bison\\grammar.y"
+#line 126 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:ClasInt");(yyval.node) = new ClassInternals(ToVar((yyvsp[(1) - (3)].node)), ToClInt((yyvsp[(3) - (3)].node)), cit::MEMBER_TYPE);}
     break;
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 128 "MIPT_Compiler\\Bison\\grammar.y"
+#line 129 "MIPT_Compiler\\Bison\\grammar.y"
     { 
 		 dumpBisonToken("Red:MainFunc");(yyval.node) = new MainMethodDeclaration( ToArg((yyvsp[(6) - (10)].node)), ToState((yyvsp[(9) - (10)].node)) ); }
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 132 "MIPT_Compiler\\Bison\\grammar.y"
+#line 133 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:MainArg");(yyval.node) = new Argument(new Identifier((yyvsp[(4) - (4)].stringValue)), aas::LAST_STATE); }
     break;
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 135 "MIPT_Compiler\\Bison\\grammar.y"
+#line 136 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:function"); (yyval.node) = new MethodDeclaration(ToMod((yyvsp[(1) - (8)].node)),
 				new Identifier((yyvsp[(3) - (8)].stringValue)), ToArg((yyvsp[(4) - (8)].node)), ToState((yyvsp[(6) - (8)].node)), ToExpr((yyvsp[(7) - (8)].node)), ToType((yyvsp[(2) - (8)].node))); }
     break;
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 139 "MIPT_Compiler\\Bison\\grammar.y"
+#line 140 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:public");(yyval.node) = new Modifier(mv::PT_Public); }
     break;
 
   case 17:
 /* Line 1792 of yacc.c  */
-#line 140 "MIPT_Compiler\\Bison\\grammar.y"
+#line 141 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:private");(yyval.node) = new Modifier(mv::PT_Private);}
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 143 "MIPT_Compiler\\Bison\\grammar.y"
+#line 144 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:return"); (yyval.node)=new Expression(ToExpr((yyvsp[(2) - (3)].node)), exst::RETURN_STATE);}
     break;
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 146 "MIPT_Compiler\\Bison\\grammar.y"
+#line 147 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:ArgumentList"); (yyval.node) = new Argument(aas::EMPTY_STATE); }
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 147 "MIPT_Compiler\\Bison\\grammar.y"
+#line 148 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:ArgumentList"); (yyval.node) = (yyvsp[(2) - (3)].node);}
     break;
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 150 "MIPT_Compiler\\Bison\\grammar.y"
+#line 151 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Argument"); (yyval.node) = new Argument(ToVar((yyvsp[(1) - (1)].node)), aas::LAST_STATE); }
     break;
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 151 "MIPT_Compiler\\Bison\\grammar.y"
+#line 152 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Argument"); (yyval.node) = new Argument(ToArg((yyvsp[(3) - (3)].node)), ToVar((yyvsp[(1) - (3)].node)), aas::LIST_STATE); }
     break;
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 154 "MIPT_Compiler\\Bison\\grammar.y"
+#line 155 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("Red:Variable"); (yyval.node) = new VarDeclaration(ToType((yyvsp[(1) - (2)].node)), new Identifier((yyvsp[(2) - (2)].stringValue))); }
     break;
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 157 "MIPT_Compiler\\Bison\\grammar.y"
+#line 158 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::INT_TYPE); }
     break;
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 158 "MIPT_Compiler\\Bison\\grammar.y"
+#line 159 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::INTA_TYPE); }
     break;
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 159 "MIPT_Compiler\\Bison\\grammar.y"
+#line 160 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::BOOL_TYPE); }
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 160 "MIPT_Compiler\\Bison\\grammar.y"
+#line 161 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(new Identifier((yyvsp[(1) - (1)].stringValue)), titt::USER_TYPE); }
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 161 "MIPT_Compiler\\Bison\\grammar.y"
+#line 162 "MIPT_Compiler\\Bison\\grammar.y"
     {  dumpBisonToken("Red:Type");(yyval.node) = new TypeIdentifier(titt::VOID_TYPE); }
     break;
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 164 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Statement"); (yyval.node) = new Statement(ToState(nullptr), sst::EMPTY_TYPE); }
+#line 165 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Statement"); (yyval.node) = new Statement(nullptr, sst::EMPTY_TYPE); }
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 165 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Statement"); (yyval.node) = new Statement(ToState((yyvsp[(1) - (3)].node)), ToState(nullptr), sst::LIST_TYPE); }
+#line 166 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Statement"); (yyval.node) = new Statement(ToState((yyvsp[(1) - (2)].node)), ToState((yyvsp[(2) - (2)].node)), sst::LIST_TYPE); }
     break;
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 168 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToState((yyvsp[(2) - (5)].node)), sst::SHADE_TYPE); }
+#line 169 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Statement"); (yyval.node) = new Statement(ToState((yyvsp[(2) - (3)].node)), ToState(nullptr), sst::SHADE_TYPE); }
     break;
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 169 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (11)].node)), ToState((yyvsp[(5) - (11)].node)), ToState((yyvsp[(7) - (11)].node)), sst::IF_TYPE); }
+#line 170 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (7)].node)), ToState((yyvsp[(5) - (7)].node)), ToState((yyvsp[(7) - (7)].node)), sst::IF_TYPE); }
     break;
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 170 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (7)].node)), ToState((yyvsp[(5) - (7)].node)), sst::WHILE_TYPE); }
+#line 171 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (5)].node)), ToState((yyvsp[(5) - (5)].node)), ToState(nullptr), sst::IF_TYPE); }
     break;
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 171 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (4)].node)), sst::PRINT_TYPE); }
+#line 172 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (5)].node)), ToState((yyvsp[(5) - (5)].node)), sst::WHILE_TYPE); }
     break;
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 172 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (3)].node)), new Identifier((yyvsp[(1) - (3)].stringValue)), sst::ASSIGN_TYPE); }
+#line 173 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (5)].node)), nullptr, sst::PRINT_TYPE); }
     break;
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 173 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToVar((yyvsp[(1) - (1)].node)), sst::VAR_TYPE); }
+#line 174 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToExpr((yyvsp[(3) - (4)].node)), nullptr, ToExpr((yyvsp[(1) - (4)].node)), nullptr, sst::ASSIGN_TYPE); }
     break;
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 178 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), ToBinOp((yyvsp[(2) - (3)].node)), exst::BinaryOperator_STATE);}
+#line 175 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:StatementList"); (yyval.node) = new Statement(ToVar((yyvsp[(1) - (2)].node)), nullptr, sst::VAR_TYPE); }
     break;
 
   case 38:
@@ -1805,282 +1808,288 @@ yyreduce:
   case 39:
 /* Line 1792 of yacc.c  */
 #line 180 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), exst::Length_STATE);}
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToFcall((yyvsp[(3) - (3)].node)), exst::FunctionCall_STATE);}
     break;
 
   case 40:
 /* Line 1792 of yacc.c  */
 #line 181 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToFcall((yyvsp[(3) - (3)].node)), exst::FunctionCall_STATE);}
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(new Identifier((yyvsp[(1) - (1)].stringValue)), exst::ID_STATE);}
     break;
 
   case 41:
 /* Line 1792 of yacc.c  */
 #line 182 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToVal((yyvsp[(1) - (1)].node)), exst::Value_STATE);}
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(exst::This_State);}
     break;
 
   case 42:
 /* Line 1792 of yacc.c  */
-#line 183 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(new Identifier((yyvsp[(1) - (1)].stringValue)), exst::ID_STATE);}
+#line 185 "MIPT_Compiler\\Bison\\grammar.y"
+    { (yyval.node)=nullptr; }
     break;
 
   case 43:
 /* Line 1792 of yacc.c  */
-#line 184 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(exst::This_State);}
+#line 186 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), ToBinOp((yyvsp[(2) - (3)].node)), exst::BinaryOperator_STATE);}
     break;
 
   case 44:
 /* Line 1792 of yacc.c  */
-#line 185 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(4) - (5)].node)), exst::Array_STATE);}
+#line 187 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), exst::Length_STATE);}
     break;
 
   case 45:
 /* Line 1792 of yacc.c  */
-#line 186 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(new Identifier((yyvsp[(2) - (4)].stringValue)), exst::NewObj_STATE);}
+#line 188 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToVal((yyvsp[(1) - (1)].node)), exst::Value_STATE);}
     break;
 
   case 46:
 /* Line 1792 of yacc.c  */
-#line 187 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(exst::Not_STATE); }
+#line 189 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(ToExpr((yyvsp[(4) - (5)].node)), exst::Array_STATE);}
     break;
 
   case 47:
 /* Line 1792 of yacc.c  */
-#line 188 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Expression"); (yyval.node)=(yyvsp[(2) - (3)].node);}
+#line 190 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(new Identifier((yyvsp[(2) - (4)].stringValue)), exst::NewObj_STATE);}
     break;
 
   case 48:
 /* Line 1792 of yacc.c  */
 #line 191 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Plus); }
+    { dumpBisonToken("Red:Expression"); (yyval.node)=new Expression(exst::Not_STATE); }
     break;
 
   case 49:
 /* Line 1792 of yacc.c  */
 #line 192 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Minus); }
+    { dumpBisonToken("Red:Expression"); (yyval.node)=(yyvsp[(2) - (3)].node);}
     break;
 
   case 50:
 /* Line 1792 of yacc.c  */
-#line 193 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Division); }
+#line 195 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Plus); }
     break;
 
   case 51:
 /* Line 1792 of yacc.c  */
-#line 194 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_IntegerDivision); }
+#line 196 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Minus); }
     break;
 
   case 52:
 /* Line 1792 of yacc.c  */
-#line 195 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_And); }
+#line 197 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Division); }
     break;
 
   case 53:
 /* Line 1792 of yacc.c  */
-#line 196 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Or); }
+#line 198 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_IntegerDivision); }
     break;
 
   case 54:
 /* Line 1792 of yacc.c  */
-#line 197 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Multiplication); }
+#line 199 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_And); }
     break;
 
   case 55:
 /* Line 1792 of yacc.c  */
-#line 198 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Less); }
+#line 200 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Or); }
     break;
 
   case 56:
 /* Line 1792 of yacc.c  */
-#line 199 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_More); }
+#line 201 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Multiplication); }
     break;
 
   case 57:
 /* Line 1792 of yacc.c  */
 #line 202 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("Red:Dot");}
+    {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_Less); }
     break;
 
   case 58:
 /* Line 1792 of yacc.c  */
-#line 205 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:functionCall"); (yyval.node)=new FunctionCall(ToExpr((yyvsp[(3) - (4)].node)), new Identifier((yyvsp[(1) - (4)].stringValue))); }
+#line 203 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("Red:BinaryOperator"); (yyval.node)=new BinaryOperator(boot::PT_More); }
     break;
 
   case 59:
 /* Line 1792 of yacc.c  */
-#line 208 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:expressionList"); (yyval.node)=new Expression(exst::Empty_STATE);}
+#line 206 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("Red:Dot");}
     break;
 
   case 60:
 /* Line 1792 of yacc.c  */
 #line 209 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:expresionList"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
+    {  dumpBisonToken("Red:functionCall"); (yyval.node)=new FunctionCall(ToExpr((yyvsp[(3) - (4)].node)), new Identifier((yyvsp[(1) - (4)].stringValue))); }
     break;
 
   case 61:
 /* Line 1792 of yacc.c  */
 #line 212 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:expressions"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
+    {  dumpBisonToken("Red:expressionList"); (yyval.node)=new Expression(exst::Empty_STATE);}
     break;
 
   case 62:
 /* Line 1792 of yacc.c  */
 #line 213 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:expressions"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), exst::List_STATE);}
+    {  dumpBisonToken("Red:expresionList"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
     break;
 
   case 63:
 /* Line 1792 of yacc.c  */
 #line 216 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:value"); (yyval.node)=new Value(true);}
+    {  dumpBisonToken("Red:expressions"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (1)].node)), exst::List_STATE);}
     break;
 
   case 64:
 /* Line 1792 of yacc.c  */
 #line 217 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:value"); (yyval.node)=new Value(false);}
+    {  dumpBisonToken("Red:expressions"); (yyval.node)=new Expression(ToExpr((yyvsp[(1) - (3)].node)), ToExpr((yyvsp[(3) - (3)].node)), exst::List_STATE);}
     break;
 
   case 65:
 /* Line 1792 of yacc.c  */
-#line 218 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("Red:value"); (yyval.node)=new Value((yyvsp[(1) - (1)].integerValue));}
+#line 220 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("Red:value"); (yyval.node)=new Value(true);}
     break;
 
   case 66:
 /* Line 1792 of yacc.c  */
 #line 221 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("this"); }
+    {  dumpBisonToken("Red:value"); (yyval.node)=new Value(false);}
     break;
 
   case 67:
 /* Line 1792 of yacc.c  */
-#line 224 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("class"); }
+#line 222 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("Red:value"); (yyval.node)=new Value((yyvsp[(1) - (1)].integerValue));}
     break;
 
   case 68:
 /* Line 1792 of yacc.c  */
-#line 227 "MIPT_Compiler\\Bison\\grammar.y"
-    { dumpBisonToken("extend"); }
+#line 225 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("this"); }
     break;
 
   case 69:
 /* Line 1792 of yacc.c  */
-#line 230 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("equal"); }
+#line 228 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("class"); }
     break;
 
   case 70:
 /* Line 1792 of yacc.c  */
-#line 233 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("if"); }
+#line 231 "MIPT_Compiler\\Bison\\grammar.y"
+    { dumpBisonToken("extend"); }
     break;
 
   case 71:
 /* Line 1792 of yacc.c  */
-#line 236 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("int"); }
+#line 234 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("equal"); }
     break;
 
   case 72:
 /* Line 1792 of yacc.c  */
-#line 239 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("bool"); }
+#line 237 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("int"); }
     break;
 
   case 73:
 /* Line 1792 of yacc.c  */
-#line 242 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("{"); }
+#line 240 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("bool"); }
     break;
 
   case 74:
 /* Line 1792 of yacc.c  */
-#line 245 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("}"); }
+#line 243 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("{"); }
     break;
 
   case 75:
 /* Line 1792 of yacc.c  */
-#line 248 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("("); }
+#line 246 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("}"); }
     break;
 
   case 76:
 /* Line 1792 of yacc.c  */
-#line 251 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken(")"); }
+#line 249 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("("); }
     break;
 
   case 77:
 /* Line 1792 of yacc.c  */
-#line 254 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("["); }
+#line 252 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken(")"); }
     break;
 
   case 78:
 /* Line 1792 of yacc.c  */
-#line 257 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("]"); }
+#line 255 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("["); }
     break;
 
   case 79:
 /* Line 1792 of yacc.c  */
-#line 260 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("length"); }
+#line 258 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("]"); }
     break;
 
   case 80:
 /* Line 1792 of yacc.c  */
-#line 263 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("new"); }
+#line 261 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("length"); }
     break;
 
   case 81:
 /* Line 1792 of yacc.c  */
-#line 266 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("!"); }
+#line 264 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("new"); }
     break;
 
   case 82:
 /* Line 1792 of yacc.c  */
-#line 269 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("print"); }
+#line 267 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("!"); }
     break;
 
   case 83:
 /* Line 1792 of yacc.c  */
-#line 272 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("semicolon"); }
+#line 270 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("print"); }
     break;
 
   case 84:
 /* Line 1792 of yacc.c  */
-#line 275 "MIPT_Compiler\\Bison\\grammar.y"
+#line 273 "MIPT_Compiler\\Bison\\grammar.y"
+    {  dumpBisonToken("semicolon"); }
+    break;
+
+  case 85:
+/* Line 1792 of yacc.c  */
+#line 276 "MIPT_Compiler\\Bison\\grammar.y"
     { dumpBisonToken("while"); }
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 2084 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
+#line 2093 "MIPT_Compiler/Analyzer/grammar.tab.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2312,5 +2321,5 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 278 "MIPT_Compiler\\Bison\\grammar.y"
+#line 279 "MIPT_Compiler\\Bison\\grammar.y"
 

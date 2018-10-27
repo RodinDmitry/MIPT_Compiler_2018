@@ -8,6 +8,16 @@ void IStatement::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
+void CStatementList::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
+
+void CStatementList::AddStatement(IStatement* statement)
+{
+	statements.push_back(statement);
+}
+
 CVisibilityStatement::CVisibilityStatement(IStatement* _statement) : statement(_statement)
 {
 }

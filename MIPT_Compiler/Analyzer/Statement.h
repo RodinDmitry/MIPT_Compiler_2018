@@ -2,11 +2,21 @@
 
 #include <Tree.h>
 #include <Expressions.h>
+#include <vector>
 
 class IStatement : public ITree
 {
 public:
 	virtual void Accept(IVisitor* visitor) override;
+};
+
+class CStatementList : public ITree
+{
+public:
+	virtual void Accept(IVisitor* visitor) override;
+	void AddStatement(IStatement* statement);
+
+	std::vector<IStatement*> statements;
 };
 
 class CVisibilityStatement : public IStatement {

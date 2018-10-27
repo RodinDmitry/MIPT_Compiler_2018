@@ -48,6 +48,15 @@
     <ClCompile Include="Statement.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
+    <ClCompile Include="Id.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Variable.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -86,6 +95,12 @@
       <Filter>Tree</Filter>
     </ClInclude>
     <ClInclude Include="Statement.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Variable.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Id.h">
       <Filter>Tree</Filter>
     </ClInclude>
   </ItemGroup>

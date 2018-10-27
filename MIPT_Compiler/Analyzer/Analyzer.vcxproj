@@ -122,11 +122,14 @@
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="Expressions.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
+    <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Modifier.cpp" />
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Value.cpp" />
+    <ClCompile Include="Variable.cpp" />
     <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,10 +142,12 @@
     <ClInclude Include="Entities.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="Id.h" />
     <ClInclude Include="Modifier.h" />
     <ClInclude Include="Statement.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Value.h" />
+    <ClInclude Include="Variable.h" />
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

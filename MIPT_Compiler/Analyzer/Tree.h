@@ -20,5 +20,7 @@ public:
 
 
 class IExpression : public ITree {
+public:
+	virtual void Accept(IVisitor* visitor) override;
 
 };

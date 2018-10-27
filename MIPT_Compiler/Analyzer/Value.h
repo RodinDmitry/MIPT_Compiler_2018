@@ -5,6 +5,7 @@
 class IValue : public ITree
 {
 public:
+	virtual void Accept(IVisitor* visitor) override;
 };
 
 class CValue : public IValue

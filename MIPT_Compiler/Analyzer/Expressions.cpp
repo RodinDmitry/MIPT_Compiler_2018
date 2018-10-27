@@ -21,7 +21,7 @@ void CArrayExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-CCallExpression::CCallExpression(IExpression* _caller, IId* _function, IArgumentList* _list) : caller(_caller), function(_function), list(_list) {}
+CCallExpression::CCallExpression(IExpression* _caller, CId* _function, IArgumentList* _list) : caller(_caller), function(_function), list(_list) {}
 
 void CCallExpression::Accept(IVisitor* visitor)
 {
@@ -42,14 +42,14 @@ void CValueExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-CNewArrayExpression::CNewArrayExpression(IId* _id, IExpression* _expression): id(_id), expression(_expression) {}
+CNewArrayExpression::CNewArrayExpression(CId* _id, IExpression* _expression): id(_id), expression(_expression) {}
 
 void CNewArrayExpression::Accept(IVisitor* visitor)
 {
 	visitor->visit( this );
 }
 
-CIdExpression::CIdExpression(IId* _id) : id(_id) {}
+CIdExpression::CIdExpression(CId* _id) : id(_id) {}
 
 void CIdExpression::Accept(IVisitor* visitor)
 {

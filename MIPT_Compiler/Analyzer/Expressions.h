@@ -1,6 +1,12 @@
 #pragma once
 #include <Tree.h>
 
+class CLValueExpression : public IExpression
+{
+public:
+	virtual void Accept(IVisitor* visitor) override;
+};
+
 class CBinaryExpression : public IExpression
 {
 public:
@@ -38,19 +44,17 @@ public:
 	IExpression* index;
 };
 
-
-
-class IId;
+class CId;
 class IArgumentList;
-class CCallExpression : public IExpression
+class CCallExpression : public CLValueExpression
 {
 public:
-	CCallExpression(IExpression* caller, IId* function, IArgumentList* list);
+	CCallExpression(IExpression* caller, CId* function, IArgumentList* list);
 
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* caller;
-	IId* function;
+	CId* function;
 	IArgumentList* list;
 };
 
@@ -79,25 +83,25 @@ public:
 class CNewArrayExpression : public IExpression
 {
 public:
-	CNewArrayExpression(IId* id, IExpression* expression);
+	CNewArrayExpression(CId* id, IExpression* expression);
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IId* id;
+	CId* id;
 	IExpression* expression;
 };
 
-class CIdExpression : public IExpression
+class CIdExpression : public CLValueExpression
 {	
 public:
-	CIdExpression(IId* id);
+	CIdExpression(CId* id);
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IId* id;
+	CId* id;
 };
 
-class CThisExpression : public IExpression
+class CThisExpression : public CLValueExpression
 {
 public:
 	CThisExpression();
@@ -124,4 +128,3 @@ public:
 
 	IExpression* expression;
 };
-

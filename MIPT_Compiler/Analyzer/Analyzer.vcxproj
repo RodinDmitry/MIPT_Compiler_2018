@@ -119,8 +119,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Argument.cpp" />
+    <ClCompile Include="Class.cpp" />
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="Expressions.cpp" />
+    <ClCompile Include="Function.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
@@ -137,10 +140,13 @@
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Argument.h" />
     <ClInclude Include="BisonUtils.h" />
+    <ClInclude Include="Class.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="Expressions.h" />
+    <ClInclude Include="Function.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="Id.h" />
     <ClInclude Include="Modifier.h" />

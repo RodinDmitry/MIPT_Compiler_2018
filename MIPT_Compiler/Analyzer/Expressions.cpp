@@ -1,6 +1,10 @@
 #include <Expressions.h>
 #include <Visitor.h>
 
+void CLValueExpression::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
 
 CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOpeartor _operation):
 	left(_left), right(_right), operation(_operation)
@@ -76,3 +80,4 @@ void CBracketsExpression::Accept(IVisitor* visitor)
 {
 	visitor->visit( this );
 }
+

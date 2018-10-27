@@ -14,7 +14,7 @@ class CStatementList : public ITree
 {
 public:
 	virtual void Accept(IVisitor* visitor) override;
-	void AddStatement(IStatement* statement);
+	void Add(IStatement* statement);
 
 	std::vector<IStatement*> statements;
 };

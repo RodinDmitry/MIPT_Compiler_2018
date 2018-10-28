@@ -5,6 +5,14 @@ static int lastId = 0;
 std::set< ITree* > printerSet;
 std::deque< ITree* > printerStack;
 
+void CPrettyPrinter::visit(CClassDeclaration * cldecl)
+{
+	std::string name = "cdecl" + std::to_string(lastId++);
+	visitIfNotNull(cldecl->name, name);
+	visitIfNotNull(cldecl->extend, name);
+	nodes.push_front(name);
+}
+
 /*void CPrettyPrinter::visit(ITree *)
 {
 	output << "dynamic_cast failed" << std::endl;

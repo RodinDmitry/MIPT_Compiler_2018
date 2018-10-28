@@ -106,28 +106,28 @@ public:
 	virtual void visit(CIdExpression*) = 0;
 	virtual void visit(CThisExpression*) = 0;
 	/////////////////////////
-	virtual void visit(CNotExpression*) = 0;
-	virtual void visit(CBracketsExpression*) = 0;
-	virtual void visit(CReturnExpression*) = 0;
-	virtual void visit(CFunction*) = 0;
-	virtual void visit(CId*) = 0;
-	virtual void visit(CMainArgument*) = 0;
-	virtual void visit(CMainFunction*) = 0;
-	virtual void visit(CMain*) = 0;
-	virtual void visit(CModifier*) = 0;
-	virtual void visit(CProgram*) = 0;
-	virtual void visit(IStatement*) = 0;
-	virtual void visit(CStatementList*) = 0;
-	virtual void visit(CVisibilityStatement*) = 0;
-	virtual void visit(CIfStatement*) = 0;
-	virtual void visit(CWhileStatement*) = 0;
-	virtual void visit(CPrintStatement*) = 0;
-	virtual void visit(CEqualStatement*) = 0;
-	virtual void visit(CVariableStatement*) = 0;
-	virtual void visit(CType*) = 0;
-	virtual void visit(IValue*) = 0;
-	virtual void visit(CValue*) = 0;
-	virtual void visit(CVariable*) = 0;
+	virtual void visit(CNotExpression*) override;
+	virtual void visit(CBracketsExpression*) override;
+	virtual void visit(CReturnExpression*) override;
+	virtual void visit(CFunction*) override;
+	virtual void visit(CId*) override;
+	virtual void visit(CMainArgument*) override;
+	virtual void visit(CMainFunction*) override;
+	virtual void visit(CMain*) override;
+	virtual void visit(CModifier*) override;
+	virtual void visit(CProgram*) override;
+	virtual void visit(IStatement*) override;
+	virtual void visit(CStatementList*) override;
+	virtual void visit(CVisibilityStatement*) override;
+	virtual void visit(CIfStatement*) override;
+	virtual void visit(CWhileStatement*) override;
+	virtual void visit(CPrintStatement*) override;
+	virtual void visit(CEqualStatement*) override;
+	virtual void visit(CVariableStatement*) override;
+	virtual void visit(CType*) override;
+	virtual void visit(IValue*) override;
+	virtual void visit(CValue*) override;
+	virtual void visit(CVariable*) override;
 
 
 private:

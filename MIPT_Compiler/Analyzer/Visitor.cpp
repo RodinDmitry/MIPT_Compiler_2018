@@ -13,6 +13,170 @@ void CPrettyPrinter::visit(CClassDeclaration * cldecl)
 	nodes.push_front(name);
 }
 
+void CPrettyPrinter::visit(CNotExpression * cnotexpr)
+{
+	std::string name = "cnotexpr" + std::to_string(lastId++);
+	visitIfNotNull(cnotexpr->expression, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CBracketsExpression * cbrexpr) 
+{
+	std::string name = "cbrexpr" + std::to_string(lastId++);
+	visitIfNotNull(cbrexpr->expression, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CReturnExpression * cretexpr) 
+{
+	std::string name = "cretexpr" + std::to_string(lastId++);
+	visitIfNotNull(cretexpr->expression, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CFunction * cfunc) 
+{
+	std::string name = "cfunc" + std::to_string(lastId++);
+	visitIfNotNull(cfunc->visibility, name);
+	visitIfNotNull(cfunc->name, name);
+	visitIfNotNull(cfunc->arguments, name);
+	visitIfNotNull(cfunc->body, name);
+	visitIfNotNull(cfunc->returns, name);
+	visitIfNotNull(cfunc->returnExpression, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CId * cid) 
+{
+	std::string name = "cid" + std::to_string(lastId++);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CMainArgument * cmainrg) 
+{
+	std::string name = "cmainarg" + std::to_string(lastId++);
+	visitIfNotNull(cmainrg->name, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CMainFunction * cmainfunc) 
+{
+	std::string name = "cmainfunc" + std::to_string(lastId++);
+	visitIfNotNull(cmainfunc->argument, name);
+	visitIfNotNull(cmainfunc->body, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CMain * cmain)
+{
+	std::string name = "cmain" + std::to_string(lastId++);
+	visitIfNotNull(cmain->name, name);
+	visitIfNotNull(cmain->mainFunction, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CModifier * cmod)
+{
+	std::string name = "cmod" + std::to_string(lastId++);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CProgram * cprogr)
+{
+	std::string name = "cprogr" + std::to_string(lastId++);
+	visitIfNotNull(cprogr->main, name);
+	visitIfNotNull(cprogr->classes, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(IStatement * istat)
+{
+	std::string name = "istat" + std::to_string(lastId++);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CStatementList * cstatlist)
+{
+	std::string name = "cstatlist" + std::to_string(lastId++);
+	for (auto* statement : cstatlist->statements) {
+		visitIfNotNull(statement, name);
+	}
+
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CVisibilityStatement * cvisstat)
+{
+	std::string name = "cvisstat" + std::to_string(lastId++);
+	visitIfNotNull(cvisstat->statement, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CIfStatement * cifstat)
+{
+	std::string name = "cifstat" + std::to_string(lastId++);
+	visitIfNotNull(cifstat->condition, name);
+	visitIfNotNull(cifstat->thenStatement, name);
+	visitIfNotNull(cifstat->elseStatement, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CWhileStatement * cwhstat)
+{
+	std::string name = "cwhstat" + std::to_string(lastId++);
+	visitIfNotNull(cwhstat->condition, name);
+	visitIfNotNull(cwhstat->statement, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CPrintStatement * cprintstat)
+{
+	std::string name = "cprintstat" + std::to_string(lastId++);
+	visitIfNotNull(cprintstat->expression, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CEqualStatement * ceqstat)
+{
+	std::string name = "ceqstat" + std::to_string(lastId++);
+	visitIfNotNull(ceqstat->left, name);
+	visitIfNotNull(ceqstat->right, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CVariableStatement * cvarstat)
+{
+	std::string name = "cvarstat" + std::to_string(lastId++);
+	visitIfNotNull(cvarstat->variable, name);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CType * ctype)
+{
+	std::string name = "ctype" + std::to_string(lastId++);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(IValue * ival)
+{
+	std::string name = "ival" + std::to_string(lastId++);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CValue * cval)
+{
+	std::string name = "cval" + std::to_string(lastId++);
+	nodes.push_front(name);
+}
+
+void CPrettyPrinter::visit(CVariable * cvar)
+{
+	std::string name = "cvar" + std::to_string(lastId++);
+	visitIfNotNull(cvar->type, name);
+	visitIfNotNull(cvar->name, name);
+	nodes.push_front(name);
+}
+
 /*void CPrettyPrinter::visit(ITree *)
 {
 	output << "dynamic_cast failed" << std::endl;

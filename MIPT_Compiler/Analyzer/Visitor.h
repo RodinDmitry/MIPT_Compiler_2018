@@ -87,24 +87,24 @@ public:
 
 	void close();
 
-	virtual void visit(ITree*) = 0;
-	virtual void visit(CArgumentList*) = 0;
-	virtual void visit(CClassDeclaration*) = 0;
-	virtual void visit(CClassInternals*) = 0;
-	virtual void visit(CClassInternalsList*) = 0;
-	virtual void visit(CClass*) = 0;
-	virtual void visit(CClassList*) = 0;
-	virtual void visit(IExpression*) = 0;
-	virtual void visit(CExpressionList*) = 0;
-	virtual void visit(CLValueExpression*) = 0;
-	virtual void visit(CBinaryExpression*) = 0;
-	virtual void visit(CArrayExpression*) = 0;
-	virtual void visit(CCallExpression*) = 0;
-	virtual void visit(CValueExpression*) = 0;
-	virtual void visit(CNewArrayExpression*) = 0;
-	virtual void visit(CNewExpression*) = 0;
-	virtual void visit(CIdExpression*) = 0;
-	virtual void visit(CThisExpression*) = 0;
+	virtual void visit(ITree*) override;
+	virtual void visit(CArgumentList*) override;
+	virtual void visit(CClassDeclaration*) override;
+	virtual void visit(CClassInternals*) override;
+	virtual void visit(CClassInternalsList*) override;
+	virtual void visit(CClass*) override;
+	virtual void visit(CClassList*) override;
+	virtual void visit(IExpression*) override;
+	virtual void visit(CExpressionList*) override;
+	virtual void visit(CLValueExpression*) override;
+	virtual void visit(CBinaryExpression*) override;
+	virtual void visit(CArrayExpression*) override;
+	virtual void visit(CCallExpression*) override;
+	virtual void visit(CValueExpression*) override;
+	virtual void visit(CNewArrayExpression*) override;
+	virtual void visit(CNewExpression*) override;
+	virtual void visit(CIdExpression*) override;
+	virtual void visit(CThisExpression*) override;
 	/////////////////////////
 	virtual void visit(CNotExpression*) = 0;
 	virtual void visit(CBracketsExpression*) = 0;
@@ -156,3 +156,4 @@ inline void CPrettyPrinter::close()
 {
 	output << "}" << std::endl;
 }
+

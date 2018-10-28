@@ -5,7 +5,7 @@ static int lastId = 0;
 std::set< ITree* > printerSet;
 std::deque< ITree* > printerStack;
 
-void CPrettyPrinter::visit(ITree *)
+/*void CPrettyPrinter::visit(ITree *)
 {
 	output << "dynamic_cast failed" << std::endl;
 }
@@ -152,3 +152,4 @@ void CPrettyPrinter::visit(Goal * goal)
 	visitNullable(goal->decls, name);
 	nodes.push_front(name);
 }
+*/

@@ -33,9 +33,6 @@
     <ClCompile Include="Expressions.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Visitor.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Entities.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -69,11 +66,14 @@
     <ClCompile Include="Type.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Programm.cpp">
-      <Filter>Tree</Filter>
-    </ClCompile>
     <ClCompile Include="MainClass.cpp">
       <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor.cpp">
+      <Filter>Visitor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,10 +133,10 @@
     <ClInclude Include="Type.h">
       <Filter>Tree</Filter>
     </ClInclude>
-    <ClInclude Include="Programm.h">
+    <ClInclude Include="MainClass.h">
       <Filter>Tree</Filter>
     </ClInclude>
-    <ClInclude Include="MainClass.h">
+    <ClInclude Include="Program.h">
       <Filter>Tree</Filter>
     </ClInclude>
   </ItemGroup>

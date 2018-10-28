@@ -4,9 +4,9 @@
 #include <Class.h>
 #include <MainClass.h>
 
-class CProgramm : public ITree {
+class CProgram : public ITree {
 public:
-	CProgramm(CMain* main, CClassList* classes);
+	CProgram(CMain* main, CClassList* classes);
 	virtual void Accept(IVisitor* visitor) override;
 
 	CMain* main;

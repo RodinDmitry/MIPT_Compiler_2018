@@ -1582,7 +1582,7 @@ yyreduce:
         case 2:
 /* Line 1792 of yacc.c  */
 #line 103 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CProgramm(To<CMain>((yyvsp[(1) - (2)].node)), To<CClassList>((yyvsp[(2) - (2)].node))); }
+    { (yyval.node) = new CProgram(To<CMain>((yyvsp[(1) - (2)].node)), To<CClassList>((yyvsp[(2) - (2)].node))); }
     break;
 
   case 3:

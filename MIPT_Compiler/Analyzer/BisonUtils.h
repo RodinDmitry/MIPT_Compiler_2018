@@ -8,7 +8,7 @@
 #include <Id.h>
 #include <MainClass.h>
 #include <Modifier.h>
-#include <Programm.h>
+#include <Program.h>
 #include <Statement.h>
 #include <Tree.h>
 #include <Type.h>

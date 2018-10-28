@@ -100,7 +100,7 @@ extern Goal* result;
 
 %%
 
-Goal: MainClass ClassDeclaration { $$ = new CProgramm(To<CMain>($1), To<CClassList>($2)); }  
+Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2)); }  
 ;
 
 MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { $$ = new CMain(new CId($2), To<CMainFunction>($4)); } 

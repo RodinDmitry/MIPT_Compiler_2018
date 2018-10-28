@@ -48,7 +48,7 @@ void CPrettyPrinter::visit(CFunction * cfunc)
 
 void CPrettyPrinter::visit(CId * cid) 
 {
-	std::string name = "cid" + std::to_string(lastId++);
+	std::string name = "cid" + cid->name + std::to_string(lastId++);
 	nodes.push_front(name);
 }
 
@@ -166,6 +166,7 @@ void CPrettyPrinter::visit(IValue * ival)
 void CPrettyPrinter::visit(CValue * cval)
 {
 	std::string name = "cval" + std::to_string(lastId++);
+	name += "_" + std::to_string(cval->value);
 	nodes.push_front(name);
 }
 
@@ -248,17 +249,17 @@ void CPrettyPrinter::visit(CLValueExpression *)
 void CPrettyPrinter::visit(CBinaryExpression * binOp)
 {
 	std::string name = "binOp" + std::to_string(lastId++);
-	switch (binOp->operation) {
-		case CBinaryExpression::O_Plus: name += " +";  break;
-		case CBinaryExpression::O_Minus: name += " -";  break;
-		case CBinaryExpression::O_Division: name += " /";  break;
-		case CBinaryExpression::O_IntegerDivision: name += " %";  break;
-		case CBinaryExpression::O_And: name += " &&";  break;
-		case CBinaryExpression::O_Or: name += " ||";  break;
-		case CBinaryExpression::O_Multiplication: name += " *";  break;
-		case CBinaryExpression::O_Less: name += " <";  break;
-		case CBinaryExpression::O_More: name += " >";  break;
-	}
+	/*switch (binOp->operation) {
+		case CBinaryExpression::O_Plus: name += "+";  break;
+		case CBinaryExpression::O_Minus: name += "-";  break;
+		case CBinaryExpression::O_Division: name += "/";  break;
+		case CBinaryExpression::O_IntegerDivision: name += "%";  break;
+		case CBinaryExpression::O_And: name += "&&";  break;
+		case CBinaryExpression::O_Or: name += "||";  break;
+		case CBinaryExpression::O_Multiplication: name += "*";  break;
+		case CBinaryExpression::O_Less: name += "<";  break;
+		case CBinaryExpression::O_More: name += ">";  break;
+	}*/
 	visitIfNotNull(binOp->left, name);
 	visitIfNotNull(binOp->right, name);
 	nodes.push_front(name);

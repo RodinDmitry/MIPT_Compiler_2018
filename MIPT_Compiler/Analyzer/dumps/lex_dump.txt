@@ -9,6 +9,7 @@ class ID {
  int ID ; 
  boolean ID ; 
  
+ ñomment
  public boolean ID ( int ID , int ID , boolean ID ) { 
  ID = ID ; 
  ID = ID ; 
@@ -28,6 +29,8 @@ class ID {
  return ID ; 
  } 
  
+ ñomment
+ ñomment
  public boolean ID ( ID ID ) { 
  boolean ID ; 
  int ID ; 
@@ -52,6 +55,9 @@ class ID {
  return ID ; 
  } 
  
+ ñomment
+ ñomment
+ ñomment
  public boolean ID ( int ID , int ID ) { 
  boolean ID ; 
  int ID ; 
@@ -70,11 +76,13 @@ class ID {
  ID ID ; 
  boolean ID ; 
  
+ ñomment
  public boolean ID ( ) { 
  ID = true ; 
  return true ; 
  } 
  
+ ñomment
  public boolean ID ( ID ID , ID ID , boolean ID ) { 
  ID = ID ; 
  ID = ID ; 
@@ -82,6 +90,7 @@ class ID {
  return true ; 
  } 
  
+ ñomment
  public ID ID ( ID ID ) { 
  boolean ID ; 
  ID ID ; 
@@ -93,11 +102,13 @@ class ID {
  } 
  
  
+ ñomment
  public boolean ID ( ID ID ) { 
  ID = ID ; 
  return true ; 
  } 
  
+ ñomment
  public ID ID ( ID ID ) { 
  ID ID ; 
  boolean ID ; 
@@ -121,9 +132,11 @@ class ID {
  if ( ID . ID ( ID ) ) { 
  ID = true ; 
  if ( ID < number ) { 
+ ñomment
  ID = ID . ID ( ) ; 
  } 
- else { println ( number - number ) ; 
+ else { ñomment
+ println ( number - number ) ; 
  ID = ID . ID ( ID . ID ( ) ) ; 
  println ( number - number ) ; 
  
@@ -141,6 +154,7 @@ class ID {
  } 
  
  
+ ñomment
  public int ID ( ID ID ) { 
  int ID ; 
  ID ID ; 
@@ -177,6 +191,7 @@ class ID {
  } 
  
  
+ ñomment
  public boolean ID ( ) { 
  ID ID ; 
  boolean ID ; 
@@ -197,6 +212,8 @@ class ID {
  } 
  
  
+ ñomment
+ ñomment
  class ID { 
  
  public int ID ( ) { 
@@ -214,17 +231,20 @@ class ID {
  ID = ID . ID ( ) ; 
  ID = ID . ID ( ) ; 
  
+ ñomment
  ID = new ID ( ) ; 
  ID = ID . ID ( number , number , false ) ; 
  ID = ID . ID ( ID ) ; 
  ID = ID . ID ( ) ; 
  println ( number ) ; 
+ ñomment
  ID = new ID ( ) ; 
  ID = ID . ID ( number , number , true ) ; 
  ID = ID ; 
  ID = ID . ID ( ID ) ; 
  ID = ID . ID ( ) ; 
  println ( number ) ; 
+ ñomment
  ID = new ID ( ) ; 
  ID = ID . ID ( number , number , false ) ; 
  ID = ID . ID ( ID ) ; 
@@ -234,6 +254,7 @@ class ID {
  println ( ID . ID ( ID ) ) ; 
  println ( ID . ID ( ID ) ) ; 
  println ( number ) ; 
+ ñomment
  ID = new ID ( ) ; 
  ID = ID . ID ( number , number , false ) ; 
  ID = ID . ID ( ID ) ; 

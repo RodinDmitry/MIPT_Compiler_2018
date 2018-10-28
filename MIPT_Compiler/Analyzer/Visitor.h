@@ -140,7 +140,7 @@ private:
 
 inline void CPrettyPrinter::visitIfNotNull(ITree* node, std::string& currentNode) {
 	if (node != nullptr) {
-		node->Accept(this);
+		//node->Accept(this);
 		output << currentNode << " -- " << nodes.front() << std::endl;
 		nodes.pop_front();
 		printerSet.erase(node);

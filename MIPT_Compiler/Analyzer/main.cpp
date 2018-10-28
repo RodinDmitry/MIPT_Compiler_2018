@@ -22,11 +22,11 @@ int main() {
 	} while (!feof(stdin));
 	CPrettyPrinter printer("graphs/printer.txt");
 	while (!printerSet.empty()) {
-		ITree* node = printerStack.front();
-		printerStack.pop_front();
+		ITree* node = printerStack.back();
+		printerStack.pop_back();
 		while (printerSet.find(node) == printerSet.end()) {
-			node = printerStack.front();
-			printerStack.pop_front();
+			node = printerStack.back();
+			printerStack.pop_back();
 		}
 		node->Accept(&printer);
 		printerSet.erase(node);

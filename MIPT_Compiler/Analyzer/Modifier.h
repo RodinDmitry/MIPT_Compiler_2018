@@ -1,3 +1,4 @@
+#pragma once
 #include <Tree.h>
 
 class CModifier : public ITree

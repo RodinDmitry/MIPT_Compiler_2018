@@ -177,151 +177,140 @@ void CPrettyPrinter::visit(CVariable * cvar)
 	nodes.push_front(name);
 }
 
-/*void CPrettyPrinter::visit(ITree *)
+void CPrettyPrinter::visit(ITree *)
 {
 	output << "dynamic_cast failed" << std::endl;
 }
 
-void CPrettyPrinter::visit(Modifier *)
+void CPrettyPrinter::visit(CArgumentList *argList)
 {
-	std::string name = "modifier" + std::to_string(lastId++);
+	std::string name = "argList" + std::to_string(lastId++);
+	for (CVariable* arg : argList->arguments) {
+		visitIfNotNull(argList, name);
+	}
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(Value *)
+void CPrettyPrinter::visit(CClassInternals * clInter)
 {
-	std::string name = "value" + std::to_string(lastId++);
+	std::string name = "clInter" + std::to_string(lastId++);
+	visitIfNotNull(clInter->function, name);
+	visitIfNotNull(clInter->variable, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(Identifier * id)
+void CPrettyPrinter::visit(CClassInternalsList * clInterList)
 {
-	std::string name = "id" + id->name + std::to_string(lastId++);
+	std::string name = "clInterList" + std::to_string(lastId++);
+	for (CClassInternals* clInt : clInterList->internals) {
+		visitIfNotNull(clInt, name);
+	}
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(Statement * statement)
+void CPrettyPrinter::visit(CClass * cclass)
 {
-	std::string name = "statement" + std::to_string(lastId++);
-	visitNullable(statement->statement, name);
-	visitNullable(statement->expr1, name);
-	visitNullable(statement->expr2, name);
-	visitNullable(statement->elseState, name);
-	visitNullable(statement->id, name);
-	visitNullable(statement->decl, name);
-	visitNullable(statement->next, name);
+	std::string name = "cclass" + std::to_string(lastId++);
+	visitIfNotNull(cclass->declaration, name);
+	visitIfNotNull(cclass->internals, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(FunctionCall * fcall)
+void CPrettyPrinter::visit(CClassList * clList)
 {
-	std::string name = "fcall" + std::to_string(lastId++);
-	visitNullable(fcall->expr, name);
-	visitNullable(fcall->id, name);
+	std::string name = "clList" + std::to_string(lastId++);
+	for (CClass* cclass : clList->classes) {
+		visitIfNotNull(cclass, name);
+	}
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(BinaryOperator *)
+void CPrettyPrinter::visit(IExpression *)
 {
-	std::string name = "binOperator" + std::to_string(lastId++);
+	output << "dynamic_cast failed" << std::endl;
+}
+
+void CPrettyPrinter::visit(CExpressionList * exprList)
+{
+	std::string name = "exprList" + std::to_string(lastId++);
+	for (auto* iter : exprList->expressions) {
+		visitIfNotNull(iter, name);
+	}
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(Expression *expr)
+void CPrettyPrinter::visit(CLValueExpression *)
 {
-	std::string name = "expression" + std::to_string(lastId++);
-	visitNullable(expr->expr1, name);
-	visitNullable(expr->expr2, name);
-	visitNullable(expr->fcall, name);
-	visitNullable(expr->value, name);
-	visitNullable(expr->id, name);
-	visitNullable(expr->binaryOperator, name);
+	std::string name = "clvalueExpr" + std::to_string(lastId++);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(TypeIdentifier * tid)
+void CPrettyPrinter::visit(CBinaryExpression * binOp)
 {
-	std::string name = "tid" + std::to_string(lastId++);
-	visitNullable(tid->id, name);
+	std::string name = "binOp" + std::to_string(lastId++);
+	switch (binOp->operation) {
+		case CBinaryExpression::O_Plus: name += " +";  break;
+		case CBinaryExpression::O_Minus: name += " -";  break;
+		case CBinaryExpression::O_Division: name += " /";  break;
+		case CBinaryExpression::O_IntegerDivision: name += " %";  break;
+		case CBinaryExpression::O_And: name += " &&";  break;
+		case CBinaryExpression::O_Or: name += " ||";  break;
+		case CBinaryExpression::O_Multiplication: name += " *";  break;
+		case CBinaryExpression::O_Less: name += " <";  break;
+		case CBinaryExpression::O_More: name += " >";  break;
+	}
+	visitIfNotNull(binOp->left, name);
+	visitIfNotNull(binOp->right, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(MainMethodDeclaration *mmdecl)
+void CPrettyPrinter::visit(CArrayExpression * arrayExpr)
 {
-	std::string name = "mmdecl" + std::to_string(lastId++);
-	visitNullable(mmdecl->arguments, name);
-	visitNullable(mmdecl->body, name);
+	std::string name = "arrayExpr" + std::to_string(lastId++);
+	visitIfNotNull(arrayExpr->caller, name);
+	visitIfNotNull(arrayExpr->index, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(MethodDeclaration * mdecl)
+void CPrettyPrinter::visit(CCallExpression * calExpr)
 {
-	std::string name = "mdecl" + std::to_string(lastId++);
-	visitNullable(mdecl->modifier, name);
-	visitNullable(mdecl->name, name);
-	visitNullable(mdecl->arguments, name);
-	visitNullable(mdecl->body, name);
-	visitNullable(mdecl->ret, name);
-	visitNullable(mdecl->retType, name);
+	std::string name = "calExpr" + std::to_string(lastId++);
+	visitIfNotNull(calExpr->caller, name);
+	visitIfNotNull(calExpr->function, name);
+	visitIfNotNull(calExpr->list, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(VarDeclaration * vardecl)
+void CPrettyPrinter::visit(CValueExpression * valueExpr)
 {
-	std::string name = "vardecl" + std::to_string(lastId++);
-	visitNullable(vardecl->type, name);
-	visitNullable(vardecl->id, name);
+	std::string name = "valueExpr" + std::to_string(lastId++);
+	visitIfNotNull(valueExpr->value, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(Argument * arg)
+void CPrettyPrinter::visit(CNewArrayExpression * newArray)
 {
-	std::string name = "arg" + std::to_string(lastId++);
-	visitNullable(arg->arg, name);
-	visitNullable(arg->var, name);
-	visitNullable(arg->id, name);
+	std::string name = "newArray" + std::to_string(lastId++);
+	visitIfNotNull(newArray->expression, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(ClassInternals * cint)
+void CPrettyPrinter::visit(CNewExpression * newExpr)
 {
-	std::string name = "cint" + std::to_string(lastId++);
-	visitNullable(cint->method, name);
-	visitNullable(cint->member, name);
-	visitNullable(cint->next, name);
+	std::string name = "newExpr" + std::to_string(lastId++);
+	visitIfNotNull(newExpr->id, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(ClassStart * cstart)
+void CPrettyPrinter::visit(CIdExpression * idExpr)
 {
-	std::string name = "cstart" + std::to_string(lastId++);
-	visitNullable(cstart->name, name);
+	std::string name = "idExpr" + std::to_string(lastId++);
+	visitIfNotNull(idExpr->id, name);
 	nodes.push_front(name);
 }
 
-void CPrettyPrinter::visit(ClassDeclaration * cldecl)
+void CPrettyPrinter::visit(CThisExpression *)
 {
-	std::string name = "cldecl" + std::to_string(lastId++);
-	visitNullable(cldecl->title, name);
-	visitNullable(cldecl->internals, name);
-	visitNullable(cldecl->first, name);
-	visitNullable(cldecl->next, name);
+	std::string name = "thisExpr" + std::to_string(lastId++);
 	nodes.push_front(name);
 }
-
-void CPrettyPrinter::visit(MainClass * mclass)
-{
-	std::string name = "mclass" + std::to_string(lastId++);
-	visitNullable(mclass->method, name);
-	visitNullable(mclass->name, name);
-	nodes.push_front(name);
-}
-
-void CPrettyPrinter::visit(Goal * goal)
-{
-	std::string name = "goal" + std::to_string(lastId++);
-	visitNullable(goal->mClass, name);
-	visitNullable(goal->decls, name);
-	nodes.push_front(name);
-}
-*/

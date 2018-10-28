@@ -1,5 +1,14 @@
 #pragma once
 #include <Tree.h>
+#include <vector>
+
+class CExpressionList : public ITree {
+public:
+	virtual void Accept(IVisitor* visitor) override;
+	void Add(IExpression* expression);
+
+	std::vector<IExpression*> expressions;
+};
 
 class CLValueExpression : public IExpression
 {
@@ -11,7 +20,7 @@ class CBinaryExpression : public IExpression
 {
 public:
 
-	inline enum TOpeartor {
+	enum TOpeartor {
 		O_Plus,
 		O_Minus,
 		O_Division,
@@ -45,17 +54,17 @@ public:
 };
 
 class CId;
-class IArgumentList;
+class CArgumentList;
 class CCallExpression : public CLValueExpression
 {
 public:
-	CCallExpression(IExpression* caller, CId* function, IArgumentList* list);
+	CCallExpression(CId* caller, CId* function, CArgumentList* list);
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* caller;
+	CId* caller;
 	CId* function;
-	IArgumentList* list;
+	CArgumentList* list;
 };
 
 class CCallLengthExpression : public IExpression
@@ -83,12 +92,21 @@ public:
 class CNewArrayExpression : public IExpression
 {
 public:
-	CNewArrayExpression(CId* id, IExpression* expression);
+	CNewArrayExpression(IExpression* expression);
+
+	virtual void Accept(IVisitor* visitor) override;
+
+	IExpression* expression;
+};
+
+class CNewExpression : public IExpression
+{
+public:
+	CNewExpression(CId* id);
 
 	virtual void Accept(IVisitor* visitor) override;
 
 	CId* id;
-	IExpression* expression;
 };
 
 class CIdExpression : public CLValueExpression
@@ -125,6 +143,14 @@ public:
 	CBracketsExpression(IExpression* expression);
 
 	virtual void Accept(IVisitor* visitor) override;
+
+	IExpression* expression;
+};
+
+class CReturnExpression : public IExpression {
+public:
+	CReturnExpression(IExpression* expression);
+	virtual void Accept(IVisitor* visitior) override;
 
 	IExpression* expression;
 };

@@ -1,6 +1,20 @@
 #pragma once
 #include "Entities.h"
 
+#include <Expressions.h>
+#include <Argument.h>
+#include <Class.h>
+#include <Function.h>
+#include <Id.h>
+#include <MainClass.h>
+#include <Modifier.h>
+#include <Programm.h>
+#include <Statement.h>
+#include <Tree.h>
+#include <Type.h>
+#include <Value.h>
+#include <Variable.h>
+
 using exst = Expression::ExpressionState;
 using boot = BinaryOperator::OperationType;
 using titt = TypeIdentifier::TypeType;

@@ -3,7 +3,7 @@
 class CModifier : public ITree
 {
 public:
-	inline enum TModifierType
+	enum TModifierType
 	{
 		MT_Public,
 		MT_Private,

@@ -1,5 +1,6 @@
 #pragma once
 #include <Tree.h>
+#include <vector>
 
 class CId;
 class CFunction;
@@ -24,11 +25,29 @@ public:
 	CVariable* variable;
 };
 
+class CClassInternalsList : public ITree {
+public:
+	
+	void Add(CClassInternals* item);
+	virtual void Accept(IVisitor* visitor) override;
+
+	std::vector<CClassInternals*> internals;
+};
+
 class CClass : public ITree {
 public:
-	CClass(CClassDeclaration* declaration, CClassInternals* internals);
+	CClass(CClassDeclaration* declaration, CClassInternalsList* internals);
 	virtual void Accept(IVisitor* visitor) override;
 
 	CClassDeclaration* declaration;
-	CClassInternals* internals;
+	CClassInternalsList* internals;
+};
+
+class CClassList : public ITree {
+public:
+
+	void Add(CClass* item);
+	virtual void Accept(IVisitor* visitor) override;
+
+	std::vector<CClass*> classes;
 };

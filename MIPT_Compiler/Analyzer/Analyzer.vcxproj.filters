@@ -66,6 +66,15 @@
     <ClCompile Include="Class.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
+    <ClCompile Include="Type.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Programm.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="MainClass.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -119,6 +128,15 @@
       <Filter>Tree</Filter>
     </ClInclude>
     <ClInclude Include="Function.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Programm.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="MainClass.h">
       <Filter>Tree</Filter>
     </ClInclude>
   </ItemGroup>

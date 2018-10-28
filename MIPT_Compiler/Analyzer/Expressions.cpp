@@ -1,5 +1,7 @@
 #include <Expressions.h>
 #include <Visitor.h>
+#include <Argument.h>
+#include <Id.h>
 
 void CLValueExpression::Accept(IVisitor* visitor)
 {
@@ -25,7 +27,7 @@ void CArrayExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-CCallExpression::CCallExpression(IExpression* _caller, CId* _function, IArgumentList* _list) : caller(_caller), function(_function), list(_list) {}
+CCallExpression::CCallExpression(CId* _caller, CId* _function, CArgumentList* _list) : caller(_caller), function(_function), list(_list) {}
 
 void CCallExpression::Accept(IVisitor* visitor)
 {
@@ -46,7 +48,7 @@ void CValueExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-CNewArrayExpression::CNewArrayExpression(CId* _id, IExpression* _expression): id(_id), expression(_expression) {}
+CNewArrayExpression::CNewArrayExpression(IExpression* _expression): expression(_expression) {}
 
 void CNewArrayExpression::Accept(IVisitor* visitor)
 {
@@ -81,3 +83,30 @@ void CBracketsExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
+void CExpressionList::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
+
+void CExpressionList::Add(IExpression* expression)
+{
+	expressions.push_back(expression);
+}
+
+CNewExpression::CNewExpression(CId* _id) : id(_id)
+{
+}
+
+void CNewExpression::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
+
+CReturnExpression::CReturnExpression(IExpression* _expression) : expression(_expression)
+{
+}
+
+void CReturnExpression::Accept(IVisitor* visitior)
+{
+	visitior->visit(this);
+}

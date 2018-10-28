@@ -127,10 +127,13 @@
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="Modifier.cpp" />
+    <ClCompile Include="Programm.cpp" />
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Type.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="Variable.cpp" />
     <ClCompile Include="Visitor.cpp" />
@@ -149,9 +152,12 @@
     <ClInclude Include="Function.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="Id.h" />
+    <ClInclude Include="MainClass.h" />
     <ClInclude Include="Modifier.h" />
+    <ClInclude Include="Programm.h" />
     <ClInclude Include="Statement.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Type.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="Visitor.h" />

@@ -7,19 +7,7 @@ std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
 Goal* result;
 
-
-int main() {
-	LEX_DUMP = true;
-	BISON_DUMP = true;
-	lexDumpFile.open("dumps/lex_dump.txt", std::ofstream::out);
-	bisonDumpFile.open("dumps/bison_dump.txt", std::ofstream::out);
-	FILE *stream;
-	freopen_s(&stream, "input.txt", "r", stdin);
-	freopen_s(&stream, "output.txt", "w", stdout);
-	yyin = stdin;
-	do {
-		yyparse();
-	} while (!feof(stdin));
+void printLastTree() {
 	CPrettyPrinter printer("graphs/printer.txt");
 	while (!printerSet.empty()) {
 		ITree* node = printerStack.back();
@@ -32,6 +20,28 @@ int main() {
 		printerSet.erase(node);
 	}
 	printer.close();
+}
+
+void processFile(std::string name) {
+	FILE *stream;
+	freopen_s(&stream, name.c_str(), "r", stdin);
+	freopen_s(&stream, "output.txt", "w", stdout);
+	printerSet.clear();
+	printerStack.clear();
+	yyin = stdin;
+	do {
+		yyparse();
+	} while (!feof(stdin));
+	printLastTree();
+}
+
+
+int main(char* argc[], int argv) {
+	LEX_DUMP = true;
+	BISON_DUMP = true;
+	lexDumpFile.open("dumps/lex_dump.txt", std::ofstream::out);
+	bisonDumpFile.open("dumps/bison_dump.txt", std::ofstream::out);
+	processFile("../../Samples/TreeVisitor.java");
 }
 
 void dumpToken(std::string token) {

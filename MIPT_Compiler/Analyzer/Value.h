@@ -11,7 +11,7 @@ public:
 class CValue : public IValue
 {
 public:
-	inline enum TType {
+	enum TType {
 		T_Integer,
 		T_Boolean
 	};

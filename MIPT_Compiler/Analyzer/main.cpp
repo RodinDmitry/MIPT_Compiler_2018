@@ -22,7 +22,23 @@ void printLastTree() {
 	printer.close();
 }
 
-void processFile(std::string name) {
+enum FLAGS {
+	NONE = 0,
+
+	TOKEN_LIST = 1,
+	TREE_OUTPUT = 1 << 1,
+	TEST = 1 << 2,
+
+	ALL = TOKEN_LIST | TREE_OUTPUT | TEST
+};
+
+void processFile(std::string name, int flag) {
+	if (flag ^ TOKEN_LIST == flag) {
+		LEX_DUMP = true;
+		BISON_DUMP = true;
+	}
+
+
 	FILE *stream;
 	freopen_s(&stream, name.c_str(), "r", stdin);
 	freopen_s(&stream, "output.txt", "w", stdout);
@@ -32,16 +48,55 @@ void processFile(std::string name) {
 	do {
 		yyparse();
 	} while (!feof(stdin));
-	printLastTree();
+
+	if (flag ^ TREE_OUTPUT == flag) {
+		printLastTree();
+	}
 }
 
 
-int main(char* argc[], int argv) {
-	LEX_DUMP = true;
-	BISON_DUMP = true;
+void parseArguments(int argc, char* argv[], int& flag, std::string& filePath) {
+	if (argc > 5) {
+		return;
+	}
+	flag = NONE;
+	std::string currArgument;
+	
+	for (int i = 1; i < argc - 1; ++i) {
+		currArgument = argv[i];
+		if (currArgument == "TOKEN_LIST") {
+			flag ^= TOKEN_LIST;
+			continue;
+		}
+		if (currArgument == "TREE_OUTPUT") {
+			flag ^= TREE_OUTPUT;
+			continue;
+		}
+		if (currArgument == "TEST") {
+			flag ^= TEST;
+			continue;
+		}
+	}
+	if (flag == NONE) {
+		flag = TREE_OUTPUT;
+	}
+	filePath = argv[argc - 1];
+}
+
+
+int main(int argc, char* argv[]) {
+	//LEX_DUMP = true;
+	//BISON_DUMP = true;
 	lexDumpFile.open("dumps/lex_dump.txt", std::ofstream::out);
 	bisonDumpFile.open("dumps/bison_dump.txt", std::ofstream::out);
-	processFile("../../Samples/TreeVisitor.java");
+
+	int flag;
+	std::string filePath;
+
+	parseArguments(argc, argv, flag, filePath);
+
+	processFile(filePath, flag);
+	//processFile("../../Samples/TreeVisitor.java");
 }
 
 void dumpToken(std::string token) {

@@ -164,7 +164,15 @@ void CPrettyPrinter::visit(IValue * ival)
 void CPrettyPrinter::visit(CValue * cval)
 {
 	std::string name = "value" + std::to_string(lastId++);
-	name += "_" + std::to_string(cval->value);
+	switch (cval->type) {
+		case cval->T_Integer: 
+			name = "Integer_" + name;
+			break;
+		case cval->T_Boolean: 
+			name = "Boolean_" + name;
+			break;
+	}
+	name = "_" + std::to_string(cval->value) + name;
 	nodes.push_front(name);
 }
 

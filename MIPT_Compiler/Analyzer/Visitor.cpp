@@ -1,9 +1,30 @@
 #include <Visitor.h>
-#include <Entities.h>
 
 static int lastId = 0;
 std::set< ITree* > printerSet;
 std::deque< ITree* > printerStack;
+
+void CPrettyPrinter::visitIfNotNull(ITree* node, std::string& currentNode) {
+	if (node != nullptr) {
+		//node->Accept(this);
+		output << currentNode << " -- " << nodes.front() << std::endl;
+		nodes.pop_front();
+		printerSet.erase(node);
+	}
+}
+
+CPrettyPrinter::CPrettyPrinter(std::string name) {
+	output.open(name, std::ofstream::out);
+	output << "strict graph {" << std::endl;
+}
+
+void CPrettyPrinter::close()
+{
+	for (auto label : labels) {
+		output << label.first << " [ label = \"" << label.second->GetLabel() << "\"]" << std::endl;
+	}
+	output << "}" << std::endl;
+}
 
 void CPrettyPrinter::visit(CClassDeclaration * cldecl)
 {
@@ -11,6 +32,7 @@ void CPrettyPrinter::visit(CClassDeclaration * cldecl)
 	visitIfNotNull(cldecl->name, name);
 	visitIfNotNull(cldecl->extend, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cldecl));
 }
 
 void CPrettyPrinter::visit(CNotExpression * cnotexpr)
@@ -18,6 +40,7 @@ void CPrettyPrinter::visit(CNotExpression * cnotexpr)
 	std::string name = "not_expression" + std::to_string(lastId++);
 	visitIfNotNull(cnotexpr->expression, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cnotexpr));
 }
 
 void CPrettyPrinter::visit(CBracketsExpression * cbrexpr) 
@@ -25,6 +48,7 @@ void CPrettyPrinter::visit(CBracketsExpression * cbrexpr)
 	std::string name = "brackets" + std::to_string(lastId++);
 	visitIfNotNull(cbrexpr->expression, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cbrexpr));
 }
 
 void CPrettyPrinter::visit(CReturnExpression * cretexpr) 
@@ -32,6 +56,7 @@ void CPrettyPrinter::visit(CReturnExpression * cretexpr)
 	std::string name = "return" + std::to_string(lastId++);
 	visitIfNotNull(cretexpr->expression, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cretexpr));
 }
 
 void CPrettyPrinter::visit(CFunction * cfunc) 
@@ -44,12 +69,14 @@ void CPrettyPrinter::visit(CFunction * cfunc)
 	visitIfNotNull(cfunc->returns, name);
 	visitIfNotNull(cfunc->returnExpression, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cfunc));
 }
 
 void CPrettyPrinter::visit(CId * cid) 
 {
 	std::string name = "id_" + cid->name + "_" + std::to_string(lastId++);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cid));
 }
 
 void CPrettyPrinter::visit(CMainArgument * cmainrg) 
@@ -57,6 +84,7 @@ void CPrettyPrinter::visit(CMainArgument * cmainrg)
 	std::string name = "mainArguments" + std::to_string(lastId++);
 	visitIfNotNull(cmainrg->name, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cmainrg));
 }
 
 void CPrettyPrinter::visit(CMainFunction * cmainfunc) 
@@ -65,6 +93,7 @@ void CPrettyPrinter::visit(CMainFunction * cmainfunc)
 	visitIfNotNull(cmainfunc->argument, name);
 	visitIfNotNull(cmainfunc->body, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cmainfunc));
 }
 
 void CPrettyPrinter::visit(CMain * cmain)
@@ -73,12 +102,14 @@ void CPrettyPrinter::visit(CMain * cmain)
 	visitIfNotNull(cmain->name, name);
 	visitIfNotNull(cmain->mainFunction, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cmain));
 }
 
 void CPrettyPrinter::visit(CModifier * cmod)
 {
 	std::string name = "modifier" + std::to_string(lastId++);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cmod));
 }
 
 void CPrettyPrinter::visit(CProgram * cprogr)
@@ -87,6 +118,7 @@ void CPrettyPrinter::visit(CProgram * cprogr)
 	visitIfNotNull(cprogr->main, name);
 	visitIfNotNull(cprogr->classes, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cprogr));
 }
 
 void CPrettyPrinter::visit(IStatement * istat)
@@ -102,6 +134,7 @@ void CPrettyPrinter::visit(CStatementList * cstatlist)
 	}
 
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cstatlist));
 }
 
 void CPrettyPrinter::visit(CVisibilityStatement * cvisstat)
@@ -109,6 +142,7 @@ void CPrettyPrinter::visit(CVisibilityStatement * cvisstat)
 	std::string name = "visibility" + std::to_string(lastId++);
 	visitIfNotNull(cvisstat->statement, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cvisstat));
 }
 
 void CPrettyPrinter::visit(CIfStatement * cifstat)
@@ -118,6 +152,7 @@ void CPrettyPrinter::visit(CIfStatement * cifstat)
 	visitIfNotNull(cifstat->thenStatement, name);
 	visitIfNotNull(cifstat->elseStatement, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cifstat));
 }
 
 void CPrettyPrinter::visit(CWhileStatement * cwhstat)
@@ -126,6 +161,7 @@ void CPrettyPrinter::visit(CWhileStatement * cwhstat)
 	visitIfNotNull(cwhstat->condition, name);
 	visitIfNotNull(cwhstat->statement, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cwhstat));
 }
 
 void CPrettyPrinter::visit(CPrintStatement * cprintstat)
@@ -133,6 +169,7 @@ void CPrettyPrinter::visit(CPrintStatement * cprintstat)
 	std::string name = "print" + std::to_string(lastId++);
 	visitIfNotNull(cprintstat->expression, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cprintstat));
 }
 
 void CPrettyPrinter::visit(CEqualStatement * ceqstat)
@@ -141,6 +178,7 @@ void CPrettyPrinter::visit(CEqualStatement * ceqstat)
 	visitIfNotNull(ceqstat->left, name);
 	visitIfNotNull(ceqstat->right, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, ceqstat));
 }
 
 void CPrettyPrinter::visit(CVariableStatement * cvarstat)
@@ -148,12 +186,14 @@ void CPrettyPrinter::visit(CVariableStatement * cvarstat)
 	std::string name = "varStatement" + std::to_string(lastId++);
 	visitIfNotNull(cvarstat->variable, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cvarstat));
 }
 
 void CPrettyPrinter::visit(CType * ctype)
 {
 	std::string name = "type" + std::to_string(lastId++);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, ctype));
 }
 
 void CPrettyPrinter::visit(IValue * ival)
@@ -166,6 +206,7 @@ void CPrettyPrinter::visit(CValue * cval)
 	std::string name = "value" + std::to_string(lastId++);
 	name += "_" + std::to_string(cval->value);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cval));
 }
 
 void CPrettyPrinter::visit(CVariable * cvar)
@@ -174,6 +215,7 @@ void CPrettyPrinter::visit(CVariable * cvar)
 	visitIfNotNull(cvar->type, name);
 	visitIfNotNull(cvar->name, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cvar));
 }
 
 void CPrettyPrinter::visit(ITree *)
@@ -188,6 +230,7 @@ void CPrettyPrinter::visit(CArgumentList *argList)
 		visitIfNotNull(argList, name);
 	}
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, argList));
 }
 
 void CPrettyPrinter::visit(CClassInternals * clInter)
@@ -196,6 +239,7 @@ void CPrettyPrinter::visit(CClassInternals * clInter)
 	visitIfNotNull(clInter->function, name);
 	visitIfNotNull(clInter->variable, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, clInter));
 }
 
 void CPrettyPrinter::visit(CClassInternalsList * clInterList)
@@ -205,6 +249,7 @@ void CPrettyPrinter::visit(CClassInternalsList * clInterList)
 		visitIfNotNull(clInt, name);
 	}
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, clInterList));
 }
 
 void CPrettyPrinter::visit(CClass * cclass)
@@ -213,6 +258,7 @@ void CPrettyPrinter::visit(CClass * cclass)
 	visitIfNotNull(cclass->declaration, name);
 	visitIfNotNull(cclass->internals, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, cclass));
 }
 
 void CPrettyPrinter::visit(CClassList * clList)
@@ -222,6 +268,7 @@ void CPrettyPrinter::visit(CClassList * clList)
 		visitIfNotNull(cclass, name);
 	}
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, clList));
 }
 
 void CPrettyPrinter::visit(IExpression *)
@@ -236,31 +283,23 @@ void CPrettyPrinter::visit(CExpressionList * exprList)
 		visitIfNotNull(iter, name);
 	}
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, exprList));
 }
 
-void CPrettyPrinter::visit(CLValueExpression *)
+void CPrettyPrinter::visit(CLValueExpression * clvalue)
 {
 	std::string name = "lvalue" + std::to_string(lastId++);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, clvalue));
 }
 
 void CPrettyPrinter::visit(CBinaryExpression * binOp)
 {
 	std::string name = "binaryOperator" + std::to_string(lastId++);
-	/*switch (binOp->operation) {
-		case CBinaryExpression::O_Plus: name += "+";  break;
-		case CBinaryExpression::O_Minus: name += "-";  break;
-		case CBinaryExpression::O_Division: name += "/";  break;
-		case CBinaryExpression::O_IntegerDivision: name += "%";  break;
-		case CBinaryExpression::O_And: name += "&&";  break;
-		case CBinaryExpression::O_Or: name += "||";  break;
-		case CBinaryExpression::O_Multiplication: name += "*";  break;
-		case CBinaryExpression::O_Less: name += "<";  break;
-		case CBinaryExpression::O_More: name += ">";  break;
-	}*/
 	visitIfNotNull(binOp->left, name);
 	visitIfNotNull(binOp->right, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, binOp));
 }
 
 void CPrettyPrinter::visit(CArrayExpression * arrayExpr)
@@ -269,6 +308,7 @@ void CPrettyPrinter::visit(CArrayExpression * arrayExpr)
 	visitIfNotNull(arrayExpr->caller, name);
 	visitIfNotNull(arrayExpr->index, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, arrayExpr));
 }
 
 void CPrettyPrinter::visit(CCallExpression * calExpr)
@@ -278,6 +318,7 @@ void CPrettyPrinter::visit(CCallExpression * calExpr)
 	visitIfNotNull(calExpr->function, name);
 	visitIfNotNull(calExpr->list, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, calExpr));
 }
 
 void CPrettyPrinter::visit(CValueExpression * valueExpr)
@@ -285,6 +326,7 @@ void CPrettyPrinter::visit(CValueExpression * valueExpr)
 	std::string name = "valueExpr" + std::to_string(lastId++);
 	visitIfNotNull(valueExpr->value, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, valueExpr));
 }
 
 void CPrettyPrinter::visit(CNewArrayExpression * newArray)
@@ -292,6 +334,7 @@ void CPrettyPrinter::visit(CNewArrayExpression * newArray)
 	std::string name = "newArray" + std::to_string(lastId++);
 	visitIfNotNull(newArray->expression, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, newArray));
 }
 
 void CPrettyPrinter::visit(CNewExpression * newExpr)
@@ -299,6 +342,7 @@ void CPrettyPrinter::visit(CNewExpression * newExpr)
 	std::string name = "newExpression" + std::to_string(lastId++);
 	visitIfNotNull(newExpr->id, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, newExpr));
 }
 
 void CPrettyPrinter::visit(CIdExpression * idExpr)
@@ -306,10 +350,12 @@ void CPrettyPrinter::visit(CIdExpression * idExpr)
 	std::string name = "idExpression" + std::to_string(lastId++);
 	visitIfNotNull(idExpr->id, name);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, idExpr));
 }
 
-void CPrettyPrinter::visit(CThisExpression *)
+void CPrettyPrinter::visit(CThisExpression * thisExpr)
 {
 	std::string name = "thisExpression" + std::to_string(lastId++);
 	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, thisExpr));
 }

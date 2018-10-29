@@ -15,3 +15,8 @@ void CFunction::Accept(IVisitor * visitor)
 {
 	visitor->visit(this);
 }
+
+std::string CFunction::GetLabel()
+{
+	return  "function" + labelAddings;
+}

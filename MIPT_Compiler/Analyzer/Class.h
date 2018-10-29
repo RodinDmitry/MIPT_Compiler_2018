@@ -13,6 +13,8 @@ public:
 
 	CId* name;
 	CId* extend;
+
+	std::string GetLabel() override;
 };
 
 class CClassInternals : public ITree {
@@ -23,6 +25,8 @@ public:
 
 	CFunction* function;
 	CVariable* variable;
+
+	std::string GetLabel() override;
 };
 
 class CClassInternalsList : public ITree {
@@ -32,6 +36,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::vector<CClassInternals*> internals;
+
+	std::string GetLabel() override;
 };
 
 class CClass : public ITree {
@@ -41,6 +47,8 @@ public:
 
 	CClassDeclaration* declaration;
 	CClassInternalsList* internals;
+
+	std::string GetLabel() override;
 };
 
 class CClassList : public ITree {
@@ -50,4 +58,6 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::vector<CClass*> classes;
+
+	std::string GetLabel() override;
 };

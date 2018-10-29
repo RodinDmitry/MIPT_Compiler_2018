@@ -17,3 +17,8 @@ void CType::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
 }
+
+std::string CType::GetLabel()
+{
+	return "type" + labelAddings;
+}

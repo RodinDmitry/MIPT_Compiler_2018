@@ -10,3 +10,8 @@ void CArgumentList::Add(CVariable* argument)
 {
 	arguments.push_back(argument);
 }
+
+std::string CArgumentList::GetLabel()
+{
+	return  "arguments" + labelAddings;;
+}

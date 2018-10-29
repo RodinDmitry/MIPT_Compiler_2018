@@ -14,3 +14,8 @@ void CValue::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
 }
+
+std::string CValue::GetLabel()
+{
+	return "value" + labelAddings;
+}

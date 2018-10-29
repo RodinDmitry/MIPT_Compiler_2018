@@ -20,4 +20,6 @@ public:
 
 	TVariableType type;
 	std::string instance;
+
+	std::string GetLabel() override;
 };

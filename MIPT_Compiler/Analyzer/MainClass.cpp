@@ -13,6 +13,11 @@ void CMainArgument::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
+std::string CMainArgument::GetLabel()
+{
+	return  "mainArgument" + labelAddings;;
+}
+
 CMainFunction::CMainFunction(CMainArgument* _argument, CStatementList* _body) : argument(_argument), body(_body)
 {
 }
@@ -22,6 +27,11 @@ void CMainFunction::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
+std::string CMainFunction::GetLabel()
+{
+	return  "mainFunc" + labelAddings;;
+}
+
 CMain::CMain(CId* _name, CMainFunction* _mainFunction) : name(_name), mainFunction(_mainFunction)
 {
 }
@@ -29,4 +39,9 @@ CMain::CMain(CId* _name, CMainFunction* _mainFunction) : name(_name), mainFuncti
 void CMain::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
+}
+
+std::string CMain::GetLabel()
+{
+	return  "main" + labelAddings;;
 }

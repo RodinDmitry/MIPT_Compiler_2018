@@ -33,9 +33,6 @@
     <ClCompile Include="Expressions.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Entities.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Value.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
@@ -86,9 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="grammar.tab.h">

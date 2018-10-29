@@ -10,6 +10,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	CId* name;
+
+	std::string GetLabel() override;
 };
 
 class CMainFunction : public ITree {
@@ -20,6 +22,8 @@ public:
 
 	CMainArgument* argument;
 	CStatementList* body;
+
+	std::string GetLabel() override;
 };
 
 class CMain : public ITree {
@@ -30,4 +34,6 @@ public:
 
 	CId* name;
 	CMainFunction* mainFunction;
+
+	std::string GetLabel() override;
 };

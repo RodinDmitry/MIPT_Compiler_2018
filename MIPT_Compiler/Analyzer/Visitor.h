@@ -133,27 +133,9 @@ public:
 private:
 	std::ofstream output;
 	std::deque<std::string> nodes;
+	std::vector< std::pair<std::string, ITree*> > labels;
 
 	void visitIfNotNull(ITree* node, std::string& currentNode);
 };
 
-
-inline void CPrettyPrinter::visitIfNotNull(ITree* node, std::string& currentNode) {
-	if (node != nullptr) {
-		//node->Accept(this);
-		output << currentNode << " -- " << nodes.front() << std::endl;
-		nodes.pop_front();
-		printerSet.erase(node);
-	}
-}
-
-inline CPrettyPrinter::CPrettyPrinter(std::string name) {
-	output.open(name, std::ofstream::out);
-	output << "strict graph {" << std::endl;
-}
-
-inline void CPrettyPrinter::close()
-{
-	output << "}" << std::endl;
-}
 

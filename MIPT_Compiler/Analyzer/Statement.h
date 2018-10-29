@@ -17,6 +17,8 @@ public:
 	void Add(IStatement* statement);
 
 	std::vector<IStatement*> statements;
+
+	std::string GetLabel() override;
 };
 
 class CVisibilityStatement : public IStatement {
@@ -25,6 +27,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IStatement* statement;
+
+	std::string GetLabel() override;
 };
 
 class CIfStatement : public IStatement {
@@ -35,6 +39,8 @@ public:
 	IExpression* condition;
 	IStatement* thenStatement;
 	IStatement* elseStatement;
+
+	std::string GetLabel() override;
 };
 
 class CWhileStatement : public IStatement {
@@ -44,6 +50,8 @@ public:
 
 	IExpression* condition;
 	IStatement* statement;
+
+	std::string GetLabel() override;
 };
 
 class CPrintStatement : public IStatement {
@@ -52,6 +60,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
+
+	std::string GetLabel() override;
 };
 
 class CEqualStatement : public IStatement {
@@ -61,6 +71,8 @@ public:
 
 	CLValueExpression* left;
 	IExpression* right;
+
+	std::string GetLabel() override;
 };
 
 
@@ -71,5 +83,6 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	CVariable* variable;
-	 
+	
+	std::string GetLabel() override;
 };

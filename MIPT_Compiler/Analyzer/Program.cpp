@@ -9,3 +9,8 @@ void CProgram::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
 }
+
+std::string CProgram::GetLabel()
+{
+	return  "program" + labelAddings;;
+}

@@ -21,4 +21,6 @@ public:
 	CStatementList* body;
 	CType* returns;
 	CReturnExpression* returnExpression;
+
+	std::string GetLabel() override;
 };

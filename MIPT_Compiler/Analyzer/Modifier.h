@@ -14,4 +14,6 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	TModifierType type;
+
+	std::string GetLabel() override;
 };

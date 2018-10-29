@@ -12,4 +12,6 @@ public:
 	CMain* main;
 	CClassList* classes;
 
+	std::string GetLabel() override;
+
 };

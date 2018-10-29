@@ -44,7 +44,7 @@ extern int yydebug;
 #line 13 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
-extern Goal* result;
+
 
 
 /* Line 2058 of yacc.c  */

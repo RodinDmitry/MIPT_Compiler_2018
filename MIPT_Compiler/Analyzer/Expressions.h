@@ -8,12 +8,16 @@ public:
 	void Add(IExpression* expression);
 
 	std::vector<IExpression*> expressions;
+
+	std::string GetLabel() override;
 };
 
 class CLValueExpression : public IExpression
 {
 public:
 	virtual void Accept(IVisitor* visitor) override;
+
+	std::string GetLabel() override;
 };
 
 class CBinaryExpression : public IExpression
@@ -40,6 +44,7 @@ public:
 	IExpression* right = nullptr;
 	TOpeartor operation;
 
+	std::string GetLabel() override;
 };
 
 class CArrayExpression : public IExpression
@@ -51,6 +56,8 @@ public:
 
 	IExpression* caller;
 	IExpression* index;
+
+	std::string GetLabel() override;
 };
 
 class CId;
@@ -65,6 +72,8 @@ public:
 	CId* caller;
 	CId* function;
 	CArgumentList* list;
+
+	std::string GetLabel() override;
 };
 
 class CCallLengthExpression : public IExpression
@@ -75,6 +84,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* caller;
+
+	std::string GetLabel() override;
 };
 
 
@@ -87,6 +98,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IValue* value;
+
+	std::string GetLabel() override;
 };
 
 class CNewArrayExpression : public IExpression
@@ -97,6 +110,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
+
+	std::string GetLabel() override;
 };
 
 class CNewExpression : public IExpression
@@ -107,6 +122,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	CId* id;
+
+	std::string GetLabel() override;
 };
 
 class CIdExpression : public CLValueExpression
@@ -117,6 +134,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	CId* id;
+
+	std::string GetLabel() override;
 };
 
 class CThisExpression : public CLValueExpression
@@ -125,6 +144,8 @@ public:
 	CThisExpression();
 
 	virtual void Accept(IVisitor* visitor) override;
+
+	std::string GetLabel() override;
 };
 
 class CNotExpression : public IExpression
@@ -135,6 +156,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
+
+	std::string GetLabel() override;
 };
 
 class CBracketsExpression : public IExpression
@@ -145,6 +168,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
+
+	std::string GetLabel() override;
 };
 
 class CReturnExpression : public IExpression {
@@ -153,4 +178,6 @@ public:
 	virtual void Accept(IVisitor* visitior) override;
 
 	IExpression* expression;
+
+	std::string GetLabel() override;
 };

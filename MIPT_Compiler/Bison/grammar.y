@@ -12,7 +12,7 @@ extern void dumpBisonToken(std::string token);
 
 %code requires {
 #include "../Analyzer/BisonUtils.h"
-extern Goal* result;
+
 }
 
 %union {

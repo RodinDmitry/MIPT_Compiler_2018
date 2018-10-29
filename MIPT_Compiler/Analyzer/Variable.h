@@ -13,4 +13,6 @@ public:
 
 	CType* type;
 	CId* name;
+
+	std::string GetLabel() override;
 };

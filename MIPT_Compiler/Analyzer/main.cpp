@@ -1,11 +1,10 @@
 #include <Defines.h>
-#include <fstream>
+#include <iostream>
 
 std::ofstream lexDumpFile;
 bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
-Goal* result;
 
 void printLastTree() {
 	CPrettyPrinter printer("graphs/printer.txt");
@@ -41,7 +40,7 @@ int main(char* argc[], int argv) {
 	BISON_DUMP = true;
 	lexDumpFile.open("dumps/lex_dump.txt", std::ofstream::out);
 	bisonDumpFile.open("dumps/bison_dump.txt", std::ofstream::out);
-	processFile("../../Samples/TreeVisitor.java");
+	processFile("../../Samples/Factorial.java");
 }
 
 void dumpToken(std::string token) {

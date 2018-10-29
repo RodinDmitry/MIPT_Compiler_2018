@@ -10,4 +10,9 @@ void CVariable::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
+std::string CVariable::GetLabel()
+{
+	return "variable" + labelAddings;
+}
+
 

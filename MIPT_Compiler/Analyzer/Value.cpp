@@ -17,5 +17,12 @@ void CValue::Accept(IVisitor* visitor)
 
 std::string CValue::GetLabel()
 {
-	return "value" + labelAddings;
+	std::string name;
+	if (type == T_Boolean) {
+		name = value ? "true" : "false";
+	}
+	else {
+		name = std::to_string(value);
+	}
+	return name + labelAddings;
 }

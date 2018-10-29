@@ -4,9 +4,18 @@ static int lastId = 0;
 std::set< ITree* > printerSet;
 std::deque< ITree* > printerStack;
 
-void CPrettyPrinter::visitIfNotNull(ITree* node, std::string& currentNode) {
+void CPrettyPrinter::visitIfNotNull(ITree* node, std::string currentNode) {
 	if (node != nullptr) {
-		//node->Accept(this);
+		output << currentNode << " -- " << nodes.front() << std::endl;
+		nodes.pop_front();
+		printerSet.erase(node);
+	}
+}
+
+void CPrettyPrinter::visitIfNotNull(ITree * node, std::string currentNode, std::string adding)
+{
+	if (node != nullptr) {
+		node->AddToLabel(adding);
 		output << currentNode << " -- " << nodes.front() << std::endl;
 		nodes.pop_front();
 		printerSet.erase(node);
@@ -148,9 +157,9 @@ void CPrettyPrinter::visit(CVisibilityStatement * cvisstat)
 void CPrettyPrinter::visit(CIfStatement * cifstat)
 {
 	std::string name = "if" + std::to_string(lastId++);
-	visitIfNotNull(cifstat->condition, name);
-	visitIfNotNull(cifstat->thenStatement, name);
-	visitIfNotNull(cifstat->elseStatement, name);
+	visitIfNotNull(cifstat->condition, name, " (condition)");
+	visitIfNotNull(cifstat->thenStatement, name, " (then)");
+	visitIfNotNull(cifstat->elseStatement, name, " (else)");
 	nodes.push_front(name);
 	labels.push_back(std::make_pair(name, cifstat));
 }
@@ -158,7 +167,7 @@ void CPrettyPrinter::visit(CIfStatement * cifstat)
 void CPrettyPrinter::visit(CWhileStatement * cwhstat)
 {
 	std::string name = "while" + std::to_string(lastId++);
-	visitIfNotNull(cwhstat->condition, name);
+	visitIfNotNull(cwhstat->condition, name, " (condition)");
 	visitIfNotNull(cwhstat->statement, name);
 	nodes.push_front(name);
 	labels.push_back(std::make_pair(name, cwhstat));
@@ -204,7 +213,15 @@ void CPrettyPrinter::visit(IValue * ival)
 void CPrettyPrinter::visit(CValue * cval)
 {
 	std::string name = "value" + std::to_string(lastId++);
-	name += "_" + std::to_string(cval->value);
+	switch (cval->type) {
+		case cval->T_Integer: 
+			name = "Integer_" + name;
+			break;
+		case cval->T_Boolean: 
+			name = "Boolean_" + name;
+			break;
+	}
+	name = "_" + std::to_string(cval->value) + name;
 	nodes.push_front(name);
 	labels.push_back(std::make_pair(name, cval));
 }

@@ -20,5 +20,13 @@ void CType::Accept(IVisitor* visitor)
 
 std::string CType::GetLabel()
 {
-	return "type" + labelAddings;
+	std::string name;
+	switch (type) {
+		case VT_Integer: name = "int"; break;
+		case VT_IntegerArray: name = "int"; break;
+		case VT_Boolean: name = "int"; break;
+		case VT_Instance: name = "int"; break;
+		case VT_Void: name = "int"; break;
+	}
+	return name + labelAddings;
 }

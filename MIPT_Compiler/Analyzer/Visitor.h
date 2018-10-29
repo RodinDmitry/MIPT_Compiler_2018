@@ -135,7 +135,8 @@ private:
 	std::deque<std::string> nodes;
 	std::vector< std::pair<std::string, ITree*> > labels;
 
-	void visitIfNotNull(ITree* node, std::string& currentNode);
+	void visitIfNotNull(ITree* node, std::string currentNode);
+	void visitIfNotNull(ITree* node, std::string currentNode, std::string adding);
 };
 
 

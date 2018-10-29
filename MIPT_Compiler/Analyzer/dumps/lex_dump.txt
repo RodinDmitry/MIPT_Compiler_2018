@@ -1,18 +1,374 @@
-class ID { 
+ñomment
+ ñomment
+ ñomment
+ 
+ class ID { 
  public static void main ( String [ ] ID ) { 
- println ( new ID ( ) . ID ( number ) ) ; 
+ println ( new ID ( ) . ID ( ) ) ; 
  } 
  } 
  
  class ID { 
  
- public int ID ( int ID ) { 
+ public int ID ( ) { 
+ ID ID ; 
+ boolean ID ; 
  int ID ; 
- if ( ID < number ) 
- ID = number ; 
- else 
- ID = ID * ( this . ID ( ID - number ) ) ; 
+ ID ID ; 
+ 
+ ID = new ID ( ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( ) ; 
+ println ( number ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( ) ; 
+ println ( number ) ; 
+ ID = new ID ( ) ; 
+ println ( number ) ; 
+ ID = ID . ID ( ID ) ; 
+ println ( number ) ; 
+ println ( ID . ID ( number ) ) ; 
+ println ( ID . ID ( number ) ) ; 
+ println ( ID . ID ( number ) ) ; 
+ println ( ID . ID ( number ) ) ; 
+ println ( ID . ID ( number ) ) ; 
+ ID = ID . ID ( number ) ; 
+ ID = ID . ID ( ) ; 
+ println ( ID . ID ( number ) ) ; 
+ 
+ return number ; 
+ } 
+ 
+ } 
+ 
+ 
+ class ID { 
+ ID ID ; 
+ ID ID ; 
+ int ID ; 
+ boolean ID ; 
+ boolean ID ; 
+ ID ID ; 
+ 
+ 
+ 
+ ñomment
+ ñomment
+ ñomment
+ 
+ ñomment
+ ñomment
+ ñomment
+ ñomment
+ ñomment
+ ñomment
+ ñomment
+ ñomment
+ ñomment
+ 
+ public boolean ID ( int ID ) { 
+ ID = ID ; 
+ ID = false ; 
+ ID = false ; 
+ return true ; 
+ } 
+ 
+ public boolean ID ( ID ID ) { 
+ ID = ID ; 
+ return true ; 
+ } 
+ 
+ public boolean ID ( ID ID ) { 
+ ID = ID ; 
+ return true ; 
+ } 
+ 
+ public ID ID ( ) { 
  return ID ; 
+ } 
+ 
+ public ID ID ( ) { 
+ return ID ; 
+ } 
+ 
+ public int ID ( ) { 
+ return ID ; 
+ } 
+ 
+ public boolean ID ( int ID ) { 
+ ID = ID ; 
+ return true ; 
+ } 
+ 
+ public boolean ID ( ) { 
+ return ID ; 
+ } 
+ 
+ public boolean ID ( ) { 
+ return ID ; 
+ } 
+ 
+ public boolean ID ( boolean ID ) { 
+ ID = ID ; 
+ return true ; 
+ } 
+ 
+ public boolean ID ( boolean ID ) { 
+ ID = ID ; 
+ return true ; 
+ } 
+ 
+ public boolean ID ( int ID , int ID ) { 
+ boolean ID ; 
+ int ID ; 
+ 
+ ID = false ; 
+ ID = ID + number ; 
+ if ( ID < ID ) ID = false ; 
+ else if ( ! ( ID < ID ) ) ID = false ; 
+ else ID = true ; 
+ return ID ; 
+ } 
+ 
+ public boolean ID ( int ID ) { 
+ ID ID ; 
+ boolean ID ; 
+ ID ID ; 
+ boolean ID ; 
+ int ID ; 
+ 
+ ID = new ID ( ) ; 
+ ID = ID . ID ( ID ) ; 
+ ID = this ; 
+ ID = true ; 
+ while ( ID ) { 
+ ID = ID . ID ( ) ; 
+ if ( ID < ID ) { 
+ if ( ID . ID ( ) ) 
+ ID = ID . ID ( ) ; 
+ else { 
+ ID = false ; 
+ ID = ID . ID ( true ) ; 
+ ID = ID . ID ( ID ) ; 
+ } 
+ } 
+ else { 
+ if ( ID . ID ( ) ) 
+ ID = ID . ID ( ) ; 
+ else { 
+ ID = false ; 
+ ID = ID . ID ( true ) ; 
+ ID = ID . ID ( ID ) ; 
+ } 
+ } 
+ } 
+ return true ; 
+ } 
+ 
+ public boolean ID ( int ID ) { 
+ ID ID ; 
+ ID ID ; 
+ boolean ID ; 
+ boolean ID ; 
+ boolean ID ; 
+ boolean ID ; 
+ int ID ; 
+ 
+ ID = this ; 
+ ID = this ; 
+ ID = true ; 
+ ID = false ; 
+ ID = true ; 
+ while ( ID ) { 
+ ID = ID . ID ( ) ; 
+ if ( ID < ID ) 
+ if ( ID . ID ( ) ) { 
+ ID = ID ; 
+ ID = ID . ID ( ) ; 
+ } 
+ else ID = false ; 
+ else 
+ if ( ID < ID ) 
+ if ( ID . ID ( ) ) { 
+ ID = ID ; 
+ ID = ID . ID ( ) ; 
+ } 
+ else ID = false ; 
+ else { 
+ if ( ID ) 
+ if ( ! ID . ID ( ) && 
+ ! ID . ID ( ) ) 
+ ID = true ; 
+ else 
+ ID = this . ID ( ID , ID ) ; 
+ else ID = this . ID ( ID , ID ) ; 
+ ID = true ; 
+ ID = false ; 
+ } 
+ ID = false ; 
+ } 
+ return ID ; 
+ } 
+ 
+ public boolean ID ( ID ID , ID ID ) { 
+ boolean ID ; 
+ int ID ; 
+ int ID ; 
+ 
+ if ( ID . ID ( ) ) 
+ ID = this . ID ( ID , ID ) ; 
+ else 
+ if ( ID . ID ( ) ) 
+ ID = this . ID ( ID , ID ) ; 
+ else { 
+ ID = ID . ID ( ) ; 
+ ID = ( ID . ID ( ) ) . ID ( ) ; 
+ if ( this . ID ( ID , ID ) ) { 
+ ID = ID . ID ( ID ) ; 
+ ID = ID . ID ( false ) ; 
+ } 
+ else { 
+ ID = ID . ID ( ID ) ; 
+ ID = ID . ID ( false ) ; 
+ } 
+ } 
+ return true ; 
+ } 
+ 
+ public boolean ID ( ID ID , ID ID ) { 
+ boolean ID ; 
+ while ( ID . ID ( ) ) { 
+ ID = ID . ID ( ( ID . ID ( ) ) . ID ( ) ) ; 
+ ID = ID ; 
+ ID = ID . ID ( ) ; 
+ } 
+ ID = ID . ID ( ID ) ; 
+ ID = ID . ID ( false ) ; 
+ return true ; 
+ } 
+ 
+ public boolean ID ( ID ID , ID ID ) { 
+ boolean ID ; 
+ while ( ID . ID ( ) ) { 
+ ID = ID . ID ( ( ID . ID ( ) ) . ID ( ) ) ; 
+ ID = ID ; 
+ ID = ID . ID ( ) ; 
+ } 
+ ID = ID . ID ( ID ) ; 
+ ID = ID . ID ( false ) ; 
+ return true ; 
+ } 
+ 
+ 
+ public int ID ( int ID ) { 
+ ID ID ; 
+ int ID ; 
+ boolean ID ; 
+ int ID ; 
+ 
+ ID = this ; 
+ ID = true ; 
+ ID = number ; 
+ while ( ID ) { 
+ ID = ID . ID ( ) ; 
+ if ( ID < ID ) 
+ if ( ID . ID ( ) ) 
+ ID = ID . ID ( ) ; 
+ else ID = false ; 
+ else 
+ if ( ID < ID ) 
+ if ( ID . ID ( ) ) 
+ ID = ID . ID ( ) ; 
+ else ID = false ; 
+ else { 
+ ID = number ; 
+ ID = false ; 
+ } 
+ } 
+ return ID ; 
+ } 
+ 
+ public boolean ID ( ) { 
+ boolean ID ; 
+ ID ID ; 
+ 
+ ID = this ; 
+ ID = this . ID ( ID ) ; 
+ return true ; 
+ } 
+ 
+ public boolean ID ( ID ID ) { 
+ boolean ID ; 
+ 
+ if ( ID . ID ( ) ) { 
+ ID = this . ID ( ID . ID ( ) ) ; 
+ } else ID = true ; 
+ println ( ID . ID ( ) ) ; 
+ if ( ID . ID ( ) ) { 
+ ID = this . ID ( ID . ID ( ) ) ; 
+ } else ID = true ; 
+ return true ; 
+ } 
+ 
+ public int ID ( ID ID ) { 
+ int ID ; 
+ 
+ println ( number ) ; 
+ ID = ID . ID ( this ) ; 
+ return number ; 
+ } 
+ 
+ } 
+ 
+ 
+ 
+ class ID { 
+ ID ID ; 
+ ID ID ; 
+ 
+ public int ID ( ID ID ) { 
+ int ID ; 
+ 
+ if ( ID . ID ( ) ) { 
+ ID = ID . ID ( ) ; 
+ ID = ID . ID ( this ) ; } 
+ else ID = number ; 
+ 
+ if ( ID . ID ( ) ) { 
+ ID = ID . ID ( ) ; 
+ ID = ID . ID ( this ) ; } 
+ else ID = number ; 
+ 
+ return number ; 
+ } 
+ 
+ } 
+ 
+ 
+ class ID extends ID { 
+ 
+ public int ID ( ID ID ) { 
+ int ID ; 
+ 
+ if ( ID . ID ( ) ) { 
+ ID = ID . ID ( ) ; 
+ ID = ID . ID ( this ) ; } 
+ else ID = number ; 
+ 
+ println ( ID . ID ( ) ) ; 
+ 
+ if ( ID . ID ( ) ) { 
+ ID = ID . ID ( ) ; 
+ ID = ID . ID ( this ) ; } 
+ else ID = number ; 
+ 
+ return number ; 
  } 
  
  } 

@@ -25,7 +25,8 @@ void CBinaryExpression::Accept(IVisitor* visitor)
 
 std::string CBinaryExpression::GetLabel()
 {
-	/*switch (binOp->operation) {
+	std::string name;
+	switch (operation) {
 		case CBinaryExpression::O_Plus: name += "+";  break;
 		case CBinaryExpression::O_Minus: name += "-";  break;
 		case CBinaryExpression::O_Division: name += "/";  break;
@@ -35,8 +36,8 @@ std::string CBinaryExpression::GetLabel()
 		case CBinaryExpression::O_Multiplication: name += "*";  break;
 		case CBinaryExpression::O_Less: name += "<";  break;
 		case CBinaryExpression::O_More: name += ">";  break;
-	}*/
-	return  "binaryExpression" + labelAddings;
+	}
+	return  name + labelAddings;
 }
 
 CArrayExpression::CArrayExpression(IExpression* _caller, IExpression* _index): caller(_caller), index(_index)

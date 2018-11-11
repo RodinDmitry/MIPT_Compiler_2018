@@ -14,3 +14,15 @@ void CValue::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
 }
+
+std::string CValue::GetLabel()
+{
+	std::string name;
+	if (type == T_Boolean) {
+		name = value ? "true" : "false";
+	}
+	else {
+		name = std::to_string(value);
+	}
+	return name + labelAddings;
+}

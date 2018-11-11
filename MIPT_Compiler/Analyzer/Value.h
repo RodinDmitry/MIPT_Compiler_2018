@@ -11,7 +11,7 @@ public:
 class CValue : public IValue
 {
 public:
-	inline enum TType {
+	enum TType {
 		T_Integer,
 		T_Boolean
 	};
@@ -21,4 +21,6 @@ public:
 
 	int value;
 	TType type;
+
+	std::string GetLabel() override;
 };

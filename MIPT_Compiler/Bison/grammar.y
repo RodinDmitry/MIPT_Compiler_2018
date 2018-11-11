@@ -12,7 +12,7 @@ extern void dumpBisonToken(std::string token);
 
 %code requires {
 #include "../Analyzer/BisonUtils.h"
-extern Goal* result;
+
 }
 
 %union {
@@ -55,7 +55,7 @@ extern Goal* result;
 
 %type<node> ValueT
 %type<node> Expression
-%type<node> BinaryOperator
+%type<integerValue> BinaryOperator
 %type<node> FunctionCall
 %type<node> Expressions
 %type<node> ExpressionList
@@ -100,126 +100,123 @@ extern Goal* result;
 
 %%
 
-Goal: MainClass ClassDeclaration {  dumpBisonToken("Red:Goal");result = new Goal(ToMCl($1), ToClDecl($2)); $$ = result;}  
+Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2)); }  
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace {  dumpBisonToken("Red:MainClass");$$ = new MainClass(ToFunc($4), new Identifier($2)); } 
+MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { $$ = new CMain(new CId($2), To<CMainFunction>($4)); } 
 ;
 
-ClassDeclaration: {  dumpBisonToken("Red:ClasDecl");$$ = new ClassDeclaration(cdt::EMPTY_TYPE); }
-	| Class ClassDeclaration {  dumpBisonToken("Red:ClasDecl");$$ = new ClassDeclaration(ToClDecl($1),
-		ToClDecl($2), cdt::LIST_TYPE); }
+ClassDeclaration: { $$ = new CClassList(); }
+	| Class ClassDeclaration { To<CClassList>($2)->Add(To<CClass>($1)); $$ = $2; }
 
-Class: ClassStart LeftBrace ClassInternals RightBrace {  dumpBisonToken("Red:Class");$$ = new ClassDeclaration(ToClSt($1),
-		ToClInt($3), cdt::CLASS_TYPE); }
+Class: ClassStart LeftBrace ClassInternals RightBrace { $$ = new CClass(To<CClassDeclaration>($1), To<CClassInternalsList>($3));}
 ;
 
-ClassStart: ClassWord PT_ID Extends { dumpBisonToken("Red:ClasStart");$$ = new ClassStart(new Identifier($2), $3);}
+ClassStart: ClassWord PT_ID Extends { $$ = new CClassDeclaration(new CId($2), new CId($3)); }
 ;
 
-Extends: {  dumpBisonToken("Red:extend");$$ = 0; }
-	| ExtendsWord PT_ID { dumpBisonToken("Red:extend");$$ = $2;}
+Extends: { $$ = nullptr; }
+	| ExtendsWord PT_ID { $$ = $2;}
 ;
 
-ClassInternals: {  dumpBisonToken("Red:ClasInt");$$ = new ClassInternals(cit::EMPTY_TYPE); }
-	| Function ClassInternals {  dumpBisonToken("Red:ClasInt");$$ = new ClassInternals(ToFunc($1), ToClInt($2), cit::METHOD_TYPE); }
-	| Variable Semicolon ClassInternals {  dumpBisonToken("Red:ClasInt");$$ = new ClassInternals(ToVar($1), ToClInt($3), cit::MEMBER_TYPE);}
+ClassInternals: {  $$ = new CClassInternalsList(); }
+	| Function ClassInternals { To<CClassInternalsList>($2)->Add(new CClassInternals(To<CFunction>($1))); $$ = $2;}
+	| Variable Semicolon ClassInternals { To<CClassInternalsList>($3)->Add(new CClassInternals(To<CVariable>($1))); $$ = $3;}
 ;
 
 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace { 
-		 dumpBisonToken("Red:MainFunc");$$ = new MainMethodDeclaration( ToArg($6), ToState($9) ); }
+		 $$ = new CMainFunction(To<CMainArgument>($6), To<CStatementList>($9)); }
 ;
 
-MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  dumpBisonToken("Red:MainArg");$$ = new Argument(new Identifier($4), aas::LAST_STATE); }
+MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  $$ = new CMainArgument(new CId($4)); }
 ;
 
-Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace {  dumpBisonToken("Red:function"); $$ = new MethodDeclaration(ToMod($1),
-				new Identifier($3), ToArg($4), ToState($6), ToExpr($7), ToType($2)); }
+Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace { $$ = new CFunction(To<CModifier>($1), new CId($3), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnExpression>($7)); }
 ;
 
-Visibility: PT_Public {  dumpBisonToken("Red:public");$$ = new Modifier(mv::PT_Public); }
-	| PT_Private {  dumpBisonToken("Red:private");$$ = new Modifier(mv::PT_Private);}
+Visibility: PT_Public { $$ = new CModifier(CModifier::MT_Public); }
+	| PT_Private { $$ = new CModifier(CModifier::MT_Private); }
 ;
 
-Return: PT_Return Expression Semicolon {  dumpBisonToken("Red:return"); $$=new Expression(ToExpr($2), exst::RETURN_STATE);}
+Return: PT_Return Expression Semicolon { $$ = new CReturnExpression(To<IExpression>($2)); }
 ;
 
-ArgumentsList: LeftRoundBracket RightRoundBracket { dumpBisonToken("Red:ArgumentList"); $$ = new Argument(aas::EMPTY_STATE); }
-	| LeftRoundBracket Argument RightRoundBracket { dumpBisonToken("Red:ArgumentList"); $$ = $2;}
+ArgumentsList: LeftRoundBracket RightRoundBracket { $$ = new CArgumentList(); }
+	| LeftRoundBracket Argument RightRoundBracket { $$ = $2;}
 ;
 
-Argument : Variable { dumpBisonToken("Red:Argument"); $$ = new Argument(ToVar($1), aas::LAST_STATE); }
-	| Variable PT_Coma Argument { dumpBisonToken("Red:Argument"); $$ = new Argument(ToArg($3), ToVar($1), aas::LIST_STATE); }
+Argument : Variable { $$ = new CArgumentList(); To<CArgumentList>($$)->Add(To<CVariable>($1));}
+	| Variable PT_Coma Argument {  To<CArgumentList>($3)->Add(To<CVariable>($1)); $$ = $3; }
 ;
 
-Variable: Type PT_ID { dumpBisonToken("Red:Variable"); $$ = new VarDeclaration(ToType($1), new Identifier($2)); }
+Variable: Type PT_ID { $$ = new CVariable(To<CType>($1), new CId($2)); }
 ;
 
-Type: Integer  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::INT_TYPE); }
-	| Integer PT_LeftSquareBracket PT_RightSquareBracket  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::INTA_TYPE); }
-	| Boolean  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::BOOL_TYPE); }
-	| PT_ID  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(new Identifier($1), titt::USER_TYPE); }
-	| PT_Void  {  dumpBisonToken("Red:Type");$$ = new TypeIdentifier(titt::VOID_TYPE); }
+Type: Integer  { $$ = new CType(CType::VT_Integer); }
+	| Integer PT_LeftSquareBracket PT_RightSquareBracket  { $$ = new CType(CType::VT_IntegerArray); }
+	| Boolean  { $$ = new CType(CType::VT_Boolean); }
+	| PT_ID { $$ = new CType($1); }
+	| PT_Void  { $$ = new CType(); }
 ;
 
-Statement: { dumpBisonToken("Red:Statement"); $$ = new Statement(nullptr, sst::EMPTY_TYPE); }
-	| StatementItem Statement { dumpBisonToken("Red:Statement"); $$ = new Statement(ToState($1), ToState($2), sst::LIST_TYPE); }
+Statement: { $$ = new CStatementList(); }
+	| StatementItem Statement { To<CStatementList>($2)->Add(To<IStatement>($1)); $$=$2; }
 ;
 
-StatementItem: LeftBrace Statement RightBrace { dumpBisonToken("Red:Statement"); $$ = new Statement(ToState($2), ToState(nullptr), sst::SHADE_TYPE); }
-	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem PT_Else StatementItem { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), ToState($7), sst::IF_TYPE); }
-	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), ToState(nullptr), sst::IF_TYPE); }
-	| While LeftRoundBracket Expression RightRoundBracket  StatementItem { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), ToState($5), sst::WHILE_TYPE); }
-	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), nullptr, sst::PRINT_TYPE); }
-	| LvalueExpression Equals Expression Semicolon { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToExpr($3), nullptr, ToExpr($1), nullptr, sst::ASSIGN_TYPE); }
-	| Variable Semicolon { dumpBisonToken("Red:StatementList"); $$ = new Statement(ToVar($1), nullptr, sst::VAR_TYPE); }
+StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To<IStatement>($2)); }
+	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem PT_Else StatementItem { $$ = new CIfStatement(To<IExpression>($3), To<IStatement>($5), To<IStatement>($7)); }
+	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem { $$ =  new CIfStatement(To<IExpression>($3), To<IStatement>($5), nullptr); }
+	| While LeftRoundBracket Expression RightRoundBracket  StatementItem { $$ = new CWhileStatement(To<IExpression>($3), To<IStatement>($5)); }
+	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { $$ = new CPrintStatement(To<IExpression>($3)); }
+	| LvalueExpression Equals Expression Semicolon { $$ = new CEqualStatement(To<CLValueExpression>($1), To<IExpression>($3)); }
+	| Variable Semicolon { $$ = new CVariableStatement(To<CVariable>($1)); }
 ;
 
 LvalueExpression: 
-	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
-	| Expression MethodCall FunctionCall %prec CALL { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
-	| PT_ID { dumpBisonToken("Red:Expression"); $$=new Expression(new Identifier($1), exst::ID_STATE);}
-	| This { dumpBisonToken("Red:Expression"); $$=new Expression(exst::This_State);}
+	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new CArrayExpression(To<IExpression>($1), To<IExpression>($3));}
+	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller=To<CId>($1); $$=$1;}
+	| PT_ID { $$=new CIdExpression(new CId ($1));}
+	| This { $$=new CThisExpression();}
 ;
 
-Expression: LvalueExpression { $$=nullptr; }
-	| Expression BinaryOperator Expression %prec BINARY { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}	
-	| Expression MethodCall Length %prec LENGTH { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($1), exst::Length_STATE);}	
-	| ValueT { dumpBisonToken("Red:Expression"); $$=new Expression(ToVal($1), exst::Value_STATE);}
-	| New Integer LeftSquareBracket Expression RightSquareBracket { dumpBisonToken("Red:Expression"); $$=new Expression(ToExpr($4), exst::Array_STATE);}
-	| New PT_ID LeftRoundBracket RightRoundBracket { dumpBisonToken("Red:Expression"); $$=new Expression(new Identifier($2), exst::NewObj_STATE);}
-	| Not Expression %prec NOT { dumpBisonToken("Red:Expression"); $$=new Expression(exst::Not_STATE); }
-	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { dumpBisonToken("Red:Expression"); $$=$2;}
+Expression: LvalueExpression { $$=$1; }
+	| Expression BinaryOperator Expression %prec BINARY { $$=new CBinaryExpression(To<IExpression>($1), To<IExpression>($3), static_cast<CBinaryExpression::TOpeartor>($2));}	
+	| Expression MethodCall Length %prec LENGTH { $$ = new CCallLengthExpression(To<IExpression>($1));}	
+	| ValueT { $$=new CValueExpression(To<IValue>($1)); }
+	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new CNewArrayExpression(To<IExpression>($4));}
+	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new CNewExpression(new CId($2));}
+	| Not Expression %prec NOT { $$ = new CNotExpression(To<IExpression>($2)); }
+	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$ = new CBracketsExpression(To<IExpression>($2));}
 ;
 
-BinaryOperator : PT_Plus { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Plus); }
-	| PT_Minus { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Minus); }
-	| PT_Division { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Division); }
-	| PT_IntegerDivision { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_IntegerDivision); }
-	| PT_And { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_And); }
-	| PT_Or { dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Or); }
-	| PT_Multiplication {  dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Multiplication); }
-	| PT_Less {  dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_Less); }
-	| PT_More {  dumpBisonToken("Red:BinaryOperator"); $$=new BinaryOperator(boot::PT_More); }
+BinaryOperator : PT_Plus { $$=CBinaryExpression::O_Plus; }
+	| PT_Minus { $$=CBinaryExpression::O_Minus; }
+	| PT_Division { $$=CBinaryExpression::O_Division; }
+	| PT_IntegerDivision { $$=CBinaryExpression::O_IntegerDivision; }
+	| PT_And { $$=CBinaryExpression::O_And; }
+	| PT_Or { $$=CBinaryExpression::O_Or; }
+	| PT_Multiplication { $$=CBinaryExpression::O_Multiplication; }
+	| PT_Less { $$=CBinaryExpression::O_Less; }
+	| PT_More { $$=CBinaryExpression::O_More; }
 ;
 
-MethodCall: PT_Dot { dumpBisonToken("Red:Dot");}
+MethodCall: PT_Dot {}
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket {  dumpBisonToken("Red:functionCall"); $$=new FunctionCall(ToExpr($3), new Identifier($1)); }
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<CId>(nullptr), new CId($1), To<CArgumentList>($3)); }
 ;
 
-ExpressionList: {  dumpBisonToken("Red:expressionList"); $$=new Expression(exst::Empty_STATE);}
-	| Expressions {  dumpBisonToken("Red:expresionList"); $$=new Expression(ToExpr($1), exst::List_STATE);}
+ExpressionList: { $$=new CExpressionList(); }
+	| Expressions { $$ = $1; }
 ;
 
-Expressions : Expression {  dumpBisonToken("Red:expressions"); $$=new Expression(ToExpr($1), exst::List_STATE);}
-	| Expression PT_Coma Expressions {  dumpBisonToken("Red:expressions"); $$=new Expression(ToExpr($1), ToExpr($3), exst::List_STATE);}
+Expressions : Expression { $$=new CExpressionList(); To<CExpressionList>($$)->Add(To<IExpression>($1)); }
+	| Expression PT_Coma Expressions { $$=$3; To<CExpressionList>($$)->Add(To<IExpression>($1)); }
 ;
 
-ValueT: PT_True {  dumpBisonToken("Red:value"); $$=new Value(true);}
-	| PT_False {  dumpBisonToken("Red:value"); $$=new Value(false);}
-	| PT_Number {  dumpBisonToken("Red:value"); $$=new Value($1);}
+ValueT: PT_True { $$=new CValue(true, CValue::T_Boolean); }
+	| PT_False { $$=new CValue(true, CValue::T_Boolean); }
+	| PT_Number { $$=new CValue($1, CValue::T_Integer); }
 ;
 
 This: PT_This {  dumpBisonToken("this"); }

@@ -1,13 +1,18 @@
 #include <Variable.h>
 #include <Visitor.h>
 
-CVariable::CVariable(CId* _classInstance, CId* _name) : classInstance(_classInstance), name(_name)
+CVariable::CVariable(CType* _type, CId* _name) : type(_type), name(_name)
 {
 }
 
 void CVariable::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
+}
+
+std::string CVariable::GetLabel()
+{
+	return "variable" + labelAddings;
 }
 
 

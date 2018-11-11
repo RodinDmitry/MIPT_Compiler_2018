@@ -11,7 +11,7 @@ extern void dumpToken(std::string token);
 
 %%
 
-"//"[^\n]*"\n" ;
+"//"[^\n]*"\n" {dumpToken("ñomment\n");} ;
 [\n] ; {dumpToken("\n");}
 [ \t]	; // ignore all whitespace
 [0-9]+  { dumpToken("number"); yylval.integerValue = atoi(yytext); return PT_Number;};

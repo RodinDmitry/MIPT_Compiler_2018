@@ -1,17 +1,30 @@
 #pragma once
 #include <Tree.h>
+#include <vector>
+
+class CExpressionList : public ITree {
+public:
+	virtual void Accept(IVisitor* visitor) override;
+	void Add(IExpression* expression);
+
+	std::vector<IExpression*> expressions;
+
+	std::string GetLabel() override;
+};
 
 class CLValueExpression : public IExpression
 {
 public:
 	virtual void Accept(IVisitor* visitor) override;
+
+	std::string GetLabel() override;
 };
 
 class CBinaryExpression : public IExpression
 {
 public:
 
-	inline enum TOpeartor {
+	enum TOpeartor {
 		O_Plus,
 		O_Minus,
 		O_Division,
@@ -31,6 +44,7 @@ public:
 	IExpression* right = nullptr;
 	TOpeartor operation;
 
+	std::string GetLabel() override;
 };
 
 class CArrayExpression : public IExpression
@@ -42,20 +56,24 @@ public:
 
 	IExpression* caller;
 	IExpression* index;
+
+	std::string GetLabel() override;
 };
 
 class CId;
-class IArgumentList;
+class CArgumentList;
 class CCallExpression : public CLValueExpression
 {
 public:
-	CCallExpression(IExpression* caller, CId* function, IArgumentList* list);
+	CCallExpression(CId* caller, CId* function, CArgumentList* list);
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* caller;
+	CId* caller;
 	CId* function;
-	IArgumentList* list;
+	CArgumentList* list;
+
+	std::string GetLabel() override;
 };
 
 class CCallLengthExpression : public IExpression
@@ -66,6 +84,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* caller;
+
+	std::string GetLabel() override;
 };
 
 
@@ -78,17 +98,32 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IValue* value;
+
+	std::string GetLabel() override;
 };
 
 class CNewArrayExpression : public IExpression
 {
 public:
-	CNewArrayExpression(CId* id, IExpression* expression);
+	CNewArrayExpression(IExpression* expression);
+
+	virtual void Accept(IVisitor* visitor) override;
+
+	IExpression* expression;
+
+	std::string GetLabel() override;
+};
+
+class CNewExpression : public IExpression
+{
+public:
+	CNewExpression(CId* id);
 
 	virtual void Accept(IVisitor* visitor) override;
 
 	CId* id;
-	IExpression* expression;
+
+	std::string GetLabel() override;
 };
 
 class CIdExpression : public CLValueExpression
@@ -99,6 +134,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	CId* id;
+
+	std::string GetLabel() override;
 };
 
 class CThisExpression : public CLValueExpression
@@ -107,6 +144,8 @@ public:
 	CThisExpression();
 
 	virtual void Accept(IVisitor* visitor) override;
+
+	std::string GetLabel() override;
 };
 
 class CNotExpression : public IExpression
@@ -117,6 +156,8 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
+
+	std::string GetLabel() override;
 };
 
 class CBracketsExpression : public IExpression
@@ -127,4 +168,16 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	IExpression* expression;
+
+	std::string GetLabel() override;
+};
+
+class CReturnExpression : public IExpression {
+public:
+	CReturnExpression(IExpression* expression);
+	virtual void Accept(IVisitor* visitior) override;
+
+	IExpression* expression;
+
+	std::string GetLabel() override;
 };

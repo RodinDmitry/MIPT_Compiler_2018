@@ -1,9 +1,10 @@
+#pragma once
 #include <Tree.h>
 
 class CModifier : public ITree
 {
 public:
-	inline enum TModifierType
+	enum TModifierType
 	{
 		MT_Public,
 		MT_Private,
@@ -13,4 +14,6 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	TModifierType type;
+
+	std::string GetLabel() override;
 };

@@ -121,16 +121,18 @@
   <ItemGroup>
     <ClCompile Include="Argument.cpp" />
     <ClCompile Include="Class.cpp" />
-    <ClCompile Include="Entities.cpp" />
     <ClCompile Include="Expressions.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="Modifier.cpp" />
+    <ClCompile Include="Program.cpp" />
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Type.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="Variable.cpp" />
     <ClCompile Include="Visitor.cpp" />
@@ -144,14 +146,16 @@
     <ClInclude Include="BisonUtils.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Defines.h" />
-    <ClInclude Include="Entities.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="Id.h" />
+    <ClInclude Include="MainClass.h" />
     <ClInclude Include="Modifier.h" />
+    <ClInclude Include="Program.h" />
     <ClInclude Include="Statement.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Type.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="Visitor.h" />

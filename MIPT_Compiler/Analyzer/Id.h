@@ -8,4 +8,6 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::string name;
+
+	std::string GetLabel() override;
 };

@@ -10,4 +10,6 @@ public:
 	void Add(CVariable* argument);
 
 	std::vector<CVariable*> arguments;
+
+	std::string GetLabel() override;
 };

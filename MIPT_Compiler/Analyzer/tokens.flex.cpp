@@ -866,7 +866,7 @@ case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
 #line 14 "MIPT_Compiler\\Flex\\tokens.l"
-;
+{dumpToken("ñomment\n");} ;
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */

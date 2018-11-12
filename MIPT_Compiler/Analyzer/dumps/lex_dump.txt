@@ -2,8 +2,12 @@
  сomment
  сomment
  
+ 
+ лилоилоилоиолилоил 
+ 
  class ID { 
  public static void main ( String [ ] ID ) { 
+ лилоилоилоиолилоил 
  println ( new ID ( ) . ID ( ) ) ; 
  } 
  } 

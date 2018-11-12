@@ -7,7 +7,9 @@
 
 #define YY_DECL int yylex()
 extern void dumpToken(std::string token);
+#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno;
 %}
+%option yylineno
 
 %%
 
@@ -63,4 +65,13 @@ extern void dumpToken(std::string token);
 		return PT_ID;
 	};
 
+[^,\.;=|/\%\*-+><!&\(\)\[\]\{\} \t\n]* { 
+	dumpToken(yytext);
+	fprintf(stderr, "Line %d: Bad token %s.\n", yylloc.first_line, yytext);
+	return PT_Error; }
+
 %%
+
+void yyerror(const char* s) {
+	std::cerr << s << " in line: " << yylineno << std::endl;
+};

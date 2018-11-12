@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <Defines.h>
 #include <iostream>
 
@@ -5,6 +6,16 @@ std::ofstream lexDumpFile;
 bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
+
+void ASTTreeCleanUp() {
+	while (!printerStack.empty()) {
+		ITree* node = printerStack.back();
+		printerStack.pop_back();
+		delete node;
+	}
+	printerSet.clear();
+	printerStack.clear();
+}
 
 void printLastTree() {
 	CPrettyPrinter printer("graphs/printer.txt");
@@ -32,25 +43,28 @@ enum FLAGS {
 };
 
 void processFile(std::string name, int flag) {
-	if (flag ^ TOKEN_LIST == flag) {
+	if ((flag ^ TOKEN_LIST) == flag) {
 		LEX_DUMP = true;
 		BISON_DUMP = true;
 	}
 
 
 	FILE *stream;
-	freopen_s(&stream, name.c_str(), "r", stdin);
-	freopen_s(&stream, "output.txt", "w", stdout);
-	printerSet.clear();
-	printerStack.clear();
-	yyin = stdin;
+
+	//freopen_s(&stream, name.c_str(), "r", stdin);
+	//yyin = stdin;
+	fopen_s( &yyin, name.c_str(), "r");
+	//freopen_s(&stream, "output.txt", "w", stdout);
+	//freopen_s(&stream, "errors.txt", "w", stderr);
 	do {
 		yyparse();
-	} while (!feof(stdin));
+	} while (!feof(yyin));
 
-	if (flag ^ TREE_OUTPUT == flag) {
+	if ((flag ^ TREE_OUTPUT) == flag) {
 		printLastTree();
 	}
+	ASTTreeCleanUp();
+	system("pause");
 }
 
 
@@ -65,6 +79,7 @@ void parseArguments(int argc, char* argv[], int& flag, std::string& filePath) {
 		currArgument = argv[i];
 		if (currArgument == "TOKEN_LIST") {
 			flag ^= TOKEN_LIST;
+			LEX_DUMP = true;
 			continue;
 		}
 		if (currArgument == "TREE_OUTPUT") {
@@ -103,12 +118,7 @@ void dumpToken(std::string token) {
 }
 
 void dumpBisonToken(std::string token) {
-	if (BISON_DUMP) {
+	if (true) {
 		bisonDumpFile << token << ' ';
 	}
 }
-
-void yyerror(const char* s) {
-	std::cout << "error \n";
-	std::cout << s << std::endl;
-};

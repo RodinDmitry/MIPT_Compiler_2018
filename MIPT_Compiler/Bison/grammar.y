@@ -11,12 +11,15 @@ extern FILE* yyin;
 
 extern void yyerror(const char* s);
 extern void dumpBisonToken(std::string token);
+extern void syntaxError(const std::string& name, int line);
 %}
 
 %code requires {
 #include "../Analyzer/BisonUtils.h"
-
+#include <iostream>
 }
+
+%define parse.lac full
 
 %union {
 
@@ -107,7 +110,7 @@ extern void dumpBisonToken(std::string token);
 %%
 
 Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2)); } 
-	| error MainClass ClassDeclaration { fprintf(stderr, "Line %d: Bad class definition.\n", @1.first_line);
+	| error MainClass ClassDeclaration { syntaxError("Bad class definition", @1.first_line);
 										$$ = new CProgram(To<CMain>($2), To<CClassList>($3));  yyerrok;} 
 ;
 
@@ -118,7 +121,7 @@ ClassDeclaration: { $$ = new CClassList(); }
 	| Class ClassDeclaration { To<CClassList>($2)->Add(To<CClass>($1)); $$ = $2; }
 
 Class: ClassStart LeftBrace ClassInternals RightBrace { $$ = new CClass(To<CClassDeclaration>($1), To<CClassInternalsList>($3));}
-    | error {fprintf(stderr, "Line %d: Bad class definition.\n", @1.first_line); yyerrok; $$ = nullptr; };
+    | error {syntaxError("Bad class definition", @1.first_line); yyerrok; $$ = nullptr; };
 
 ClassStart: ClassWord PT_ID Extends { $$ = new CClassDeclaration(new CId($2), new CId($3)); }
 ;
@@ -130,7 +133,7 @@ Extends: { $$ = nullptr; }
 ClassInternals: {  $$ = new CClassInternalsList(); }
 	| Function ClassInternals { To<CClassInternalsList>($2)->Add(new CClassInternals(To<CFunction>($1))); $$ = $2;}
 	| Variable Semicolon ClassInternals { To<CClassInternalsList>($3)->Add(new CClassInternals(To<CVariable>($1))); $$ = $3;}
-	| error ClassInternals {fprintf(stderr, "Line %d: Bad method or member.\n", @1.first_line); yyerrok; $$ = $2; };
+	| error ClassInternals {syntaxError("Bad method or member", @1.first_line); yyerrok; $$ = $2; };
 
 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace { 
 		 $$ = new CMainFunction(To<CMainArgument>($6), To<CStatementList>($9)); }
@@ -167,9 +170,9 @@ Type: Integer  { $$ = new CType(CType::VT_Integer); }
 	| PT_Void  { $$ = new CType(); }
 ;
 
-Statement: { $$ = new CStatementList(); }
-	| StatementItem Statement { To<CStatementList>($2)->Add(To<IStatement>($1)); $$=$2; }
-	| error Statement {fprintf(stderr, "Line %d: statement.\n", @1.first_line); $$ = $2; yyerrok; }
+Statement: { $$ = new CStatementList();}
+	| StatementItem Statement { To<CStatementList>($2)->Add(To<IStatement>($1)); $$=$2;}
+	| error Statement {syntaxError("Bad Statement", @1.first_line); $$ = $2; yyerrok; }
 ;
 
 StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To<IStatement>($2)); }
@@ -179,7 +182,6 @@ StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To
 	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { $$ = new CPrintStatement(To<IExpression>($3)); }
 	| LvalueExpression Equals Expression Semicolon { $$ = new CEqualStatement(To<CLValueExpression>($1), To<IExpression>($3)); }
 	| Variable Semicolon { $$ = new CVariableStatement(To<CVariable>($1)); }
-	| Semicolon { $$ = nullptr; }
 ;
 
 LvalueExpression: 
@@ -218,7 +220,7 @@ FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new C
 
 ExpressionList: { $$=new CExpressionList(); }
 	| Expressions { $$ = $1; }
-	| error {fprintf(stderr, "Line %d: Bad expression.\n", @1.first_line); yyerrok; $$ = nullptr; }
+	| error {syntaxError("Bad expression", @1.first_line); yyerrok; $$ = nullptr; }
 ;
 
 Expressions : Expression { $$=new CExpressionList(); To<CExpressionList>($$)->Add(To<IExpression>($1)); }

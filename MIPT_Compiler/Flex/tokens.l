@@ -73,5 +73,5 @@ extern void dumpToken(std::string token);
 %%
 
 void yyerror(const char* s) {
-	std::cerr << s << " in line: " << yylineno << std::endl;
+	//std::cerr << s << " in line: " << yylineno << std::endl;
 };

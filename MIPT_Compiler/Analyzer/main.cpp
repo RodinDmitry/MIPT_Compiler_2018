@@ -122,3 +122,7 @@ void dumpBisonToken(std::string token) {
 		bisonDumpFile << token << ' ';
 	}
 }
+
+void syntaxError(const std::string& name, int line) {
+	std::cerr << name << " in line: " << line << std::endl;
+}

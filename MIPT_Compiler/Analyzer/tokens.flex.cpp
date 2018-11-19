@@ -2161,5 +2161,5 @@ void yyfree (void * ptr )
 
 
 void yyerror(const char* s) {
-	std::cerr << s << " in line: " << yylineno << std::endl;
+	//std::cerr << s << " in line: " << yylineno << std::endl;
 };

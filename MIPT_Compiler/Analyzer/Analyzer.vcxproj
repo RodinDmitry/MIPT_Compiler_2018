@@ -145,19 +145,27 @@
     <ClInclude Include="Argument.h" />
     <ClInclude Include="BisonUtils.h" />
     <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassInfo.h" />
+    <ClInclude Include="DataType.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="NamespaceBlock.h" />
+    <ClInclude Include="Symbol.h" />
     <ClInclude Include="Id.h" />
     <ClInclude Include="MainClass.h" />
     <ClInclude Include="Modifier.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Statement.h" />
+    <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="UndefinedTypeException.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Variable.h" />
+    <ClInclude Include="VariableInfo.h" />
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

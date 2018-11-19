@@ -19,6 +19,9 @@
     <Filter Include="Tree">
       <UniqueIdentifier>{e696dc3c-2bb5-4141-87ae-f1aaa26f1aaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SymbolTable">
+      <UniqueIdentifier>{38b35f73-6dc4-483f-8214-c9f5472a62ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -132,6 +135,30 @@
     </ClInclude>
     <ClInclude Include="Program.h">
       <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Symbol.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolTable.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="NamespaceBlock.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="UndefinedTypeException.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="DataType.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

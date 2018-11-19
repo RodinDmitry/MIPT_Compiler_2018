@@ -163,9 +163,9 @@ Argument : Variable { $$ = new CArgumentList(); To<CArgumentList>($$)->Add(To<CV
 Variable: Type PT_ID { $$ = new CVariable(To<CType>($1), new CId($2)); }
 ;
 
-Type: Integer  { $$ = new CType(CType::VT_Integer); }
-	| Integer PT_LeftSquareBracket PT_RightSquareBracket  { $$ = new CType(CType::VT_IntegerArray); }
-	| Boolean  { $$ = new CType(CType::VT_Boolean); }
+Type: Integer  { $$ = new CType(TDataType::DT_Integer); }
+	| Integer PT_LeftSquareBracket PT_RightSquareBracket  { $$ = new CType(TDataType::DT_IntegerArray); }
+	| Boolean  { $$ = new CType(TDataType::DT_Boolean); }
 	| PT_ID { $$ = new CType($1); }
 	| PT_Void  { $$ = new CType(); }
 ;

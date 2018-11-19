@@ -9,7 +9,7 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(CVariable* argument);
 
-	std::vector<CVariable*> arguments;
+	std::vector<std::unique_ptr<CVariable>> arguments;
 
 	std::string GetLabel() override;
 };

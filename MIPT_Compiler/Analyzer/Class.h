@@ -11,8 +11,8 @@ public:
 	CClassDeclaration(CId* name, CId* extends);
 	virtual void Accept(IVisitor* visitor) override;
 
-	CId* name;
-	CId* extend;
+	std::unique_ptr<CId> name;
+	std::unique_ptr<CId> extend;
 
 	std::string GetLabel() override;
 };
@@ -23,8 +23,8 @@ public:
 	CClassInternals(CVariable* variable);
 	virtual void Accept(IVisitor* visitor) override;
 
-	CFunction* function;
-	CVariable* variable;
+	std::unique_ptr<CFunction> function;
+	std::unique_ptr<CVariable> variable;
 
 	std::string GetLabel() override;
 };
@@ -35,7 +35,7 @@ public:
 	void Add(CClassInternals* item);
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::vector<CClassInternals*> internals;
+	std::vector<std::unique_ptr<CClassInternals>> internals;
 
 	std::string GetLabel() override;
 };
@@ -45,8 +45,8 @@ public:
 	CClass(CClassDeclaration* declaration, CClassInternalsList* internals);
 	virtual void Accept(IVisitor* visitor) override;
 
-	CClassDeclaration* declaration;
-	CClassInternalsList* internals;
+	std::unique_ptr<CClassDeclaration> declaration;
+	std::unique_ptr<CClassInternalsList> internals;
 
 	std::string GetLabel() override;
 };
@@ -57,7 +57,7 @@ public:
 	void Add(CClass* item);
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::vector<CClass*> classes;
+	std::vector<std::unique_ptr<CClass>> classes;
 
 	std::string GetLabel() override;
 };

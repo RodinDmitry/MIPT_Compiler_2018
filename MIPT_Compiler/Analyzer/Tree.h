@@ -1,17 +1,13 @@
 #pragma once
 #include <set>
 #include <deque>
+#include <memory>
 
 class ITree;
 class IVisitor;
 
 class ITree {
 public:
-	ITree() {
-		printerStack.push_front(this);
--		printerSet.insert(this);
-	}
-
 	virtual void Accept(IVisitor* visitor) = 0;
 
 	virtual std::string GetLabel() = 0;

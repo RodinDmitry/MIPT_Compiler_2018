@@ -7,16 +7,6 @@ bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
 
-void ASTTreeCleanUp() {
-	while (!printerStack.empty()) {
-		ITree* node = printerStack.back();
-		printerStack.pop_back();
-		delete node;
-	}
-	printerSet.clear();
-	printerStack.clear();
-}
-
 void printLastTree() {
 	CPrettyPrinter printer("graphs/printer.txt");
 	while (!printerSet.empty()) {
@@ -50,12 +40,7 @@ void processFile(std::string name, int flag) {
 
 
 	FILE *stream;
-
-	//freopen_s(&stream, name.c_str(), "r", stdin);
-	//yyin = stdin;
 	fopen_s( &yyin, name.c_str(), "r");
-	//freopen_s(&stream, "output.txt", "w", stdout);
-	//freopen_s(&stream, "errors.txt", "w", stderr);
 	do {
 		yyparse();
 	} while (!feof(yyin));
@@ -63,7 +48,6 @@ void processFile(std::string name, int flag) {
 	if ((flag ^ TREE_OUTPUT) == flag) {
 		printLastTree();
 	}
-	ASTTreeCleanUp();
 	system("pause");
 }
 
@@ -108,7 +92,6 @@ int main(int argc, char* argv[]) {
 	parseArguments(argc, argv, flag, filePath);
 
 	processFile(filePath, flag);
-	//processFile("../../Samples/TreeVisitor.java");
 }
 
 void dumpToken(std::string token) {

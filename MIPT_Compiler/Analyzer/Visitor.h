@@ -78,8 +78,6 @@ public:
 	virtual void visit(CValue*) = 0;
 	virtual void visit(CVariable*) = 0;
 
-
-	std::set< ITree* > printerSet;
 	std::deque< ITree* > printerStack;
 };
 

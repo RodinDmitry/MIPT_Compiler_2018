@@ -72,6 +72,6 @@ extern void dumpToken(std::string token);
 
 %%
 
-void yyerror(const char* s) {
+void yyerror(ITree* tree, const char* s) {
 	//std::cerr << s << " in line: " << yylineno << std::endl;
 };

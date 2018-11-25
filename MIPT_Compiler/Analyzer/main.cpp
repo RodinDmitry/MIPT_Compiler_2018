@@ -7,8 +7,9 @@ bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
 
-void printLastTree() {
+void printTree(ITree* tree) {
 	CPrettyPrinter printer("graphs/printer.txt");
+	tree->Accept(&printer);
 	/*while (!printerSet.empty()) {
 		ITree* node = printerStack.back();
 		printerStack.pop_back();
@@ -42,12 +43,16 @@ void processFile(std::string name, int flag) {
 
 	FILE *stream;
 	fopen_s( &yyin, name.c_str(), "r");
-	do {
-		yyparse();
-	} while (!feof(yyin));
+
+	std::shared_ptr<ITree> resultTree;
+	{
+		ITree* temp = nullptr;
+		yyparse(temp);
+		resultTree.reset(temp);
+	}
 
 	if ((flag ^ TREE_OUTPUT) == flag) {
-		printLastTree();
+		printTree(resultTree.get());
 	}
 	system("pause");
 }

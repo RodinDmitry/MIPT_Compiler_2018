@@ -41,7 +41,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 17 "MIPT_Compiler\\Bison\\grammar.y"
+#line 16 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
 #include <iostream>
@@ -113,7 +113,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 24 "MIPT_Compiler\\Bison\\grammar.y"
+#line 25 "MIPT_Compiler\\Bison\\grammar.y"
 
 
 	int integerValue;
@@ -154,7 +154,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (void);
+int yyparse (ITree* resultTree);
 #else
 int yyparse ();
 #endif

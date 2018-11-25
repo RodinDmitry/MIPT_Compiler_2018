@@ -2160,6 +2160,6 @@ void yyfree (void * ptr )
 #line 73 "MIPT_Compiler\\Flex\\tokens.l"
 
 
-void yyerror(const char* s) {
+void yyerror(ITree* tree, const char* s) {
 	//std::cerr << s << " in line: " << yylineno << std::endl;
 };

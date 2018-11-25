@@ -11,8 +11,8 @@ public:
 	CVariable(CType* type, CId* name);
 	virtual void Accept(IVisitor* visitor) override;
 
-	CType* type;
-	CId* name;
+	std::unique_ptr<CType> type;
+	std::unique_ptr<CId> name;
 
 	std::string GetLabel() override;
 };

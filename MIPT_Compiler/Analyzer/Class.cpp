@@ -3,7 +3,7 @@
 #include <Variable.h>
 #include <Function.h>
 
-CClassInternals::CClassInternals(CFunction* _function) : function(function), variable(nullptr)
+CClassInternals::CClassInternals(CFunction* _function) : function(_function), variable(nullptr)
 {
 }
 
@@ -51,7 +51,8 @@ std::string CClass::GetLabel()
 
 void CClassInternalsList::Add(CClassInternals* item)
 {
-	internals.push_back(item);
+	std::shared_ptr<CClassInternals> ptr(item);
+	internals.push_back(ptr);
 }
 
 void CClassInternalsList::Accept(IVisitor* visitor)
@@ -66,7 +67,8 @@ std::string CClassInternalsList::GetLabel()
 
 void CClassList::Add(CClass* item)
 {
-	classes.push_back(item);
+	std::shared_ptr<CClass> ptr(item);
+	classes.push_back(ptr);
 }
 
 void CClassList::Accept(IVisitor* visitor)

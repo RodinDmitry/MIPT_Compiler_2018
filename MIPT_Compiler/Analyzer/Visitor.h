@@ -78,6 +78,7 @@ public:
 	virtual void visit(CValue*) = 0;
 	virtual void visit(CVariable*) = 0;
 
+	std::deque< ITree* > printerStack;
 };
 
 class CPrettyPrinter : public IVisitor {

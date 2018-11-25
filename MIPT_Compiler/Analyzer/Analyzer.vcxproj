@@ -128,14 +128,15 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="Modifier.cpp" />
+    <ClCompile Include="PrettyPrinter.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="StackBuilder.cpp" />
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Type.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="Variable.cpp" />
-    <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
@@ -153,6 +154,8 @@
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="NamespaceBlock.h" />
+    <ClInclude Include="PrettyPrinter.h" />
+    <ClInclude Include="StackBuilder.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="Id.h" />
     <ClInclude Include="MainClass.h" />

@@ -72,7 +72,10 @@
     <ClCompile Include="Program.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Visitor.cpp">
+    <ClCompile Include="PrettyPrinter.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="StackBuilder.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -159,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="DataType.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="PrettyPrinter.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="StackBuilder.h">
+      <Filter>Visitor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

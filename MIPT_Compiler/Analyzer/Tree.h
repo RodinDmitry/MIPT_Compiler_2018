@@ -13,10 +13,11 @@ public:
 	virtual std::string GetLabel() = 0;
 	void AddToLabel(std::string adding);
 
+protected:
+
 	std::string labelAddings = "";
 };
 
 inline void ITree::AddToLabel(std::string adding) {
 	labelAddings += adding;
 }
-

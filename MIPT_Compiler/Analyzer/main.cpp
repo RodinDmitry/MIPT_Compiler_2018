@@ -8,19 +8,14 @@ std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
 
 void printTree(ITree* tree) {
+	CStackBuilder builder;
+	builder.BuildStack(tree);
+	
 	CPrettyPrinter printer("graphs/printer.txt");
-	tree->Accept(&printer);
-	/*while (!printerSet.empty()) {
-		ITree* node = printerStack.back();
-		printerStack.pop_back();
-		while (printerSet.find(node) == printerSet.end()) {
-			node = printerStack.back();
-			printerStack.pop_back();
-		}
+	for (int i = builder.nodesStack.size() - 1; i <= 0; i--) {
+		ITree* node = builder.nodesStack[i].get();
 		node->Accept(&printer);
-		printerSet.erase(node);
 	}
-	*/
 	printer.close();
 }
 

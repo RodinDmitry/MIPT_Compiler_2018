@@ -2149,19 +2149,19 @@ yyreduce:
   case 27:
 /* Line 1792 of yacc.c  */
 #line 167 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CType(CType::VT_Integer); }
+    { (yyval.node) = new CType(TDataType::DT_Integer); }
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
 #line 168 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CType(CType::VT_IntegerArray); }
+    { (yyval.node) = new CType(TDataType::DT_IntegerArray); }
     break;
 
   case 29:
 /* Line 1792 of yacc.c  */
 #line 169 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CType(CType::VT_Boolean); }
+    { (yyval.node) = new CType(TDataType::DT_Boolean); }
     break;
 
   case 30:

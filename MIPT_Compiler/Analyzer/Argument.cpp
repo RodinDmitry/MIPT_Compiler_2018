@@ -14,5 +14,5 @@ void CArgumentList::Add(CVariable* argument)
 
 std::string CArgumentList::GetLabel()
 {
-	return  "arguments" + labelAddings;;
+	return  "arguments" + labelAddings;
 }

@@ -13,10 +13,10 @@ public:
 	void AddVariable(CVariableInfo* variable);
 	void CreateClass(const std::string& name, const std::string& extends);
 
-	CSymbol* FindSymbol() const;
+	bool FindSymbol(CSymbol* id) const;
 private:
 	NamespaceBlock* parent;
-	std::vector<std::unique_ptr<CVariableInfo*> > members;
-	std::vector<std::unique_ptr<CFunctionInfo*> > methods;
-	std::vector<std::unique_ptr<CClassInfo*> > classes;
+	std::vector<CVariableInfo* > members;
+	std::vector<CFunctionInfo* > methods;
+	std::vector<CClassInfo* > classes;
 };

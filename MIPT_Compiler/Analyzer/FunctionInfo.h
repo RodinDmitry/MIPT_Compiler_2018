@@ -1,15 +1,18 @@
 #pragma once
 #include <VariableInfo.h>
+#include <VisabilityModifier.h>
 #include <vector>
 
 class CFunctionInfo : public CSymbol {
 public:
-	CFunctionInfo(TDataType _returnType);
+	CFunctionInfo(const std::string& _name, const CSymbol* _userType, TDataType _returnType, TVisabilityModifierType _modifierType);
 	void AddArgument(CVariableInfo* argument);
-	void AddArguments(std::vector<std::unique_ptr<CVariableInfo*> >&& _arguments);
+	void AddArguments(std::vector<std::unique_ptr<CVariableInfo> >&& _arguments);
 
-	static CFunctionInfo* GetSymbol(const std::string& src);
+	static CFunctionInfo* GetSymbol(const std::string & src, const CSymbol* _userType, TDataType _returnType, TVisabilityModifierType _modifierType);
 private:
-	TDataType returnType;
-	std::vector<std::unique_ptr<CVariableInfo*> > arguments;
+	const CSymbol* userType = nullptr;
+	const TDataType returnType;
+	const TVisabilityModifierType modifierType;
+	std::vector<const CVariableInfo* > arguments;
 };

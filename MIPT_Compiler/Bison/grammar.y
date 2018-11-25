@@ -145,8 +145,8 @@ MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  $$ = new C
 Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace { $$ = new CFunction(To<CModifier>($1), new CId($3), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnExpression>($7)); }
 ;
 
-Visibility: PT_Public { $$ = new CModifier(CModifier::MT_Public); }
-	| PT_Private { $$ = new CModifier(CModifier::MT_Private); }
+Visibility: PT_Public { $$ = new CModifier(TVisabilityModifierType::VMT_Public); }
+	| PT_Private { $$ = new CModifier(TVisabilityModifierType::VMT_Private); }
 ;
 
 Return: PT_Return Expression Semicolon { $$ = new CReturnExpression(To<IExpression>($2)); }

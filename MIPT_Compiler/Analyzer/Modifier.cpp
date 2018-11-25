@@ -1,7 +1,7 @@
 #include <Modifier.h>
 #include <Visitor.h>
 
-CModifier::CModifier(TModifierType _type) : type(_type)
+CModifier::CModifier(TVisabilityModifierType _type) : type(_type)
 {
 }
 

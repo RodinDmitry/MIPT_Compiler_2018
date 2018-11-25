@@ -4,10 +4,10 @@
 
 class CVariableInfo : public CSymbol {
 public:
-	CVariableInfo(TDataType _type, CSymbol* _userType);
+	CVariableInfo(const std::string& _name, TDataType _type, CSymbol* _userType);
 
-	static CVariableInfo* GetSymbol(const std::string& src);
+	static CVariableInfo* GetSymbol(const std::string& src, TDataType _type, CSymbol* _userType);
 private:
-	TDataType type;
-	const std::unique_ptr<CSymbol*> userType = nullptr;
+	const TDataType type;
+	const CSymbol* userType = nullptr;
 };

@@ -4,6 +4,7 @@
 
 class CSymbol {
 public:
+	CSymbol(const std::string& name);
 	const std::string& String() const;
 
 	CSymbol( const CSymbol& ) = delete;
@@ -13,7 +14,6 @@ public:
 
 protected:
 	static CSymbol* GetSymbolOrNull(const std::string& src);
-
-private:
-	static std::unordered_map<std::string, CSymbol*> allString;
+	std::string name;
+	static std::unordered_map<std::string, std::unique_ptr<CSymbol> > allStrings;
 };

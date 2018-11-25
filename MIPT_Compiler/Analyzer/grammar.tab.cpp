@@ -2096,13 +2096,13 @@ yyreduce:
   case 19:
 /* Line 1792 of yacc.c  */
 #line 148 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CModifier(CModifier::MT_Public); }
+    { (yyval.node) = new CModifier(TVisabilityModifierType::VMT_Public); }
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
 #line 149 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CModifier(CModifier::MT_Private); }
+    { (yyval.node) = new CModifier(TVisabilityModifierType::VMT_Private); }
     break;
 
   case 21:

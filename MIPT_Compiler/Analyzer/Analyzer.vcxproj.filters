@@ -75,6 +75,18 @@
     <ClCompile Include="Visitor.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="FunctionInfo.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassInfo.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="Symbol.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="VariableInfo.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -158,6 +170,9 @@
       <Filter>SymbolTable</Filter>
     </ClInclude>
     <ClInclude Include="DataType.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="VisabilityModifier.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

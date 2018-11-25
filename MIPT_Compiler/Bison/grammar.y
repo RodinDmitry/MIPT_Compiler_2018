@@ -186,7 +186,7 @@ StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To
 
 LvalueExpression: 
 	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new CArrayExpression(To<IExpression>($1), To<IExpression>($3));}
-	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller=To<CId>($1); $$=$1;}
+	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<CId>($1)); $$=$1;}
 	| PT_ID { $$=new CIdExpression(new CId ($1));}
 	| This { $$=new CThisExpression();}
 ;

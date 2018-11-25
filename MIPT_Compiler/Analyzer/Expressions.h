@@ -2,12 +2,17 @@
 #include <Tree.h>
 #include <vector>
 
+class IExpression : public ITree {
+public:
+	virtual void Accept(IVisitor* visitor) override;
+};
+
 class CExpressionList : public ITree {
 public:
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(IExpression* expression);
 
-	std::vector<std::unique_ptr<IExpression>> expressions;
+	std::vector<std::shared_ptr<IExpression>> expressions;
 
 	std::string GetLabel() override;
 };
@@ -71,7 +76,7 @@ public:
 
 	std::unique_ptr<CId> caller;
 	std::unique_ptr<CId> function;
-	CArgumentList* list;
+	std::unique_ptr<CArgumentList> list;
 
 	std::string GetLabel() override;
 };

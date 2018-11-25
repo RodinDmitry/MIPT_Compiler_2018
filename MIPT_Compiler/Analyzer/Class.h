@@ -35,7 +35,7 @@ public:
 	void Add(CClassInternals* item);
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::vector<std::unique_ptr<CClassInternals>> internals;
+	std::vector<std::shared_ptr<CClassInternals>> internals;
 
 	std::string GetLabel() override;
 };
@@ -57,7 +57,7 @@ public:
 	void Add(CClass* item);
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::vector<std::unique_ptr<CClass>> classes;
+	std::vector<std::shared_ptr<CClass>> classes;
 
 	std::string GetLabel() override;
 };

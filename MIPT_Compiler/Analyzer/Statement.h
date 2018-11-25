@@ -16,7 +16,7 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(IStatement* statement);
 
-	std::vector<std::unique_ptr<IStatement>> statements;
+	std::vector<std::shared_ptr<IStatement>> statements;
 
 	std::string GetLabel() override;
 };

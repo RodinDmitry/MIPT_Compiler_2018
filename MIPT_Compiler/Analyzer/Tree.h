@@ -20,8 +20,3 @@ inline void ITree::AddToLabel(std::string adding) {
 	labelAddings += adding;
 }
 
-class IExpression : public ITree {
-public:
-	virtual void Accept(IVisitor* visitor) override;
-
-};

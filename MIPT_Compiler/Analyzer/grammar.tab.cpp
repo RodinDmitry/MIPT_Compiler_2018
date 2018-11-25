@@ -2240,7 +2240,7 @@ yyreduce:
   case 43:
 /* Line 1792 of yacc.c  */
 #line 189 "MIPT_Compiler\\Bison\\grammar.y"
-    { To<CCallExpression>((yyvsp[(3) - (3)].node))->caller=To<CId>((yyvsp[(1) - (3)].node)); (yyval.node)=(yyvsp[(1) - (3)].node);}
+    { To<CCallExpression>((yyvsp[(3) - (3)].node))->caller.reset(To<CId>((yyvsp[(1) - (3)].node))); (yyval.node)=(yyvsp[(1) - (3)].node);}
     break;
 
   case 44:

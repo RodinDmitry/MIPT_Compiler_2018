@@ -9,7 +9,7 @@ bool BISON_DUMP = false;
 
 void printLastTree() {
 	CPrettyPrinter printer("graphs/printer.txt");
-	while (!printerSet.empty()) {
+	/*while (!printerSet.empty()) {
 		ITree* node = printerStack.back();
 		printerStack.pop_back();
 		while (printerSet.find(node) == printerSet.end()) {
@@ -19,6 +19,7 @@ void printLastTree() {
 		node->Accept(&printer);
 		printerSet.erase(node);
 	}
+	*/
 	printer.close();
 }
 

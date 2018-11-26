@@ -2,12 +2,12 @@
 #include <Symbol.h>
 #include <DataType.h>
 
-class CVariableInfo : public CSymbol {
+class CVariableInfo {
 public:
-	CVariableInfo(const std::string& _name, TDataType _type, CSymbol* _userType);
-
-	static CVariableInfo* GetSymbol(const std::string& src, TDataType _type, CSymbol* _userType);
+	CVariableInfo(const CSymbol* _name, TDataType _type, CSymbol* _userType);
+	const CSymbol* String() const;
 private:
+	const CSymbol* name;
 	const TDataType type;
-	const CSymbol* userType = nullptr;
+	const CSymbol* userType;
 };

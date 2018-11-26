@@ -1,5 +1,6 @@
 #pragma once
 #include <NamespaceBlock.h>
+#include <UndefinedTypeException.h>
 
 class CSymbolTable {
 public:
@@ -7,33 +8,33 @@ public:
 	static void SwitchCurrentTable(const std::string& name);
 
 	static void AddBlockToCurrent();
-	static void AddNestedBlockToCurrent();
-	static void AddFunctionBlockToCurrent(CFunctionInfo* function);
 	static void LeaveBlockInCurrent();
-	static void AddVariableToCurrent(CVariableInfo* variable);
-	static void AddClassToCurrent(CClassInfo* classDecl);
-	static void AddMethodToCurrent(CFunctionInfo* function);
-	static void AddMemberToCurrent(CVariableInfo* variable);
+
 	static void CreateClassInCurrent(const std::string& name, const std::string& extends);
+	static void AddFunctionBlockToCurrent(CFunctionInfo* function);
+
+
+	static void AddClassToCurrent(const CClassInfo* classDecl);
+	static void AddMemberToCurrent(const CVariableInfo* variable);
 	
-	static bool FindSymbolInCurrent(const CSymbol* id);
-	static bool FindFunctionInCurrent(const CSymbol* id);
-	static bool FindClassInCurrent(const CSymbol* id);
-	static bool FindVarInCurrent(const CSymbol* id);
-	
+	static const CClassInfo* FindClassInCurrent(const CSymbol* id);
+	static const CFunctionInfo* FindMethodInCurrent(const CSymbol* id);
+	static const CVariableInfo* FindMemberInCurrent(const CSymbol* id);
 private:
 	void AddBlock();
-	void AddNestedBlock();
-	void AddFunctionBlock(CFunctionInfo* function);
 	void LeaveBlock();
-	void AddVariable(CVariableInfo* variable);
-	void AddClass(CClassInfo* classDecl);
-	void AddMethod(CFunctionInfo* function);
-	void AddMember(CVariableInfo* variable);
+	
 	void CreateClass(const std::string& name, const std::string& extends);
+	void CreateMethod(CFunctionInfo* method);
 
-	bool FindSymbol(const CSymbol* id) const;
+	void AddClass(const CClassInfo* classDecl);
+	void AddMember(const CVariableInfo* variable);
 
+	const CClassInfo* FindClass(const CSymbol* id) const;
+	const CFunctionInfo* FindMethod(const CSymbol* id) const;
+	const CVariableInfo* FindMember(const CSymbol* id) const;
+
+	NamespaceBlock* currentBlock;
 	std::vector<std::shared_ptr<NamespaceBlock> > blocks;
 	static std::unordered_map<std::string, std::unique_ptr<CSymbolTable> > tables;
 	static CSymbolTable* currentTable;

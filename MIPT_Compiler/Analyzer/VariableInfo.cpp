@@ -2,8 +2,8 @@
 #include <SymbolTable.h>
 #include <UndefinedTypeException.h>
 
-CVariableInfo::CVariableInfo(const std::string & _name, TDataType _type, CSymbol * _userType)
-	: CSymbol(_name), type(_type), userType(_userType)
+CVariableInfo::CVariableInfo(const CSymbol * _name, TDataType _type, CSymbol * _userType)
+	: name(_name), type(_type), userType(_userType)
 {
 	if (type == TDataType::DT_Instance) {
 		if (CSymbolTable::FindClassInCurrent(userType)) {
@@ -12,11 +12,7 @@ CVariableInfo::CVariableInfo(const std::string & _name, TDataType _type, CSymbol
 	}
 }
 
-CVariableInfo * CVariableInfo::GetSymbol(const std::string & src, TDataType type, CSymbol* userType)
+const CSymbol * CVariableInfo::String() const
 {
-	CVariableInfo* symb = static_cast<CVariableInfo*>(GetSymbolOrNull(src));
-	if (symb == nullptr) {
-		symb = new CVariableInfo(src, type, userType);
-	}
-	return symb;
+	return name;
 }

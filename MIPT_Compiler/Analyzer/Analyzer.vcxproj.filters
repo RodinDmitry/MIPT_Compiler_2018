@@ -87,6 +87,9 @@
     <ClCompile Include="VariableInfo.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
+    <ClCompile Include="NamespaceBlock.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="VisabilityModifier.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidDefinitionException.h">
+      <Filter>SymbolTable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

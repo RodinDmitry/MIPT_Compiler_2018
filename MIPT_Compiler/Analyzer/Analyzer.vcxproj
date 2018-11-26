@@ -130,6 +130,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="Modifier.cpp" />
+    <ClCompile Include="NamespaceBlock.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="Symbol.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="InvalidDefinitionException.h" />
     <ClInclude Include="NamespaceBlock.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="Id.h" />

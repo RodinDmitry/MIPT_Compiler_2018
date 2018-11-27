@@ -52,5 +52,5 @@ public:
 
 private:
 	void addIfNotNull(ITree* node);
-	std::deque<ITree*> dfsQueue;
+	std::deque<ITree*> waitingNodes;
 };

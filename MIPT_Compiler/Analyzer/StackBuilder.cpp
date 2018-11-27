@@ -2,11 +2,14 @@
 
 void CStackBuilder::BuildStack(ITree* tree)
 {
-	dfsQueue.push_back(tree);
-	while (dfsQueue.size() > 0) {
-		ITree* current = dfsQueue.front();
-		dfsQueue.pop_front();
+	waitingNodes.push_back(tree);
+	while (waitingNodes.size() > 0) {
+		ITree* current = waitingNodes.front();
+		waitingNodes.pop_front();
 		current->Accept(this);
+
+		std::shared_ptr<ITree> ptr(current);
+		nodesStack.push_back(ptr);
 	}
 }
 
@@ -238,8 +241,6 @@ void CStackBuilder::visit(CVariable* node)
 void CStackBuilder::addIfNotNull(ITree* node)
 {
 	if (node != nullptr) {
-		std::shared_ptr<ITree> ptr(node);
-		nodesStack.push_back(ptr);
-		dfsQueue.push_back(node);
+		waitingNodes.push_front(node);
 	}
 }

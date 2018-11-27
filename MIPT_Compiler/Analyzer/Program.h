@@ -9,8 +9,8 @@ public:
 	CProgram(CMain* main, CClassList* classes);
 	virtual void Accept(IVisitor* visitor) override;
 
-	CMain* main;
-	CClassList* classes;
+	std::unique_ptr<CMain> main;
+	std::unique_ptr<CClassList> classes;
 
 	std::string GetLabel() override;
 

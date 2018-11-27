@@ -7,27 +7,14 @@ bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
 bool BISON_DUMP = false;
 
-void ASTTreeCleanUp() {
-	while (!printerStack.empty()) {
-		ITree* node = printerStack.back();
-		printerStack.pop_back();
-		delete node;
-	}
-	printerSet.clear();
-	printerStack.clear();
-}
-
-void printLastTree() {
+void printTree(ITree* tree) {
+	CStackBuilder builder;
+	builder.BuildStack(tree);
+	
 	CPrettyPrinter printer("graphs/printer.txt");
-	while (!printerSet.empty()) {
-		ITree* node = printerStack.back();
-		printerStack.pop_back();
-		while (printerSet.find(node) == printerSet.end()) {
-			node = printerStack.back();
-			printerStack.pop_back();
-		}
+	for (int i = builder.nodesStack.size() - 1; i <= 0; i--) {
+		ITree* node = builder.nodesStack[i].get();
 		node->Accept(&printer);
-		printerSet.erase(node);
 	}
 	printer.close();
 }
@@ -50,20 +37,18 @@ void processFile(std::string name, int flag) {
 
 
 	FILE *stream;
-
-	//freopen_s(&stream, name.c_str(), "r", stdin);
-	//yyin = stdin;
 	fopen_s( &yyin, name.c_str(), "r");
-	//freopen_s(&stream, "output.txt", "w", stdout);
-	//freopen_s(&stream, "errors.txt", "w", stderr);
-	do {
-		yyparse();
-	} while (!feof(yyin));
+
+	std::shared_ptr<ITree> resultTree;
+	{
+		ITree* temp = nullptr;
+		yyparse(temp);
+		resultTree.reset(temp);
+	}
 
 	if ((flag ^ TREE_OUTPUT) == flag) {
-		printLastTree();
+		printTree(resultTree.get());
 	}
-	ASTTreeCleanUp();
 	system("pause");
 }
 
@@ -108,7 +93,6 @@ int main(int argc, char* argv[]) {
 	parseArguments(argc, argv, flag, filePath);
 
 	processFile(filePath, flag);
-	//processFile("../../Samples/TreeVisitor.java");
 }
 
 void dumpToken(std::string token) {

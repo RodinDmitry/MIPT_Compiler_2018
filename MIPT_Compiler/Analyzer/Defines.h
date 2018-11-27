@@ -1,7 +1,8 @@
 #pragma once
-#include <Visitor.h>
+#include <PrettyPrinter.h>
+#include <StackBuilder.h>
 #include <string>
 
 extern int yylex();
-extern int yyparse();
+extern int yyparse(ITree*);
 extern FILE* yyin;

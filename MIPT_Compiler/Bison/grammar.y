@@ -2,14 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <Tree.h>
 extern int yylex();
-
-
-extern void yyerror(const char* s);
 
 extern FILE* yyin;
 
-extern void yyerror(const char* s);
+
+extern void yyerror(ITree* tree, const char* s);
 extern void dumpBisonToken(std::string token);
 extern void syntaxError(const std::string& name, int line);
 %}
@@ -18,6 +17,8 @@ extern void syntaxError(const std::string& name, int line);
 #include "../Analyzer/BisonUtils.h"
 #include <iostream>
 }
+
+%parse-param {ITree* resultTree}
 
 %define parse.lac full
 
@@ -109,7 +110,7 @@ extern void syntaxError(const std::string& name, int line);
 
 %%
 
-Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2)); } 
+Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2)); resultTree = $$; } 
 	| error MainClass ClassDeclaration { syntaxError("Bad class definition", @1.first_line);
 										$$ = new CProgram(To<CMain>($2), To<CClassList>($3));  yyerrok;} 
 ;
@@ -186,7 +187,7 @@ StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To
 
 LvalueExpression: 
 	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new CArrayExpression(To<IExpression>($1), To<IExpression>($3));}
-	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller=To<CId>($1); $$=$1;}
+	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<CId>($1)); $$=$1;}
 	| PT_ID { $$=new CIdExpression(new CId ($1));}
 	| This { $$=new CThisExpression();}
 ;

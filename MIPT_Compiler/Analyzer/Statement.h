@@ -16,7 +16,7 @@ public:
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(IStatement* statement);
 
-	std::vector<IStatement*> statements;
+	std::vector<std::shared_ptr<IStatement>> statements;
 
 	std::string GetLabel() override;
 };
@@ -26,7 +26,7 @@ public:
 	CVisibilityStatement(IStatement* statement);
 	virtual void Accept(IVisitor* visitor) override;
 
-	IStatement* statement;
+	std::unique_ptr<IStatement> statement;
 
 	std::string GetLabel() override;
 };
@@ -36,9 +36,9 @@ public:
 	CIfStatement(IExpression* condition, IStatement* thenStatement, IStatement* elseStatement);
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* condition;
-	IStatement* thenStatement;
-	IStatement* elseStatement;
+	std::unique_ptr<IExpression> condition;
+	std::unique_ptr<IStatement> thenStatement;
+	std::unique_ptr<IStatement> elseStatement;
 
 	std::string GetLabel() override;
 };
@@ -48,8 +48,8 @@ public:
 	CWhileStatement(IExpression* condition, IStatement* statement);
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* condition;
-	IStatement* statement;
+	std::unique_ptr<IExpression> condition;
+	std::unique_ptr<IStatement> statement;
 
 	std::string GetLabel() override;
 };
@@ -59,7 +59,7 @@ public:
 	CPrintStatement(IExpression* expression);
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* expression;
+	std::unique_ptr<IExpression> expression;
 
 	std::string GetLabel() override;
 };
@@ -69,8 +69,8 @@ public:
 	CEqualStatement(CLValueExpression* left, IExpression* right);
 	virtual void Accept(IVisitor* visitor) override;
 
-	CLValueExpression* left;
-	IExpression* right;
+	std::unique_ptr<CLValueExpression> left;
+	std::unique_ptr<IExpression> right;
 
 	std::string GetLabel() override;
 };
@@ -82,7 +82,7 @@ public:
 	CVariableStatement(CVariable* variable);
 	virtual void Accept(IVisitor* visitor) override;
 
-	CVariable* variable;
+	std::unique_ptr<CVariable> variable;
 	
 	std::string GetLabel() override;
 };

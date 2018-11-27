@@ -2,12 +2,17 @@
 #include <Tree.h>
 #include <vector>
 
+class IExpression : public ITree {
+public:
+	virtual void Accept(IVisitor* visitor) override;
+};
+
 class CExpressionList : public ITree {
 public:
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(IExpression* expression);
 
-	std::vector<IExpression*> expressions;
+	std::vector<std::shared_ptr<IExpression>> expressions;
 
 	std::string GetLabel() override;
 };
@@ -40,8 +45,8 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* left = nullptr;
-	IExpression* right = nullptr;
+	std::unique_ptr<IExpression> left;
+	std::unique_ptr<IExpression> right;
 	TOpeartor operation;
 
 	std::string GetLabel() override;
@@ -54,8 +59,8 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* caller;
-	IExpression* index;
+	std::unique_ptr<IExpression> caller;
+	std::unique_ptr<IExpression> index;
 
 	std::string GetLabel() override;
 };
@@ -69,9 +74,9 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	CId* caller;
-	CId* function;
-	CArgumentList* list;
+	std::unique_ptr<CId> caller;
+	std::unique_ptr<CId> function;
+	std::unique_ptr<CArgumentList> list;
 
 	std::string GetLabel() override;
 };
@@ -83,7 +88,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* caller;
+	std::unique_ptr<IExpression> caller;
 
 	std::string GetLabel() override;
 };
@@ -97,7 +102,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IValue* value;
+	std::unique_ptr<IValue> value;
 
 	std::string GetLabel() override;
 };
@@ -109,7 +114,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* expression;
+	std::unique_ptr<IExpression> expression;
 
 	std::string GetLabel() override;
 };
@@ -121,7 +126,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	CId* id;
+	std::unique_ptr<CId> id;
 
 	std::string GetLabel() override;
 };
@@ -133,7 +138,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	CId* id;
+	std::unique_ptr<CId> id;
 
 	std::string GetLabel() override;
 };
@@ -155,7 +160,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* expression;
+	std::unique_ptr<IExpression> expression;
 
 	std::string GetLabel() override;
 };
@@ -167,7 +172,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	IExpression* expression;
+	std::unique_ptr<IExpression> expression;
 
 	std::string GetLabel() override;
 };
@@ -177,7 +182,7 @@ public:
 	CReturnExpression(IExpression* expression);
 	virtual void Accept(IVisitor* visitior) override;
 
-	IExpression* expression;
+	std::unique_ptr<IExpression> expression;
 
 	std::string GetLabel() override;
 };

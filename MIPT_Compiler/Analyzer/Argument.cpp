@@ -8,10 +8,11 @@ void CArgumentList::Accept(IVisitor* visitor)
 
 void CArgumentList::Add(CVariable* argument)
 {
-	arguments.push_back(argument);
+	std::shared_ptr<CVariable> ptr(argument);
+	arguments.push_back(ptr);
 }
 
 std::string CArgumentList::GetLabel()
 {
-	return  "arguments" + labelAddings;;
+	return  "arguments" + labelAddings;
 }

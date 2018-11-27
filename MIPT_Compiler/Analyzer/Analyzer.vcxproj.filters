@@ -1,51 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Файлы заголовков">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Visitor">
-      <UniqueIdentifier>{347be3ee-0484-448b-bc60-179f8204eb63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree">
-      <UniqueIdentifier>{e696dc3c-2bb5-4141-87ae-f1aaa26f1aaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SymbolTable">
-      <UniqueIdentifier>{38b35f73-6dc4-483f-8214-c9f5472a62ad}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Argument.cpp">
+      <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="tokens.flex.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="Class.cpp">
+      <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="grammar.tab.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="ClassInfo.cpp">
+      <Filter>SymbolTable</Filter>
     </ClCompile>
     <ClCompile Include="Expressions.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Value.cpp">
+    <ClCompile Include="Function.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="grammar.tab.cpp">
+      <Filter>Bison</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionInfo.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="Id.cpp">
+      <Filter>Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="MainClass.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
     <ClCompile Include="Modifier.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Statement.cpp">
-      <Filter>Tree</Filter>
+    <ClCompile Include="PrettyPrinter.cpp">
+      <Filter>Visitor</Filter>
     </ClCompile>
-    <ClCompile Include="Id.cpp">
+    <ClCompile Include="StackBuilder.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="Value.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
     <ClCompile Include="Variable.cpp">
@@ -54,98 +47,84 @@
     <ClCompile Include="Tree.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Argument.cpp">
-      <Filter>Tree</Filter>
-    </ClCompile>
-    <ClCompile Include="Function.cpp">
-      <Filter>Tree</Filter>
-    </ClCompile>
-    <ClCompile Include="Class.cpp">
-      <Filter>Tree</Filter>
-    </ClCompile>
     <ClCompile Include="Type.cpp">
-      <Filter>Tree</Filter>
-    </ClCompile>
-    <ClCompile Include="MainClass.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp">
       <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Visitor.cpp">
-      <Filter>Visitor</Filter>
+    <ClCompile Include="Statement.cpp">
+      <Filter>Tree</Filter>
     </ClCompile>
-    <ClCompile Include="FunctionInfo.cpp">
-      <Filter>SymbolTable</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassInfo.cpp">
-      <Filter>SymbolTable</Filter>
+    <ClCompile Include="tokens.flex.cpp">
+      <Filter>Bison</Filter>
     </ClCompile>
     <ClCompile Include="Symbol.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="NamespaceBlock.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
     <ClCompile Include="VariableInfo.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
-    <ClCompile Include="NamespaceBlock.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Defines.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="grammar.tab.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="BisonUtils.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Visitor.h">
-      <Filter>Visitor</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Expressions.h">
-      <Filter>Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Value.h">
-      <Filter>Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Modifier.h">
-      <Filter>Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Statement.h">
-      <Filter>Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Variable.h">
-      <Filter>Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Id.h">
-      <Filter>Tree</Filter>
-    </ClInclude>
     <ClInclude Include="Argument.h">
       <Filter>Tree</Filter>
     </ClInclude>
     <ClInclude Include="Class.h">
       <Filter>Tree</Filter>
     </ClInclude>
+    <ClInclude Include="ClassInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Expressions.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
     <ClInclude Include="Function.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="BisonUtils.h">
+      <Filter>Bison</Filter>
+    </ClInclude>
+    <ClInclude Include="grammar.tab.h">
+      <Filter>Bison</Filter>
+    </ClInclude>
+    <ClInclude Include="Id.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="MainClass.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Modifier.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="PrettyPrinter.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="StackBuilder.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Value.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Variable.h">
+      <Filter>Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
       <Filter>Tree</Filter>
     </ClInclude>
     <ClInclude Include="Type.h">
       <Filter>Tree</Filter>
     </ClInclude>
-    <ClInclude Include="MainClass.h">
+    <ClInclude Include="Statement.h">
       <Filter>Tree</Filter>
     </ClInclude>
     <ClInclude Include="Program.h">
@@ -154,32 +133,50 @@
     <ClInclude Include="Symbol.h">
       <Filter>SymbolTable</Filter>
     </ClInclude>
-    <ClInclude Include="ClassInfo.h">
-      <Filter>SymbolTable</Filter>
-    </ClInclude>
-    <ClInclude Include="VariableInfo.h">
-      <Filter>SymbolTable</Filter>
-    </ClInclude>
-    <ClInclude Include="FunctionInfo.h">
-      <Filter>SymbolTable</Filter>
-    </ClInclude>
     <ClInclude Include="SymbolTable.h">
       <Filter>SymbolTable</Filter>
     </ClInclude>
     <ClInclude Include="NamespaceBlock.h">
       <Filter>SymbolTable</Filter>
     </ClInclude>
-    <ClInclude Include="UndefinedTypeException.h">
+    <ClInclude Include="VariableInfo.h">
       <Filter>SymbolTable</Filter>
     </ClInclude>
-    <ClInclude Include="DataType.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="Defines.h">
+      <Filter>Defines</Filter>
     </ClInclude>
-    <ClInclude Include="VisabilityModifier.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="UndefinedTypeException.h">
+      <Filter>Defines</Filter>
     </ClInclude>
     <ClInclude Include="InvalidDefinitionException.h">
-      <Filter>SymbolTable</Filter>
+      <Filter>Defines</Filter>
     </ClInclude>
+    <ClInclude Include="VisabilityModifier.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="DataType.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
+    <Text Include="output.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Visitor">
+      <UniqueIdentifier>{095caad2-4ef6-4fbe-9e89-0993f990f3de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tree">
+      <UniqueIdentifier>{bd29ba48-872b-4a50-8467-7fafdc002d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SymbolTable">
+      <UniqueIdentifier>{c326526f-800b-449b-94b5-bc06623b8186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bison">
+      <UniqueIdentifier>{21b47ac6-d6a0-4ebb-949a-ef470058f49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Defines">
+      <UniqueIdentifier>{30ecba1f-6f49-416c-b4e9-ffb17711fa20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

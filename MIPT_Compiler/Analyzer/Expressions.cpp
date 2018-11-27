@@ -157,7 +157,8 @@ void CExpressionList::Accept(IVisitor* visitor)
 
 void CExpressionList::Add(IExpression* expression)
 {
-	expressions.push_back(expression);
+	std::shared_ptr<IExpression> ptr(expression);
+	expressions.push_back(ptr);
 }
 
 std::string CExpressionList::GetLabel()

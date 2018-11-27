@@ -15,7 +15,8 @@ void CStatementList::Accept(IVisitor* visitor)
 
 void CStatementList::Add(IStatement* statement)
 {
-	statements.push_back(statement);
+	std::shared_ptr<IStatement> ptr(statement);
+	statements.push_back(ptr);
 }
 
 std::string CStatementList::GetLabel()

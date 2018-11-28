@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <Defines.h>
 #include <iostream>
 
@@ -12,7 +11,7 @@ void printTree(ITree* tree) {
 	builder.BuildStack(tree);
 	
 	CPrettyPrinter printer("graphs/printer.txt");
-	for (int i = builder.nodesStack.size() - 1; i <= 0; i--) {
+	for (int i = static_cast<int>(builder.nodesStack.size()) - 1; i <= 0; i--) {
 		ITree* node = builder.nodesStack[i].get();
 		node->Accept(&printer);
 	}

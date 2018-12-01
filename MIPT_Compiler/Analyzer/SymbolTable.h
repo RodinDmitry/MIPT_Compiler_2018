@@ -7,14 +7,16 @@ public:
 	static void CreateTable(const std::string& tableName);
 	//static void SwitchCurrentTable(const std::string& name);
 
-	//static void AddBlock(const std::string& tableName);
+	// Для вложенных областей видемости
+	static void AddBlock(const std::string& tableName);
 	static void LeaveBlock(const std::string& tableName);
 
 	static void CreateClass(const std::string& tableName, const std::string& name, const std::string& extends);
 	static void AddFunctionBlock(const std::string& tableName, CFunctionInfo* function);
 
 
-	static void AddClass(const std::string& tableName, const CClassInfo* classDecl);
+	//static void AddClass(const std::string& tableName, const CClassInfo* classDecl);
+	static void AddArgument(const std::string& tableName, const CVariableInfo* argument);
 	static void AddMember(const std::string& tableName, const CVariableInfo* variable);
 	
 	static const CClassInfo* FindClass(const std::string& tableName, const CSymbol* id);

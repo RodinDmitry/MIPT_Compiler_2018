@@ -47,6 +47,10 @@ public:
 
 private:
 
-	std::deque<std::shared_ptr<CFunctionInfo>> functionStack;
+	CVariableInfo* createVariableInfo(CVariable*);
+	CFunctionInfo* createFunctionInfo(CFunction*);
+
 	std::deque<ITree*> waitingNodes;
+	std::vector<std::shared_ptr<ITree>> placeholders;
+	std::string tableName;
 };

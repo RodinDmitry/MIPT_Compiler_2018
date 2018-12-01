@@ -68,6 +68,9 @@
     <ClCompile Include="VariableInfo.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
+    <ClCompile Include="SymbolTableBuilder.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -156,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="DataType.h">
       <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolTableBuilder.h">
+      <Filter>Visitor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

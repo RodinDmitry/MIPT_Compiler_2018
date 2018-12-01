@@ -4,22 +4,22 @@
 
 class CSymbolTable {
 public:
-	static void CreateTable(const std::string& name);
-	static void SwitchCurrentTable(const std::string& name);
+	static void CreateTable(const std::string& tableName);
+	//static void SwitchCurrentTable(const std::string& name);
 
-	static void AddBlockToCurrent();
-	static void LeaveBlockInCurrent();
+	//static void AddBlock(const std::string& tableName);
+	static void LeaveBlock(const std::string& tableName);
 
-	static void CreateClassInCurrent(const std::string& name, const std::string& extends);
-	static void AddFunctionBlockToCurrent(CFunctionInfo* function);
+	static void CreateClass(const std::string& tableName, const std::string& name, const std::string& extends);
+	static void AddFunctionBlock(const std::string& tableName, CFunctionInfo* function);
 
 
-	static void AddClassToCurrent(const CClassInfo* classDecl);
-	static void AddMemberToCurrent(const CVariableInfo* variable);
+	static void AddClass(const std::string& tableName, const CClassInfo* classDecl);
+	static void AddMember(const std::string& tableName, const CVariableInfo* variable);
 	
-	static const CClassInfo* FindClassInCurrent(const CSymbol* id);
-	static const CFunctionInfo* FindMethodInCurrent(const CSymbol* id);
-	static const CVariableInfo* FindMemberInCurrent(const CSymbol* id);
+	static const CClassInfo* FindClass(const std::string& tableName, const CSymbol* id);
+	static const CFunctionInfo* FindMethod(const std::string& tableName, const CSymbol* id);
+	static const CVariableInfo* FindMember(const std::string& tableName, const CSymbol* id);
 private:
 	void AddBlock();
 	void LeaveBlock();

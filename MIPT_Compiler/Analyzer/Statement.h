@@ -64,9 +64,9 @@ public:
 	std::string GetLabel() override;
 };
 
-class CEqualStatement : public IStatement {
+class CAssignStatement : public IStatement {
 public:
-	CEqualStatement(CLValueExpression* left, IExpression* right);
+	CAssignStatement(CLValueExpression* left, IExpression* right);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CLValueExpression> left;

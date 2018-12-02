@@ -207,7 +207,7 @@ void CStackBuilder::visit(CPrintStatement* node)
 	addIfNotNull(node->expression.get());
 }
 
-void CStackBuilder::visit(CEqualStatement* node)
+void CStackBuilder::visit(CAssignStatement* node)
 {
 	addIfNotNull(node->right.get());
 	addIfNotNull(node->left.get());

@@ -41,7 +41,7 @@ public:
 	virtual void visit(CIfStatement*) override;
 	virtual void visit(CWhileStatement*) override;
 	virtual void visit(CPrintStatement*) override;
-	virtual void visit(CEqualStatement*) override;
+	virtual void visit(CAssignStatement*) override;
 	virtual void visit(CVariableStatement*) override;
 	virtual void visit(CType*) override;
 	virtual void visit(IValue*) override;

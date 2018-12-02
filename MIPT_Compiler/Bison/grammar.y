@@ -96,7 +96,7 @@ extern void syntaxError(const std::string& name, int line);
 %left PT_Dot
 %left PT_Negation 
 %left PT_Multiplication PT_Division PT_IntegerDivision 
-%left PT_Equal PT_And PT_Or PT_More PT_Less PT_Plus PT_Minus
+%left PT_Assign PT_And PT_Or PT_More PT_Less PT_Plus PT_Minus
 
 %left BRACKETS
 %left ARRAY
@@ -181,7 +181,7 @@ StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To
 	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem { $$ =  new CIfStatement(To<IExpression>($3), To<IStatement>($5), nullptr); }
 	| While LeftRoundBracket Expression RightRoundBracket  StatementItem { $$ = new CWhileStatement(To<IExpression>($3), To<IStatement>($5)); }
 	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { $$ = new CPrintStatement(To<IExpression>($3)); }
-	| LvalueExpression Equals Expression Semicolon { $$ = new CEqualStatement(To<CLValueExpression>($1), To<IExpression>($3)); }
+	| LvalueExpression Assign Expression Semicolon { $$ = new CAssignStatement(To<CLValueExpression>($1), To<IExpression>($3)); }
 	| Variable Semicolon { $$ = new CVariableStatement(To<CVariable>($1)); }
 ;
 
@@ -242,7 +242,7 @@ ClassWord: PT_Class {  dumpBisonToken("class"); }
 ExtendsWord: PT_Extends { dumpBisonToken("extend"); }
 ;
 
-Equals: PT_Equal {  dumpBisonToken("equal"); }
+Assign: PT_Assign {  dumpBisonToken("assign"); }
 ;
 
 Integer: PT_Integer {  dumpBisonToken("int"); }

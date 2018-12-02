@@ -1,9 +1,12 @@
 #pragma once
-
 #include <Visitor.h>
+#include <SymbolTable.h>
 
 class CMalformedProgramChecker : public IVisitor {
 public:
+
+	void BuildTable(ITree* startNode, std::string tableName);
+
 	virtual void visit(ITree*) override;
 	virtual void visit(CArgumentList*) override;
 	virtual void visit(CClassDeclaration*) override;
@@ -38,10 +41,25 @@ public:
 	virtual void visit(CIfStatement*) override;
 	virtual void visit(CWhileStatement*) override;
 	virtual void visit(CPrintStatement*) override;
-	virtual void visit(CEqualStatement*) override;
+	virtual void visit(CAssignStatement*) override;
 	virtual void visit(CVariableStatement*) override;
 	virtual void visit(CType*) override;
 	virtual void visit(IValue*) override;
 	virtual void visit(CValue*) override;
 	virtual void visit(CVariable*) override;
+	virtual void visit(CVisibilityBlockStart*) override;
+	virtual void visit(CVisibilityBlockEnd*) override;
+
+private:
+
+	CVariableInfo* createVariableInfo(CVariable*);
+	CFunctionInfo* createFunctionInfo(CFunction*);
+	void createEnterPlaceholder();
+	void createLeavePlaceholder();
+	void cleanup();
+	void typeCheck(IExpression* left, IExpression* right);
+
+	std::deque<ITree*> waitingNodes;
+	std::vector<std::shared_ptr<ITree>> placeholders;
+	std::string tableName;
 };

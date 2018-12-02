@@ -19,8 +19,32 @@ protected:
 	std::string labelAddings = "";
 };
 
-inline void ITree::Accept(IVisitor*) {
-	assert(false);
+class CClassVisibilityStart : public ITree {
+	virtual void Accept(IVisitor* visitor) override;
+};
+
+class CClassVisibilityEnd : public ITree {
+	virtual void Accept(IVisitor* visitor) override;
+};
+
+class CFunctionVisibilityStart : public ITree {
+	virtual void Accept(IVisitor* visitor) override;
+};
+
+class CFunctionVisibilityEnd: public ITree {
+	virtual void Accept(IVisitor* visitor) override;
+};
+
+class CVisibilityBlockStart : public ITree {
+	virtual void Accept(IVisitor* visitor) override;
+};
+
+class CVisibilityBlockEnd : public ITree {
+	virtual void Accept(IVisitor* visitor) override;
+};
+
+inline void ITree::Accept(IVisitor* visitor) {
+	visitor->visit(this);
 }
 
 inline std::string ITree::GetLabel() {

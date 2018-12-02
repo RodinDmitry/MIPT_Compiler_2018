@@ -68,11 +68,11 @@
     <ClCompile Include="VariableInfo.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
-    <ClCompile Include="SymbolTableBuilder.cpp">
-      <Filter>Visitor</Filter>
-    </ClCompile>
     <ClCompile Include="MalformedProgramChecker.cpp">
       <Filter>Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorTable.cpp">
+      <Filter>ErrorTable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,11 +163,11 @@
     <ClInclude Include="DataType.h">
       <Filter>Defines</Filter>
     </ClInclude>
-    <ClInclude Include="SymbolTableBuilder.h">
-      <Filter>Visitor</Filter>
-    </ClInclude>
     <ClInclude Include="MalformedProgramChecker.h">
       <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorTable.h">
+      <Filter>ErrorTable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +189,9 @@
     </Filter>
     <Filter Include="Defines">
       <UniqueIdentifier>{30ecba1f-6f49-416c-b4e9-ffb17711fa20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ErrorTable">
+      <UniqueIdentifier>{d1ab67f1-2378-4885-80dd-f99c150b7afc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

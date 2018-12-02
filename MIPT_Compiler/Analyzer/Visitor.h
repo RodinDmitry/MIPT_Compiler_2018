@@ -71,15 +71,20 @@ public:
 	virtual void visit(CIfStatement*) = 0;
 	virtual void visit(CWhileStatement*) = 0;
 	virtual void visit(CPrintStatement*) = 0;
-	virtual void visit(CEqualStatement*) = 0;
+	virtual void visit(CAssignStatement*) = 0;
 	virtual void visit(CVariableStatement*) = 0;
 	virtual void visit(CType*) = 0;
 	virtual void visit(IValue*) = 0;
 	virtual void visit(CValue*) = 0;
 	virtual void visit(CVariable*) = 0;
+	virtual void visit(CClassVisibilityStart*) { assert(false); }
+	virtual void visit(CClassVisibilityEnd*) { assert(false); }
+	virtual void visit(CFunctionVisibilityStart*) { assert(false); }
+	virtual void visit(CFunctionVisibilityEnd*) { assert(false); } 
+	virtual void visit(CVisibilityBlockStart*) { assert(false); }
+	virtual void visit(CVisibilityBlockEnd*) { assert(false); }
 
 };
-
 
 
 

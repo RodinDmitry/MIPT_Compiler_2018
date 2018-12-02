@@ -167,7 +167,7 @@ extern int yydebug;
      PT_More = 297,
      PT_Or = 298,
      PT_And = 299,
-     PT_Equal = 300,
+     PT_Assign = 300,
      BRACKETS = 301,
      ARRAY = 302,
      CALL = 303,
@@ -566,14 +566,14 @@ static const char *const yytname[] =
   "PT_LeftRoundBracket", "PT_RightBrace", "PT_RightSquareBracket",
   "PT_RightRoundBracket", "PT_Negation", "PT_IntegerDivision",
   "PT_Division", "PT_Multiplication", "PT_Minus", "PT_Plus", "PT_Less",
-  "PT_More", "PT_Or", "PT_And", "PT_Equal", "BRACKETS", "ARRAY", "CALL",
+  "PT_More", "PT_Or", "PT_And", "PT_Assign", "BRACKETS", "ARRAY", "CALL",
   "LENGTH", "NOT", "BINARY", "$accept", "Goal", "MainClass",
   "ClassDeclaration", "Class", "ClassStart", "Extends", "ClassInternals",
   "MainFunction", "MainArgument", "Function", "Visibility", "Return",
   "ArgumentsList", "Argument", "Variable", "Type", "Statement",
   "StatementItem", "LvalueExpression", "Expression", "BinaryOperator",
   "MethodCall", "FunctionCall", "ExpressionList", "Expressions", "ValueT",
-  "This", "ClassWord", "ExtendsWord", "Equals", "Integer", "Boolean",
+  "This", "ClassWord", "ExtendsWord", "Assign", "Integer", "Boolean",
   "LeftBrace", "RightBrace", "LeftRoundBracket", "RightRoundBracket",
   "LeftSquareBracket", "RightSquareBracket", "Length", "New", "Not",
   "Print", "Semicolon", "While", YY_NULL
@@ -2227,7 +2227,7 @@ yyreduce:
   case 40:
 /* Line 1792 of yacc.c  */
 #line 184 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CEqualStatement(To<CLValueExpression>((yyvsp[(1) - (4)].node)), To<IExpression>((yyvsp[(3) - (4)].node))); }
+    { (yyval.node) = new CAssignStatement(To<CLValueExpression>((yyvsp[(1) - (4)].node)), To<IExpression>((yyvsp[(3) - (4)].node))); }
     break;
 
   case 41:

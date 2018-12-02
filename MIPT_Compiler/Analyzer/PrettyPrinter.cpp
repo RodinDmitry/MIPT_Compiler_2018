@@ -178,7 +178,7 @@ void CPrettyPrinter::visit(CPrintStatement* node)
 	labels.push_back(std::make_pair(name, node));
 }
 
-void CPrettyPrinter::visit(CEqualStatement* node)
+void CPrettyPrinter::visit(CAssignStatement* node)
 {
 	std::string name = "assignStatement" + std::to_string(LastId++);
 	visitIfNotNull(node->left.get(), name);

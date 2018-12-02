@@ -54,7 +54,7 @@ extern void dumpToken(std::string token);
 "%" {dumpToken("%"); return PT_IntegerDivision;};
 "/" {dumpToken("/"); return PT_Division;}
 "||" {dumpToken("||"); return PT_Or;};
-"=" {dumpToken("="); return PT_Equal;};
+"=" {dumpToken("="); return PT_Assign;};
 ";" {dumpToken(";"); return PT_Semicolon;};
 "." {dumpToken("."); return PT_Dot;};
 "," {dumpToken(","); return PT_Coma;};

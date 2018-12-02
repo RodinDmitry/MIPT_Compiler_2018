@@ -98,7 +98,7 @@ extern int yydebug;
      PT_More = 297,
      PT_Or = 298,
      PT_And = 299,
-     PT_Equal = 300,
+     PT_Assign = 300,
      BRACKETS = 301,
      ARRAY = 302,
      CALL = 303,

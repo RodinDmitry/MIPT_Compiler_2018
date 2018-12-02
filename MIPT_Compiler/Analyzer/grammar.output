@@ -62,7 +62,7 @@ Grammar
    36              | PT_If LeftRoundBracket Expression RightRoundBracket StatementItem
    37              | While LeftRoundBracket Expression RightRoundBracket StatementItem
    38              | Print LeftRoundBracket Expression RightRoundBracket Semicolon
-   39              | LvalueExpression Equals Expression Semicolon
+   39              | LvalueExpression Assign Expression Semicolon
    40              | Variable Semicolon
 
    41 LvalueExpression: Expression LeftSquareBracket Expression RightSquareBracket
@@ -110,7 +110,7 @@ Grammar
 
    74 ExtendsWord: PT_Extends
 
-   75 Equals: PT_Equal
+   75 Assign: PT_Assign
 
    76 Integer: PT_Integer
 
@@ -187,7 +187,7 @@ PT_Less (296) 60
 PT_More (297) 61
 PT_Or (298) 58
 PT_And (299) 57
-PT_Equal (300) 75
+PT_Assign (300) 75
 BRACKETS (301)
 ARRAY (302)
 CALL (303)
@@ -259,7 +259,7 @@ ClassWord (80)
     on left: 73, on right: 3 8
 ExtendsWord (81)
     on left: 74, on right: 10
-Equals (82)
+Assign (82)
     on left: 75, on right: 39
 Integer (83)
     on left: 76, on right: 26 27 49
@@ -1108,14 +1108,14 @@ State 78
 
 State 79
 
-   39 StatementItem: LvalueExpression . Equals Expression Semicolon
+   39 StatementItem: LvalueExpression . Assign Expression Semicolon
    45 Expression: LvalueExpression .
 
-    PT_Equal  shift, and go to state 99
+    PT_Assign  shift, and go to state 99
 
     $default  reduce using rule 45 (Expression)
 
-    Equals  go to state 100
+    Assign  go to state 100
 
 
 State 80
@@ -1388,14 +1388,14 @@ State 98
 
 State 99
 
-   75 Equals: PT_Equal .
+   75 Assign: PT_Assign .
 
-    $default  reduce using rule 75 (Equals)
+    $default  reduce using rule 75 (Assign)
 
 
 State 100
 
-   39 StatementItem: LvalueExpression Equals . Expression Semicolon
+   39 StatementItem: LvalueExpression Assign . Expression Semicolon
 
     PT_Number            shift, and go to state 66
     PT_True              shift, and go to state 67
@@ -1764,7 +1764,7 @@ State 129
 
 State 130
 
-   39 StatementItem: LvalueExpression Equals Expression . Semicolon
+   39 StatementItem: LvalueExpression Assign Expression . Semicolon
    41 LvalueExpression: Expression . LeftSquareBracket Expression RightSquareBracket
    42                 | Expression . MethodCall FunctionCall
    46 Expression: Expression . BinaryOperator Expression
@@ -2062,7 +2062,7 @@ State 147
 
 State 148
 
-   39 StatementItem: LvalueExpression Equals Expression Semicolon .
+   39 StatementItem: LvalueExpression Assign Expression Semicolon .
 
     $default  reduce using rule 39 (StatementItem)
 

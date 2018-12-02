@@ -3,6 +3,11 @@
 #include <Argument.h>
 #include <Id.h>
 
+void IExpression::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
+
 void CLValueExpression::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);

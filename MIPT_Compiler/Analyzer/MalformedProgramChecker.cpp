@@ -347,9 +347,16 @@ void CMalformedProgramChecker::typeCheck(CType* type, IExpression* node)
 {
 	CTypeGetter getter;
 	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
-	if (type->type != nodeType->type || type->instance == nodeType->instance) {
+	if (type->type != nodeType->type) {
+		if (type->type == DT_Integer && nodeType->type == DT_Boolean) {
+			return;
+		}
 		CErrorTable::AddError("Type check failed");
 	}
+	if (type->instance != nodeType->instance) {
+		CErrorTable::AddError("Type check failed");
+	}
+	
 }
 
 void CMalformedProgramChecker::notVoidCheck(IExpression * node)

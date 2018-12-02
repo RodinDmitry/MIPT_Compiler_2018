@@ -74,6 +74,9 @@
     <ClCompile Include="ErrorTable.cpp">
       <Filter>ErrorTable</Filter>
     </ClCompile>
+    <ClCompile Include="TypeChecker.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="ErrorTable.h">
       <Filter>ErrorTable</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeChecker.h">
+      <Filter>Visitor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

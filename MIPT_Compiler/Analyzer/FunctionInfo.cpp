@@ -1,12 +1,14 @@
-#include "FunctionInfo.h"
+#include <FunctionInfo.h>
 #include <SymbolTable.h>
+#include <Type.h>
 #include <UndefinedTypeException.h>
 
-CFunctionInfo::CFunctionInfo(const CSymbol* _name, const CSymbol* _userType, TDataType _returnType, TVisabilityModifierType _modifierType)
-	:name(_name), userType(_userType), returnType(_returnType), modifierType(_modifierType)
+CFunctionInfo::CFunctionInfo(std::string& table, CSymbol* _name, const CSymbol* _userType,
+	TDataType _returnType, TVisabilityModifierType _modifierType)
+:name(_name), userType(_userType), returnType(_returnType), modifierType(_modifierType)
 {
 	if (returnType == TDataType::DT_Instance) {
-		if (CSymbolTable::FindClassInCurrent(userType)) {
+		if (CSymbolTable::FindClass(table, userType)) {
 			throw new CUndefinedTypeException(userType->String());
 		}
 	}
@@ -30,4 +32,9 @@ const std::vector<const CVariableInfo*>& CFunctionInfo::GetArguments() const
 const CSymbol * CFunctionInfo::String() const
 {
 	return name;
+}
+
+CType* CFunctionInfo::GetReturnType() const
+{
+	return nullptr;
 }

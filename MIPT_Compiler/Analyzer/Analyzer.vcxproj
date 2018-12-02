@@ -141,6 +141,7 @@
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Type.cpp" />
+    <ClCompile Include="TypeChecker.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="Variable.cpp" />
     <ClCompile Include="VariableInfo.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="MalformedProgramChecker.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="TypeChecker.h" />
     <ClInclude Include="UndefinedTypeException.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Variable.h" />

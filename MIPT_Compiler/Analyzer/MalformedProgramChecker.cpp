@@ -93,6 +93,7 @@ void CMalformedProgramChecker::visit(CLValueExpression*)
 
 void CMalformedProgramChecker::visit(CBinaryExpression* node)
 {
+	typeCheck(node->left.get(), node->right.get());
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }
@@ -105,6 +106,7 @@ void CMalformedProgramChecker::visit(CArrayExpression* node)
 
 void CMalformedProgramChecker::visit(CCallExpression* node)
 {
+	callerCheck(node->caller.get(), node->function.get());
 	waitingNodes.push_front(node->caller.get());
 }
 
@@ -118,14 +120,21 @@ void CMalformedProgramChecker::visit(CNewArrayExpression*)
 	//ignore
 }
 
-void CMalformedProgramChecker::visit(CNewExpression*)
+void CMalformedProgramChecker::visit(CNewExpression* node)
 {
-	//ignore
+	const CClassInfo* info = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(node->id->name));
+	if (info == nullptr) {
+		CErrorTable::AddError("Unknown class");
+	}
+
 }
 
-void CMalformedProgramChecker::visit(CIdExpression*)
+void CMalformedProgramChecker::visit(CIdExpression* node)
 {
-	//ignore
+	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(node->id->name));
+	if (info == nullptr) {
+		CErrorTable::AddError("Unknown variable");
+	}
 }
 
 void CMalformedProgramChecker::visit(CThisExpression*)
@@ -140,6 +149,7 @@ void CMalformedProgramChecker::visit(CNotExpression* node)
 
 void CMalformedProgramChecker::visit(CBracketsExpression* node)
 {
+	notVoidCheck(node);
 	waitingNodes.push_front(node->expression.get());
 }
 
@@ -292,8 +302,9 @@ CVariableInfo* CMalformedProgramChecker::createVariableInfo(CVariable* node)
 
 CFunctionInfo* CMalformedProgramChecker::createFunctionInfo(CFunction* node)
 {
+	typeCheck(node->returns.get(), node->returnExpression.get());
 	try {
-		CFunctionInfo* info = new CFunctionInfo(CSymbol::GetSymbol(node->name->name),
+		CFunctionInfo* info = new CFunctionInfo(tableName, CSymbol::GetSymbol(node->name->name),
 			CSymbol::GetSymbol(node->returns->instance), node->returns->type, node->visibility->type);
 		return info;
 	}

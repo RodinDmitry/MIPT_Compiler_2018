@@ -154,7 +154,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (ITree* resultTree);
+int yyparse (ITree** resultTree);
 #else
 int yyparse ();
 #endif

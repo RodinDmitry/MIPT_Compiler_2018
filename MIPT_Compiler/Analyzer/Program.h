@@ -3,6 +3,7 @@
 #include <Tree.h>
 #include <Class.h>
 #include <MainClass.h>
+#include <iostream>
 
 class CProgram : public ITree {
 public:
@@ -13,5 +14,5 @@ public:
 	std::unique_ptr<CClassList> classes;
 
 	std::string GetLabel() override;
-
+	
 };

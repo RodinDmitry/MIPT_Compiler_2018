@@ -48,7 +48,7 @@ public:
 	virtual void visit(CValue*) override;
 	virtual void visit(CVariable*) override;
 
-	std::vector<std::shared_ptr<ITree>> nodesStack;
+	std::vector<ITree*> nodesStack;
 
 private:
 	void addIfNotNull(ITree* node);

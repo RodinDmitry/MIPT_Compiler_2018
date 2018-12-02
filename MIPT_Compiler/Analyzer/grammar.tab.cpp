@@ -74,7 +74,7 @@ extern int yylex();
 extern FILE* yyin;
 
 
-extern void yyerror(ITree* tree, const char* s);
+extern void yyerror(ITree** tree, const char* s);
 extern void dumpBisonToken(std::string token);
 extern void syntaxError(const std::string& name, int line);
 
@@ -223,7 +223,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (ITree* resultTree);
+int yyparse (ITree** resultTree);
 #else
 int yyparse ();
 #endif
@@ -984,7 +984,7 @@ do {									  \
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, ITree* resultTree)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, ITree** resultTree)
 #else
 static void
 yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp, resultTree)
@@ -992,7 +992,7 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp, resultTree)
     int yytype;
     YYSTYPE const * const yyvaluep;
     YYLTYPE const * const yylocationp;
-    ITree* resultTree;
+    ITree** resultTree;
 #endif
 {
   FILE *yyo = yyoutput;
@@ -1022,7 +1022,7 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp, resultTree)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, ITree* resultTree)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, ITree** resultTree)
 #else
 static void
 yy_symbol_print (yyoutput, yytype, yyvaluep, yylocationp, resultTree)
@@ -1030,7 +1030,7 @@ yy_symbol_print (yyoutput, yytype, yyvaluep, yylocationp, resultTree)
     int yytype;
     YYSTYPE const * const yyvaluep;
     YYLTYPE const * const yylocationp;
-    ITree* resultTree;
+    ITree** resultTree;
 #endif
 {
   if (yytype < YYNTOKENS)
@@ -1083,14 +1083,14 @@ do {								\
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_reduce_print (YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, ITree* resultTree)
+yy_reduce_print (YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, ITree** resultTree)
 #else
 static void
 yy_reduce_print (yyvsp, yylsp, yyrule, resultTree)
     YYSTYPE *yyvsp;
     YYLTYPE *yylsp;
     int yyrule;
-    ITree* resultTree;
+    ITree** resultTree;
 #endif
 {
   int yynrhs = yyr2[yyrule];
@@ -1630,7 +1630,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, ITree* resultTree)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, ITree** resultTree)
 #else
 static void
 yydestruct (yymsg, yytype, yyvaluep, yylocationp, resultTree)
@@ -1638,7 +1638,7 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp, resultTree)
     int yytype;
     YYSTYPE *yyvaluep;
     YYLTYPE *yylocationp;
-    ITree* resultTree;
+    ITree** resultTree;
 #endif
 {
   YYUSE (yyvaluep);
@@ -1719,11 +1719,11 @@ yyparse (YYPARSE_PARAM)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 int
-yyparse (ITree* resultTree)
+yyparse (ITree** resultTree)
 #else
 int
 yyparse (resultTree)
-    ITree* resultTree;
+    ITree** resultTree;
 #endif
 #endif
 {
@@ -1997,7 +1997,7 @@ yyreduce:
           case 2:
 /* Line 1792 of yacc.c  */
 #line 113 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CProgram(To<CMain>((yyvsp[(1) - (2)].node)), To<CClassList>((yyvsp[(2) - (2)].node))); resultTree = (yyval.node); }
+    { (yyval.node) = new CProgram(To<CMain>((yyvsp[(1) - (2)].node)), To<CClassList>((yyvsp[(2) - (2)].node))); *resultTree = (yyval.node); }
     break;
 
   case 3:

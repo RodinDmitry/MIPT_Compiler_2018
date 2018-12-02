@@ -71,6 +71,9 @@
     <ClCompile Include="SymbolTableBuilder.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="MalformedProgramChecker.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -161,6 +164,9 @@
       <Filter>Defines</Filter>
     </ClInclude>
     <ClInclude Include="SymbolTableBuilder.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="MalformedProgramChecker.h">
       <Filter>Visitor</Filter>
     </ClInclude>
   </ItemGroup>

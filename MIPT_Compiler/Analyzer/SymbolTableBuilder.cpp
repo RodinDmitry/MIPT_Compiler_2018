@@ -1,6 +1,18 @@
 #include <SymbolTableBuilder.h>
 #include <assert.h>
 
+void CSymbolTableBuilder::BuildTable(ITree* startNode, std::string _tableName)
+{
+	cleanup();
+	tableName = _tableName;
+	waitingNodes.push_front(startNode);
+	while (waitingNodes.size() > 0) {
+		ITree* current = waitingNodes.front();
+		waitingNodes.pop_front();
+		current->Accept(this);
+	}
+}
+
 void CSymbolTableBuilder::visit(ITree* )
 {
 	// для определения того где конец класса иногда появляются заглушки в стеке
@@ -22,22 +34,20 @@ void CSymbolTableBuilder::visit(CClassDeclaration* node)
 	if (node->extend != nullptr) {
 		extend = node->extend->name;
 	}
+	createPlaceholder();
 	CSymbolTable::CreateClass(tableName, name, extend);
 }
 
 void CSymbolTableBuilder::visit(CClassInternals* node)
 {
 	if (node->function != nullptr) {
-		CFunctionInfo* info(createFunctionInfo(node->function.get()));
-		std::shared_ptr<ITree> placeholder(new ITree());
-		placeholders.push_back(placeholder);
-		waitingNodes.push_front(placeholder.get());
-		waitingNodes.push_front(node->function->body.get());
-		waitingNodes.push_front(node->function->arguments.get());
-		CSymbolTable::AddFunctionBlock(tableName, info);
+		waitingNodes.push_front(node->function.get());
 	}
 	else if (node->variable != nullptr) {
-		CSymbolTable::AddMember(tableName, createVariableInfo(node->variable.get()));
+		waitingNodes.push_front(node->variable.get());
+	}
+	else {
+		assert(false);
 	}
 }
 
@@ -48,92 +58,123 @@ void CSymbolTableBuilder::visit(CClassInternalsList* node)
 	}
 }
 
-void CSymbolTableBuilder::visit(CClass*)
+void CSymbolTableBuilder::visit(CClass* node)
 {
+	waitingNodes.push_front(node->internals.get());
+	waitingNodes.push_front(node->declaration.get());
 }
 
-void CSymbolTableBuilder::visit(CClassList *)
+void CSymbolTableBuilder::visit(CClassList* node)
 {
+	for (int i = node->classes.size() - 1; i >= 0; i--) {
+		waitingNodes.push_front(node->classes[i].get());
+	}
 }
 
-void CSymbolTableBuilder::visit(IExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CExpressionList *)
-{
-}
-
-void CSymbolTableBuilder::visit(CLValueExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CBinaryExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CArrayExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CCallExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CValueExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CNewArrayExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CNewExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CIdExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CThisExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CNotExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CBracketsExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CReturnExpression *)
-{
-}
-
-void CSymbolTableBuilder::visit(CFunction *)
-{
-}
-
-void CSymbolTableBuilder::visit(CId *)
+void CSymbolTableBuilder::visit(IExpression*)
 {
 	assert(false);
 }
 
-void CSymbolTableBuilder::visit(CMainArgument *)
+void CSymbolTableBuilder::visit(CExpressionList* node)
 {
+	for (int i = node->expressions.size() - 1; i >= 0; i--) {
+		waitingNodes.push_front(node->expressions[i].get());
+	}
 }
 
-void CSymbolTableBuilder::visit(CMainFunction *)
+void CSymbolTableBuilder::visit(CLValueExpression*)
 {
+	//ignore
 }
 
-void CSymbolTableBuilder::visit(CMain *)
+void CSymbolTableBuilder::visit(CBinaryExpression* node)
 {
+	waitingNodes.push_front(node->right.get());
+	waitingNodes.push_front(node->left.get());
 }
 
-void CSymbolTableBuilder::visit(CModifier *)
+void CSymbolTableBuilder::visit(CArrayExpression* node)
+{
+	waitingNodes.push_front(node->index.get());
+	waitingNodes.push_front(node->caller.get());
+}
+
+void CSymbolTableBuilder::visit(CCallExpression* node)
+{
+	waitingNodes.push_front(node->caller.get());
+}
+
+void CSymbolTableBuilder::visit(CValueExpression*)
+{
+	//ignore
+}
+
+void CSymbolTableBuilder::visit(CNewArrayExpression*)
+{
+	//ignore
+}
+
+void CSymbolTableBuilder::visit(CNewExpression*)
+{
+	//ignore
+}
+
+void CSymbolTableBuilder::visit(CIdExpression*)
+{
+	//ignore
+}
+
+void CSymbolTableBuilder::visit(CThisExpression*)
+{
+	//ignore
+}
+
+void CSymbolTableBuilder::visit(CNotExpression* node)
+{
+	waitingNodes.push_front(node->expression.get());
+}
+
+void CSymbolTableBuilder::visit(CBracketsExpression* node)
+{
+	waitingNodes.push_front(node->expression.get());
+}
+
+void CSymbolTableBuilder::visit(CReturnExpression* node)
+{
+	waitingNodes.push_front(node->expression.get());
+}
+
+void CSymbolTableBuilder::visit(CFunction* node)
+{
+	CFunctionInfo* info(createFunctionInfo(node));
+	createPlaceholder();
+	CSymbolTable::AddFunctionBlock(tableName, info);
+	waitingNodes.push_front(node->body.get());
+	waitingNodes.push_front(node->arguments.get());	
+}
+
+void CSymbolTableBuilder::visit(CId*)
+{
+	// ignore
+}
+
+void CSymbolTableBuilder::visit(CMainArgument*)
+{
+	// ignore ? TODO
+}
+
+void CSymbolTableBuilder::visit(CMainFunction*)
+{
+	// ignore ? TODO
+}
+
+void CSymbolTableBuilder::visit(CMain*)
+{
+	// ignore ? TODO
+}
+
+void CSymbolTableBuilder::visit(CModifier*)
 {
 	assert(false);
 }
@@ -144,38 +185,49 @@ void CSymbolTableBuilder::visit(CProgram* node)
 	waitingNodes.push_front(node->main.get());
 }
 
-void CSymbolTableBuilder::visit(IStatement *)
+void CSymbolTableBuilder::visit(IStatement*)
 {
 	assert(false);
 }
 
-void CSymbolTableBuilder::visit(CStatementList *)
+void CSymbolTableBuilder::visit(CStatementList* node)
 {
+	for (int i = node->statements.size() - 1; i >= 0; i--) {
+		waitingNodes.push_front(node->statements[i].get());
+	}
 }
 
-void CSymbolTableBuilder::visit(CVisibilityStatement *)
+void CSymbolTableBuilder::visit(CVisibilityStatement*)
 {
-	assert(false);
+	// ignore
 }
 
-void CSymbolTableBuilder::visit(CIfStatement *)
+void CSymbolTableBuilder::visit(CIfStatement* node)
 {
-	// TODO
+	createPlaceholder();
+	CSymbolTable::AddBlock(tableName);
+	waitingNodes.push_back(node->elseStatement.get());
+	waitingNodes.push_back(node->thenStatement.get());
+	waitingNodes.push_back(node->condition.get());
 }
 
-void CSymbolTableBuilder::visit(CWhileStatement *)
+void CSymbolTableBuilder::visit(CWhileStatement* node)
 {
-	// TODO
+	createPlaceholder();
+	CSymbolTable::AddBlock(tableName);
+	waitingNodes.push_back(node->statement.get());
+	waitingNodes.push_back(node->condition.get());
 }
 
-void CSymbolTableBuilder::visit(CPrintStatement *)
+void CSymbolTableBuilder::visit(CPrintStatement* node)
 {
-	assert(false);
+	waitingNodes.push_front(node->expression.get());
 }
 
-void CSymbolTableBuilder::visit(CEqualStatement *)
+void CSymbolTableBuilder::visit(CEqualStatement* node)
 {
-	assert(false);
+	waitingNodes.push_front(node->right.get());
+	waitingNodes.push_front(node->left.get());
 }
 
 void CSymbolTableBuilder::visit(CVariableStatement* node)
@@ -183,23 +235,24 @@ void CSymbolTableBuilder::visit(CVariableStatement* node)
 	CSymbolTable::AddMember(tableName, createVariableInfo(node->variable.get()));
 }
 
-void CSymbolTableBuilder::visit(CType *)
+void CSymbolTableBuilder::visit(CType*)
 {
-	assert(false);
+	// ignore
 }
 
-void CSymbolTableBuilder::visit(IValue *)
+void CSymbolTableBuilder::visit(IValue*)
 {
-	assert(false);
+	// ignore
 }
 
-void CSymbolTableBuilder::visit(CValue *)
+void CSymbolTableBuilder::visit(CValue*)
 {
-	assert(false);
+	// ignore
 }
 
-void CSymbolTableBuilder::visit(CVariable *)
+void CSymbolTableBuilder::visit(CVariable*)
 {
+	// все случаи обьявления переменной должны обрабатываться выше
 	assert(false);
 }
 
@@ -215,4 +268,17 @@ CFunctionInfo* CSymbolTableBuilder::createFunctionInfo(CFunction* node)
 	CFunctionInfo* info = new CFunctionInfo(CSymbol::GetSymbol(node->name->name), CSymbol::GetSymbol(node->returns->instance),
 		node->returns->type, node->visibility->type);
 	return info;
+}
+
+void CSymbolTableBuilder::createPlaceholder()
+{
+	std::shared_ptr<ITree> placeholder(new ITree());
+	placeholders.push_back(placeholder);
+	waitingNodes.push_front(placeholder.get());
+}
+
+void CSymbolTableBuilder::cleanup()
+{
+	waitingNodes.clear();
+	placeholders.clear();
 }

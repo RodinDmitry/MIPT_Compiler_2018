@@ -20,52 +20,51 @@ void CStackBuilder::visit(ITree* node)
 
 void CStackBuilder::visit(CArgumentList* node)
 {
-	for (int i = 0; i < node->arguments.size(); i++) {
+	for (int i = node->arguments.size() - 1; i >= 0 ; i--) {
 		addIfNotNull(node->arguments[i].get());
 	}
 }
 
 void CStackBuilder::visit(CClassDeclaration* node)
 {
-	addIfNotNull(node->name.get());
 	addIfNotNull(node->extend.get());
+	addIfNotNull(node->name.get());
 }
 
 void CStackBuilder::visit(CClassInternals* node)
 {
-	addIfNotNull(node->function.get());
 	addIfNotNull(node->variable.get());
+	addIfNotNull(node->function.get());
 }
 
 void CStackBuilder::visit(CClassInternalsList* node)
 {
-	for (int i = 0; i < node->internals.size(); i++) {
+	for (int i = node->internals.size() - 1; i >= 0; i--) {
 		addIfNotNull(node->internals[i].get());
 	}
-
 }
 
 void CStackBuilder::visit(CClass* node)
 {
-	addIfNotNull(node->declaration.get());
 	addIfNotNull(node->internals.get());
+	addIfNotNull(node->declaration.get());
 }
 
 void CStackBuilder::visit(CClassList* node)
 {
-	for (int i = 0; i < node->classes.size(); i++) {
+	for (int i = node->classes.size() - 1; i >= 0 ; i--) {
 		addIfNotNull(node->classes[i].get());
 	}
 }
 
 void CStackBuilder::visit(IExpression* node)
 {
-	throw std::exception();
+	assert(false);
 }
 
 void CStackBuilder::visit(CExpressionList* node)
 {
-	for (int i = 0; i < node->expressions.size(); i++) {
+	for (int i = node->expressions.size() - 1; i >= 0; i--) {
 		addIfNotNull(node->expressions[i].get());
 	}
 }
@@ -76,21 +75,21 @@ void CStackBuilder::visit(CLValueExpression*)
 
 void CStackBuilder::visit(CBinaryExpression* node)
 {
-	addIfNotNull(node->left.get());
 	addIfNotNull(node->right.get());
+	addIfNotNull(node->left.get());
 }
 
 void CStackBuilder::visit(CArrayExpression* node)
 {
-	addIfNotNull(node->caller.get());
 	addIfNotNull(node->index.get());
+	addIfNotNull(node->caller.get());
 }
 
 void CStackBuilder::visit(CCallExpression* node)
 {
-	addIfNotNull(node->caller.get());
-	addIfNotNull(node->function.get());
 	addIfNotNull(node->list.get());
+	addIfNotNull(node->function.get());
+	addIfNotNull(node->caller.get());
 }
 
 void CStackBuilder::visit(CValueExpression* node)
@@ -134,12 +133,12 @@ void CStackBuilder::visit(CReturnExpression* node)
 
 void CStackBuilder::visit(CFunction* node)
 {
-	addIfNotNull(node->visibility.get());
-	addIfNotNull(node->name.get());
-	addIfNotNull(node->arguments.get());
-	addIfNotNull(node->body.get());
-	addIfNotNull(node->returns.get());
 	addIfNotNull(node->returnExpression.get());
+	addIfNotNull(node->returns.get());
+	addIfNotNull(node->body.get());
+	addIfNotNull(node->arguments.get());
+	addIfNotNull(node->name.get());
+	addIfNotNull(node->visibility.get());
 }
 
 void CStackBuilder::visit(CId*)
@@ -153,14 +152,14 @@ void CStackBuilder::visit(CMainArgument* node)
 
 void CStackBuilder::visit(CMainFunction* node)
 {
-	addIfNotNull(node->argument.get());
 	addIfNotNull(node->body.get());
+	addIfNotNull(node->argument.get());
 }
 
 void CStackBuilder::visit(CMain* node)
 {
-	addIfNotNull(node->name.get());
 	addIfNotNull(node->mainFunction.get());
+	addIfNotNull(node->name.get());
 }
 
 void CStackBuilder::visit(CModifier*)
@@ -169,8 +168,8 @@ void CStackBuilder::visit(CModifier*)
 
 void CStackBuilder::visit(CProgram* node)
 {
-	addIfNotNull(node->main.get());
 	addIfNotNull(node->classes.get());
+	addIfNotNull(node->main.get());
 }
 
 void CStackBuilder::visit(IStatement*)
@@ -180,7 +179,7 @@ void CStackBuilder::visit(IStatement*)
 
 void CStackBuilder::visit(CStatementList* node)
 {
-	for (int i = 0; i < node->statements.size(); i++) {
+	for (int i = node->statements.size() - 1; i >= 0; i--) {
 		addIfNotNull(node->statements[i].get());
 	}
 }
@@ -192,15 +191,15 @@ void CStackBuilder::visit(CVisibilityStatement* node)
 
 void CStackBuilder::visit(CIfStatement* node)
 {
-	addIfNotNull(node->condition.get());
-	addIfNotNull(node->thenStatement.get());
 	addIfNotNull(node->elseStatement.get());
+	addIfNotNull(node->thenStatement.get());
+	addIfNotNull(node->condition.get());
 }
 
 void CStackBuilder::visit(CWhileStatement* node)
 {
-	addIfNotNull(node->condition.get());
 	addIfNotNull(node->statement.get());
+	addIfNotNull(node->condition.get());
 }
 
 void CStackBuilder::visit(CPrintStatement* node)
@@ -210,8 +209,8 @@ void CStackBuilder::visit(CPrintStatement* node)
 
 void CStackBuilder::visit(CEqualStatement* node)
 {
-	addIfNotNull(node->left.get());
 	addIfNotNull(node->right.get());
+	addIfNotNull(node->left.get());
 }
 
 void CStackBuilder::visit(CVariableStatement* node)
@@ -234,8 +233,8 @@ void CStackBuilder::visit(CValue*)
 
 void CStackBuilder::visit(CVariable* node)
 {
-	addIfNotNull(node->name.get());
 	addIfNotNull(node->type.get());
+	addIfNotNull(node->name.get());
 }
 
 void CStackBuilder::addIfNotNull(ITree* node)

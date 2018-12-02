@@ -129,6 +129,7 @@
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
+    <ClCompile Include="MalformedProgramChecker.cpp" />
     <ClCompile Include="Modifier.cpp" />
     <ClCompile Include="NamespaceBlock.cpp" />
     <ClCompile Include="PrettyPrinter.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
+    <ClInclude Include="MalformedProgramChecker.h" />
     <ClInclude Include="NamespaceBlock.h" />
     <ClInclude Include="PrettyPrinter.h" />
     <ClInclude Include="StackBuilder.h" />

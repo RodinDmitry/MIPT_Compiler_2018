@@ -2443,7 +2443,7 @@ yyreduce:
   case 76:
 /* Line 1792 of yacc.c  */
 #line 245 "MIPT_Compiler\\Bison\\grammar.y"
-    {  dumpBisonToken("equal"); }
+    {  dumpBisonToken("assign"); }
     break;
 
   case 77:

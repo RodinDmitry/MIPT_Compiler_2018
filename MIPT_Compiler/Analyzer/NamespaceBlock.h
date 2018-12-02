@@ -1,41 +1,51 @@
 #pragma once
 #include <ClassInfo.h>
 
-class NamespaceBlock {
+class CNamespaceBlock {
 public:
-	NamespaceBlock();
-	explicit NamespaceBlock(const NamespaceBlock* _parent);
+	CNamespaceBlock();
+	explicit CNamespaceBlock(const CNamespaceBlock* _parent);
 
-	const NamespaceBlock* GetParent() const;
+	const CNamespaceBlock* GetParent() const;
 
 	virtual void AddClass(const CClassInfo* classDecl);
 	virtual void AddMember(const CVariableInfo* variable);
 	virtual void AddMethod(const CFunctionInfo* method);
+
+	virtual void AddArgument(const CVariableInfo* argument);
+
+	virtual const CClassInfo* GetThis() const;
 
 	virtual const CClassInfo* FindClass(const CSymbol* id) const;
 	virtual const CFunctionInfo* FindMethod(const CSymbol* id) const;
 	virtual const CVariableInfo* FindMember(const CSymbol* id) const;
 
 protected:
-	const NamespaceBlock* parent;
+	const CNamespaceBlock* parent;
 	std::vector<std::unique_ptr<CVariableInfo> > members;
 	std::vector<std::unique_ptr<CFunctionInfo> > methods;
 	std::vector<std::unique_ptr<CClassInfo> > classes;
 };
 
-class FunctionNamespaceBlock : public NamespaceBlock {
+class CFunctionNamespaceBlock : public CNamespaceBlock {
 public:
-	FunctionNamespaceBlock(const NamespaceBlock* _parent, const CFunctionInfo* function);
+	CFunctionNamespaceBlock(const CNamespaceBlock* _parent, CFunctionInfo* function);
 
 	void AddMember(const CVariableInfo* variable);
+	void AddArgument(const CVariableInfo* argument);
+
+private:
+	CFunctionInfo* funcToUpdate;
 };
 
-class ClassNamespaceBlock : public NamespaceBlock {
+class CClassNamespaceBlock : public CNamespaceBlock {
 public:
-	ClassNamespaceBlock(const NamespaceBlock* _parent, CClassInfo* classToUpdate);
+	CClassNamespaceBlock(const CNamespaceBlock* _parent, CClassInfo* classToUpdate);
 
 	void AddMember(const CVariableInfo* member);
 	void AddMethod(const CFunctionInfo* method);
+
+	const CClassInfo* GetThis() const;
 private:
 	CClassInfo* classToUpdate;
 };

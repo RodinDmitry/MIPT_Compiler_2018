@@ -1100,7 +1100,7 @@ YY_RULE_SETUP
 case 41:
 YY_RULE_SETUP
 #line 57 "MIPT_Compiler\\Flex\\tokens.l"
-{dumpToken("="); return PT_Equal;};
+{dumpToken("="); return PT_Assign;};
 	YY_BREAK
 case 42:
 YY_RULE_SETUP

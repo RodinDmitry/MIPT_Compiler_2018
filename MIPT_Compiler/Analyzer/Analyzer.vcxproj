@@ -138,6 +138,7 @@
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="Symbol.cpp" />
     <ClCompile Include="MalformedProgramChecker.cpp" />
+    <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Type.cpp" />

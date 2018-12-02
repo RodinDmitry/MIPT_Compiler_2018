@@ -27,17 +27,19 @@ private:
 	void LeaveBlock();
 	
 	void CreateClass(const std::string& name, const std::string& extends);
-	void CreateMethod(CFunctionInfo* method);
+	void AddFunctionBlock(CFunctionInfo* function);
 
-	void AddClass(const CClassInfo* classDecl);
+	void AddArgument(const CVariableInfo* argument);
 	void AddMember(const CVariableInfo* variable);
+
+	const CClassInfo* GetThis() const;
 
 	const CClassInfo* FindClass(const CSymbol* id) const;
 	const CFunctionInfo* FindMethod(const CSymbol* id) const;
 	const CVariableInfo* FindMember(const CSymbol* id) const;
 
-	NamespaceBlock* currentBlock;
-	std::vector<std::shared_ptr<NamespaceBlock> > blocks;
-	static std::unordered_map<std::string, std::unique_ptr<CSymbolTable> > tables;
+	CNamespaceBlock* currentBlock;
+	std::vector<std::shared_ptr<CNamespaceBlock> > blocks;
+	static std::unordered_map<const std::string, std::unique_ptr<CSymbolTable> > tables;
 	static CSymbolTable* currentTable;
 };

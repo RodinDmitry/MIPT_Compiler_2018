@@ -5,7 +5,7 @@
 
 class CTypeGetter : public IVisitor {
 public:
-	CType* GetType(IExpression* node, std::string symbolTable);
+	std::shared_ptr<CType> GetType(IExpression* node, std::string symbolTable);
 	virtual void visit(ITree*) override { assert(false); }
 	virtual void visit(CArgumentList*) override { assert(false); }
 	virtual void visit(CClassDeclaration*) override { assert(false); }
@@ -44,11 +44,14 @@ public:
 	virtual void visit(CVariableStatement*) override { assert(false); }
 	virtual void visit(CType*) override { assert(false); }
 	virtual void visit(IValue*) override { assert(false); }
-	virtual void visit(CValue*) override { assert(false); }
+	virtual void visit(CValue*) override;
 	virtual void visit(CVariable*) override { assert(false); }
 
 private:  
-	std::vector<CType*> resultingTypes;
+
+	CType* checkType();
+	
+	std::vector<std::shared_ptr<CType>> resultingTypes;
 	std::deque<ITree*> waitingNodes;
 	std::string symbolTable;
 };

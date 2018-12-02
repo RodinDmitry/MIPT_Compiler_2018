@@ -74,7 +74,7 @@
     <ClCompile Include="ErrorTable.cpp">
       <Filter>ErrorTable</Filter>
     </ClCompile>
-    <ClCompile Include="TypeChecker.cpp">
+    <ClCompile Include="TypeGetter.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -172,7 +172,7 @@
     <ClInclude Include="ErrorTable.h">
       <Filter>ErrorTable</Filter>
     </ClInclude>
-    <ClInclude Include="TypeChecker.h">
+    <ClInclude Include="TypeGetter.h">
       <Filter>Visitor</Filter>
     </ClInclude>
   </ItemGroup>

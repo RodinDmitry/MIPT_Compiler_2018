@@ -3,6 +3,7 @@
 #include <VisabilityModifier.h>
 #include <vector>
 #include <string>
+#include <Type.h>
 
 class CFunctionInfo {
 public:
@@ -12,11 +13,12 @@ public:
 	void AddArguments(std::vector<const CVariableInfo* >&& _arguments);
 	const std::vector<const CVariableInfo* >& GetArguments() const;
 	const CSymbol* String() const;
-	CType* GetReturnType() const;
+	std::shared_ptr<CType> GetType() const;
 private:
 	const CSymbol* name;
 	const CSymbol* userType;
 	const TDataType returnType;
 	const TVisabilityModifierType modifierType;
 	std::vector<const CVariableInfo* > arguments;
+	std::shared_ptr<CType> dataType;
 };

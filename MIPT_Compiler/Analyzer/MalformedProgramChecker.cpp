@@ -1,6 +1,7 @@
 #include <MalformedProgramChecker.h>
 #include <assert.h>
 #include <ErrorTable.h>
+#include <TypeGetter.h>
 
 void CMalformedProgramChecker::BuildTable(ITree* startNode, std::string _tableName)
 {
@@ -290,7 +291,7 @@ void CMalformedProgramChecker::visit(CVisibilityBlockEnd*)
 CVariableInfo* CMalformedProgramChecker::createVariableInfo(CVariable* node)
 {
 	try {
-		CVariableInfo* info = new CVariableInfo(CSymbol::GetSymbol(node->name->name), node->type->type,
+		CVariableInfo* info = new CVariableInfo(tableName, CSymbol::GetSymbol(node->name->name), node->type->type,
 			CSymbol::GetSymbol(node->type->instance));
 		return info;
 	}
@@ -332,4 +333,36 @@ void CMalformedProgramChecker::cleanup()
 {
 	waitingNodes.clear();
 	placeholders.clear();
+}
+
+void CMalformedProgramChecker::typeCheck(IExpression* left, IExpression* right)
+{
+	CTypeGetter getter;
+	std::shared_ptr<CType> leftType = getter.GetType(left, tableName);
+	typeCheck(leftType.get(), right);
+}
+
+void CMalformedProgramChecker::typeCheck(CType* type, IExpression* node)
+{
+	CTypeGetter getter;
+	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
+	if (type->type != nodeType->type || type->instance == nodeType->instance) {
+		CErrorTable::AddError("Type check failed");
+	}
+}
+
+void CMalformedProgramChecker::notVoidCheck(IExpression * node)
+{
+	CTypeGetter getter;
+	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
+	if (nodeType->type == DT_Void) {
+		CErrorTable::AddError("Type check failed");
+	}
+}
+
+void CMalformedProgramChecker::callerCheck(CId* caller, CId* function)
+{
+	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(caller->name));
+	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, info->String());
+	// TODO Get Class Method
 }

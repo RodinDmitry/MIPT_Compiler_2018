@@ -360,18 +360,42 @@ void CMalformedProgramChecker::notVoidCheck(IExpression * node)
 	}
 }
 
-void CMalformedProgramChecker::callerCheck(CId* caller, CId* function)
+void CMalformedProgramChecker::callerCheck(CId* caller, CId* function, CArgumentList* list)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(caller->name));
 	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, info->String());
 	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
+
+	std::vector<CType*> arguments;
+	for (int i = 0; i < list->arguments.size(); i++) {
+		arguments.push_back(list->arguments[i]->type.get());
+	}
+
 	bool hasCompatibleMethod = false;
 	for (int i = 0; i < methods.size(); i++) {
 		if (methods[i]->String()->String() == function->name) {
-			hasCompatibleMethod = true;
+			if (argumentCheck(methods[i], arguments)) {
+				hasCompatibleMethod = true;
+			}
 		}
 	}
 	if (!hasCompatibleMethod) {
 		CErrorTable::AddError("Invalid call");
 	}
+}
+
+bool CMalformedProgramChecker::argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments)
+{
+	const std::vector<const CVariableInfo*> variables = info->GetArguments();
+	if (arguments.size() != variables.size()) {
+		return false;
+	}
+	for (int i = 0; i < arguments.size(); i++) {
+		std::shared_ptr<CType> variableType = variables[i]->GetType();
+		if (variableType->type != arguments[i]->type || variableType->instance != arguments[i]->instance) {
+			return false;
+		}
+	}
+
+	return true;
 }

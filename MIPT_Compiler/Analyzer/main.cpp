@@ -4,7 +4,7 @@
 std::ofstream lexDumpFile;
 bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
-bool BISON_DUMP = false;
+bool BISON_DUMP = true;
 
 void printTree(ITree* tree) {
 	CStackBuilder builder;
@@ -29,9 +29,11 @@ enum FLAGS {
 };
 
 void processFile(std::string name, int flag) {
-	if ((flag ^ TOKEN_LIST) == flag) {
+	if ((flag & TOKEN_LIST) == TOKEN_LIST) {
 		LEX_DUMP = true;
 		BISON_DUMP = true;
+		lexDumpFile.open("dumps/lex" + name, std::ofstream::out);
+		bisonDumpFile.open("dumps/bison" + name, std::ofstream::out);
 	}
 
 
@@ -47,6 +49,10 @@ void processFile(std::string name, int flag) {
 
 	if ((flag & TREE_OUTPUT) == TREE_OUTPUT) {
 		printTree(resultTree.get());
+	}
+	if ((flag & TOKEN_LIST) == TOKEN_LIST) {
+		lexDumpFile.close();
+		bisonDumpFile.close();
 	}
 	system("pause");
 }
@@ -81,10 +87,16 @@ void parseArguments(int argc, char* argv[], int& flag, std::string& filePath) {
 	filePath = argv[argc - 1];
 }
 
-int main(int argc, char* argv[]) {
-	lexDumpFile.open("dumps/lex_dump.txt", std::ofstream::out);
-	bisonDumpFile.open("dumps/bison_dump.txt", std::ofstream::out);
+void testLex() {
+	for (int i = 0; i < goodSamples.size(); ++i) {
+		lexDumpFile.open("dumps/lex" + goodSamples[i], std::ofstream::out);
+		bisonDumpFile.open("dumps/bison" + goodSamples[i], std::ofstream::out);
+		lexDumpFile.close();
+		bisonDumpFile.close();
+	}
+}
 
+int main(int argc, char* argv[]) {
 	int flag;
 	std::string filePath;
 
@@ -100,7 +112,7 @@ void dumpToken(std::string token) {
 }
 
 void dumpBisonToken(std::string token) {
-	if (true) {
+	if (BISON_DUMP) {
 		bisonDumpFile << token << ' ';
 	}
 }

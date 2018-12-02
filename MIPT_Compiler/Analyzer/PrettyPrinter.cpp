@@ -29,6 +29,7 @@ void CPrettyPrinter::close()
 		output << label.first << " [ label = \"" << label.second->GetLabel() << "\"]" << std::endl;
 	}
 	output << "}" << std::endl;
+	output.flush();
 }
 
 void CPrettyPrinter::visit(CClassDeclaration* node)

@@ -8,7 +8,7 @@ extern int yylex();
 extern FILE* yyin;
 
 
-extern void yyerror(ITree* tree, const char* s);
+extern void yyerror(ITree** tree, const char* s);
 extern void dumpBisonToken(std::string token);
 extern void syntaxError(const std::string& name, int line);
 %}
@@ -18,7 +18,7 @@ extern void syntaxError(const std::string& name, int line);
 #include <iostream>
 }
 
-%parse-param {ITree* resultTree}
+%parse-param {ITree** resultTree}
 
 %define parse.lac full
 
@@ -110,7 +110,7 @@ extern void syntaxError(const std::string& name, int line);
 
 %%
 
-Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2)); resultTree = $$; } 
+Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2)); *resultTree = $$; } 
 	| error MainClass ClassDeclaration { syntaxError("Bad class definition", @1.first_line);
 										$$ = new CProgram(To<CMain>($2), To<CClassList>($3));  yyerrok;} 
 ;

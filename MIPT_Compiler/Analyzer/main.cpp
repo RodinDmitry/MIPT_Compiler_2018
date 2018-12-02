@@ -12,8 +12,8 @@ void printTree(ITree* tree) {
 	builder.BuildStack(tree);
 	
 	CPrettyPrinter printer("graphs/printer.txt");
-	for (int i = builder.nodesStack.size() - 1; i <= 0; i--) {
-		ITree* node = builder.nodesStack[i].get();
+	for (int i = builder.nodesStack.size() - 1; i >= 0; i--) {
+		ITree* node = builder.nodesStack[i];
 		node->Accept(&printer);
 	}
 	printer.close();
@@ -42,11 +42,11 @@ void processFile(std::string name, int flag) {
 	std::shared_ptr<ITree> resultTree;
 	{
 		ITree* temp = nullptr;
-		yyparse(temp);
+		yyparse(&temp);
 		resultTree.reset(temp);
 	}
 
-	if ((flag ^ TREE_OUTPUT) == flag) {
+	if ((flag & TREE_OUTPUT) == TREE_OUTPUT) {
 		printTree(resultTree.get());
 	}
 	system("pause");
@@ -81,7 +81,6 @@ void parseArguments(int argc, char* argv[], int& flag, std::string& filePath) {
 	}
 	filePath = argv[argc - 1];
 }
-
 
 int main(int argc, char* argv[]) {
 	lexDumpFile.open("dumps/lex_dump.txt", std::ofstream::out);

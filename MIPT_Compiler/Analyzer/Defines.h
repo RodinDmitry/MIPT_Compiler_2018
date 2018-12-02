@@ -4,5 +4,5 @@
 #include <string>
 
 extern int yylex();
-extern int yyparse(ITree*);
+extern int yyparse(ITree**);
 extern FILE* yyin;

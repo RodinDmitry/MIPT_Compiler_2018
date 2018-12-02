@@ -8,8 +8,7 @@ void CStackBuilder::BuildStack(ITree* tree)
 		waitingNodes.pop_front();
 		current->Accept(this);
 
-		std::shared_ptr<ITree> ptr(current);
-		nodesStack.push_back(ptr);
+		nodesStack.push_back(current);
 	}
 }
 

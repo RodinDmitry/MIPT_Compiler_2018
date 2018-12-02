@@ -43,12 +43,9 @@ class CVisibilityBlockEnd : public ITree {
 	virtual void Accept(IVisitor* visitor) override;
 };
 
-inline void ITree::Accept(IVisitor* visitor) {
-	visitor->visit(this);
-}
-
 inline std::string ITree::GetLabel() {
 	assert(false);
+	return "";
 }
 
 inline void ITree::AddToLabel(std::string adding) {

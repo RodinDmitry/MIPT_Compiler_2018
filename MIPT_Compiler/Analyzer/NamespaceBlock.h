@@ -8,7 +8,7 @@ public:
 
 	const CNamespaceBlock* GetParent() const;
 
-	virtual void AddClass(const CClassInfo* classDecl);
+	virtual void AddClass(CClassInfo* classDecl);
 	virtual void AddMember(const CVariableInfo* variable);
 	virtual void AddMethod(const CFunctionInfo* method);
 
@@ -22,9 +22,9 @@ public:
 
 protected:
 	const CNamespaceBlock* parent;
-	std::vector<std::unique_ptr<CVariableInfo> > members;
-	std::vector<std::unique_ptr<CFunctionInfo> > methods;
-	std::vector<std::unique_ptr<CClassInfo> > classes;
+	std::vector<std::unique_ptr<const CVariableInfo> > members;
+	std::vector<std::unique_ptr<const CFunctionInfo> > methods;
+	std::vector<std::unique_ptr<const CClassInfo> > classes;
 };
 
 class CFunctionNamespaceBlock : public CNamespaceBlock {

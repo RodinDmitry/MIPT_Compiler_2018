@@ -13,7 +13,7 @@ const CNamespaceBlock * CNamespaceBlock::GetParent() const
 	return parent;
 }
 
-void CNamespaceBlock::AddClass(const CClassInfo * classDecl)
+void CNamespaceBlock::AddClass(CClassInfo * classDecl)
 {
 	classes.emplace_back(classDecl);
 }

@@ -1,5 +1,7 @@
 #include "Symbol.h"
 
+std::map<std::string, std::unique_ptr<CSymbol> > CSymbol::allStrings;
+
 CSymbol::CSymbol(const std::string & _name) : name(_name)
 {
 	auto symb = allStrings.find(name);

@@ -31,3 +31,7 @@ void CVisibilityBlockEnd::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
 }
+
+void ITree::Accept(IVisitor* visitor) {
+	visitor->visit(this);
+}

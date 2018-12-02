@@ -77,7 +77,9 @@
     <ClCompile Include="TypeGetter.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
-    <ClCompile Include="SymbolTable.cpp" />
+    <ClCompile Include="SymbolTable.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">

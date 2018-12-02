@@ -4,7 +4,7 @@
 class CClassInfo {
 public:
 	explicit CClassInfo(const CSymbol* _name);
-	CClassInfo(const CSymbol* _name, const CSymbol* _extends);
+	CClassInfo(const std::string& tableName, const CSymbol* _name, const CSymbol* _extends);
 	void AddMember(const CVariableInfo* member);
 	void AddMembers(std::vector<const CVariableInfo* >&& _members);
 	void AddMethod(const CFunctionInfo* method);

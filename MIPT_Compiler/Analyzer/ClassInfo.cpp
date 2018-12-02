@@ -2,13 +2,13 @@
 #include <SymbolTable.h>
 
 CClassInfo::CClassInfo(const CSymbol * _name) 
-	: name(_name), extends(nullptr)
+	: name(_name), extends()
 {}
 
-CClassInfo::CClassInfo(const CSymbol * _name, const CSymbol * _extends) 
+CClassInfo::CClassInfo(const std::string& tableName, const CSymbol * _name, const CSymbol * _extends) 
 	: name(_name), extends(_extends)
 {
-	if (CSymbolTable::FindClassInCurrent(_extends)) {
+	if (CSymbolTable::FindClass(tableName, _extends)) {
 		throw new CUndefinedTypeException(_extends->String());
 	}
 }

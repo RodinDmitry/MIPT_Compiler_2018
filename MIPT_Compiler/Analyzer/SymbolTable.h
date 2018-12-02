@@ -1,6 +1,7 @@
 #pragma once
 #include <NamespaceBlock.h>
 #include <UndefinedTypeException.h>
+#include <map>
 
 class CSymbolTable {
 public:
@@ -24,6 +25,8 @@ public:
 	static const CFunctionInfo* FindMethod(const std::string& tableName, const CSymbol* id);
 	static const CVariableInfo* FindMember(const std::string& tableName, const CSymbol* id);
 private:
+	explicit CSymbolTable(const std::string& name);
+
 	void AddBlock();
 	void LeaveBlock();
 	
@@ -40,7 +43,8 @@ private:
 	const CVariableInfo* FindMember(const CSymbol* id) const;
 
 	CNamespaceBlock* currentBlock;
-	std::vector<std::shared_ptr<CNamespaceBlock> > blocks;
-	static std::unordered_map<const std::string, std::unique_ptr<CSymbolTable> > tables;
+	const std::string tableName;
+	std::vector<std::unique_ptr<CNamespaceBlock> > blocks;
+	static std::map<const std::string, std::unique_ptr<CSymbolTable> > tables;
 	static CSymbolTable* currentTable;
 };

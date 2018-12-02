@@ -1,6 +1,8 @@
 #include "SymbolTable.h"
 #include <assert.h>
 
+std::map<const std::string, std::unique_ptr<CSymbolTable> > CSymbolTable::tables;
+
 void CSymbolTable::CreateClass(const std::string& name, const std::string& extends)
 {
 	assert(currentBlock != nullptr);
@@ -8,7 +10,7 @@ void CSymbolTable::CreateClass(const std::string& name, const std::string& exten
 	if (extends == "") {
 		clDecl = new CClassInfo(CSymbol::GetSymbol(name));
 	} else {
-		clDecl = new CClassInfo(CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends));
+		clDecl = new CClassInfo(tableName, CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends));
 	}
 	blocks.emplace_back(new CClassNamespaceBlock(currentBlock, clDecl));
 	currentBlock->AddClass(clDecl);
@@ -55,7 +57,7 @@ const CVariableInfo * CSymbolTable::FindMember(const CSymbol * id) const
 
 void CSymbolTable::CreateTable(const std::string & tableName)
 {
-	tables.emplace(tableName, new CSymbolTable());
+	tables.emplace(tableName, new CSymbolTable(tableName));
 }
 
 void CSymbolTable::AddBlock(const std::string & tableName)
@@ -107,6 +109,8 @@ const CVariableInfo * CSymbolTable::FindMember(const std::string & tableName, co
 {
 	return tables[tableName]->FindMember(id);
 }
+
+CSymbolTable::CSymbolTable(const std::string & _name): tableName(_name) {}
 
 void CSymbolTable::AddBlock()
 {

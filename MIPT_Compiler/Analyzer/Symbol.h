@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <unordered_map>
+#include <map>
 
 class CSymbol {
 public:
@@ -14,5 +14,5 @@ public:
 
 protected:
 	std::string name;
-	static std::unordered_map<std::string, std::unique_ptr<CSymbol> > allStrings;
+	static std::map<std::string, std::unique_ptr<CSymbol> > allStrings;
 };

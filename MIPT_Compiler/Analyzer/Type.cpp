@@ -5,7 +5,7 @@ CType::CType() : type(TDataType::DT_Void)
 {
 }
 
-CType::CType(char* _instance) : type(TDataType::DT_Instance), instance(_instance)
+CType::CType(const char* _instance) : type(TDataType::DT_Instance), instance(_instance)
 {
 }
 

@@ -7,6 +7,7 @@ void CMalformedProgramChecker::BuildTable(ITree* startNode, std::string _tableNa
 {
 	cleanup();
 	tableName = _tableName;
+	CSymbolTable::CreateTable(_tableName);
 	waitingNodes.push_front(startNode);
 	while (waitingNodes.size() > 0) {
 		ITree* current = waitingNodes.front();

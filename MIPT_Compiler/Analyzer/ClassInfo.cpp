@@ -33,6 +33,11 @@ void CClassInfo::AddMethods(std::vector<const CFunctionInfo*>&& _methods)
 	methods = _methods;
 }
 
+const std::vector<const CFunctionInfo*>& CClassInfo::GetMethods() const
+{
+	return methods;
+}
+
 const CSymbol * CClassInfo::String() const
 {
 	return name;

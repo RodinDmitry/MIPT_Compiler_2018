@@ -19,6 +19,7 @@ public:
 	static void AddArgument(const std::string& tableName, const CVariableInfo* argument);
 	static void AddMember(const std::string& tableName, const CVariableInfo* variable);
 	
+	static const CClassInfo* GetThis(const std::string& tableName);
 	static const CClassInfo* FindClass(const std::string& tableName, const CSymbol* id);
 	static const CFunctionInfo* FindMethod(const std::string& tableName, const CSymbol* id);
 	static const CVariableInfo* FindMember(const std::string& tableName, const CSymbol* id);

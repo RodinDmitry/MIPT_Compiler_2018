@@ -1,18 +1,29 @@
-#include "VariableInfo.h"
+#include <VariableInfo.h>
 #include <SymbolTable.h>
 #include <UndefinedTypeException.h>
 
-CVariableInfo::CVariableInfo(const CSymbol * _name, TDataType _type, CSymbol * _userType)
+CVariableInfo::CVariableInfo(std::string& table, CSymbol* _name, TDataType _type, CSymbol* _userType)
 	: name(_name), type(_type), userType(_userType)
 {
 	if (type == TDataType::DT_Instance) {
-		if (CSymbolTable::FindClassInCurrent(userType)) {
+		if (CSymbolTable::FindClass(table, userType)) {
 			throw new CUndefinedTypeException(userType->String());
 		}
 	}
+	if (type == DT_Instance) {
+		dataType.reset(new CType(userType->String().c_str()));
+	}
+	else {
+		dataType.reset(new CType(type));
+	}
 }
 
-const CSymbol * CVariableInfo::String() const
+const CSymbol* CVariableInfo::String() const
 {
 	return name;
+}
+
+std::shared_ptr<CType> CVariableInfo::GetType() const
+{
+	return dataType;
 }

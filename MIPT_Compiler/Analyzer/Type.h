@@ -5,7 +5,7 @@
 class CType : public ITree {
 public:
 	CType();
-	CType(char* instance);
+	CType(const char* instance);
 	CType(TDataType type);
 
 	virtual void Accept(IVisitor* visitor) override;

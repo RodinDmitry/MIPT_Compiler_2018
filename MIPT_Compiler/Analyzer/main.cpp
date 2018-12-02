@@ -28,6 +28,17 @@ enum FLAGS {
 	ALL = TOKEN_LIST | TREE_OUTPUT | TEST
 };
 
+void typeCheckTree(ITree* tree) {
+	CStackBuilder builder;
+	builder.BuildStack(tree);
+
+	CMalformedProgramChecker checker;
+	checker.BuildTable(tree, "temp_name");
+	std::ofstream errorStream;
+	errorStream.open("type_errors.txt", std::ofstream::out);
+	CErrorTable::Print(errorStream);
+}
+
 void processFile(std::string name, int flag) {
 	if ((flag & TOKEN_LIST) == TOKEN_LIST) {
 		LEX_DUMP = true;
@@ -46,6 +57,9 @@ void processFile(std::string name, int flag) {
 		yyparse(&temp);
 		resultTree.reset(temp);
 	}
+
+	
+	typeCheckTree(resultTree.get());
 
 	if ((flag & TREE_OUTPUT) == TREE_OUTPUT) {
 		printTree(resultTree.get());

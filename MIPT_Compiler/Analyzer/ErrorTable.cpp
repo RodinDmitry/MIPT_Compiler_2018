@@ -15,7 +15,7 @@ void CErrorTable::AddError(CUndefinedTypeException* error)
 	instance->errorMessages.push_back(std::string("Unknown type ") + error->GetTypeName());
 }
 
-void CErrorTable::Print(std::fstream& stream)
+void CErrorTable::Print(std::ofstream& stream)
 {
 	createIfNotNull();
 	for (int i = 0; i < instance->errorMessages.size(); i++) {

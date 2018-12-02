@@ -1,6 +1,8 @@
 #pragma once
 #include <PrettyPrinter.h>
 #include <StackBuilder.h>
+#include <MalformedProgramChecker.h>
+#include <ErrorTable.h>
 #include <string>
 
 extern int yylex();

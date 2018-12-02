@@ -58,6 +58,7 @@ const CVariableInfo * CSymbolTable::FindMember(const CSymbol * id) const
 void CSymbolTable::CreateTable(const std::string & tableName)
 {
 	tables.emplace(tableName, new CSymbolTable(tableName));
+	tables[tableName]->AddBlock();
 }
 
 void CSymbolTable::AddBlock(const std::string & tableName)
@@ -125,4 +126,5 @@ void CSymbolTable::LeaveBlock()
 		blocks.emplace_back(new CNamespaceBlock());
 	}
 	currentBlock = const_cast<CNamespaceBlock*>(block);
+	assert(currentBlock != nullptr);
 }

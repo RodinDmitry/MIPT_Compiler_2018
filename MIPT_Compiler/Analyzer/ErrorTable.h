@@ -1,14 +1,12 @@
 #pragma once
-#include <string>
 #include <UndefinedTypeException.h>
 #include <vector>
-#include <string>
 
 class CErrorTable {
 public:
 	static void AddError(std::string message);
 	static void AddError(CUndefinedTypeException* error);
-	static void Print(std::fstream& stream);
+	static void Print(std::ofstream& stream);
 
 private:
 	CErrorTable() {}

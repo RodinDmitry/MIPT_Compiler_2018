@@ -364,5 +364,14 @@ void CMalformedProgramChecker::callerCheck(CId* caller, CId* function)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(caller->name));
 	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, info->String());
-	// TODO Get Class Method
+	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
+	bool hasCompatibleMethod = false;
+	for (int i = 0; i < methods.size(); i++) {
+		if (methods[i]->String()->String() == function->name) {
+			hasCompatibleMethod = true;
+		}
+	}
+	if (!hasCompatibleMethod) {
+		CErrorTable::AddError("Invalid call");
+	}
 }

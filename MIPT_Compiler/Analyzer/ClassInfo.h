@@ -9,6 +9,7 @@ public:
 	void AddMembers(std::vector<const CVariableInfo* >&& _members);
 	void AddMethod(const CFunctionInfo* method);
 	void AddMethods(std::vector<const CFunctionInfo* >&& _methods);
+	const std::vector<const CFunctionInfo*>& GetMethods() const;
 	const CSymbol* String() const;
 
 private:

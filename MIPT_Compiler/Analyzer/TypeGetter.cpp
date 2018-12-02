@@ -60,7 +60,8 @@ void CTypeGetter::visit(CIdExpression* node)
 
 void CTypeGetter::visit(CThisExpression* node)
 {
-	//TODO
+	const CClassInfo* info = CSymbolTable::GetThis(symbolTable);
+	std::shared_ptr<CType> type(new CType(info->String()->String().c_str()));
 }
 
 void CTypeGetter::visit(CNotExpression* node)

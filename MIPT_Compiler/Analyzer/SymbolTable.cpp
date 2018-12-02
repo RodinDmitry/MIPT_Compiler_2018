@@ -88,6 +88,11 @@ void CSymbolTable::AddMember(const std::string & tableName, const CVariableInfo 
 	tables[tableName]->AddMember(variable);
 }
 
+const CClassInfo* CSymbolTable::GetThis(const std::string& tableName)
+{
+	return tables[tableName]->GetThis();
+}
+
 const CClassInfo * CSymbolTable::FindClass(const std::string & tableName, const CSymbol * id)
 {
 	return tables[tableName]->FindClass(id);

@@ -72,6 +72,26 @@ void CNamespaceBlock::AddArgument(const CVariableInfo * argument)
 	throw new CInvalidDefinitionException(argument->String()->String());
 }
 
+void CNamespaceBlock::AddArgument(std::unique_ptr<const CVariableInfo>&& argument)
+{
+	throw new CInvalidDefinitionException(argument.get()->String()->String());
+}
+
+void CNamespaceBlock::AddMember(std::unique_ptr<const CVariableInfo>&& member)
+{
+	members.push_back(std::move(member));
+}
+
+void CNamespaceBlock::AddMethod(std::unique_ptr<const CFunctionInfo>&& method)
+{
+	throw new CInvalidDefinitionException(method->String()->String());
+}
+
+void CNamespaceBlock::AddClass(std::unique_ptr<const CClassInfo>&& classDecl)
+{
+	classes.push_back(std::move(classDecl));
+}
+
 const CClassInfo * CNamespaceBlock::GetThis() const
 {
 	if (parent != nullptr) {
@@ -99,6 +119,17 @@ void CFunctionNamespaceBlock::AddArgument(const CVariableInfo * argument)
 	members.emplace_back(argument);
 }
 
+void CFunctionNamespaceBlock::AddMember(std::unique_ptr<const CVariableInfo>&& member)
+{
+	members.push_back(std::move(member));
+}
+
+void CFunctionNamespaceBlock::AddArgument(std::unique_ptr<const CVariableInfo>&& method)
+{
+	funcToUpdate->AddArgument(method.get());
+	members.push_back(std::move(method));
+}
+
 CClassNamespaceBlock::CClassNamespaceBlock(const CNamespaceBlock * _parent, CClassInfo * _classToUpdate)
 	: CNamespaceBlock(_parent), classToUpdate(_classToUpdate)
 {}
@@ -113,6 +144,18 @@ void CClassNamespaceBlock::AddMethod(const CFunctionInfo * method)
 {
 	methods.emplace_back(method);
 	classToUpdate->AddMethod(method);
+}
+
+void CClassNamespaceBlock::AddMember(std::unique_ptr<const CVariableInfo>&& member)
+{
+	members.push_back(std::move(member));
+	classToUpdate->AddMember(member.get());
+}
+
+void CClassNamespaceBlock::AddMethod(std::unique_ptr<const CFunctionInfo>&& method)
+{
+	methods.push_back(std::move(method));
+	classToUpdate->AddMethod(method.get());
 }
 
 const CClassInfo * CClassNamespaceBlock::GetThis() const

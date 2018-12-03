@@ -13,6 +13,11 @@ public:
 	virtual void AddMethod(const CFunctionInfo* method);
 
 	virtual void AddArgument(const CVariableInfo* argument);
+	virtual void AddArgument(std::unique_ptr<const CVariableInfo>&& argument);
+
+	virtual void AddMember(std::unique_ptr<const CVariableInfo>&& member);
+	virtual void AddMethod(std::unique_ptr<const CFunctionInfo>&& method);
+	virtual void AddClass(std::unique_ptr<const CClassInfo>&& classDecl);
 
 	virtual const CClassInfo* GetThis() const;
 
@@ -34,6 +39,9 @@ public:
 	void AddMember(const CVariableInfo* variable);
 	void AddArgument(const CVariableInfo* argument);
 
+	void AddMember(std::unique_ptr<const CVariableInfo>&& member);
+	void AddArgument(std::unique_ptr<const CVariableInfo>&& method);
+
 private:
 	CFunctionInfo* funcToUpdate;
 };
@@ -44,6 +52,9 @@ public:
 
 	void AddMember(const CVariableInfo* member);
 	void AddMethod(const CFunctionInfo* method);
+
+	void AddMember(std::unique_ptr<const CVariableInfo>&& member);
+	void AddMethod(std::unique_ptr<const CFunctionInfo>&& method);
 
 	const CClassInfo* GetThis() const;
 private:

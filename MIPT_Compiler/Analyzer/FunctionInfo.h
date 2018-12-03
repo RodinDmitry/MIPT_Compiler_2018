@@ -11,7 +11,7 @@ public:
 		TDataType _returnType, TVisabilityModifierType _modifierType);
 	void AddArgument(const CVariableInfo* argument);
 	void AddArguments(std::vector<const CVariableInfo* >&& _arguments);
-	const std::vector<const CVariableInfo* >& GetArguments() const;
+	const std::vector<const CVariableInfo* >& GetArguments () const;
 	const CSymbol* String() const;
 	std::shared_ptr<CType> GetType() const;
 private:

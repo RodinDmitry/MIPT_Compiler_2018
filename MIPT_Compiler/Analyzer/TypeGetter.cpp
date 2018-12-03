@@ -1,8 +1,9 @@
 #include <TypeGetter.h>
 #include <SymbolTable.h>
 
-std::shared_ptr<CType> CTypeGetter::GetType(IExpression * node, std::string symbolTable)
+std::shared_ptr<CType> CTypeGetter::GetType(IExpression * node, std::string _symbolTable)
 {
+	symbolTable = _symbolTable;
 	waitingNodes.push_back(node);
 	while (waitingNodes.size() > 0) {
 		ITree* current = waitingNodes.front();
@@ -100,7 +101,7 @@ void CTypeGetter::visit(CValue* node)
 	}
 }
 
-CType* CTypeGetter::checkType()
+std::shared_ptr<CType> CTypeGetter::checkType()
 {
 	std::vector<int> counts;
 
@@ -121,11 +122,11 @@ CType* CTypeGetter::checkType()
 	}
 	if (counts[DT_Instance] == 0) {
 		if (different == 1) {
-			return resultingTypes[0].get();
+			return resultingTypes[0];
 		}
 
 		if (counts[DT_Integer] > 0 && counts[DT_Boolean] > 0 && different == 2) {
-			return new CType(DT_Integer);
+			return std::shared_ptr<CType>(new CType(DT_Integer));
 		}
 	}
 	if (different == 1) {
@@ -137,7 +138,7 @@ CType* CTypeGetter::checkType()
 			}
 		}
 		if (areAllEqual) {
-			return resultingTypes[0].get();
+			return resultingTypes[0];
 		}
 	}
 

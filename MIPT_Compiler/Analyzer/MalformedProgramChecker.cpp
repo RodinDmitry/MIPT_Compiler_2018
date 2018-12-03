@@ -95,7 +95,7 @@ void CMalformedProgramChecker::visit(CLValueExpression*)
 
 void CMalformedProgramChecker::visit(CBinaryExpression* node)
 {
-	typeCheck(node->left.get(), node->right.get());
+	// typeCheck(node->left.get(), node->right.get());
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }
@@ -108,7 +108,7 @@ void CMalformedProgramChecker::visit(CArrayExpression* node)
 
 void CMalformedProgramChecker::visit(CCallExpression* node)
 {
-	callerCheck(node->caller.get(), node->function.get(), node->list.get());
+	// callerCheck(node->caller.get(), node->function.get(), node->list.get());
 	waitingNodes.push_front(node->caller.get());
 }
 
@@ -151,7 +151,7 @@ void CMalformedProgramChecker::visit(CNotExpression* node)
 
 void CMalformedProgramChecker::visit(CBracketsExpression* node)
 {
-	notVoidCheck(node);
+	// notVoidCheck(node);
 	waitingNodes.push_front(node->expression.get());
 }
 
@@ -245,7 +245,7 @@ void CMalformedProgramChecker::visit(CPrintStatement* node)
 
 void CMalformedProgramChecker::visit(CAssignStatement* node)
 {
-	typeCheck(node->left.get(), node->right.get());
+	// typeCheck(node->left.get(), node->right.get());
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }
@@ -276,7 +276,7 @@ void CMalformedProgramChecker::visit(CValue*)
 void CMalformedProgramChecker::visit(CVariable*)
 {
 	// все случаи обьявления переменной должны обрабатываться выше
-	assert(false);
+	// assert(false);
 }
 
 void CMalformedProgramChecker::visit(CVisibilityBlockStart*)
@@ -304,7 +304,7 @@ CVariableInfo* CMalformedProgramChecker::createVariableInfo(CVariable* node)
 
 CFunctionInfo* CMalformedProgramChecker::createFunctionInfo(CFunction* node)
 {
-	typeCheck(node->returns.get(), node->returnExpression.get());
+	// typeCheck(node->returns.get(), node->returnExpression.get());
 	try {
 		CFunctionInfo* info = new CFunctionInfo(tableName, CSymbol::GetSymbol(node->name->name),
 			CSymbol::GetSymbol(node->returns->instance), node->returns->type, node->visibility->type);
@@ -335,7 +335,7 @@ void CMalformedProgramChecker::cleanup()
 	waitingNodes.clear();
 	placeholders.clear();
 }
-
+/*
 void CMalformedProgramChecker::typeCheck(IExpression* left, IExpression* right)
 {
 	CTypeGetter getter;
@@ -407,3 +407,4 @@ bool CMalformedProgramChecker::argumentCheck(const CFunctionInfo* info, std::vec
 
 	return true;
 }
+*/

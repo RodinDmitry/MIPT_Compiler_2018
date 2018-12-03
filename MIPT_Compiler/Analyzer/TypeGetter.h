@@ -49,7 +49,7 @@ public:
 
 private:  
 
-	CType* checkType();
+	std::shared_ptr<CType> checkType();
 	
 	std::vector<std::shared_ptr<CType>> resultingTypes;
 	std::deque<ITree*> waitingNodes;

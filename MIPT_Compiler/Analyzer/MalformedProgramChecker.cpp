@@ -222,20 +222,20 @@ void CMalformedProgramChecker::visit(CVisibilityStatement*)
 void CMalformedProgramChecker::visit(CIfStatement* node)
 {
 	createLeavePlaceholder();
-	waitingNodes.push_back(node->elseStatement.get());
+	waitingNodes.push_front(node->elseStatement.get());
 	createEnterPlaceholder();
 	createLeavePlaceholder();
-	waitingNodes.push_back(node->thenStatement.get());
+	waitingNodes.push_front(node->thenStatement.get());
 	createEnterPlaceholder();
-	waitingNodes.push_back(node->condition.get());
+	waitingNodes.push_front(node->condition.get());
 }
 
 void CMalformedProgramChecker::visit(CWhileStatement* node)
 {
 	createLeavePlaceholder();
-	waitingNodes.push_back(node->statement.get());
+	waitingNodes.push_front(node->statement.get());
 	createEnterPlaceholder();
-	waitingNodes.push_back(node->condition.get());
+	waitingNodes.push_front(node->condition.get());
 }
 
 void CMalformedProgramChecker::visit(CPrintStatement* node)

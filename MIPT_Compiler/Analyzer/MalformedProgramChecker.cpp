@@ -126,7 +126,7 @@ void CMalformedProgramChecker::visit(CNewExpression* node)
 {
 	const CClassInfo* info = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(node->id->name));
 	if (info == nullptr) {
-		CErrorTable::AddError("Unknown class");
+		CErrorTable::AddError("Unknown class " + node->id->name);
 	}
 
 }
@@ -135,7 +135,7 @@ void CMalformedProgramChecker::visit(CIdExpression* node)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(node->id->name));
 	if (info == nullptr) {
-		CErrorTable::AddError("Unknown variable");
+		CErrorTable::AddError("Unknown variable " + node->id->name);
 	}
 }
 

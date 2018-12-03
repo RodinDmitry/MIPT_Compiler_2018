@@ -43,8 +43,8 @@ void processFile(std::string name, int flag) {
 	if ((flag & TOKEN_LIST) == TOKEN_LIST) {
 		LEX_DUMP = true;
 		BISON_DUMP = true;
-		lexDumpFile.open("dumps/lex" + name, std::ofstream::out);
-		bisonDumpFile.open("dumps/bison" + name, std::ofstream::out);
+		lexDumpFile.open(("lex"), std::ofstream::out);
+		bisonDumpFile.open("bison" + name, std::ofstream::out);
 	}
 
 
@@ -132,5 +132,5 @@ void dumpBisonToken(std::string token) {
 }
 
 void syntaxError(const std::string& name, int line) {
-	std::cerr << name << " in line: " << line << std::endl;
+	//std::cerr << name << " in line: " << line << std::endl;
 }

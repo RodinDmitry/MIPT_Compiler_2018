@@ -65,7 +65,7 @@ extern void dumpToken(std::string token);
 		return PT_ID;
 	};
 
-[^,\.;=|/\%\*-+><!&\(\)\[\]\{\} \t\n]* { 
+[^,\.;=|/\%\*\-+><!&\(\)\[\]\{\} \t\n]* { 
 	dumpToken(yytext);
 	fprintf(stderr, "Line %d: Bad token %s.\n", yylloc.first_line, yytext);
 	return PT_Error; }
@@ -73,5 +73,5 @@ extern void dumpToken(std::string token);
 %%
 
 void yyerror(ITree** tree, const char* s) {
-	//std::cerr << s << " in line: " << yylineno << std::endl;
+	std::cerr << s << " in line: " << yylineno << std::endl;
 };

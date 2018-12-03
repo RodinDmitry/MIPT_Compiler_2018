@@ -95,7 +95,7 @@ Grammar
 
    64 ExpressionList: /* empty */
    65               | Expressions
-   66               | error
+   66               | error ExpressionList
 
    67 Expressions: Expression
    68            | Expression PT_Coma Expressions
@@ -248,7 +248,7 @@ MethodCall (74)
 FunctionCall (75)
     on left: 63, on right: 42
 ExpressionList (76)
-    on left: 64 65 66, on right: 63
+    on left: 64 65 66, on right: 63 66
 Expressions (77)
     on left: 67 68, on right: 65 68
 ValueT (78)
@@ -2209,9 +2209,29 @@ State 157
 
 State 158
 
-   66 ExpressionList: error .
+   66 ExpressionList: error . ExpressionList
 
-    $default  reduce using rule 66 (ExpressionList)
+    error                shift, and go to state 158
+    PT_Number            shift, and go to state 66
+    PT_True              shift, and go to state 67
+    PT_False             shift, and go to state 68
+    PT_This              shift, and go to state 72
+    PT_New               shift, and go to state 73
+    PT_ID                shift, and go to state 116
+    PT_LeftRoundBracket  shift, and go to state 55
+    PT_Negation          shift, and go to state 75
+
+    PT_RightRoundBracket  reduce using rule 64 (ExpressionList)
+
+    LvalueExpression  go to state 117
+    Expression        go to state 159
+    ExpressionList    go to state 167
+    Expressions       go to state 161
+    ValueT            go to state 81
+    This              go to state 82
+    LeftRoundBracket  go to state 84
+    New               go to state 85
+    Not               go to state 86
 
 
 State 159
@@ -2224,7 +2244,7 @@ State 159
    68            | Expression . PT_Coma Expressions
 
     PT_Dot                shift, and go to state 101
-    PT_Coma               shift, and go to state 167
+    PT_Coma               shift, and go to state 168
     PT_LeftSquareBracket  shift, and go to state 102
     PT_IntegerDivision    shift, and go to state 103
     PT_Division           shift, and go to state 104
@@ -2249,7 +2269,7 @@ State 160
 
     PT_RightRoundBracket  shift, and go to state 60
 
-    RightRoundBracket  go to state 168
+    RightRoundBracket  go to state 169
 
 
 State 161
@@ -2309,7 +2329,7 @@ State 166
 
     Variable          go to state 76
     Type              go to state 31
-    StatementItem     go to state 169
+    StatementItem     go to state 170
     LvalueExpression  go to state 79
     Expression        go to state 80
     ValueT            go to state 81
@@ -2326,6 +2346,13 @@ State 166
 
 State 167
 
+   66 ExpressionList: error ExpressionList .
+
+    $default  reduce using rule 66 (ExpressionList)
+
+
+State 168
+
    68 Expressions: Expression PT_Coma . Expressions
 
     PT_Number            shift, and go to state 66
@@ -2339,7 +2366,7 @@ State 167
 
     LvalueExpression  go to state 117
     Expression        go to state 159
-    Expressions       go to state 170
+    Expressions       go to state 171
     ValueT            go to state 81
     This              go to state 82
     LeftRoundBracket  go to state 84
@@ -2347,21 +2374,21 @@ State 167
     Not               go to state 86
 
 
-State 168
+State 169
 
    63 FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket .
 
     $default  reduce using rule 63 (FunctionCall)
 
 
-State 169
+State 170
 
    35 StatementItem: PT_If LeftRoundBracket Expression RightRoundBracket StatementItem PT_Else StatementItem .
 
     $default  reduce using rule 35 (StatementItem)
 
 
-State 170
+State 171
 
    68 Expressions: Expression PT_Coma Expressions .
 

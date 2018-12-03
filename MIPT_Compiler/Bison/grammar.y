@@ -221,7 +221,7 @@ FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new C
 
 ExpressionList: { $$=new CExpressionList(); }
 	| Expressions { $$ = $1; }
-	| error {syntaxError("Bad expression", @1.first_line); yyerrok; $$ = nullptr; }
+	| error ExpressionList {syntaxError("Bad expression", @1.first_line); yyerrok; $$ = $2; }
 ;
 
 Expressions : Expression { $$=new CExpressionList(); To<CExpressionList>($$)->Add(To<IExpression>($1)); }

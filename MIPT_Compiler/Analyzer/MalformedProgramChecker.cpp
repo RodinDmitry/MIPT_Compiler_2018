@@ -209,7 +209,7 @@ void CMalformedProgramChecker::visit(IStatement*)
 
 void CMalformedProgramChecker::visit(CStatementList* node)
 {
-	for (int i = node->statements.size() - 1; i >= 0; i--) {
+	for (int i = 0; i <= node->statements.size(); i++) {
 		waitingNodes.push_front(node->statements[i].get());
 	}
 }

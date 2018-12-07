@@ -273,10 +273,12 @@ void CMalformedProgramChecker::visit(CValue*)
 	// ignore
 }
 
-void CMalformedProgramChecker::visit(CVariable*)
+void CMalformedProgramChecker::visit(CVariable* node)
 {
-	// все случаи обьявления переменной должны обрабатываться выше
-	// assert(false);
+	CVariableInfo* info = createVariableInfo(node);
+	if (info != nullptr) {
+		CSymbolTable::AddMember(tableName, info);
+	}
 }
 
 void CMalformedProgramChecker::visit(CVisibilityBlockStart*)

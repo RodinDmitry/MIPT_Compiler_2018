@@ -96,26 +96,11 @@ void CTypeChecker::visit(CBracketsExpression* node)
 	waitingNodes.push_front(node->expression.get());
 }
 
-void CTypeChecker::visit(CReturnExpression *)
-{
-	// ignore
-}
-
 void CTypeChecker::visit(CFunction* node)
 {
 	typeCheck(node->returns.get(), node->returnExpression.get());
 	waitingNodes.push_front(node->body.get());
 	waitingNodes.push_front(node->arguments.get());
-}
-
-void CTypeChecker::visit(CId *)
-{
-	// ignore
-}
-
-void CTypeChecker::visit(CMainArgument *)
-{
-	// ignore
 }
 
 void CTypeChecker::visit(CMainFunction* node)
@@ -126,11 +111,6 @@ void CTypeChecker::visit(CMainFunction* node)
 void CTypeChecker::visit(CMain* node)
 {
 	waitingNodes.push_front(node->mainFunction.get());
-}
-
-void CTypeChecker::visit(CModifier *)
-{
-	// ignore
 }
 
 void CTypeChecker::visit(CProgram* node)
@@ -149,11 +129,6 @@ void CTypeChecker::visit(CStatementList* node)
 	for (int i = 0; i < node->statements.size(); i++) {
 		waitingNodes.push_front(node->statements[i].get());
 	}
-}
-
-void CTypeChecker::visit(CVisibilityStatement *)
-{
-	// ignore
 }
 
 void CTypeChecker::visit(CIfStatement* node)
@@ -188,21 +163,6 @@ void CTypeChecker::visit(CAssignStatement* node)
 void CTypeChecker::visit(CVariableStatement* node)
 {
 	waitingNodes.push_front(node->variable.get());
-}
-
-void CTypeChecker::visit(CType *)
-{
-	// ignore
-}
-
-void CTypeChecker::visit(IValue *)
-{
-	// ignore
-}
-
-void CTypeChecker::visit(CValue *)
-{
-	// ignore
 }
 
 void CTypeChecker::visit(CVariable* node)

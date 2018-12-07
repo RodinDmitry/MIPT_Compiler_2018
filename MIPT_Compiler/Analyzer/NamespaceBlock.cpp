@@ -103,6 +103,7 @@ const CClassInfo * CNamespaceBlock::GetThis() const
 CFunctionNamespaceBlock::CFunctionNamespaceBlock(const CNamespaceBlock* _parent, CFunctionInfo* function)
 	: CNamespaceBlock(_parent), funcToUpdate(function)
 {
+	function->SetParent(this);
 	const std::vector< const CVariableInfo* > arguments = function->GetArguments();
 	for (int i = 0; i < arguments.size(); ++i) {
 		AddMember(arguments[i]);
@@ -110,6 +111,7 @@ CFunctionNamespaceBlock::CFunctionNamespaceBlock(const CNamespaceBlock* _parent,
 }
 void CFunctionNamespaceBlock::AddMember(const CVariableInfo * member)
 {
+	funcToUpdate->AddLocal(member);
 	members.emplace_back(member);
 }
 
@@ -121,6 +123,7 @@ void CFunctionNamespaceBlock::AddArgument(const CVariableInfo * argument)
 
 void CFunctionNamespaceBlock::AddMember(std::unique_ptr<const CVariableInfo>&& member)
 {
+	funcToUpdate->AddLocal(member.get());
 	members.push_back(std::move(member));
 }
 

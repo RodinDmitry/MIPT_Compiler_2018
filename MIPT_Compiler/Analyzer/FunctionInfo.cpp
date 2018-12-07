@@ -20,6 +20,11 @@ void CFunctionInfo::AddArgument(const CVariableInfo* argument)
 	arguments.push_back(argument);
 }
 
+void CFunctionInfo::AddLocal(const CVariableInfo * local)
+{
+	locals.push_back(local);
+}
+
 void CFunctionInfo::AddArguments(std::vector<const CVariableInfo*>&& _arguments)
 {
 	arguments = _arguments;
@@ -30,6 +35,25 @@ const std::vector<const CVariableInfo*>& CFunctionInfo::GetArguments() const
 	return arguments;
 }
 
+const std::vector<const CVariableInfo*>& CFunctionInfo::GetLocals() const
+{
+	return locals;
+}
+
+const CVariableInfo * CFunctionInfo::GetVariable(const CSymbol * name) const
+{
+	for (int i = 0; i < arguments.size(); ++i) {
+		if (arguments[i]->String() == name) {
+			return arguments[i];
+		}
+	}
+	for (int i = 0; i < locals.size(); ++i) {
+		if (locals[i]->String() == name) {
+			return locals[i];
+		}
+	}
+}
+
 const CSymbol * CFunctionInfo::String() const
 {
 	return name;
@@ -38,4 +62,14 @@ const CSymbol * CFunctionInfo::String() const
 std::shared_ptr<CType> CFunctionInfo::GetType() const
 {
 	return dataType;
+}
+
+void CFunctionInfo::SetParent(const CNamespaceBlock * _parentBlock)
+{
+	parentBlock = _parentBlock;
+}
+
+const CNamespaceBlock * CFunctionInfo::GetParent() const
+{
+	return parentBlock;
 }

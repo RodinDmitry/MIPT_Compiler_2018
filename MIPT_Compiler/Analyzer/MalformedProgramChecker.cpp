@@ -44,21 +44,21 @@ void CMalformedProgramChecker::visit(CClassDeclaration* node)
 
 void CMalformedProgramChecker::visit(CClassInternals* node)
 {
-	if (node->function != nullptr) {
-		waitingNodes.push_front(node->function.get());
-	}
-	else if (node->variable != nullptr) {
-		waitingNodes.push_front(node->variable.get());
-	}
-	else {
-		assert(false);
-	}
+	// ignore
 }
 
 void CMalformedProgramChecker::visit(CClassInternalsList* node)
 {
 	for (int i = 0; i < node->internals.size(); i++) {
-		waitingNodes.push_front(node->internals[i].get());
+		if (node->internals[i]->function != nullptr) {
+			waitingNodes.push_front(node->internals[i]->function.get());
+		}
+	}
+
+	for (int i = 0; i < node->internals.size(); i++) {
+		if (node->internals[i]->variable != nullptr) {
+			waitingNodes.push_front(node->internals[i]->variable.get());
+		}
 	}
 }
 
@@ -273,10 +273,12 @@ void CMalformedProgramChecker::visit(CValue*)
 	// ignore
 }
 
-void CMalformedProgramChecker::visit(CVariable*)
+void CMalformedProgramChecker::visit(CVariable* node)
 {
-	// все случаи обьявления переменной должны обрабатываться выше
-	// assert(false);
+	CVariableInfo* info = createVariableInfo(node);
+	if (info != nullptr) {
+		CSymbolTable::AddMember(tableName, info);
+	}
 }
 
 void CMalformedProgramChecker::visit(CVisibilityBlockStart*)

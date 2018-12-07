@@ -1,8 +1,0 @@
-Unknown variable key
-Unknown variable has_left
-Unknown variable has_right
-Unknown variable right
-Unknown variable left
-Unknown variable key
-Unknown variable has_left
-Unknown variable has_right

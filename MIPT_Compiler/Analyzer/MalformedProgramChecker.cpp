@@ -44,21 +44,21 @@ void CMalformedProgramChecker::visit(CClassDeclaration* node)
 
 void CMalformedProgramChecker::visit(CClassInternals* node)
 {
-	if (node->function != nullptr) {
-		waitingNodes.push_front(node->function.get());
-	}
-	else if (node->variable != nullptr) {
-		waitingNodes.push_front(node->variable.get());
-	}
-	else {
-		assert(false);
-	}
+	// ignore
 }
 
 void CMalformedProgramChecker::visit(CClassInternalsList* node)
 {
 	for (int i = 0; i < node->internals.size(); i++) {
-		waitingNodes.push_front(node->internals[i].get());
+		if (node->internals[i]->function != nullptr) {
+			waitingNodes.push_front(node->internals[i]->function.get());
+		}
+	}
+
+	for (int i = 0; i < node->internals.size(); i++) {
+		if (node->internals[i]->variable != nullptr) {
+			waitingNodes.push_front(node->internals[i]->variable.get());
+		}
 	}
 }
 

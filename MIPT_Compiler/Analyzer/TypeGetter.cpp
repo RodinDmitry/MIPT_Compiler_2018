@@ -1,8 +1,12 @@
 #include <TypeGetter.h>
 #include <SymbolTable.h>
+#include <ErrorTable.h>
 
-std::shared_ptr<CType> CTypeGetter::GetType(IExpression * node, std::string _symbolTable)
+std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string _symbolTable, 
+	std::string _className, std::string _funcitonName)
 {
+	className = _className;
+	functionName = _funcitonName;
 	symbolTable = _symbolTable;
 	waitingNodes.push_back(node);
 	while (waitingNodes.size() > 0) {
@@ -28,10 +32,23 @@ void CTypeGetter::visit(CArrayExpression* )
 
 void CTypeGetter::visit(CCallExpression* node)
 {
-	const CFunctionInfo* info = CSymbolTable::FindMethod(symbolTable, CSymbol::GetSymbol(node->function->name));
+	const CClassInfo* classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(className));
+	if (classInfo == nullptr) {
+		return;
+	}
+	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
+	CSymbol* symbol = CSymbol::GetSymbol(node->function->name);
+	const CFunctionInfo* info = nullptr;
+	for (int i = 0; i < methods.size(); i++) {
+		if (methods[i]->String() == symbol) {
+			info = methods[i];
+		}
+	}
+
 	if (info != nullptr) {
 		resultingTypes.push_back(info->GetType());
 	}
+	
 }
 
 void CTypeGetter::visit(CValueExpression* node)

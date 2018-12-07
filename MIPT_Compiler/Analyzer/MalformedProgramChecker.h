@@ -57,11 +57,6 @@ private:
 	void createEnterPlaceholder();
 	void createLeavePlaceholder();
 	void cleanup();
-	// void typeCheck(IExpression* left, IExpression* right);
-	// void typeCheck(CType* type, IExpression* node);
-	// void notVoidCheck(IExpression* node);
-	// void callerCheck(CId* caller, CId* function, CArgumentList* list);
-	// bool argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments);
 
 	std::deque<ITree*> waitingNodes;
 	std::vector<std::shared_ptr<ITree>> placeholders;

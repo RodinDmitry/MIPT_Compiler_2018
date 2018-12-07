@@ -48,17 +48,23 @@ public:
 	virtual void visit(IValue*) override {}
 	virtual void visit(CValue*) override {}
 	virtual void visit(CVariable*) override;
-	virtual void visit(CVisibilityBlockStart*) override {}
-	virtual void visit(CVisibilityBlockEnd*) override {}
+	virtual void visit(CFunctionVisibilityEnd*) override;
+	virtual void visit(CVisibilityBlockEnd*) override;
 
 private:
 
-	void typeCheck(IExpression* left, IExpression* right);
-	void typeCheck(CType* type, IExpression* node);
-	void notVoidCheck(IExpression* node);
-	void callerCheck(CId* caller, CId* function, CArgumentList* list);
+	bool typeCheck(IExpression* left, IExpression* right);
+	bool typeCheck(CType* type, IExpression* node);
+	bool notVoidCheck(IExpression* node);
+	bool callerCheck(CId* caller, CId* function, CArgumentList* list);
 	bool argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments);
+	void cleanup();
+	void createLeaveClassPlaceholder();
+	void createLeaveFunctionPlaceholder();
 
 	std::deque<ITree*> waitingNodes;
 	std::string tableName;
+	std::string currentClassName = "";
+	std::string currentFunctionName = "";
+	std::vector<std::shared_ptr<ITree>> placeholders;
 };

@@ -147,7 +147,6 @@ void CMalformedProgramChecker::visit(CNotExpression* node)
 
 void CMalformedProgramChecker::visit(CBracketsExpression* node)
 {
-	// notVoidCheck(node);
 	waitingNodes.push_front(node->expression.get());
 }
 

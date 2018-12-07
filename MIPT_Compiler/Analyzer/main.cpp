@@ -33,7 +33,9 @@ void typeCheckTree(ITree* tree) {
 	builder.BuildStack(tree);
 
 	CMalformedProgramChecker checker;
+	CTypeChecker typeChecker;
 	checker.BuildTable(tree, "temp_name");
+	typeChecker.CheckTypes(tree, "temp_name");
 	std::ofstream errorStream;
 	errorStream.open("type_errors.txt", std::ofstream::out);
 	CErrorTable::Print(errorStream);

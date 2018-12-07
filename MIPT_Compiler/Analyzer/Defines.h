@@ -2,6 +2,7 @@
 #include <PrettyPrinter.h>
 #include <StackBuilder.h>
 #include <MalformedProgramChecker.h>
+#include <TypeChecker.h>
 #include <ErrorTable.h>
 #include <string>
 

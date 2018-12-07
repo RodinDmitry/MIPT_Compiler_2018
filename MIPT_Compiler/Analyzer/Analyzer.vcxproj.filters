@@ -80,6 +80,9 @@
     <ClCompile Include="SymbolTable.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
+    <ClCompile Include="TypeChecker.cpp">
+      <Filter>Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -176,6 +179,9 @@
       <Filter>ErrorTable</Filter>
     </ClInclude>
     <ClInclude Include="TypeGetter.h">
+      <Filter>Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeChecker.h">
       <Filter>Visitor</Filter>
     </ClInclude>
   </ItemGroup>

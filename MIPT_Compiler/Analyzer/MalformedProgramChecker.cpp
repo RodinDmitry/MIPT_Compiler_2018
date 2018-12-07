@@ -124,11 +124,7 @@ void CMalformedProgramChecker::visit(CNewArrayExpression*)
 
 void CMalformedProgramChecker::visit(CNewExpression* node)
 {
-	const CClassInfo* info = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(node->id->name));
-	if (info == nullptr) {
-		CErrorTable::AddError("Unknown class " + node->id->name);
-	}
-
+	// ignore
 }
 
 void CMalformedProgramChecker::visit(CIdExpression* node)
@@ -181,14 +177,14 @@ void CMalformedProgramChecker::visit(CMainArgument*)
 	// ignore ? TODO
 }
 
-void CMalformedProgramChecker::visit(CMainFunction*)
+void CMalformedProgramChecker::visit(CMainFunction* node)
 {
-	// ignore ? TODO
+	waitingNodes.push_front(node->body.get());
 }
 
-void CMalformedProgramChecker::visit(CMain*)
+void CMalformedProgramChecker::visit(CMain* node)
 {
-	// ignore ? TODO
+	waitingNodes.push_front(node->mainFunction.get());
 }
 
 void CMalformedProgramChecker::visit(CModifier*)

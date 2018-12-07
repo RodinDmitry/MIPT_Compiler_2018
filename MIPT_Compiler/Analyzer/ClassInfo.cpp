@@ -8,9 +8,6 @@ CClassInfo::CClassInfo(const CSymbol * _name)
 CClassInfo::CClassInfo(const std::string& tableName, const CSymbol * _name, const CSymbol * _extends) 
 	: name(_name), extends(_extends)
 {
-	if (CSymbolTable::FindClass(tableName, _extends)) {
-		throw new CUndefinedTypeException(_extends->String());
-	}
 }
 
 void CClassInfo::AddMember(const CVariableInfo * member)

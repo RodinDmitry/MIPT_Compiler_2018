@@ -7,11 +7,6 @@ CFunctionInfo::CFunctionInfo(std::string& table, const CSymbol* _name, const CSy
 		TDataType _returnType, TVisabilityModifierType _modifierType)
 	:name(_name), userType(_userType), returnType(_returnType), modifierType(_modifierType)
 {
-	if (returnType == TDataType::DT_Instance) {
-		if (CSymbolTable::FindClass(table, userType)) {
-			throw new CUndefinedTypeException(userType->String());
-		}
-	}
 	if (returnType == DT_Instance) {
 		dataType.reset(new CType(userType->String().c_str()));
 	}

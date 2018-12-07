@@ -5,11 +5,6 @@
 CVariableInfo::CVariableInfo(std::string& table, CSymbol* _name, TDataType _type, CSymbol* _userType)
 	: name(_name), type(_type), userType(_userType)
 {
-	if (type == TDataType::DT_Instance) {
-		if (CSymbolTable::FindClass(table, userType)) {
-			throw new CUndefinedTypeException(userType->String());
-		}
-	}
 	if (type == DT_Instance) {
 		dataType.reset(new CType(userType->String().c_str()));
 	}

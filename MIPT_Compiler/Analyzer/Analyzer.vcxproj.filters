@@ -184,12 +184,6 @@
     <ClInclude Include="TypeChecker.h">
       <Filter>Visitor</Filter>
     </ClInclude>
-    <ClInclude Include="Frame.h">
-      <Filter>Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="Access.h">
-      <Filter>Frame</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
@@ -213,9 +207,6 @@
     </Filter>
     <Filter Include="ErrorTable">
       <UniqueIdentifier>{d1ab67f1-2378-4885-80dd-f99c150b7afc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Frame">
-      <UniqueIdentifier>{e543c9b4-457c-402c-96e2-bf8443c060f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

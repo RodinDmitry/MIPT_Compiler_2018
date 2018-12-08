@@ -7,7 +7,7 @@
 
 class CProgram : public ITree {
 public:
-	CProgram(CMain* main, CClassList* classes);
+	CProgram(CMain* main, CClassList* classes, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CMain> main;

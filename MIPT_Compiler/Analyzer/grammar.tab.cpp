@@ -1997,20 +1997,20 @@ yyreduce:
           case 2:
 /* Line 1792 of yacc.c  */
 #line 113 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CProgram(To<CMain>((yyvsp[(1) - (2)].node)), To<CClassList>((yyvsp[(2) - (2)].node))); *resultTree = (yyval.node); }
+    { (yyval.node) = new CProgram(To<CMain>((yyvsp[(1) - (2)].node)), To<CClassList>((yyvsp[(2) - (2)].node)), (yylsp[(1) - (2)]).first_line); *resultTree = (yyval.node); }
     break;
 
   case 3:
 /* Line 1792 of yacc.c  */
 #line 114 "MIPT_Compiler\\Bison\\grammar.y"
     { syntaxError("Bad class definition", (yylsp[(1) - (3)]).first_line);
-										(yyval.node) = new CProgram(To<CMain>((yyvsp[(2) - (3)].node)), To<CClassList>((yyvsp[(3) - (3)].node)));  yyerrok;}
+										(yyval.node) = new CProgram(To<CMain>((yyvsp[(2) - (3)].node)), To<CClassList>((yyvsp[(3) - (3)].node)), (yylsp[(1) - (3)]).first_line);  yyerrok;}
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
 #line 118 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CMain(new CId((yyvsp[(2) - (5)].stringValue)), To<CMainFunction>((yyvsp[(4) - (5)].node))); }
+    { (yyval.node) = new CMain(new CId((yyvsp[(2) - (5)].stringValue), (yylsp[(2) - (5)]).first_line), To<CMainFunction>((yyvsp[(4) - (5)].node)), (yylsp[(1) - (5)]).first_line); }
     break;
 
   case 5:
@@ -2028,7 +2028,7 @@ yyreduce:
   case 7:
 /* Line 1792 of yacc.c  */
 #line 124 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CClass(To<CClassDeclaration>((yyvsp[(1) - (4)].node)), To<CClassInternalsList>((yyvsp[(3) - (4)].node)));}
+    { (yyval.node) = new CClass(To<CClassDeclaration>((yyvsp[(1) - (4)].node)), To<CClassInternalsList>((yyvsp[(3) - (4)].node)), (yylsp[(1) - (4)]).first_line);}
     break;
 
   case 8:
@@ -2040,7 +2040,7 @@ yyreduce:
   case 9:
 /* Line 1792 of yacc.c  */
 #line 127 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CClassDeclaration(new CId((yyvsp[(2) - (3)].stringValue)), new CId((yyvsp[(3) - (3)].stringValue))); }
+    { (yyval.node) = new CClassDeclaration(new CId((yyvsp[(2) - (3)].stringValue), (yylsp[(2) - (3)]).first_line), new CId((yyvsp[(3) - (3)].stringValue), (yylsp[(3) - (3)]).first_line), (yylsp[(1) - (3)]).first_line); }
     break;
 
   case 10:
@@ -2064,13 +2064,13 @@ yyreduce:
   case 13:
 /* Line 1792 of yacc.c  */
 #line 135 "MIPT_Compiler\\Bison\\grammar.y"
-    { To<CClassInternalsList>((yyvsp[(2) - (2)].node))->Add(new CClassInternals(To<CFunction>((yyvsp[(1) - (2)].node)))); (yyval.node) = (yyvsp[(2) - (2)].node);}
+    { To<CClassInternalsList>((yyvsp[(2) - (2)].node))->Add(new CClassInternals(To<CFunction>((yyvsp[(1) - (2)].node)), (yylsp[(1) - (2)]).first_line)); (yyval.node) = (yyvsp[(2) - (2)].node);}
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
 #line 136 "MIPT_Compiler\\Bison\\grammar.y"
-    { To<CClassInternalsList>((yyvsp[(3) - (3)].node))->Add(new CClassInternals(To<CVariable>((yyvsp[(1) - (3)].node)))); (yyval.node) = (yyvsp[(3) - (3)].node);}
+    { To<CClassInternalsList>((yyvsp[(3) - (3)].node))->Add(new CClassInternals(To<CVariable>((yyvsp[(1) - (3)].node)), (yylsp[(1) - (3)]).first_line)); (yyval.node) = (yyvsp[(3) - (3)].node);}
     break;
 
   case 15:
@@ -2083,19 +2083,19 @@ yyreduce:
 /* Line 1792 of yacc.c  */
 #line 139 "MIPT_Compiler\\Bison\\grammar.y"
     { 
-		 (yyval.node) = new CMainFunction(To<CMainArgument>((yyvsp[(6) - (10)].node)), To<CStatementList>((yyvsp[(9) - (10)].node))); }
+		 (yyval.node) = new CMainFunction(To<CMainArgument>((yyvsp[(6) - (10)].node)), To<CStatementList>((yyvsp[(9) - (10)].node)), (yylsp[(1) - (10)]).first_line); }
     break;
 
   case 17:
 /* Line 1792 of yacc.c  */
 #line 143 "MIPT_Compiler\\Bison\\grammar.y"
-    {  (yyval.node) = new CMainArgument(new CId((yyvsp[(4) - (4)].stringValue))); }
+    {  (yyval.node) = new CMainArgument(new CId((yyvsp[(4) - (4)].stringValue), (yylsp[(4) - (4)]).first_line), (yylsp[(1) - (4)]).first_line); }
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
 #line 146 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CFunction(To<CModifier>((yyvsp[(1) - (8)].node)), new CId((yyvsp[(3) - (8)].stringValue)), To<CArgumentList>((yyvsp[(4) - (8)].node)), To<CStatementList>((yyvsp[(6) - (8)].node)), To<CType>((yyvsp[(2) - (8)].node)), To<CReturnExpression>((yyvsp[(7) - (8)].node))); }
+    { (yyval.node) = new CFunction(To<CModifier>((yyvsp[(1) - (8)].node)), new CId((yyvsp[(3) - (8)].stringValue), (yylsp[(3) - (8)]).first_line), To<CArgumentList>((yyvsp[(4) - (8)].node)), To<CStatementList>((yyvsp[(6) - (8)].node)), To<CType>((yyvsp[(2) - (8)].node)), To<CReturnExpression>((yyvsp[(7) - (8)].node)), (yylsp[(1) - (8)]).first_line); }
     break;
 
   case 19:
@@ -2113,7 +2113,7 @@ yyreduce:
   case 21:
 /* Line 1792 of yacc.c  */
 #line 153 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CReturnExpression(To<IExpression>((yyvsp[(2) - (3)].node))); }
+    { (yyval.node) = new CReturnExpression(To<IExpression>((yyvsp[(2) - (3)].node)), (yylsp[(1) - (3)]).first_line); }
     break;
 
   case 22:
@@ -2143,31 +2143,31 @@ yyreduce:
   case 26:
 /* Line 1792 of yacc.c  */
 #line 164 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CVariable(To<CType>((yyvsp[(1) - (2)].node)), new CId((yyvsp[(2) - (2)].stringValue))); }
+    { (yyval.node) = new CVariable(To<CType>((yyvsp[(1) - (2)].node)), new CId((yyvsp[(2) - (2)].stringValue), (yylsp[(2) - (2)]).first_line), (yylsp[(1) - (2)]).first_line); }
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
 #line 167 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CType(TDataType::DT_Integer); }
+    { (yyval.node) = new CType(TDataType::DT_Integer, (yylsp[(1) - (1)]).first_line); }
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
 #line 168 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CType(TDataType::DT_IntegerArray); }
+    { (yyval.node) = new CType(TDataType::DT_IntegerArray, (yylsp[(1) - (3)]).first_line); }
     break;
 
   case 29:
 /* Line 1792 of yacc.c  */
 #line 169 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CType(TDataType::DT_Boolean); }
+    { (yyval.node) = new CType(TDataType::DT_Boolean, (yylsp[(1) - (1)]).first_line); }
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
 #line 170 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CType((yyvsp[(1) - (1)].stringValue)); }
+    { (yyval.node) = new CType((yyvsp[(1) - (1)].stringValue), (yylsp[(1) - (1)]).first_line); }
     break;
 
   case 31:
@@ -2197,49 +2197,49 @@ yyreduce:
   case 35:
 /* Line 1792 of yacc.c  */
 #line 179 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CVisibilityStatement(To<IStatement>((yyvsp[(2) - (3)].node))); }
+    { (yyval.node) = new CVisibilityStatement(To<IStatement>((yyvsp[(2) - (3)].node)), (yylsp[(1) - (3)]).first_line); }
     break;
 
   case 36:
 /* Line 1792 of yacc.c  */
 #line 180 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CIfStatement(To<IExpression>((yyvsp[(3) - (7)].node)), To<IStatement>((yyvsp[(5) - (7)].node)), To<IStatement>((yyvsp[(7) - (7)].node))); }
+    { (yyval.node) = new CIfStatement(To<IExpression>((yyvsp[(3) - (7)].node)), To<IStatement>((yyvsp[(5) - (7)].node)), To<IStatement>((yyvsp[(7) - (7)].node)), (yylsp[(1) - (7)]).first_line); }
     break;
 
   case 37:
 /* Line 1792 of yacc.c  */
 #line 181 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) =  new CIfStatement(To<IExpression>((yyvsp[(3) - (5)].node)), To<IStatement>((yyvsp[(5) - (5)].node)), nullptr); }
+    { (yyval.node) =  new CIfStatement(To<IExpression>((yyvsp[(3) - (5)].node)), To<IStatement>((yyvsp[(5) - (5)].node)), nullptr, (yylsp[(1) - (5)]).first_line); }
     break;
 
   case 38:
 /* Line 1792 of yacc.c  */
 #line 182 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CWhileStatement(To<IExpression>((yyvsp[(3) - (5)].node)), To<IStatement>((yyvsp[(5) - (5)].node))); }
+    { (yyval.node) = new CWhileStatement(To<IExpression>((yyvsp[(3) - (5)].node)), To<IStatement>((yyvsp[(5) - (5)].node)), (yylsp[(1) - (5)]).first_line); }
     break;
 
   case 39:
 /* Line 1792 of yacc.c  */
 #line 183 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CPrintStatement(To<IExpression>((yyvsp[(3) - (5)].node))); }
+    { (yyval.node) = new CPrintStatement(To<IExpression>((yyvsp[(3) - (5)].node)), (yylsp[(1) - (5)]).first_line); }
     break;
 
   case 40:
 /* Line 1792 of yacc.c  */
 #line 184 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CEqualStatement(To<CLValueExpression>((yyvsp[(1) - (4)].node)), To<IExpression>((yyvsp[(3) - (4)].node))); }
+    { (yyval.node) = new CEqualStatement(To<CLValueExpression>((yyvsp[(1) - (4)].node)), To<IExpression>((yyvsp[(3) - (4)].node)), (yylsp[(1) - (4)]).first_line); }
     break;
 
   case 41:
 /* Line 1792 of yacc.c  */
 #line 185 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CVariableStatement(To<CVariable>((yyvsp[(1) - (2)].node))); }
+    { (yyval.node) = new CVariableStatement(To<CVariable>((yyvsp[(1) - (2)].node)), (yylsp[(1) - (2)]).first_line); }
     break;
 
   case 42:
 /* Line 1792 of yacc.c  */
 #line 189 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CArrayExpression(To<IExpression>((yyvsp[(1) - (4)].node)), To<IExpression>((yyvsp[(3) - (4)].node)));}
+    { (yyval.node)=new CArrayExpression(To<IExpression>((yyvsp[(1) - (4)].node)), To<IExpression>((yyvsp[(3) - (4)].node)), (yylsp[(1) - (4)]).first_line);}
     break;
 
   case 43:
@@ -2251,7 +2251,7 @@ yyreduce:
   case 44:
 /* Line 1792 of yacc.c  */
 #line 191 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CIdExpression(new CId ((yyvsp[(1) - (1)].stringValue)));}
+    { (yyval.node)=new CIdExpression(new CId ((yyvsp[(1) - (1)].stringValue), (yylsp[(1) - (1)]).first_line), (yylsp[(1) - (1)]).first_line);}
     break;
 
   case 45:
@@ -2269,43 +2269,43 @@ yyreduce:
   case 47:
 /* Line 1792 of yacc.c  */
 #line 196 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CBinaryExpression(To<IExpression>((yyvsp[(1) - (3)].node)), To<IExpression>((yyvsp[(3) - (3)].node)), static_cast<CBinaryExpression::TOpeartor>((yyvsp[(2) - (3)].integerValue)));}
+    { (yyval.node)=new CBinaryExpression(To<IExpression>((yyvsp[(1) - (3)].node)), To<IExpression>((yyvsp[(3) - (3)].node)), static_cast<CBinaryExpression::TOpeartor>((yyvsp[(2) - (3)].integerValue)), (yylsp[(1) - (3)]).first_line);}
     break;
 
   case 48:
 /* Line 1792 of yacc.c  */
 #line 197 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CCallLengthExpression(To<IExpression>((yyvsp[(1) - (3)].node)));}
+    { (yyval.node) = new CCallLengthExpression(To<IExpression>((yyvsp[(1) - (3)].node)), (yylsp[(1) - (3)]).first_line);}
     break;
 
   case 49:
 /* Line 1792 of yacc.c  */
 #line 198 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CValueExpression(To<IValue>((yyvsp[(1) - (1)].node))); }
+    { (yyval.node)=new CValueExpression(To<IValue>((yyvsp[(1) - (1)].node)), (yylsp[(1) - (1)]).first_line); }
     break;
 
   case 50:
 /* Line 1792 of yacc.c  */
 #line 199 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CNewArrayExpression(To<IExpression>((yyvsp[(4) - (5)].node)));}
+    { (yyval.node)=new CNewArrayExpression(To<IExpression>((yyvsp[(4) - (5)].node)), (yylsp[(1) - (5)]).first_line);}
     break;
 
   case 51:
 /* Line 1792 of yacc.c  */
 #line 200 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CNewExpression(new CId((yyvsp[(2) - (4)].stringValue)));}
+    { (yyval.node)=new CNewExpression(new CId((yyvsp[(2) - (4)].stringValue), (yylsp[(2) - (4)]).first_line), (yylsp[(1) - (4)]).first_line);}
     break;
 
   case 52:
 /* Line 1792 of yacc.c  */
 #line 201 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CNotExpression(To<IExpression>((yyvsp[(2) - (2)].node))); }
+    { (yyval.node) = new CNotExpression(To<IExpression>((yyvsp[(2) - (2)].node)), (yylsp[(1) - (2)]).first_line); }
     break;
 
   case 53:
 /* Line 1792 of yacc.c  */
 #line 202 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node) = new CBracketsExpression(To<IExpression>((yyvsp[(2) - (3)].node)));}
+    { (yyval.node) = new CBracketsExpression(To<IExpression>((yyvsp[(2) - (3)].node)), (yylsp[(1) - (3)]).first_line);}
     break;
 
   case 54:
@@ -2371,7 +2371,7 @@ yyreduce:
   case 64:
 /* Line 1792 of yacc.c  */
 #line 219 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CCallExpression(To<CId>(nullptr), new CId((yyvsp[(1) - (4)].stringValue)), To<CArgumentList>((yyvsp[(3) - (4)].node))); }
+    { (yyval.node)=new CCallExpression(To<CId>(nullptr), new CId((yyvsp[(1) - (4)].stringValue), (yylsp[(1) - (4)]).first_line), To<CArgumentList>((yyvsp[(3) - (4)].node)), (yylsp[(1) - (4)]).first_line); }
     break;
 
   case 65:

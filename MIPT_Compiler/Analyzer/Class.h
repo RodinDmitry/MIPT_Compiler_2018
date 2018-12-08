@@ -8,7 +8,7 @@ class CVariable;
 
 class CClassDeclaration : public ITree {
 public:
-	CClassDeclaration(CId* name, CId* extends);
+	CClassDeclaration(CId* name, CId* extends, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CId> name;
@@ -19,8 +19,8 @@ public:
 
 class CClassInternals : public ITree {
 public:
-	CClassInternals(CFunction* function);
-	CClassInternals(CVariable* variable);
+	CClassInternals(CFunction* function, int _line);
+	CClassInternals(CVariable* variable, int _line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CFunction> function;
@@ -31,7 +31,7 @@ public:
 
 class CClassInternalsList : public ITree {
 public:
-	
+	CClassInternalsList();
 	void Add(CClassInternals* item);
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -42,7 +42,7 @@ public:
 
 class CClass : public ITree {
 public:
-	CClass(CClassDeclaration* declaration, CClassInternalsList* internals);
+	CClass(CClassDeclaration* declaration, CClassInternalsList* internals, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CClassDeclaration> declaration;
@@ -53,7 +53,7 @@ public:
 
 class CClassList : public ITree {
 public:
-
+	CClassList();
 	void Add(CClass* item);
 	virtual void Accept(IVisitor* visitor) override;
 

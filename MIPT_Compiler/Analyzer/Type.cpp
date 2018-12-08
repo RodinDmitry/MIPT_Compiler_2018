@@ -1,15 +1,15 @@
 #include <Type.h>
 #include <Visitor.h>
 
-CType::CType() : type(TDataType::DT_Void)
+CType::CType() : type(TDataType::DT_Void), ITree(-1)
 {
 }
 
-CType::CType(char* _instance) : type(TDataType::DT_Instance), instance(_instance)
+CType::CType(char* _instance, int _line) : type(TDataType::DT_Instance), instance(_instance), ITree(_line)
 {
 }
 
-CType::CType(TDataType _type) : type(_type)
+CType::CType(TDataType _type, int _line) : type(_type), ITree(_line)
 {
 }
 

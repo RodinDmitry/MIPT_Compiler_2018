@@ -4,11 +4,14 @@
 
 class IExpression : public ITree {
 public:
+	IExpression() = default;
+	IExpression(int line);
 	virtual void Accept(IVisitor* visitor) override;
 };
 
 class CExpressionList : public ITree {
 public:
+	CExpressionList();
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(IExpression* expression);
 
@@ -20,6 +23,8 @@ public:
 class CLValueExpression : public IExpression
 {
 public:
+	CLValueExpression() = default;
+	CLValueExpression(int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::string GetLabel() override;
@@ -41,7 +46,7 @@ public:
 		O_More
 	};
 
-	CBinaryExpression(IExpression* left, IExpression* right, TOpeartor operation);
+	CBinaryExpression(IExpression* left, IExpression* right, TOpeartor operation, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -55,7 +60,7 @@ public:
 class CArrayExpression : public IExpression
 {
 public:
-	CArrayExpression(IExpression* caller, IExpression* index);
+	CArrayExpression(IExpression* caller, IExpression* index, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -70,7 +75,7 @@ class CArgumentList;
 class CCallExpression : public CLValueExpression
 {
 public:
-	CCallExpression(CId* caller, CId* function, CArgumentList* list);
+	CCallExpression(CId* caller, CId* function, CArgumentList* list, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -84,7 +89,7 @@ public:
 class CCallLengthExpression : public IExpression
 {
 public:
-	CCallLengthExpression(IExpression* caller);
+	CCallLengthExpression(IExpression* caller, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -98,7 +103,7 @@ class IValue;
 class CValueExpression : public IExpression
 {
 public:
-	CValueExpression(IValue* value);
+	CValueExpression(IValue* value, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -110,7 +115,7 @@ public:
 class CNewArrayExpression : public IExpression
 {
 public:
-	CNewArrayExpression(IExpression* expression);
+	CNewArrayExpression(IExpression* expression, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -122,7 +127,7 @@ public:
 class CNewExpression : public IExpression
 {
 public:
-	CNewExpression(CId* id);
+	CNewExpression(CId* id, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -134,7 +139,7 @@ public:
 class CIdExpression : public CLValueExpression
 {	
 public:
-	CIdExpression(CId* id);
+	CIdExpression(CId* id, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -156,7 +161,7 @@ public:
 class CNotExpression : public IExpression
 {
 public:
-	CNotExpression(IExpression* expression);
+	CNotExpression(IExpression* expression, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -168,7 +173,7 @@ public:
 class CBracketsExpression : public IExpression
 {
 public:
-	CBracketsExpression(IExpression* expression);
+	CBracketsExpression(IExpression* expression, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -179,7 +184,7 @@ public:
 
 class CReturnExpression : public IExpression {
 public:
-	CReturnExpression(IExpression* expression);
+	CReturnExpression(IExpression* expression, int line);
 	virtual void Accept(IVisitor* visitior) override;
 
 	std::unique_ptr<IExpression> expression;

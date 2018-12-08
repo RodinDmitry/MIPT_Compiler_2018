@@ -8,7 +8,7 @@ class CId;
 class CVariable : public ITree {
 public:
 
-	CVariable(CType* type, CId* name);
+	CVariable(CType* type, CId* name, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CType> type;

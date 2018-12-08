@@ -3,10 +3,14 @@
 #include <Id.h>
 #include <Variable.h>
 
+IStatement::IStatement(int _line) : ITree(_line) {}
+
 void IStatement::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
 }
+
+CStatementList::CStatementList() : ITree(-1) {}
 
 void CStatementList::Accept(IVisitor* visitor)
 {
@@ -24,7 +28,7 @@ std::string CStatementList::GetLabel()
 	return  "statements" + labelAddings;;
 }
 
-CVisibilityStatement::CVisibilityStatement(IStatement* _statement) : statement(_statement)
+CVisibilityStatement::CVisibilityStatement(IStatement* _statement, int _line) : statement(_statement), IStatement(_line)
 {
 }
 
@@ -38,8 +42,8 @@ std::string CVisibilityStatement::GetLabel()
 	return  "visibility" + labelAddings;;
 }
 
-CIfStatement::CIfStatement(IExpression* _condition, IStatement* _thenStatement, IStatement* _elseStatement) :
-		condition(_condition), thenStatement(_thenStatement), elseStatement(_elseStatement)
+CIfStatement::CIfStatement(IExpression* _condition, IStatement* _thenStatement, IStatement* _elseStatement, int _line) :
+		condition(_condition), thenStatement(_thenStatement), elseStatement(_elseStatement), IStatement(_line)
 {
 }
 
@@ -53,8 +57,8 @@ std::string CIfStatement::GetLabel()
 	return  "if" + labelAddings;;
 }
 
-CWhileStatement::CWhileStatement(IExpression* _condition, IStatement* _statement) : 
-		condition(_condition), statement(_statement)
+CWhileStatement::CWhileStatement(IExpression* _condition, IStatement* _statement, int _line) : 
+		condition(_condition), statement(_statement), IStatement(_line)
 {
 }
 
@@ -68,7 +72,7 @@ std::string CWhileStatement::GetLabel()
 	return  "while" + labelAddings;;
 }
 
-CPrintStatement::CPrintStatement(IExpression* _expression) : expression(_expression)
+CPrintStatement::CPrintStatement(IExpression* _expression, int _line) : expression(_expression), IStatement(_line)
 {
 }
 
@@ -82,7 +86,7 @@ std::string CPrintStatement::GetLabel()
 	return  "print" + labelAddings;;
 }
 
-CEqualStatement::CEqualStatement(CLValueExpression* _left, IExpression* _right) : left(_left), right(_right)
+CEqualStatement::CEqualStatement(CLValueExpression* _left, IExpression* _right, int _line) : left(_left), right(_right), IStatement(_line)
 {
 }
 
@@ -96,7 +100,7 @@ std::string CEqualStatement::GetLabel()
 	return "assign" + labelAddings;;
 }
 
-CVariableStatement::CVariableStatement(CVariable* _variable) : variable(_variable)
+CVariableStatement::CVariableStatement(CVariable* _variable, int _line) : variable(_variable), IStatement(_line)
 {
 }
 

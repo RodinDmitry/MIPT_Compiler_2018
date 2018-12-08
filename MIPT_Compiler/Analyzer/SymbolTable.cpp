@@ -58,10 +58,12 @@ const CVariableInfo * CSymbolTable::FindMember(const CSymbol* id) const
 	return currentBlock->FindMember(id);
 }
 
-const CVariableInfo * CSymbolTable::FindLocalVariable(const CSymbol* id, const CFunctionInfo * func, int cntEnter, int cntLeave) const
+const CVariableInfo * CSymbolTable::FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const
 {
-	const CNamespaceBlock* currBlockPtr = switchToOffset(func->GetParent(), cntEnter, cntLeave);
-	return currBlockPtr->FindMember(id);
+	const CClassInfo* cl = blocks.front()->FindClass(CSymbol::GetSymbol(className));
+	const CFunctionInfo* funcInfo = cl->FindMethod(CSymbol::GetSymbol(func));
+	const CNamespaceBlock* currBlockPtr = switchToOffset(funcInfo->GetParent(), cntEnter, cntLeave);
+	return currBlockPtr->FindMember(CSymbol::GetSymbol(id));
 }
 
 const CNamespaceBlock * CSymbolTable::switchToOffset(const CNamespaceBlock * block, int cntEnter, int cntLeave) const
@@ -165,10 +167,11 @@ const CVariableInfo * CSymbolTable::FindMember(const std::string & tableName, co
 	return tables[tableName]->FindMember(id);
 }
 
-const CVariableInfo * CSymbolTable::FindLocalVariable(const std::string & tableName, const CSymbol* id, const CFunctionInfo * func, int cntEnter, int cntLeave)
+const CVariableInfo * CSymbolTable::FindLocalVariable(const std::string & tableName, const std::string& id,
+	const std::string& className, const std::string& func, int cntEnter, int cntLeave)
 {
 	assert(tables.find(tableName) != tables.end());
-	return tables[tableName]->FindLocalVariable(id, func, cntEnter, cntLeave);
+	return tables[tableName]->FindLocalVariable(id, className, func, cntEnter, cntLeave);
 }
 
 CSymbolTable::CSymbolTable(const std::string& _name) : tableName(_name) {}

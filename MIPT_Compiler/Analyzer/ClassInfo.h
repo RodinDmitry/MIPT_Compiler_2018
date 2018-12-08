@@ -10,6 +10,7 @@ public:
 	void AddMethod(const CFunctionInfo* method);
 	void AddMethods(std::vector<const CFunctionInfo* >&& _methods);
 	const std::vector<const CFunctionInfo*>& GetMethods() const;
+	const CFunctionInfo* FindMethod(const CSymbol* name) const;
 	const CSymbol* String() const;
 
 private:

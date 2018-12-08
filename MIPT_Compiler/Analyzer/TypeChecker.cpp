@@ -162,9 +162,9 @@ void CTypeChecker::visit(CStatementList* node)
 
 void CTypeChecker::visit(CIfStatement* node)
 {
-	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
+	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
 	if (!typeCheck(type.get(), node->condition.get())) {
-		CErrorTable::AddError("Condition not boolean");
+		CErrorTable::AddError("Condition not integer");
 	}
 	waitingNodes.push_front(node->elseStatement.get());
 	waitingNodes.push_front(node->thenStatement.get());
@@ -173,9 +173,9 @@ void CTypeChecker::visit(CIfStatement* node)
 
 void CTypeChecker::visit(CWhileStatement* node)
 {
-	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
+	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
 	if (!typeCheck(type.get(), node->condition.get())) {
-		CErrorTable::AddError("Condition not boolean");
+		CErrorTable::AddError("Condition not integer");
 	}
 	waitingNodes.push_front(node->statement.get());
 	waitingNodes.push_front(node->condition.get());
@@ -188,7 +188,8 @@ void CTypeChecker::visit(CPrintStatement* node)
 
 void CTypeChecker::visit(CAssignStatement* node)
 {
-	if (typeCheck(node->left.get(), node->right.get())) {
+	if (!typeCheck(node->left.get(), node->right.get())) {
+		typeCheck(node->left.get(), node->right.get());
 		CErrorTable::AddError("Assigment types mismatch");
 	}
 	waitingNodes.push_front(node->right.get());
@@ -213,18 +214,31 @@ void CTypeChecker::visit(CVariable* node)
 void CTypeChecker::visit(CFunctionVisibilityEnd*)
 {
 	currentFunctionName = "";
+	blocksEntered = 0;
+	blocksLeft = 0;
 }
 
-void CTypeChecker::visit(CVisibilityBlockEnd*)
+void CTypeChecker::visit(CClassVisibilityEnd*)
 {
 	currentFunctionName = "";
 	currentClassName = "";
 }
 
+void CTypeChecker::visit(CVisibilityBlockStart*)
+{
+	blocksEntered++;
+}
+
+void CTypeChecker::visit(CVisibilityBlockEnd*)
+{
+	blocksLeft++;
+}
+
 bool CTypeChecker::typeCheck(IExpression* left, IExpression* right)
 {
 	CTypeGetter getter;
-	std::shared_ptr<CType> leftType = getter.GetType(left, tableName);
+	std::shared_ptr<CType> leftType = getter.GetType(left, tableName, currentClassName, currentFunctionName,
+		blocksEntered, blocksLeft);
 
 	if (leftType == nullptr) {
 		return false;
@@ -236,7 +250,8 @@ bool CTypeChecker::typeCheck(IExpression* left, IExpression* right)
 bool CTypeChecker::typeCheck(CType* type, IExpression* node)
 {
 	CTypeGetter getter;
-	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
+	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName, currentClassName, currentFunctionName,
+		blocksEntered, blocksLeft);
 
 	if (nodeType == nullptr) {
 		return false;
@@ -257,7 +272,8 @@ bool CTypeChecker::typeCheck(CType* type, IExpression* node)
 bool CTypeChecker::notVoidCheck(IExpression* node)
 {
 	CTypeGetter getter;
-	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
+	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName, currentClassName, currentFunctionName,
+		blocksEntered, blocksLeft);
 	if (nodeType->type == DT_Void) {
 		return false;
 	}
@@ -310,7 +326,7 @@ void CTypeChecker::cleanup()
 
 void CTypeChecker::createLeaveClassPlaceholder()
 {
-	std::shared_ptr<ITree> placeholder(new CVisibilityBlockEnd());
+	std::shared_ptr<ITree> placeholder(new CClassVisibilityEnd());
 	placeholders.push_back(placeholder);
 	waitingNodes.push_front(placeholder.get());
 }

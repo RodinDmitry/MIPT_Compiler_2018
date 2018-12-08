@@ -2,12 +2,14 @@
 #include <SymbolTable.h>
 #include <ErrorTable.h>
 
-std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string _symbolTable, 
-	std::string _className, std::string _funcitonName)
+std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string& _symbolTable, 
+	std::string& _className, std::string& _funcitonName, int _entered, int _left)
 {
 	className = _className;
 	functionName = _funcitonName;
 	symbolTable = _symbolTable;
+	enterCount = _entered;
+	leaveCount = _left;
 	waitingNodes.push_back(node);
 	while (waitingNodes.size() > 0) {
 		ITree* current = waitingNodes.front();
@@ -37,14 +39,7 @@ void CTypeGetter::visit(CCallExpression* node)
 		return;
 	}
 	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
-	CSymbol* symbol = CSymbol::GetSymbol(node->function->name);
-	const CFunctionInfo* info = nullptr;
-	for (int i = 0; i < methods.size(); i++) {
-		if (methods[i]->String() == symbol) {
-			info = methods[i];
-		}
-	}
-
+	const CFunctionInfo* info = classInfo->FindMethod(CSymbol::GetSymbol(node->function->name));
 	if (info != nullptr) {
 		resultingTypes.push_back(info->GetType());
 	}
@@ -70,7 +65,8 @@ void CTypeGetter::visit(CNewExpression* node)
 
 void CTypeGetter::visit(CIdExpression* node)
 {
-	const CVariableInfo* info = CSymbolTable::FindMember(symbolTable, CSymbol::GetSymbol(node->id->name));
+	const CVariableInfo* info = CSymbolTable::FindLocalVariable(symbolTable, node->id->name, className,
+		functionName, enterCount, leaveCount);
 	if (info != nullptr) {
 		resultingTypes.push_back(info->GetType());
 	}
@@ -78,8 +74,7 @@ void CTypeGetter::visit(CIdExpression* node)
 
 void CTypeGetter::visit(CThisExpression* node)
 {
-	const CClassInfo* info = CSymbolTable::GetThis(symbolTable);
-	std::shared_ptr<CType> type(new CType(info->String()->String().c_str()));
+	std::shared_ptr<CType> type(new CType(className.c_str()));
 }
 
 void CTypeGetter::visit(CNotExpression* node)

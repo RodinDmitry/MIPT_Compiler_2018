@@ -49,6 +49,8 @@ public:
 	virtual void visit(CValue*) override {}
 	virtual void visit(CVariable*) override;
 	virtual void visit(CFunctionVisibilityEnd*) override;
+	virtual void visit(CClassVisibilityEnd*) override;
+	virtual void visit(CVisibilityBlockStart*) override;
 	virtual void visit(CVisibilityBlockEnd*) override;
 
 private:
@@ -67,4 +69,6 @@ private:
 	std::string currentClassName = "";
 	std::string currentFunctionName = "";
 	std::vector<std::shared_ptr<ITree>> placeholders;
+	int blocksEntered = 0;
+	int blocksLeft = 0;
 };

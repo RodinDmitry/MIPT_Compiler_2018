@@ -5,8 +5,8 @@
 
 class CTypeGetter : public IVisitor {
 public:
-	std::shared_ptr<CType> GetType(IExpression* node, std::string symbolTable, std::string className,
-		std::string funcitonName);
+	std::shared_ptr<CType> GetType(IExpression* node, std::string& symbolTable, std::string& className,
+		std::string& funcitonName, int entered, int left);
 	virtual void visit(ITree*) override { assert(false); }
 	virtual void visit(CArgumentList*) override { assert(false); }
 	virtual void visit(CClassDeclaration*) override { assert(false); }
@@ -58,4 +58,6 @@ private:
 
 	std::string className;
 	std::string functionName;
+	int enterCount;
+	int leaveCount;
 };

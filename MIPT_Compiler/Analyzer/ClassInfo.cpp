@@ -35,6 +35,16 @@ const std::vector<const CFunctionInfo*>& CClassInfo::GetMethods() const
 	return methods;
 }
 
+const CFunctionInfo * CClassInfo::FindMethod(const CSymbol * name) const
+{
+	for (int i = 0; i < methods.size(); ++i) {
+		if (methods[i]->String() == name) {
+			return methods[i];
+		}
+	}
+	return nullptr;
+}
+
 const CSymbol * CClassInfo::String() const
 {
 	return name;

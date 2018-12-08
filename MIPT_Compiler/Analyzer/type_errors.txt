@@ -1,26 +1,38 @@
-Condition not boolean
-Condition not boolean
-Condition not boolean
-Condition not boolean
-Return expression has different type
-Return expression has different type
-Return expression has different type
-Return expression has different type
-Return expression has different type
-Return expression has different type
-Binary type check failed
-Condition not boolean
-Binary type check failed
+Condition not integer
+Condition not integer
+Condition not integer
+Condition not integer
 Expression is not boolean
-Binary type check failed
-Condition not boolean
-Return expression has different type
-Condition not boolean
-Condition not boolean
-Condition not boolean
-Condition not boolean
-Condition not boolean
-Return expression has different type
-Condition not boolean
-Condition not boolean
-Condition not boolean
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Condition not integer
+Assigment types mismatch
+Condition not integer
+Assigment types mismatch
+Condition not integer
+Assigment types mismatch
+Assigment types mismatch
+Condition not integer
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Condition not integer
+Condition not integer
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch
+Assigment types mismatch

@@ -52,6 +52,7 @@ const CVariableInfo * CFunctionInfo::GetVariable(const CSymbol * name) const
 			return locals[i];
 		}
 	}
+	return nullptr;
 }
 
 const CSymbol * CFunctionInfo::String() const

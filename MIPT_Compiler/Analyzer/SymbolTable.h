@@ -25,7 +25,8 @@ public:
 	static const CFunctionInfo* FindMethod(const std::string& tableName, const CSymbol* id);
 	static const CVariableInfo* FindMember(const std::string& tableName, const CSymbol* id);
 
-	static const CVariableInfo* FindLocalVariable(const std::string& tableName, const CSymbol* id, const CFunctionInfo* func, int cntEnter, int cntLeave);
+	static const CVariableInfo* FindLocalVariable(const std::string& tableName, const std::string& id,
+		const std::string& className, const std::string& func, int cntEnter, int cntLeave);
 
 private:
 	explicit CSymbolTable(const std::string& name);
@@ -45,7 +46,7 @@ private:
 	const CFunctionInfo* FindMethod(const CSymbol* id) const;
 	const CVariableInfo* FindMember(const CSymbol* id) const;
 
-	const CVariableInfo* FindLocalVariable(const CSymbol* id, const CFunctionInfo* func, int cntEnter, int cntLeave) const;
+	const CVariableInfo* FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const;
 	const CNamespaceBlock* switchToOffset(const CNamespaceBlock* block, int cntEnter, int cntLeave) const;
 
 	CNamespaceBlock* currentBlock;

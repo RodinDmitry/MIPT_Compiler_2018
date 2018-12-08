@@ -66,17 +66,16 @@ public:
 };
 
 class CId;
-class CArgumentList;
 class CCallExpression : public CLValueExpression
 {
 public:
-	CCallExpression(IExpression* caller, CId* function, CArgumentList* list);
+	CCallExpression(IExpression* caller, CId* function, CExpressionList* list);
 
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<IExpression> caller;
 	std::unique_ptr<CId> function;
-	std::unique_ptr<CArgumentList> list;
+	std::unique_ptr<CExpressionList> list;
 
 	std::string GetLabel() override;
 };

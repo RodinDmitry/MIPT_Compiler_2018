@@ -216,7 +216,7 @@ BinaryOperator : PT_Plus { $$=CBinaryExpression::O_Plus; }
 MethodCall: PT_Dot {}
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<IExpression>(nullptr), new CId($1), To<CArgumentList>($3)); }
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<IExpression>(nullptr), new CId($1), To<CExpressionList>($3)); }
 ;
 
 ExpressionList: { $$=new CExpressionList(); }

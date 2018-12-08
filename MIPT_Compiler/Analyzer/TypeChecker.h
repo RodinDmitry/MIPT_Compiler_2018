@@ -58,8 +58,8 @@ private:
 	bool typeCheck(IExpression* left, IExpression* right);
 	bool typeCheck(CType* type, IExpression* node);
 	bool notVoidCheck(IExpression* node);
-	bool callerCheck(IExpression* caller, CId* function, CArgumentList* list);
-	bool argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments);
+	bool callerCheck(IExpression* caller, CId* function, CExpressionList* list);
+	bool argumentCheck(const CFunctionInfo* info, std::vector<std::shared_ptr<CType>>& arguments);
 	void cleanup();
 	void createLeaveClassPlaceholder();
 	void createLeaveFunctionPlaceholder();

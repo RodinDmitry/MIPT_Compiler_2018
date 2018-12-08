@@ -95,7 +95,6 @@ void CMalformedProgramChecker::visit(CLValueExpression*)
 
 void CMalformedProgramChecker::visit(CBinaryExpression* node)
 {
-	// typeCheck(node->left.get(), node->right.get());
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }

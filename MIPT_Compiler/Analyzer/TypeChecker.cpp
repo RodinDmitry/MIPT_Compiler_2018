@@ -279,7 +279,7 @@ bool CTypeChecker::notVoidCheck(IExpression* node)
 	}
 }
 
-bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CArgumentList* list)
+bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionList* list)
 {
 	CTypeGetter getter;
 	auto callerType = getter.GetType(caller, tableName, currentClassName, currentFunctionName, blocksEntered, blocksLeft);
@@ -291,8 +291,10 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CArgumentList
 	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
 
 	std::vector<std::shared_ptr<CType>> arguments;
-	for (int i = 0; i < list->arguments.size(); i++) {
-		arguments.push_back(getter.GetType(list->arguments[i].get(), ));
+	for (int i = 0; i < list->expressions.size(); i++) {
+		std::shared_ptr<CType> type = getter.GetType(list->expressions[i].get(), tableName, currentClassName,
+			currentFunctionName, blocksEntered, blocksLeft);
+		arguments.push_back(type);
 	}
 
 	bool hasCompatibleMethod = false;
@@ -308,7 +310,7 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CArgumentList
 	}
 }
 
-bool CTypeChecker::argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments)
+bool CTypeChecker::argumentCheck(const CFunctionInfo* info, std::vector<std::shared_ptr<CType>>& arguments)
 {
 	const std::vector<const CVariableInfo*> variables = info->GetArguments();
 	if (arguments.size() != variables.size()) {

@@ -2373,7 +2373,7 @@ yyreduce:
   case 64:
 /* Line 1792 of yacc.c  */
 #line 219 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CCallExpression(To<IExpression>(nullptr), new CId((yyvsp[(1) - (4)].stringValue)), To<CArgumentList>((yyvsp[(3) - (4)].node))); }
+    { (yyval.node)=new CCallExpression(To<IExpression>(nullptr), new CId((yyvsp[(1) - (4)].stringValue)), To<CExpressionList>((yyvsp[(3) - (4)].node))); }
     break;
 
   case 65:

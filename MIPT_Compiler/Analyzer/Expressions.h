@@ -70,11 +70,11 @@ class CArgumentList;
 class CCallExpression : public CLValueExpression
 {
 public:
-	CCallExpression(CId* caller, CId* function, CArgumentList* list);
+	CCallExpression(IExpression* caller, CId* function, CArgumentList* list);
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::unique_ptr<CId> caller;
+	std::unique_ptr<IExpression> caller;
 	std::unique_ptr<CId> function;
 	std::unique_ptr<CArgumentList> list;
 

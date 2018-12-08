@@ -58,7 +58,7 @@ private:
 	bool typeCheck(IExpression* left, IExpression* right);
 	bool typeCheck(CType* type, IExpression* node);
 	bool notVoidCheck(IExpression* node);
-	bool callerCheck(CId* caller, CId* function, CArgumentList* list);
+	bool callerCheck(IExpression* caller, CId* function, CArgumentList* list);
 	bool argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments);
 	void cleanup();
 	void createLeaveClassPlaceholder();

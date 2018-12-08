@@ -108,7 +108,6 @@ void CMalformedProgramChecker::visit(CArrayExpression* node)
 
 void CMalformedProgramChecker::visit(CCallExpression* node)
 {
-	// callerCheck(node->caller.get(), node->function.get(), node->list.get());
 	waitingNodes.push_front(node->caller.get());
 }
 
@@ -301,7 +300,6 @@ CVariableInfo* CMalformedProgramChecker::createVariableInfo(CVariable* node)
 
 CFunctionInfo* CMalformedProgramChecker::createFunctionInfo(CFunction* node)
 {
-	// typeCheck(node->returns.get(), node->returnExpression.get());
 	try {
 		CFunctionInfo* info = new CFunctionInfo(tableName, CSymbol::GetSymbol(node->name->name),
 			CSymbol::GetSymbol(node->returns->instance), node->returns->type, node->visibility->type);
@@ -332,76 +330,3 @@ void CMalformedProgramChecker::cleanup()
 	waitingNodes.clear();
 	placeholders.clear();
 }
-/*
-void CMalformedProgramChecker::typeCheck(IExpression* left, IExpression* right)
-{
-	CTypeGetter getter;
-	std::shared_ptr<CType> leftType = getter.GetType(left, tableName);
-	typeCheck(leftType.get(), right);
-}
-
-void CMalformedProgramChecker::typeCheck(CType* type, IExpression* node)
-{
-	CTypeGetter getter;
-	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
-	if (type->type != nodeType->type) {
-		if (type->type == DT_Integer && nodeType->type == DT_Boolean) {
-			return;
-		}
-		CErrorTable::AddError("Type check failed");
-	}
-	if (type->instance != nodeType->instance) {
-		CErrorTable::AddError("Type check failed");
-	}
-	
-}
-
-void CMalformedProgramChecker::notVoidCheck(IExpression * node)
-{
-	CTypeGetter getter;
-	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
-	if (nodeType->type == DT_Void) {
-		CErrorTable::AddError("Type check failed");
-	}
-}
-
-void CMalformedProgramChecker::callerCheck(CId* caller, CId* function, CArgumentList* list)
-{
-	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(caller->name));
-	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, info->String());
-	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
-
-	std::vector<CType*> arguments;
-	for (int i = 0; i < list->arguments.size(); i++) {
-		arguments.push_back(list->arguments[i]->type.get());
-	}
-
-	bool hasCompatibleMethod = false;
-	for (int i = 0; i < methods.size(); i++) {
-		if (methods[i]->String()->String() == function->name) {
-			if (argumentCheck(methods[i], arguments)) {
-				hasCompatibleMethod = true;
-			}
-		}
-	}
-	if (!hasCompatibleMethod) {
-		CErrorTable::AddError("Invalid call");
-	}
-}
-
-bool CMalformedProgramChecker::argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments)
-{
-	const std::vector<const CVariableInfo*> variables = info->GetArguments();
-	if (arguments.size() != variables.size()) {
-		return false;
-	}
-	for (int i = 0; i < arguments.size(); i++) {
-		std::shared_ptr<CType> variableType = variables[i]->GetType();
-		if (variableType->type != arguments[i]->type || variableType->instance != arguments[i]->instance) {
-			return false;
-		}
-	}
-
-	return true;
-}
-*/

@@ -3,6 +3,7 @@
 #include <deque>
 #include <memory>
 #include <assert.h>
+#include <ErrorTable.h>
 
 class ITree;
 class IVisitor;

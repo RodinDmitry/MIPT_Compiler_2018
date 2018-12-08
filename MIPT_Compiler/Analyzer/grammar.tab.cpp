@@ -2247,7 +2247,7 @@ yyreduce:
   case 43:
 /* Line 1792 of yacc.c  */
 #line 190 "MIPT_Compiler\\Bison\\grammar.y"
-    { To<CCallExpression>((yyvsp[(3) - (3)].node))->caller.reset(To<CId>((yyvsp[(1) - (3)].node))); (yyval.node)=(yyvsp[(1) - (3)].node);}
+    { To<CCallExpression>((yyvsp[(3) - (3)].node))->caller.reset(To<IExpression>((yyvsp[(1) - (3)].node))); (yyval.node)=(yyvsp[(3) - (3)].node);}
     break;
 
   case 44:
@@ -2373,7 +2373,7 @@ yyreduce:
   case 64:
 /* Line 1792 of yacc.c  */
 #line 219 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CCallExpression(To<CId>(nullptr), new CId((yyvsp[(1) - (4)].stringValue)), To<CArgumentList>((yyvsp[(3) - (4)].node))); }
+    { (yyval.node)=new CCallExpression(To<IExpression>(nullptr), new CId((yyvsp[(1) - (4)].stringValue)), To<CArgumentList>((yyvsp[(3) - (4)].node))); }
     break;
 
   case 65:

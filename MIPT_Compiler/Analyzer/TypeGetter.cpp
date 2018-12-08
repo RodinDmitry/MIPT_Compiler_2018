@@ -34,6 +34,7 @@ void CTypeGetter::visit(CArrayExpression* )
 
 void CTypeGetter::visit(CCallExpression* node)
 {
+	// TODO
 	const CClassInfo* classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(className));
 	if (classInfo == nullptr) {
 		return;
@@ -70,11 +71,19 @@ void CTypeGetter::visit(CIdExpression* node)
 	if (info != nullptr) {
 		resultingTypes.push_back(info->GetType());
 	}
+	else {
+		auto classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(node->id->name));
+		if (classInfo != nullptr) {
+			std::shared_ptr<CType> type(new CType(classInfo->String()->String().c_str()));
+			resultingTypes.push_back(type);
+		}
+	}
 }
 
 void CTypeGetter::visit(CThisExpression* node)
 {
 	std::shared_ptr<CType> type(new CType(className.c_str()));
+	resultingTypes.push_back(type);
 }
 
 void CTypeGetter::visit(CNotExpression* node)

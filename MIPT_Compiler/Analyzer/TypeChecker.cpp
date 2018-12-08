@@ -279,15 +279,20 @@ bool CTypeChecker::notVoidCheck(IExpression* node)
 	}
 }
 
-bool CTypeChecker::callerCheck(CId* caller, CId* function, CArgumentList* list)
+bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CArgumentList* list)
 {
-	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(caller->name));
-	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, info->String());
+	CTypeGetter getter;
+	auto callerType = getter.GetType(caller, tableName, currentClassName, currentFunctionName, blocksEntered, blocksLeft);
+	if (callerType->type != DT_Instance) {
+		return false;
+	}
+
+	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(callerType->instance));
 	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
 
-	std::vector<CType*> arguments;
+	std::vector<std::shared_ptr<CType>> arguments;
 	for (int i = 0; i < list->arguments.size(); i++) {
-		arguments.push_back(list->arguments[i]->type.get());
+		arguments.push_back(getter.GetType(list->arguments[i].get(), ));
 	}
 
 	bool hasCompatibleMethod = false;

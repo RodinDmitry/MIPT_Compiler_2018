@@ -187,7 +187,7 @@ StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To
 
 LvalueExpression: 
 	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new CArrayExpression(To<IExpression>($1), To<IExpression>($3));}
-	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<CId>($1)); $$=$3;}
+	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<IExpression>($1)); $$=$3;}
 	| PT_ID { $$=new CIdExpression(new CId ($1));}
 	| This { $$=new CThisExpression();}
 ;
@@ -216,7 +216,7 @@ BinaryOperator : PT_Plus { $$=CBinaryExpression::O_Plus; }
 MethodCall: PT_Dot {}
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<CId>(nullptr), new CId($1), To<CArgumentList>($3)); }
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<IExpression>(nullptr), new CId($1), To<CArgumentList>($3)); }
 ;
 
 ExpressionList: { $$=new CExpressionList(); }

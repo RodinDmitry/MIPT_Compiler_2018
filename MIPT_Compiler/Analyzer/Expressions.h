@@ -29,7 +29,7 @@ class CBinaryExpression : public IExpression
 {
 public:
 
-	enum TOpeartor {
+	enum TOperator {
 		O_Plus,
 		O_Minus,
 		O_Division,
@@ -41,13 +41,13 @@ public:
 		O_More
 	};
 
-	CBinaryExpression(IExpression* left, IExpression* right, TOpeartor operation);
+	CBinaryExpression(IExpression* left, IExpression* right, TOperator operation);
 
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<IExpression> left;
 	std::unique_ptr<IExpression> right;
-	TOpeartor operation;
+	TOperator operation;
 
 	std::string GetLabel() override;
 };

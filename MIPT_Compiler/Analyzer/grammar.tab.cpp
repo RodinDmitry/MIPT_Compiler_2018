@@ -2271,7 +2271,7 @@ yyreduce:
   case 47:
 /* Line 1792 of yacc.c  */
 #line 196 "MIPT_Compiler\\Bison\\grammar.y"
-    { (yyval.node)=new CBinaryExpression(To<IExpression>((yyvsp[(1) - (3)].node)), To<IExpression>((yyvsp[(3) - (3)].node)), static_cast<CBinaryExpression::TOpeartor>((yyvsp[(2) - (3)].integerValue)));}
+    { (yyval.node)=new CBinaryExpression(To<IExpression>((yyvsp[(1) - (3)].node)), To<IExpression>((yyvsp[(3) - (3)].node)), static_cast<CBinaryExpression::TOperator>((yyvsp[(2) - (3)].integerValue)));}
     break;
 
   case 48:

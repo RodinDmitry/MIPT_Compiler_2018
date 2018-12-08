@@ -104,7 +104,7 @@ CFunctionNamespaceBlock::CFunctionNamespaceBlock(const CNamespaceBlock* _parent,
 	: CNamespaceBlock(_parent), funcToUpdate(function)
 {
 	function->SetParent(this);
-	const std::vector< const CVariableInfo* > arguments = function->GetArguments();
+	const std::vector< const CVariableInfo* >& arguments = function->GetArguments();
 	for (int i = 0; i < arguments.size(); ++i) {
 		AddMember(arguments[i]);
 	}

@@ -3,20 +3,28 @@
 #include <ErrorTable.h>
 
 std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string& _symbolTable, 
-	std::string& _className, std::string& _funcitonName, int _entered, int _left)
+	std::string& _className, std::string& _functionName, int _entered, int _left)
 {
 	className = _className;
-	functionName = _funcitonName;
+	functionName = _functionName;
 	symbolTable = _symbolTable;
 	enterCount = _entered;
 	leaveCount = _left;
+	waitingNodes.clear();
+	resultingTypes.clear();
 	waitingNodes.push_back(node);
+	if (_functionName == "Insert" && _className == "Tree") {
+		std::cout << "lhln";
+	}
 	while (waitingNodes.size() > 0) {
 		ITree* current = waitingNodes.front();
 		waitingNodes.pop_front();
 		current->Accept(this);
 	}
 	std::shared_ptr<CType> result(checkType());
+	if (result == nullptr) {
+		std::cout << "prr";
+	}
 	return result;
 }
 

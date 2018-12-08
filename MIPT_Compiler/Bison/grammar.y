@@ -193,7 +193,7 @@ LvalueExpression:
 ;
 
 Expression: LvalueExpression { $$=$1; }
-	| Expression BinaryOperator Expression %prec BINARY { $$=new CBinaryExpression(To<IExpression>($1), To<IExpression>($3), static_cast<CBinaryExpression::TOpeartor>($2));}	
+	| Expression BinaryOperator Expression %prec BINARY { $$=new CBinaryExpression(To<IExpression>($1), To<IExpression>($3), static_cast<CBinaryExpression::TOperator>($2));}	
 	| Expression MethodCall Length %prec LENGTH { $$ = new CCallLengthExpression(To<IExpression>($1));}	
 	| ValueT { $$=new CValueExpression(To<IValue>($1)); }
 	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new CNewArrayExpression(To<IExpression>($4));}

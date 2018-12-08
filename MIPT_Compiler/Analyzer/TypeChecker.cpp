@@ -295,6 +295,9 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionLi
 		std::shared_ptr<CType> type = getter.GetType(list->expressions[i].get(), tableName, currentClassName,
 			currentFunctionName, blocksEntered, blocksLeft);
 		arguments.push_back(type);
+		if (arguments.back() == nullptr) {
+			std::cout << "prr";
+		}
 	}
 
 	bool hasCompatibleMethod = false;

@@ -18,7 +18,7 @@ std::string CLValueExpression::GetLabel()
 	return  "lvalue" + labelAddings;;
 }
 
-CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOpeartor _operation):
+CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOperator _operation):
 	left(_left), right(_right), operation(_operation)
 {
 }

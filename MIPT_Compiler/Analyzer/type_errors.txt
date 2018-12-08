@@ -1,95 +1,3 @@
-NEW CALL EXPRESSION Start
-NEW CALL EXPRESSION Init
-NEW CALL EXPRESSION Print
-NEW CALL EXPRESSION Insert
-NEW CALL EXPRESSION Insert
-NEW CALL EXPRESSION Insert
-NEW CALL EXPRESSION Insert
-NEW CALL EXPRESSION Insert
-NEW CALL EXPRESSION Insert
-NEW CALL EXPRESSION Insert
-NEW CALL EXPRESSION Print
-NEW CALL EXPRESSION accept
-NEW CALL EXPRESSION Search
-NEW CALL EXPRESSION Search
-NEW CALL EXPRESSION Search
-NEW CALL EXPRESSION Search
-NEW CALL EXPRESSION Search
-NEW CALL EXPRESSION Delete
-NEW CALL EXPRESSION Print
-NEW CALL EXPRESSION Search
-NEW CALL EXPRESSION Init
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION SetHas_Left
-NEW CALL EXPRESSION SetLeft
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION SetHas_Right
-NEW CALL EXPRESSION SetRight
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION Remove
-NEW CALL EXPRESSION Remove
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION RemoveLeft
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION RemoveRight
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION Compare
-NEW CALL EXPRESSION SetLeft
-NEW CALL EXPRESSION SetHas_Left
-NEW CALL EXPRESSION SetRight
-NEW CALL EXPRESSION SetHas_Right
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION SetKey
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION SetRight
-NEW CALL EXPRESSION SetHas_Right
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION SetKey
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION SetLeft
-NEW CALL EXPRESSION SetHas_Left
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION RecPrint
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION RecPrint
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION RecPrint
-NEW CALL EXPRESSION visit
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION accept
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION accept
-NEW CALL EXPRESSION GetHas_Right
-NEW CALL EXPRESSION GetRight
-NEW CALL EXPRESSION accept
-NEW CALL EXPRESSION GetKey
-NEW CALL EXPRESSION GetHas_Left
-NEW CALL EXPRESSION GetLeft
-NEW CALL EXPRESSION accept
 Condition not integer
 Condition not integer
 Condition not integer
@@ -99,21 +7,6 @@ Assigment types mismatch
 Assigment types mismatch
 Assigment types mismatch
 Assigment types mismatch
-Condition not integer
-Assigment types mismatch
-Condition not integer
-Assigment types mismatch
-Condition not integer
-Assigment types mismatch
-Assigment types mismatch
-Condition not integer
-Assigment types mismatch
-Assigment types mismatch
-Assigment types mismatch
-Assigment types mismatch
-Assigment types mismatch
-Condition not integer
-Condition not integer
 Assigment types mismatch
 Assigment types mismatch
 Assigment types mismatch
@@ -122,9 +15,6 @@ Assigment types mismatch
 Assigment types mismatch
 Assigment types mismatch
 Assigment types mismatch
-Assigment types mismatch
-Assigment types mismatch
-Assigment types mismatch
-Assigment types mismatch
+Suitable function not found
 Assigment types mismatch
 Assigment types mismatch

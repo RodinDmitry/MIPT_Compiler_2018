@@ -119,13 +119,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Access.cpp" />
     <ClCompile Include="Argument.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassInfo.cpp" />
     <ClCompile Include="ErrorTable.cpp" />
     <ClCompile Include="Expressions.cpp" />
-    <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />

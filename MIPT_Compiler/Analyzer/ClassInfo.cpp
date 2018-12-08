@@ -49,3 +49,8 @@ const CSymbol * CClassInfo::String() const
 {
 	return name;
 }
+
+const CSymbol * CClassInfo::GetBase() const
+{
+	return extends;
+}

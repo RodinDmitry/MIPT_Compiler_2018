@@ -13,9 +13,6 @@ std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string& _sym
 	waitingNodes.clear();
 	resultingTypes.clear();
 	waitingNodes.push_back(node);
-	if (_functionName == "Insert" && _className == "Tree") {
-		std::cout << "lhln";
-	}
 	while (waitingNodes.size() > 0) {
 		ITree* current = waitingNodes.front();
 		waitingNodes.pop_front();
@@ -42,17 +39,21 @@ void CTypeGetter::visit(CArrayExpression* )
 
 void CTypeGetter::visit(CCallExpression* node)
 {
-	// TODO
-	const CClassInfo* classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(className));
+	//TODO
+	CTypeGetter getter;
+	std::shared_ptr<CType> callerType = getter.GetType(node->caller.get(), symbolTable, className, functionName,
+		enterCount, leaveCount);
+	if (callerType->type != TDataType::DT_Instance) {
+		return;
+	}
+	const CClassInfo* classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(callerType->instance));
 	if (classInfo == nullptr) {
 		return;
 	}
-	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
-	const CFunctionInfo* info = classInfo->FindMethod(CSymbol::GetSymbol(node->function->name));
-	if (info != nullptr) {
-		resultingTypes.push_back(info->GetType());
-	}
-	
+	const CFunctionInfo* method = classInfo->FindMethod(CSymbol::GetSymbol(node->function->name));
+	if (method != nullptr) {
+		resultingTypes.push_back(method->GetType());
+	}	
 }
 
 void CTypeGetter::visit(CValueExpression* node)

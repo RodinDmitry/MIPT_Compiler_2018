@@ -108,9 +108,10 @@ void CTypeChecker::visit(CNewExpression* node)
 
 void CTypeChecker::visit(CNotExpression* node)
 {
-	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
+	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
 	if (!typeCheck(type.get(), node->expression.get())) {
-		CErrorTable::AddError("Expression is not boolean");
+		typeCheck(type.get(), node->expression.get());
+		CErrorTable::AddError("Expression is not integer");
 	}
 	waitingNodes.push_front(node->expression.get());
 }
@@ -295,9 +296,6 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionLi
 		std::shared_ptr<CType> type = getter.GetType(list->expressions[i].get(), tableName, currentClassName,
 			currentFunctionName, blocksEntered, blocksLeft);
 		arguments.push_back(type);
-		if (arguments.back() == nullptr) {
-			std::cout << "prr";
-		}
 	}
 
 	bool hasCompatibleMethod = false;
@@ -322,6 +320,10 @@ bool CTypeChecker::argumentCheck(const CFunctionInfo* info, std::vector<std::sha
 	for (int i = 0; i < arguments.size(); i++) {
 		std::shared_ptr<CType> variableType = variables[i]->GetType();
 		if (variableType->type != arguments[i]->type || variableType->instance != arguments[i]->instance) {
+			if (variableType->type == DT_Instance && arguments[i]->type == DT_Instance
+				&& CSymbolTable::IsDerived(tableName, arguments[i]->instance, variableType->instance)) {
+				continue;
+			}
 			return false;
 		}
 	}

@@ -10,14 +10,20 @@ class IVisitor;
 
 class ITree {
 public:
+	ITree() = default;
+	ITree(int line);
+
 	virtual void Accept(IVisitor* visitor);
 
 	virtual std::string GetLabel();
 	void AddToLabel(std::string adding);
 
+	int getLine() const;
+
 protected:
 
 	std::string labelAddings = "";
+	int line = -1;
 };
 
 class CClassVisibilityStart : public ITree {

@@ -3,11 +3,11 @@
 #include <Variable.h>
 #include <Function.h>
 
-CClassInternals::CClassInternals(CFunction* _function) : function(_function), variable(nullptr)
+CClassInternals::CClassInternals(CFunction* _function, int _line) : function(_function), variable(nullptr), ITree(_line)
 {
 }
 
-CClassInternals::CClassInternals(CVariable* _variable) : variable(_variable), function(nullptr)
+CClassInternals::CClassInternals(CVariable* _variable, int _line) : variable(_variable), function(nullptr), ITree(_line)
 {
 }
 
@@ -21,7 +21,7 @@ std::string CClassInternals::GetLabel()
 	return  "internal" + labelAddings;;
 }
 
-CClassDeclaration::CClassDeclaration(CId* _name, CId* _extends) : name(_name), extend(_extends)
+CClassDeclaration::CClassDeclaration(CId* _name, CId* _extends, int _line) : name(_name), extend(_extends), ITree(_line)
 {
 }
 
@@ -35,7 +35,7 @@ std::string CClassDeclaration::GetLabel()
 	return  "classDeclaration" + labelAddings;;
 }
 
-CClass::CClass(CClassDeclaration* _declaration, CClassInternalsList* _internals) : declaration(_declaration), internals(_internals)
+CClass::CClass(CClassDeclaration* _declaration, CClassInternalsList* _internals, int _line) : declaration(_declaration), internals(_internals), ITree(_line)
 {
 }
 
@@ -48,6 +48,8 @@ std::string CClass::GetLabel()
 {
 	return  "class" + labelAddings;;
 }
+
+CClassInternalsList::CClassInternalsList() : ITree(-1) {}
 
 void CClassInternalsList::Add(CClassInternals* item)
 {
@@ -64,6 +66,8 @@ std::string CClassInternalsList::GetLabel()
 {
 	return  "internals" + labelAddings;;
 }
+
+CClassList::CClassList() : ITree(-1) {}
 
 void CClassList::Add(CClass* item)
 {

@@ -1,6 +1,12 @@
 #include <Tree.h>
 #include <Visitor.h>
 
+ITree::ITree(int _line) : line(_line) {};
+
+void IExpression::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
 
 void CClassVisibilityStart::Accept(IVisitor* visitor)
 {
@@ -32,6 +38,11 @@ void CVisibilityBlockEnd::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-void ITree::Accept(IVisitor* visitor) {
+int ITree::getLine() const {
+	return line;
+}
+
+void ITree::Accept(IVisitor* visitor) 
+{
 	visitor->visit(this);
 }

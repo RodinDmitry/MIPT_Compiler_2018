@@ -12,7 +12,7 @@ class CReturnExpression;
 class CFunction : public ITree {
 public:
 	CFunction(CModifier* visibility, CId* name, CArgumentList* arguments, CStatementList* body,
-		CType* returns, CReturnExpression* returnExpression);
+		CType* returns, CReturnExpression* returnExpression, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CModifier> visibility;

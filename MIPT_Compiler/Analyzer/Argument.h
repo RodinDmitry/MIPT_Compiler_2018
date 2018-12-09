@@ -6,6 +6,7 @@
 
 class CArgumentList : public ITree {
 public:
+	CArgumentList();
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(CVariable* argument);
 

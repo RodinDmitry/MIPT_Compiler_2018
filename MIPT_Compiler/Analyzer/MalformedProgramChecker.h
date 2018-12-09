@@ -57,6 +57,9 @@ private:
 	void createEnterPlaceholder();
 	void createLeavePlaceholder();
 	void cleanup();
+	void checkVariableDoubleDeclaration(const CSymbol* symbol);
+	void checkFunctionDoubleDeclaration(const CSymbol* symbol);
+	void checkClassDoubleDeclaration(const CSymbol* symbol);
 
 	std::deque<ITree*> waitingNodes;
 	std::vector<std::shared_ptr<ITree>> placeholders;

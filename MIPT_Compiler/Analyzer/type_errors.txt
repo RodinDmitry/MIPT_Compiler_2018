@@ -1,0 +1,2 @@
+Invalide integer operation
+Array size not integer

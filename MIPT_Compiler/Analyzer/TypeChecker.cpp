@@ -45,6 +45,15 @@ void CTypeChecker::visit(CClass* node)
 {
 	createLeaveClassPlaceholder();
 	currentClassName = node->declaration->name->name;
+	const CClassInfo* info = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(currentClassName));
+	if (info->HasCyclicInheritance(tableName)) {
+		CErrorTable::AddError("Cyclic Inheritance");
+	}
+
+	if (info->InheritedFromKnownClass(tableName)) {
+		CErrorTable::AddError("Unknown Inheritance");
+	}
+
 	waitingNodes.push_front(node->internals.get());
 }
 
@@ -108,10 +117,10 @@ void CTypeChecker::visit(CNewExpression* node)
 
 void CTypeChecker::visit(CNotExpression* node)
 {
-	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
+	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 	if (!typeCheck(type.get(), node->expression.get())) {
 		typeCheck(type.get(), node->expression.get());
-		CErrorTable::AddError("Expression is not integer");
+		CErrorTable::AddError("Expression is not boolean");
 	}
 	waitingNodes.push_front(node->expression.get());
 }
@@ -163,9 +172,9 @@ void CTypeChecker::visit(CStatementList* node)
 
 void CTypeChecker::visit(CIfStatement* node)
 {
-	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
+	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 	if (!typeCheck(type.get(), node->condition.get())) {
-		CErrorTable::AddError("Condition not integer");
+		CErrorTable::AddError("Condition not boolean");
 	}
 	waitingNodes.push_front(node->elseStatement.get());
 	waitingNodes.push_front(node->thenStatement.get());
@@ -174,9 +183,9 @@ void CTypeChecker::visit(CIfStatement* node)
 
 void CTypeChecker::visit(CWhileStatement* node)
 {
-	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
+	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 	if (!typeCheck(type.get(), node->condition.get())) {
-		CErrorTable::AddError("Condition not integer");
+		CErrorTable::AddError("Condition not boolean");
 	}
 	waitingNodes.push_front(node->statement.get());
 	waitingNodes.push_front(node->condition.get());
@@ -184,6 +193,11 @@ void CTypeChecker::visit(CWhileStatement* node)
 
 void CTypeChecker::visit(CPrintStatement* node)
 {
+	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
+	std::shared_ptr<CType> arrayType(new CType(TDataType::DT_IntegerArray));
+	if (!typeCheck(type.get(), node->expression.get()) && !typeCheck(arrayType.get(), node->expression.get())) {
+		CErrorTable::AddError("Invalid print");
+	}
 	waitingNodes.push_front(node->expression.get());
 }
 
@@ -259,9 +273,6 @@ bool CTypeChecker::typeCheck(CType* type, IExpression* node)
 	}
 
 	if (type->type != nodeType->type) {
-		if (type->type == DT_Integer && nodeType->type == DT_Boolean) {
-			return true;
-		}
 		return false;
 	}
 	if (type->instance != nodeType->instance) {
@@ -289,6 +300,10 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionLi
 	}
 
 	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(callerType->instance));
+	if (classInfo == nullptr) {
+		return false;
+	}
+
 	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
 
 	std::vector<std::shared_ptr<CType>> arguments;

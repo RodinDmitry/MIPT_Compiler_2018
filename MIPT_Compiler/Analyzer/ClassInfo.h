@@ -13,9 +13,13 @@ public:
 	const CFunctionInfo* FindMethod(const CSymbol* name) const;
 	const CSymbol* String() const;
 	const CSymbol* GetBase() const;
+	bool HasCyclicInheritance(const std::string& tableName) const;
+	bool InheritedFromKnownClass(const std::string& tableName) const;
 private:
 	const CSymbol* name;
 	const CSymbol* extends;
 	std::vector<const CVariableInfo* > members;
 	std::vector<const CFunctionInfo* > methods;
+
+	
 };

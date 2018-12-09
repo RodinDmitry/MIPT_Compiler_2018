@@ -27,8 +27,67 @@ std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string& _sym
 
 void CTypeGetter::visit(CBinaryExpression* node)
 {
-	waitingNodes.push_front(node->right.get());
-	waitingNodes.push_front(node->left.get());
+	CTypeGetter getter;
+	switch (node->operation)
+	{
+	case node->TOperator::O_And:
+	case node->TOperator::O_Or: {
+		std::shared_ptr<CType> leftType = getter.GetType(node->left.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		if (leftType == nullptr || rightType == nullptr) {
+			CErrorTable::AddError("Invalide boolean operation");
+		}
+
+		if (leftType->type != DT_Boolean || rightType->type != DT_Boolean) {
+			CErrorTable::AddError("Invalide boolean operation");
+		}
+		std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
+		resultingTypes.push_back(type);
+		break;
+	}
+	case node->TOperator::O_Less:
+	case node->TOperator::O_More: {
+		std::shared_ptr<CType> leftType = getter.GetType(node->left.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		if (leftType == nullptr || rightType == nullptr) {
+			CErrorTable::AddError("Invalide compare");
+		}
+
+		if (leftType->type != DT_Integer || rightType->type != DT_Integer) {
+			CErrorTable::AddError("Invalide compare");
+		}
+		std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
+		resultingTypes.push_back(type);
+		break;
+	}
+	case node->TOperator::O_Plus:
+	case node->TOperator::O_Minus:
+	case node->TOperator::O_Multiplication:
+	case node->TOperator::O_Division:
+	case node->TOperator::O_IntegerDivision: {
+		std::shared_ptr<CType> leftType = getter.GetType(node->left.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		if (leftType == nullptr || rightType == nullptr) {
+			CErrorTable::AddError("Invalide integer operation");
+		}
+
+		if (leftType->type != DT_Boolean || rightType->type != DT_Boolean) {
+			CErrorTable::AddError("Invalide integer operation");
+		}
+		std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
+		resultingTypes.push_back(type);
+		break;
+	}
+	default: {
+		assert(false);
+	}
+	}
 }
 
 void CTypeGetter::visit(CArrayExpression* )
@@ -39,7 +98,6 @@ void CTypeGetter::visit(CArrayExpression* )
 
 void CTypeGetter::visit(CCallExpression* node)
 {
-	//TODO
 	CTypeGetter getter;
 	std::shared_ptr<CType> callerType = getter.GetType(node->caller.get(), symbolTable, className, functionName,
 		enterCount, leaveCount);

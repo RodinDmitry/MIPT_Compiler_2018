@@ -1,7 +1,7 @@
 #include <Variable.h>
 #include <Visitor.h>
 
-CVariable::CVariable(CType* _type, CId* _name) : type(_type), name(_name)
+CVariable::CVariable(CType* _type, CId* _name, int _line) : type(_type), name(_name), ITree(_line)
 {
 }
 

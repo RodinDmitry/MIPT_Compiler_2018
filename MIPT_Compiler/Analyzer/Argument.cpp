@@ -1,6 +1,8 @@
 #include <Argument.h>
 #include <Visitor.h>
 
+CArgumentList::CArgumentList() : ITree(-1) {}
+
 void CArgumentList::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);

@@ -6,7 +6,7 @@
 class CMainArgument : public ITree {
 public:
 	
-	CMainArgument(CId* name);
+	CMainArgument(CId* name, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CId> name;
@@ -17,7 +17,7 @@ public:
 class CMainFunction : public ITree {
 public:
 
-	CMainFunction(CMainArgument* argument, CStatementList* body);
+	CMainFunction(CMainArgument* argument, CStatementList* body, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CMainArgument> argument;
@@ -29,7 +29,7 @@ public:
 class CMain : public ITree {
 public:
 
-	CMain(CId* name, CMainFunction* mainFunction);
+	CMain(CId* name, CMainFunction* mainFunction, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CId> name;

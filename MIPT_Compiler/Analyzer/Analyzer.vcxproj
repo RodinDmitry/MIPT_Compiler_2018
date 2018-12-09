@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -121,22 +121,32 @@
   <ItemGroup>
     <ClCompile Include="Argument.cpp" />
     <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ClassInfo.cpp" />
+    <ClCompile Include="ErrorTable.cpp" />
     <ClCompile Include="Expressions.cpp" />
     <ClCompile Include="Function.cpp" />
+    <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="Modifier.cpp" />
+    <ClCompile Include="NamespaceBlock.cpp" />
     <ClCompile Include="PrettyPrinter.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="StackBuilder.cpp" />
     <ClCompile Include="Statement.cpp" />
+    <ClCompile Include="Symbol.cpp" />
+    <ClCompile Include="MalformedProgramChecker.cpp" />
+    <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Type.cpp" />
+    <ClCompile Include="TypeChecker.cpp" />
+    <ClCompile Include="TypeGetter.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="Variable.cpp" />
+    <ClCompile Include="VariableInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
@@ -149,10 +159,12 @@
     <ClInclude Include="ClassInfo.h" />
     <ClInclude Include="DataType.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="ErrorTable.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="InvalidDefinitionException.h" />
     <ClInclude Include="NamespaceBlock.h" />
     <ClInclude Include="PrettyPrinter.h" />
     <ClInclude Include="StackBuilder.h" />
@@ -163,12 +175,16 @@
     <ClInclude Include="Program.h" />
     <ClInclude Include="Statement.h" />
     <ClInclude Include="SymbolTable.h" />
+    <ClInclude Include="MalformedProgramChecker.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="TypeChecker.h" />
+    <ClInclude Include="TypeGetter.h" />
     <ClInclude Include="UndefinedTypeException.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="VariableInfo.h" />
+    <ClInclude Include="VisabilityModifier.h" />
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

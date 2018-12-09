@@ -1,33 +1,58 @@
 #pragma once
 #include <NamespaceBlock.h>
+#include <UndefinedTypeException.h>
+#include <map>
 
 class CSymbolTable {
-	static void CreateTable(const std::string& name);
-	static void SwitchCurrentTable(const std::string& name);
+public:
+	static void CreateTable(const std::string& tableName);
+	//static void SwitchCurrentTable(const std::string& name);
 
-	static void AddBlockToCurrent();
-	static void AddNestedBlockToCurrent();
-	static void AddFunctionBlockToCurrent(CFunctionInfo* function);
-	static void LeaveBlockToCurrent();
-	static void AddVariableToCurrent(CVariableInfo* variable);
-	static void AddClassToCurrent(CClassInfo* classDecl);
-	static void AddMethodToCurrent(CFunctionInfo* function);
-	static void AddMemberToCurrent(CVariableInfo* variable);
-	static void CreateClassToCurrent(const std::string& name, const std::string& extends);
+	// Для вложенных областей видемости
+	static void AddBlock(const std::string& tableName);
+	static void LeaveBlock(const std::string& tableName);
 
-	CSymbol* FindSymbol() const;
+	static void CreateClass(const std::string& tableName, const std::string& name, const std::string& extends);
+	static void AddFunctionBlock(const std::string& tableName, CFunctionInfo* function);
+
+
+	//static void AddClass(const std::string& tableName, const CClassInfo* classDecl);
+	static void AddArgument(const std::string& tableName, const CVariableInfo* argument);
+	static void AddMember(const std::string& tableName, const CVariableInfo* variable);
+	
+	static const CClassInfo* GetThis(const std::string& tableName);
+	static const CClassInfo* FindClass(const std::string& tableName, const CSymbol* id);
+	static const CFunctionInfo* FindMethod(const std::string& tableName, const CSymbol* id);
+	static const CVariableInfo* FindMember(const std::string& tableName, const CSymbol* id);
+
+	static const CVariableInfo* FindLocalVariable(const std::string& tableName, const std::string& id,
+		const std::string& className, const std::string& func, int cntEnter, int cntLeave);
+	static bool IsDerived(const std::string& tableName, const std::string& derived, const std::string& base);
 private:
-	void AddBlock();
-	void AddNestedBlock();
-	void AddFunctionBlock(CFunctionInfo* function);
-	void LeaveBlock();
-	void AddVariable(CVariableInfo* variable);
-	void AddClass(CClassInfo* classDecl);
-	void AddMethod(CFunctionInfo* function);
-	void AddMember(CVariableInfo* variable);
-	void CreateClass(const std::string& name, const std::string& extends);
+	explicit CSymbolTable(const std::string& name);
 
-	std::vector<std::unique_ptr<NamespaceBlock*> > blocks;
-	static std::unordered_map<std::string, std::unique_ptr<CSymbolTable*> > tables;
+	void AddBlock();
+	void LeaveBlock();
+	
+	void CreateClass(const std::string& name, const std::string& extends);
+	void AddFunctionBlock(CFunctionInfo* function);
+
+	void AddArgument(const CVariableInfo* argument);
+	void AddMember(const CVariableInfo* variable);
+
+	const CClassInfo* GetThis() const;
+
+	const CClassInfo* FindClass(const CSymbol* id) const;
+	const CFunctionInfo* FindMethod(const CSymbol* id) const;
+	const CVariableInfo* FindMember(const CSymbol* id) const;
+
+	const CVariableInfo* FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const;
+	const CNamespaceBlock* switchToOffset(const CNamespaceBlock* block, int cntEnter, int cntLeave) const;
+	bool IsDerived(const std::string& derived, const std::string& base) const;
+
+	CNamespaceBlock* currentBlock;
+	const std::string tableName;
+	std::vector<std::unique_ptr<CNamespaceBlock> > blocks;
+	static std::map<const std::string, std::unique_ptr<CSymbolTable> > tables;
 	static CSymbolTable* currentTable;
 };

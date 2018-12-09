@@ -7,12 +7,14 @@
 class IStatement : public ITree
 {
 public:
+	IStatement(int line);
 	virtual void Accept(IVisitor* visitor) override;
 };
 
 class CStatementList : public ITree
 {
 public:
+	CStatementList();
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(IStatement* statement);
 
@@ -23,7 +25,7 @@ public:
 
 class CVisibilityStatement : public IStatement {
 public:
-	CVisibilityStatement(IStatement* statement);
+	CVisibilityStatement(IStatement* statement, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<IStatement> statement;
@@ -33,7 +35,7 @@ public:
 
 class CIfStatement : public IStatement {
 public:
-	CIfStatement(IExpression* condition, IStatement* thenStatement, IStatement* elseStatement);
+	CIfStatement(IExpression* condition, IStatement* thenStatement, IStatement* elseStatement, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<IExpression> condition;
@@ -45,7 +47,7 @@ public:
 
 class CWhileStatement : public IStatement {
 public:
-	CWhileStatement(IExpression* condition, IStatement* statement);
+	CWhileStatement(IExpression* condition, IStatement* statement, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<IExpression> condition;
@@ -56,7 +58,7 @@ public:
 
 class CPrintStatement : public IStatement {
 public:
-	CPrintStatement(IExpression* expression);
+	CPrintStatement(IExpression* expression, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<IExpression> expression;
@@ -64,9 +66,9 @@ public:
 	std::string GetLabel() override;
 };
 
-class CEqualStatement : public IStatement {
+class CAssignStatement : public IStatement {
 public:
-	CEqualStatement(CLValueExpression* left, IExpression* right);
+	CAssignStatement(CLValueExpression* left, IExpression* right, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CLValueExpression> left;
@@ -79,7 +81,7 @@ public:
 class CVariable;
 class CVariableStatement : public IStatement {
 public:
-	CVariableStatement(CVariable* variable);
+	CVariableStatement(CVariable* variable, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CVariable> variable;

@@ -3,6 +3,17 @@
 #include <Argument.h>
 #include <Id.h>
 
+
+IExpression::IExpression(int _line) : ITree(_line) {}
+
+CLValueExpression::CLValueExpression(int _line) : IExpression(-1) {}
+
+void IExpression::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
+
+
 void CLValueExpression::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
@@ -13,8 +24,9 @@ std::string CLValueExpression::GetLabel()
 	return  "lvalue" + labelAddings;;
 }
 
-CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOpeartor _operation):
-	left(_left), right(_right), operation(_operation)
+
+CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOperator _operation, int _line):
+	left(_left), right(_right), operation(_operation), IExpression(_line)
 {
 }
 
@@ -40,7 +52,7 @@ std::string CBinaryExpression::GetLabel()
 	return  name + labelAddings;
 }
 
-CArrayExpression::CArrayExpression(IExpression* _caller, IExpression* _index): caller(_caller), index(_index)
+CArrayExpression::CArrayExpression(IExpression* _caller, IExpression* _index, int _line): caller(_caller), index(_index), IExpression(_line)
 {
 }
 
@@ -54,7 +66,7 @@ std::string CArrayExpression::GetLabel()
 	return  "arrayExpression" + labelAddings;;
 }
 
-CCallExpression::CCallExpression(CId* _caller, CId* _function, CArgumentList* _list) : caller(_caller), function(_function), list(_list) {}
+CCallExpression::CCallExpression(IExpression* _caller, CId* _function, CExpressionList* _list, int _line) : caller(_caller), function(_function), list(_list), CLValueExpression(_line) {}
 
 void CCallExpression::Accept(IVisitor* visitor)
 {
@@ -66,7 +78,7 @@ std::string CCallExpression::GetLabel()
 	return  "call" + labelAddings;;
 }
 
-CCallLengthExpression::CCallLengthExpression(IExpression* _caller) : caller(_caller) {}
+CCallLengthExpression::CCallLengthExpression(IExpression* _caller, int _line) : caller(_caller), IExpression(_line) {}
 
 void CCallLengthExpression::Accept(IVisitor* visitor)
 {
@@ -78,7 +90,7 @@ std::string CCallLengthExpression::GetLabel()
 	return  "length" + labelAddings;;
 }
 
-CValueExpression::CValueExpression(IValue* _value) : value(_value) {}
+CValueExpression::CValueExpression(IValue* _value, int _line) : value(_value), IExpression(_line) {}
 
 void CValueExpression::Accept(IVisitor* visitor)
 {
@@ -90,7 +102,7 @@ std::string CValueExpression::GetLabel()
 	return  "valueExpr" + labelAddings;;
 }
 
-CNewArrayExpression::CNewArrayExpression(IExpression* _expression): expression(_expression) {}
+CNewArrayExpression::CNewArrayExpression(IExpression* _expression, int _line): expression(_expression), IExpression(_line) {}
 
 void CNewArrayExpression::Accept(IVisitor* visitor)
 {
@@ -102,7 +114,7 @@ std::string CNewArrayExpression::GetLabel()
 	return  "newArray" + labelAddings;;
 }
 
-CIdExpression::CIdExpression(CId* _id) : id(_id) {}
+CIdExpression::CIdExpression(CId* _id, int _line) : id(_id), CLValueExpression(_line) {}
 
 void CIdExpression::Accept(IVisitor* visitor)
 {
@@ -114,7 +126,7 @@ std::string CIdExpression::GetLabel()
 	return  "idExpression" + labelAddings;;
 }
 
-CThisExpression::CThisExpression() {}
+CThisExpression::CThisExpression() : CLValueExpression(-1) {}
 
 void CThisExpression::Accept(IVisitor* visitor)
 {
@@ -126,7 +138,7 @@ std::string CThisExpression::GetLabel()
 	return  "this" + labelAddings;;
 }
 
-CNotExpression::CNotExpression(IExpression* _expression): expression(_expression) {}
+CNotExpression::CNotExpression(IExpression* _expression, int _line): expression(_expression), IExpression(_line) {}
 
 void CNotExpression::Accept(IVisitor* visitor)
 {
@@ -138,7 +150,7 @@ std::string CNotExpression::GetLabel()
 	return  "notExpression" + labelAddings;;
 }
 
-CBracketsExpression::CBracketsExpression(IExpression* _expression): expression(_expression) {}
+CBracketsExpression::CBracketsExpression(IExpression* _expression, int _line): expression(_expression), IExpression(_line) {}
 
 void CBracketsExpression::Accept(IVisitor* visitor)
 {
@@ -149,6 +161,8 @@ std::string CBracketsExpression::GetLabel()
 {
 	return  "brackets" + labelAddings;;
 }
+
+CExpressionList::CExpressionList() : ITree(-1) {}
 
 void CExpressionList::Accept(IVisitor* visitor)
 {
@@ -166,7 +180,7 @@ std::string CExpressionList::GetLabel()
 	return  "expressions" + labelAddings;;
 }
 
-CNewExpression::CNewExpression(CId* _id) : id(_id)
+CNewExpression::CNewExpression(CId* _id, int _line) : id(_id), IExpression(_line)
 {
 }
 
@@ -180,7 +194,7 @@ std::string CNewExpression::GetLabel()
 	return  "new" + labelAddings;;
 }
 
-CReturnExpression::CReturnExpression(IExpression* _expression) : expression(_expression)
+CReturnExpression::CReturnExpression(IExpression* _expression, int _line) : expression(_expression), IExpression(_line)
 {
 }
 

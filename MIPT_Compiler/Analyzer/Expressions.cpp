@@ -3,9 +3,16 @@
 #include <Argument.h>
 #include <Id.h>
 
+
 IExpression::IExpression(int _line) : ITree(_line) {}
 
 CLValueExpression::CLValueExpression(int _line) : IExpression(-1) {}
+
+void IExpression::Accept(IVisitor* visitor)
+{
+	visitor->visit(this);
+}
+
 
 void CLValueExpression::Accept(IVisitor* visitor)
 {
@@ -16,6 +23,7 @@ std::string CLValueExpression::GetLabel()
 {
 	return  "lvalue" + labelAddings;;
 }
+
 
 CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOpeartor _operation, int _line):
 	left(_left), right(_right), operation(_operation), IExpression(_line)

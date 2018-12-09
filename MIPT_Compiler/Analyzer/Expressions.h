@@ -34,7 +34,7 @@ class CBinaryExpression : public IExpression
 {
 public:
 
-	enum TOpeartor {
+	enum TOperator {
 		O_Plus,
 		O_Minus,
 		O_Division,
@@ -52,7 +52,7 @@ public:
 
 	std::unique_ptr<IExpression> left;
 	std::unique_ptr<IExpression> right;
-	TOpeartor operation;
+	TOperator operation;
 
 	std::string GetLabel() override;
 };
@@ -71,7 +71,6 @@ public:
 };
 
 class CId;
-class CArgumentList;
 class CCallExpression : public CLValueExpression
 {
 public:
@@ -79,9 +78,9 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::unique_ptr<CId> caller;
+	std::unique_ptr<IExpression> caller;
 	std::unique_ptr<CId> function;
-	std::unique_ptr<CArgumentList> list;
+	std::unique_ptr<CExpressionList> list;
 
 	std::string GetLabel() override;
 };

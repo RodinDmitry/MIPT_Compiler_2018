@@ -1,19 +1,15 @@
 #pragma once
 #include <Tree.h>
+#include <VisabilityModifier.h>
 
 class CModifier : public ITree
 {
 public:
-	enum TModifierType
-	{
-		MT_Public,
-		MT_Private,
-	};
 
-	CModifier(TModifierType type);
+	CModifier(TVisabilityModifierType type);
 	virtual void Accept(IVisitor* visitor) override;
 
-	TModifierType type;
+	TVisabilityModifierType type;
 
 	std::string GetLabel() override;
 };

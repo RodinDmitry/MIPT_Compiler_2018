@@ -33,30 +33,30 @@ extern void syntaxError(const std::string& name, int line);
 %locations
 
 %token PT_Error
-// Типы
+// Г’ГЁГЇГ»
 %token PT_Void
 %token PT_String 
 %token<integerValue> PT_Number
 %token PT_Boolean PT_Integer
-//Логические константы
+//Г‹Г®ГЈГЁГ·ГҐГ±ГЄГЁГҐ ГЄГ®Г­Г±ГІГ Г­ГІГ»
 %token<logicalValue> PT_True PT_False
-// Части для классов
+// Г—Г Г±ГІГЁ Г¤Г«Гї ГЄГ«Г Г±Г±Г®Гў
 %token PT_Class PT_Static PT_Public PT_Private PT_Extends
-//Точка входа
+//Г’Г®Г·ГЄГ  ГўГµГ®Г¤Г 
 %token PT_Main
-// Принт
+// ГЏГ°ГЁГ­ГІ
 %token PT_Print
-//Условные операторы
+//Г“Г±Г«Г®ГўГ­Г»ГҐ Г®ГЇГҐГ°Г ГІГ®Г°Г»
 %token PT_If PT_While PT_Else
-// Что-то
+// Г—ГІГ®-ГІГ®
 %token PT_Length
-// Ключевые слова
+// ГЉГ«ГѕГ·ГҐГўГ»ГҐ Г±Г«Г®ГўГ 
 %token PT_This PT_New
-// Логические операции
+// Г‹Г®ГЈГЁГ·ГҐГ±ГЄГЁГҐ Г®ГЇГҐГ°Г Г¶ГЁГЁ
 
-// Точка с запятой
+// Г’Г®Г·ГЄГ  Г± Г§Г ГЇГїГІГ®Г©
 %token PT_Semicolon
-// Переменная
+// ГЏГҐГ°ГҐГ¬ГҐГ­Г­Г Гї
 %token<stringValue> PT_ID
 %token PT_Dot
 %token PT_Coma
@@ -96,7 +96,7 @@ extern void syntaxError(const std::string& name, int line);
 %left PT_Dot
 %left PT_Negation 
 %left PT_Multiplication PT_Division PT_IntegerDivision 
-%left PT_Equal PT_And PT_Or PT_More PT_Less PT_Plus PT_Minus
+%left PT_Assign PT_And PT_Or PT_More PT_Less PT_Plus PT_Minus
 
 %left BRACKETS
 %left ARRAY
@@ -146,8 +146,8 @@ MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  $$ = new C
 Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace { $$ = new CFunction(To<CModifier>($1), new CId($3, @3.first_line), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnExpression>($7), @1.first_line); }
 ;
 
-Visibility: PT_Public { $$ = new CModifier(CModifier::MT_Public); }
-	| PT_Private { $$ = new CModifier(CModifier::MT_Private); }
+Visibility: PT_Public { $$ = new CModifier(TVisabilityModifierType::VMT_Public); }
+	| PT_Private { $$ = new CModifier(TVisabilityModifierType::VMT_Private); }
 ;
 
 Return: PT_Return Expression Semicolon { $$ = new CReturnExpression(To<IExpression>($2), @1.first_line); }
@@ -216,12 +216,12 @@ BinaryOperator : PT_Plus { $$=CBinaryExpression::O_Plus; }
 MethodCall: PT_Dot {}
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<CId>(nullptr), new CId($1, @1.first_line), To<CArgumentList>($3), @1.first_line); }
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<IExpression>(nullptr), new CId($1, @1.first_line), To<CExpressionList>($3), @1.first_line); }
 ;
 
 ExpressionList: { $$=new CExpressionList(); }
 	| Expressions { $$ = $1; }
-	| error {syntaxError("Bad expression", @1.first_line); yyerrok; $$ = nullptr; }
+	| error ExpressionList {syntaxError("Bad expression", @1.first_line); yyerrok; $$ = $2; }
 ;
 
 Expressions : Expression { $$=new CExpressionList(); To<CExpressionList>($$)->Add(To<IExpression>($1)); }
@@ -242,7 +242,7 @@ ClassWord: PT_Class {  dumpBisonToken("class"); }
 ExtendsWord: PT_Extends { dumpBisonToken("extend"); }
 ;
 
-Equals: PT_Equal {  dumpBisonToken("equal"); }
+Assign: PT_Assign {  dumpBisonToken("assign"); }
 ;
 
 Integer: PT_Integer {  dumpBisonToken("int"); }

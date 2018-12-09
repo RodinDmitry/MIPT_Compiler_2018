@@ -1,15 +1,33 @@
 #pragma once
 #include <VariableInfo.h>
+#include <VisabilityModifier.h>
 #include <vector>
+#include <string>
+#include <Type.h>
 
-class CFunctionInfo : public CSymbol {
+class CNamespaceBlock;
+
+class CFunctionInfo {
 public:
-	CFunctionInfo(TDataType _returnType);
-	void AddArgument(CVariableInfo* argument);
-	void AddArguments(std::vector<std::unique_ptr<CVariableInfo*> >&& _arguments);
-
-	static CFunctionInfo* GetSymbol(const std::string& src);
+	CFunctionInfo(std::string& table, const CSymbol* _name, const CSymbol* _userType,
+		TDataType _returnType, TVisabilityModifierType _modifierType);
+	void AddArgument(const CVariableInfo* argument);
+	void AddLocal(const CVariableInfo* local);
+	void AddArguments(std::vector<const CVariableInfo* >&& _arguments);
+	const std::vector<const CVariableInfo* >& GetArguments () const;
+	const std::vector<const CVariableInfo* >& GetLocals() const;
+	const CVariableInfo* GetVariable(const CSymbol* name) const;
+	const CSymbol* String() const;
+	std::shared_ptr<CType> GetType() const;
+	void SetParent(const CNamespaceBlock* parentBlock);
+	const CNamespaceBlock* GetParent() const;
 private:
-	TDataType returnType;
-	std::vector<std::unique_ptr<CVariableInfo*> > arguments;
+	const CNamespaceBlock* parentBlock;
+	const CSymbol* name;
+	const CSymbol* userType;
+	const TDataType returnType;
+	const TVisabilityModifierType modifierType;
+	std::vector<const CVariableInfo* > arguments;
+	std::vector<const CVariableInfo* > locals;
+	std::shared_ptr<CType> dataType;
 };

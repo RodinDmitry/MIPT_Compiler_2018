@@ -86,16 +86,16 @@ std::string CPrintStatement::GetLabel()
 	return  "print" + labelAddings;;
 }
 
-CEqualStatement::CEqualStatement(CLValueExpression* _left, IExpression* _right, int _line) : left(_left), right(_right), IStatement(_line)
+CAssignStatement::CAssignStatement(CLValueExpression* _left, IExpression* _right, int _line) : left(_left), right(_right), IStatement(_line)
 {
 }
 
-void CEqualStatement::Accept(IVisitor* visitor)
+void CAssignStatement::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
 }
 
-std::string CEqualStatement::GetLabel()
+std::string CAssignStatement::GetLabel()
 {
 	return "assign" + labelAddings;;
 }

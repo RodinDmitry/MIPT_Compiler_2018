@@ -181,19 +181,19 @@ StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To
 	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem { $$ =  new CIfStatement(To<IExpression>($3), To<IStatement>($5), nullptr, @1.first_line); }
 	| While LeftRoundBracket Expression RightRoundBracket  StatementItem { $$ = new CWhileStatement(To<IExpression>($3), To<IStatement>($5), @1.first_line); }
 	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { $$ = new CPrintStatement(To<IExpression>($3), @1.first_line); }
-	| LvalueExpression Equals Expression Semicolon { $$ = new CEqualStatement(To<CLValueExpression>($1), To<IExpression>($3), @1.first_line); }
+	| LvalueExpression Assign Expression Semicolon { $$ = new CAssignStatement(To<CLValueExpression>($1), To<IExpression>($3), @1.first_line); }
 	| Variable Semicolon { $$ = new CVariableStatement(To<CVariable>($1), @1.first_line); }
 ;
 
 LvalueExpression: 
 	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new CArrayExpression(To<IExpression>($1), To<IExpression>($3), @1.first_line);}
-	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<CId>($1)); $$=$1;}
+	| Expression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<IExpression>($1)); $$=$3;}
 	| PT_ID { $$=new CIdExpression(new CId ($1, @1.first_line), @1.first_line);}
 	| This { $$=new CThisExpression();}
 ;
 
 Expression: LvalueExpression { $$=$1; }
-	| Expression BinaryOperator Expression %prec BINARY { $$=new CBinaryExpression(To<IExpression>($1), To<IExpression>($3), static_cast<CBinaryExpression::TOpeartor>($2), @1.first_line);}	
+	| Expression BinaryOperator Expression %prec BINARY { $$=new CBinaryExpression(To<IExpression>($1), To<IExpression>($3), static_cast<CBinaryExpression::TOperator>($2), @1.first_line);}	
 	| Expression MethodCall Length %prec LENGTH { $$ = new CCallLengthExpression(To<IExpression>($1), @1.first_line);}	
 	| ValueT { $$=new CValueExpression(To<IValue>($1), @1.first_line); }
 	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new CNewArrayExpression(To<IExpression>($4), @1.first_line);}

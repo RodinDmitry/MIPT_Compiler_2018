@@ -134,5 +134,5 @@ void dumpBisonToken(std::string token) {
 }
 
 void syntaxError(const std::string& name, int line) {
-	CErrorTable::AddError(name);
+	CErrorTable::AddError(name, line);
 }

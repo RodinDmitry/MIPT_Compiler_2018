@@ -25,7 +25,7 @@ std::string CLValueExpression::GetLabel()
 }
 
 
-CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOpeartor _operation, int _line):
+CBinaryExpression::CBinaryExpression(IExpression* _left, IExpression* _right, TOperator _operation, int _line):
 	left(_left), right(_right), operation(_operation), IExpression(_line)
 {
 }
@@ -66,7 +66,7 @@ std::string CArrayExpression::GetLabel()
 	return  "arrayExpression" + labelAddings;;
 }
 
-CCallExpression::CCallExpression(CId* _caller, CId* _function, CArgumentList* _list, int _line) : caller(_caller), function(_function), list(_list), CLValueExpression(_line) {}
+CCallExpression::CCallExpression(IExpression* _caller, CId* _function, CExpressionList* _list, int _line) : caller(_caller), function(_function), list(_list), CLValueExpression(_line) {}
 
 void CCallExpression::Accept(IVisitor* visitor)
 {

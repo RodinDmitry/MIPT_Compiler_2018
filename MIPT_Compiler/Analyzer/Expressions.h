@@ -46,7 +46,7 @@ public:
 		O_More
 	};
 
-	CBinaryExpression(IExpression* left, IExpression* right, TOpeartor operation, int line);
+	CBinaryExpression(IExpression* left, IExpression* right, TOperator operation, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 
@@ -74,7 +74,7 @@ class CId;
 class CCallExpression : public CLValueExpression
 {
 public:
-	CCallExpression(CId* caller, CId* function, CArgumentList* list, int line);
+	CCallExpression(IExpression* caller, CId* function, CExpressionList* list, int line);
 
 	virtual void Accept(IVisitor* visitor) override;
 

@@ -26,7 +26,9 @@ void CMalformedProgramChecker::visit(CArgumentList* node)
 	for (int i = 0; i < node->arguments.size(); i++) {
 		CVariableInfo* info = createVariableInfo(node->arguments[i].get());
 		if (info != nullptr) {
-			checkVariableDoubleDeclaration(info->String());
+			if (checkVariableDoubleDeclaration(info->String())) {
+				CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+			}
 			CSymbolTable::AddArgument(tableName, info);
 		}
 	}
@@ -36,7 +38,9 @@ void CMalformedProgramChecker::visit(CClassDeclaration* node)
 {
 	assert(node->name != nullptr);
 
-	checkClassDoubleDeclaration(CSymbol::GetSymbol(node->name->name));
+	if (checkClassDoubleDeclaration(CSymbol::GetSymbol(node->name->name))) {
+		CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+	}
 	std::string name = node->name->name;
 	std::string extend = "";
 	if (node->extend != nullptr) {
@@ -132,7 +136,7 @@ void CMalformedProgramChecker::visit(CIdExpression* node)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(node->id->name));
 	if (info == nullptr) {
-		CErrorTable::AddError("Unknown variable " + node->id->name);
+		CErrorTable::AddError(CErrorTable::UnknownVariable + node->id->name, node->GetLine());
 	}
 }
 
@@ -158,7 +162,9 @@ void CMalformedProgramChecker::visit(CReturnExpression* node)
 
 void CMalformedProgramChecker::visit(CFunction* node)
 {
-	checkFunctionDoubleDeclaration(CSymbol::GetSymbol(node->name->name));
+	if (checkFunctionDoubleDeclaration(CSymbol::GetSymbol(node->name->name))) {
+		CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+	}
 	CFunctionInfo* info(createFunctionInfo(node));
 	if (info != nullptr) {
 		createLeavePlaceholder();
@@ -251,7 +257,9 @@ void CMalformedProgramChecker::visit(CVariableStatement* node)
 {
 	CVariableInfo* info = createVariableInfo(node->variable.get());
 	if (info != nullptr) {
-		checkVariableDoubleDeclaration(info->String());
+		if (checkVariableDoubleDeclaration(info->String())) {
+			CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+		}
 		CSymbolTable::AddMember(tableName, info);
 	}
 }
@@ -275,7 +283,9 @@ void CMalformedProgramChecker::visit(CVariable* node)
 {
 	CVariableInfo* info = createVariableInfo(node);
 	if (info != nullptr) {
-		checkVariableDoubleDeclaration(info->String());
+		if (checkVariableDoubleDeclaration(info->String())) {
+			CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+		}
 		CSymbolTable::AddMember(tableName, info);
 	}
 }
@@ -298,7 +308,7 @@ CVariableInfo* CMalformedProgramChecker::createVariableInfo(CVariable* node)
 		return info;
 	}
 	catch (CUndefinedTypeException* exception) {
-		CErrorTable::AddError(exception);
+		CErrorTable::AddError(exception, node->GetLine());
 	}
 	return nullptr;
 }
@@ -311,7 +321,7 @@ CFunctionInfo* CMalformedProgramChecker::createFunctionInfo(CFunction* node)
 		return info;
 	}
 	catch (CUndefinedTypeException* exception) {
-		CErrorTable::AddError(exception);
+		CErrorTable::AddError(exception, node->GetLine());
 	}
 	return nullptr;
 }
@@ -336,26 +346,29 @@ void CMalformedProgramChecker::cleanup()
 	placeholders.clear();
 }
 
-void CMalformedProgramChecker::checkVariableDoubleDeclaration(const CSymbol * symbol)
+bool CMalformedProgramChecker::checkVariableDoubleDeclaration(const CSymbol * symbol)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, symbol);
 	if (info != nullptr) {
-		CErrorTable::AddError("Variable double declaration");
+		return true;
 	}
+	return false;
 }
 
-void CMalformedProgramChecker::checkFunctionDoubleDeclaration(const CSymbol* symbol)
+bool CMalformedProgramChecker::checkFunctionDoubleDeclaration(const CSymbol* symbol)
 {
 	const CFunctionInfo* info = CSymbolTable::FindMethod(tableName, symbol);
 	if (info != nullptr) {
-		CErrorTable::AddError("Function double declaration");
+		return true;
 	}
+	return false;
 }
 
-void CMalformedProgramChecker::checkClassDoubleDeclaration(const CSymbol * symbol)
+bool CMalformedProgramChecker::checkClassDoubleDeclaration(const CSymbol * symbol)
 {
 	const CClassInfo* info = CSymbolTable::FindClass(tableName, symbol);
 	if (info != nullptr) {
-		CErrorTable::AddError("Class double declaration");
+		return true;
 	}
+	return false;
 }

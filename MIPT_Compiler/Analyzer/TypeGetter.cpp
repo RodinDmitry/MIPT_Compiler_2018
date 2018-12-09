@@ -37,11 +37,11 @@ void CTypeGetter::visit(CBinaryExpression* node)
 		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
 			functionName, enterCount, leaveCount);
 		if (leftType == nullptr || rightType == nullptr) {
-			CErrorTable::AddError("Invalide boolean operation");
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
 		}
 
 		if (leftType->type != DT_Boolean || rightType->type != DT_Boolean) {
-			CErrorTable::AddError("Invalide boolean operation");
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
 		}
 		std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 		resultingTypes.push_back(type);
@@ -54,11 +54,11 @@ void CTypeGetter::visit(CBinaryExpression* node)
 		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
 			functionName, enterCount, leaveCount);
 		if (leftType == nullptr || rightType == nullptr) {
-			CErrorTable::AddError("Invalide compare");
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
 		}
 
 		if (leftType->type != DT_Integer || rightType->type != DT_Integer) {
-			CErrorTable::AddError("Invalide compare");
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
 		}
 		std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 		resultingTypes.push_back(type);
@@ -74,11 +74,11 @@ void CTypeGetter::visit(CBinaryExpression* node)
 		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
 			functionName, enterCount, leaveCount);
 		if (leftType == nullptr || rightType == nullptr) {
-			CErrorTable::AddError("Invalide integer operation");
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
 		}
 
-		if (leftType->type != DT_Boolean || rightType->type != DT_Boolean) {
-			CErrorTable::AddError("Invalide integer operation");
+		if (leftType->type != DT_Integer || rightType->type != DT_Integer) {
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
 		}
 		std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
 		resultingTypes.push_back(type);

@@ -18,7 +18,7 @@ public:
 	virtual std::string GetLabel();
 	void AddToLabel(std::string adding);
 
-	int getLine() const;
+	int GetLine() const;
 
 protected:
 

@@ -5,7 +5,7 @@ CType::CType() : type(TDataType::DT_Void), ITree(-1)
 {
 }
 
-CType::CType(char* _instance, int _line) : type(TDataType::DT_Instance), instance(_instance), ITree(_line)
+CType::CType(const char* _instance, int _line) : type(TDataType::DT_Instance), instance(_instance), ITree(_line)
 {
 }
 

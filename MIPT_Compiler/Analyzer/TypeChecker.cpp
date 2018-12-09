@@ -47,11 +47,11 @@ void CTypeChecker::visit(CClass* node)
 	currentClassName = node->declaration->name->name;
 	const CClassInfo* info = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(currentClassName));
 	if (info->HasCyclicInheritance(tableName)) {
-		CErrorTable::AddError("Cyclic Inheritance");
+		CErrorTable::AddError(CErrorTable::CyclicInheritance, node->GetLine());
 	}
 
 	if (info->InheritedFromKnownClass(tableName)) {
-		CErrorTable::AddError("Unknown Inheritance");
+		CErrorTable::AddError(CErrorTable::CyclicInheritance, node->GetLine());
 	}
 
 	waitingNodes.push_front(node->internals.get());
@@ -74,7 +74,7 @@ void CTypeChecker::visit(CExpressionList* node)
 void CTypeChecker::visit(CBinaryExpression* node)
 {
 	if (!typeCheck(node->left.get(), node->right.get())) {
-		CErrorTable::AddError("Binary type check failed");
+		CErrorTable::AddError(CErrorTable::TypeCheckFailed, node->GetLine());
 	}
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
@@ -84,7 +84,7 @@ void CTypeChecker::visit(CArrayExpression* node)
 {
 	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
 	if (!typeCheck(type.get(), node->index.get())) {
-		CErrorTable::AddError("Array index not integer");
+		CErrorTable::AddError(CErrorTable::WrongIndex, node->GetLine());
 	}
 	waitingNodes.push_front(node->index.get());
 	waitingNodes.push_front(node->caller.get());
@@ -93,7 +93,7 @@ void CTypeChecker::visit(CArrayExpression* node)
 void CTypeChecker::visit(CCallExpression* node)
 {
 	if (!callerCheck(node->caller.get(), node->function.get(), node->list.get())) {
-		CErrorTable::AddError("Suitable function not found");
+		CErrorTable::AddError(CErrorTable::UnknownFunction + node->function->name, node->GetLine());
 	}
 	waitingNodes.push_front(node->caller.get());
 }
@@ -102,7 +102,7 @@ void CTypeChecker::visit(CNewArrayExpression* node)
 {
 	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
 	if (!typeCheck(type.get(), node->expression.get())) {
-		CErrorTable::AddError("Array size not integer");
+		CErrorTable::AddError(CErrorTable::WrongIndex, node->GetLine());
 	}
 	waitingNodes.push_front(node->expression.get());
 }
@@ -111,7 +111,7 @@ void CTypeChecker::visit(CNewExpression* node)
 {
 	const CClassInfo* info = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(node->id->name));
 	if (info == nullptr) {
-		CErrorTable::AddError("Unknown class " + node->id->name);
+		CErrorTable::AddError(CErrorTable::UnknownClass + node->id->name, node->GetLine());
 	}
 }
 
@@ -120,7 +120,7 @@ void CTypeChecker::visit(CNotExpression* node)
 	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 	if (!typeCheck(type.get(), node->expression.get())) {
 		typeCheck(type.get(), node->expression.get());
-		CErrorTable::AddError("Expression is not boolean");
+		CErrorTable::AddError(CErrorTable::ExpectedBoolean, node->GetLine());
 	}
 	waitingNodes.push_front(node->expression.get());
 }
@@ -136,7 +136,7 @@ void CTypeChecker::visit(CFunction* node)
 	currentFunctionName = node->name->name;
 	if (!typeCheck(node->returns.get(), node->returnExpression.get())) {
 		typeCheck(node->returns.get(), node->returnExpression.get());
-		CErrorTable::AddError("Return expression has different type");
+		CErrorTable::AddError(CErrorTable::ReturnTypeMismatch, node->GetLine());
 	}
 	waitingNodes.push_front(node->body.get());
 	waitingNodes.push_front(node->arguments.get());
@@ -174,7 +174,7 @@ void CTypeChecker::visit(CIfStatement* node)
 {
 	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 	if (!typeCheck(type.get(), node->condition.get())) {
-		CErrorTable::AddError("Condition not boolean");
+		CErrorTable::AddError(CErrorTable::ExpectedBoolean, node->GetLine());
 	}
 	waitingNodes.push_front(node->elseStatement.get());
 	waitingNodes.push_front(node->thenStatement.get());
@@ -185,7 +185,7 @@ void CTypeChecker::visit(CWhileStatement* node)
 {
 	std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 	if (!typeCheck(type.get(), node->condition.get())) {
-		CErrorTable::AddError("Condition not boolean");
+		CErrorTable::AddError(CErrorTable::ExpectedBoolean, node->GetLine());
 	}
 	waitingNodes.push_front(node->statement.get());
 	waitingNodes.push_front(node->condition.get());
@@ -196,7 +196,7 @@ void CTypeChecker::visit(CPrintStatement* node)
 	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
 	std::shared_ptr<CType> arrayType(new CType(TDataType::DT_IntegerArray));
 	if (!typeCheck(type.get(), node->expression.get()) && !typeCheck(arrayType.get(), node->expression.get())) {
-		CErrorTable::AddError("Invalid print");
+		CErrorTable::AddError(CErrorTable::InvalidPrint, node->GetLine());
 	}
 	waitingNodes.push_front(node->expression.get());
 }
@@ -205,7 +205,7 @@ void CTypeChecker::visit(CAssignStatement* node)
 {
 	if (!typeCheck(node->left.get(), node->right.get())) {
 		typeCheck(node->left.get(), node->right.get());
-		CErrorTable::AddError("Assigment types mismatch");
+		CErrorTable::AddError(CErrorTable::TypeCheckFailed, node->GetLine());
 	}
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
@@ -221,7 +221,7 @@ void CTypeChecker::visit(CVariable* node)
 	if (node->type->type == DT_Instance) {
 		const CClassInfo* info = CSymbolTable::FindClass(tableName, CSymbol::GetSymbol(node->type->instance));
 		if (info == nullptr) {
-			CErrorTable::AddError("Class not found: " + node->type->instance);
+			CErrorTable::AddError(CErrorTable::UnknownClass + node->type->instance, node->GetLine());
 		}
 	}
 }

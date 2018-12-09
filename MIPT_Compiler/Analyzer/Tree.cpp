@@ -3,11 +3,6 @@
 
 ITree::ITree(int _line) : line(_line) {};
 
-void IExpression::Accept(IVisitor* visitor)
-{
-	visitor->visit(this);
-}
-
 void CClassVisibilityStart::Accept(IVisitor* visitor)
 {
 	visitor->visit(this);
@@ -38,7 +33,7 @@ void CVisibilityBlockEnd::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-int ITree::getLine() const {
+int ITree::GetLine() const {
 	return line;
 }
 

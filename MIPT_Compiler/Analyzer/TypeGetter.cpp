@@ -19,9 +19,6 @@ std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string& _sym
 		current->Accept(this);
 	}
 	std::shared_ptr<CType> result(checkType());
-	if (result == nullptr) {
-		std::cout << "prr";
-	}
 	return result;
 }
 

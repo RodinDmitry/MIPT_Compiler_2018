@@ -248,7 +248,10 @@ void CMalformedProgramChecker::visit(CPrintStatement* node)
 
 void CMalformedProgramChecker::visit(CAssignStatement* node)
 {
-	// typeCheck(node->left.get(), node->right.get());
+	IExpression* leftNode = node->left.get();
+	if (dynamic_cast<CCallExpression*>(leftNode) != nullptr) {
+		CErrorTable::AddError(CErrorTable::TypeCheckFailed, node->GetLine());
+	}
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }

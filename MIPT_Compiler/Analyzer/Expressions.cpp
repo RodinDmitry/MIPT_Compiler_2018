@@ -66,7 +66,7 @@ std::string CArrayExpression::GetLabel()
 	return  "arrayExpression" + labelAddings;;
 }
 
-CCallExpression::CCallExpression(IExpression* _caller, CId* _function, CExpressionList* _list, int _line) : caller(_caller), function(_function), list(_list), CLValueExpression(_line) {}
+CCallExpression::CCallExpression(IExpression* _caller, CId* _function, CExpressionList* _list, int _line) : caller(_caller), function(_function), list(_list), IExpression(_line) {}
 
 void CCallExpression::Accept(IVisitor* visitor)
 {

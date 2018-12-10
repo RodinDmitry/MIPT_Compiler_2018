@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <grammar.tab.h>
-
+#include <ErrorTable.h>
 #define YY_DECL int yylex()
 extern void dumpToken(std::string token);
 #define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno;
@@ -67,11 +67,11 @@ extern void dumpToken(std::string token);
 
 [^,\.;=|/\%\*\-+><!&\(\)\[\]\{\} \t\n]* { 
 	dumpToken(yytext);
-	fprintf(stderr, "Line %d: Bad token %s.\n", yylloc.first_line, yytext);
+	CErrorTable::AddError("Bad Token", yylloc.first_line);
 	return PT_Error; }
 
 %%
 
 void yyerror(ITree** tree, const char* s) {
-	std::cerr << s << " in line: " << yylineno << std::endl;
+	CErrorTable::AddError(s, yylineno);
 };

@@ -6,7 +6,7 @@
 class CTypeChecker : public IVisitor {
 public:
 
-	void CheckTypes(ITree* startNode, std::string tableName);
+	void CheckTypes(ITree* startNode, const std::string& tableName);
 
 	virtual void visit(ITree*) override { assert(false); }
 	virtual void visit(CArgumentList*) override;
@@ -38,7 +38,7 @@ public:
 	virtual void visit(CProgram*) override;
 	virtual void visit(IStatement*) override;
 	virtual void visit(CStatementList*) override;
-	virtual void visit(CVisibilityStatement*) override {}
+	virtual void visit(CVisibilityStatement*) override;
 	virtual void visit(CIfStatement*) override;
 	virtual void visit(CWhileStatement*) override;
 	virtual void visit(CPrintStatement*) override;

@@ -37,7 +37,7 @@ class ID {
  boolean ID ; 
  boolean ID ; 
  int ID ; 
- this . ID ( number ) = number ; ñomment
+ ID = number ; 
  if ( ID < ID ) { 
  ID = ID [ ID ] ; 
  ID = ID - number ; 

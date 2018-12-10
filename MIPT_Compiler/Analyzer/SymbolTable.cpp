@@ -58,11 +58,20 @@ const CVariableInfo * CSymbolTable::FindMember(const CSymbol* id) const
 	return currentBlock->FindMember(id);
 }
 
-const CVariableInfo * CSymbolTable::FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const
+const CVariableInfo* CSymbolTable::FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const
 {
 	const CClassInfo* cl = blocks.front()->FindClass(CSymbol::GetSymbol(className));
+	if (cl == nullptr) {
+		return nullptr;
+	}
 	const CFunctionInfo* funcInfo = cl->FindMethod(CSymbol::GetSymbol(func));
+	if (funcInfo == nullptr) {
+		return nullptr;
+	}
 	const CNamespaceBlock* currBlockPtr = switchToOffset(funcInfo->GetParent(), cntEnter, cntLeave);
+	if (currBlockPtr == nullptr) {
+		return nullptr;
+	}
 	return currBlockPtr->FindMember(CSymbol::GetSymbol(id));
 }
 

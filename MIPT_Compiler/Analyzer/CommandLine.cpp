@@ -1,5 +1,6 @@
 #include "CommandLine.h"
 #include <exception>
+#include <cassert>
 
 void CCommandLineArguments::ParseArgs(int argc, char* argv[])
 {
@@ -34,10 +35,57 @@ void CCommandLineArguments::ParseArgs(int argc, char* argv[])
 			dumpAST = true;
 		}
 		if (strncmp(argv[i], "--ename", 10) == 0) {
+			customErrors = true;
 			typeErrorsFileName = getNextName(argc, argv, i);
 			++i;
 		}
 	}
+}
+
+bool CCommandLineArguments::IsLexDumping() const
+{
+	return dumpLex;
+}
+
+bool CCommandLineArguments::IsASTDumping() const
+{
+	return dumpAST;
+}
+
+bool CCommandLineArguments::IsBisonDumping() const
+{
+	return dumpBison;
+}
+
+bool CCommandLineArguments::HasCustomErrorsFile() const
+{
+	return customErrors;
+}
+
+const std::string & CCommandLineArguments::GetInputFileName() const
+{
+	return inputFileName;
+}
+
+const std::string & CCommandLineArguments::GetLexFileName() const
+{
+	return lexFileName;
+}
+
+const std::string & CCommandLineArguments::GetBisonFileName() const
+{
+	return bisonFileName;
+}
+
+const std::string & CCommandLineArguments::GetASTFileName() const
+{
+	return ASTFileName;
+}
+
+const std::string & CCommandLineArguments::GetErrorsFileName() const
+{
+	assert(customErrors);
+	return typeErrorsFileName;
 }
 
 std::string CCommandLineArguments::getNextName(int argc, char * argv[], int i)

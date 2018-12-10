@@ -131,6 +131,7 @@
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
+    <ClCompile Include="MainCompiler.cpp" />
     <ClCompile Include="Modifier.cpp" />
     <ClCompile Include="NamespaceBlock.cpp" />
     <ClCompile Include="PrettyPrinter.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Statement.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="MalformedProgramChecker.h" />
+    <ClInclude Include="tokens.flex.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="TypeChecker.h" />

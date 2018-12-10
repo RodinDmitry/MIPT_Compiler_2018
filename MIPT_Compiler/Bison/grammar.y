@@ -1,14 +1,16 @@
+%pure-parser
+%lex-param { yyscan_t scanner }
+%parse-param { yyscan_t scanner }
+%parse-param { ITree** resultTree}
 %{
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <Tree.h>
-extern int yylex();
+
 
 extern FILE* yyin;
 
-
-extern void yyerror(ITree** tree, const char* s);
 extern void dumpBisonToken(std::string token);
 extern void syntaxError(const std::string& name, int line);
 %}
@@ -16,9 +18,16 @@ extern void syntaxError(const std::string& name, int line);
 %code requires {
 #include "../Analyzer/BisonUtils.h"
 #include <iostream>
+typedef void* yyscan_t;
 }
 
-%parse-param {ITree** resultTree}
+
+%code{
+extern int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, yyscan_t scanner);
+extern void yyerror(YYLTYPE* yyllocp, yyscan_t unused, ITree** resultTree, const char* msg);
+}
+
+
 
 %define parse.lac full
 
@@ -110,7 +119,8 @@ extern void syntaxError(const std::string& name, int line);
 
 %%
 
-Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2), @1.first_line); *resultTree = $$; } 
+Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2), @1.first_line); *resultTree = $$;
+} 
 	| error MainClass ClassDeclaration { syntaxError("Bad class definition", @1.first_line);
 										$$ = new CProgram(To<CMain>($2), To<CClassList>($3), @1.first_line);  yyerrok;} 
 ;

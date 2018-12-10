@@ -86,6 +86,9 @@
     <ClCompile Include="CommandLine.cpp">
       <Filter>Processing</Filter>
     </ClCompile>
+    <ClCompile Include="MainCompiler.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -192,6 +195,9 @@
     </ClInclude>
     <ClInclude Include="MainCompiler.h">
       <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens.flex.h">
+      <Filter>Bison</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

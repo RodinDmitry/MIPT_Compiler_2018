@@ -6,10 +6,22 @@ public:
 
 	void ParseArgs(int argc, char* argv[]);
 
+	bool IsLexDumping() const;
+	bool IsASTDumping() const;
+	bool IsBisonDumping() const;
+	bool HasCustomErrorsFile() const;
+
+	const std::string& GetInputFileName() const;
+	const std::string& GetLexFileName() const;
+	const std::string& GetBisonFileName() const;
+	const std::string& GetASTFileName() const;
+	const std::string& GetErrorsFileName() const;
+
 private:
 	bool dumpLex = false;
 	bool dumpBison = false;
 	bool dumpAST = false;
+	bool customErrors = false;
 	std::string lexFileName = "LEXdump.txt";
 	std::string bisonFileName = "BISONdump.txt";
 	std::string ASTFileName = "ASTFileName.txt";

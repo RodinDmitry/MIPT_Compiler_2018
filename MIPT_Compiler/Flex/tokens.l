@@ -1,22 +1,22 @@
-%option noyywrap
+%option noinput nounput noyywrap nodefault                                 
+%option yylineno
+%option reentrant bison-bridge bison-locations 
 
 %{
 #include <iostream>
 #include <string>
 #include <grammar.tab.h>
 
-#define YY_DECL int yylex()
 extern void dumpToken(std::string token);
-#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno;
+#define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
 %}
-%option yylineno
 
 %%
 
 "//"[^\n]*"\n" {dumpToken("ñomment\n");} ;
 [\n] ; {dumpToken("\n");}
 [ \t]	; // ignore all whitespace
-[0-9]+  { dumpToken("number"); yylval.integerValue = atoi(yytext); return PT_Number;};
+[0-9]+  { dumpToken("number"); yylval->integerValue = atoi(yytext); return PT_Number;};
 "static" { dumpToken("static"); return PT_Static;};
 "public" { dumpToken("public"); return PT_Public;};
 "private" { dumpToken("private"); return PT_Private;};
@@ -39,8 +39,8 @@ extern void dumpToken(std::string token);
 "else" {dumpToken("else"); return PT_Else;};
 "while" {dumpToken("while"); return PT_While;};
 "length" {dumpToken("length"); return PT_Length;};
-"true" {dumpToken("true"); yylval.logicalValue = true; return PT_True;};
-"false" {dumpToken("false"); yylval.logicalValue = false; return PT_False;};
+"true" {dumpToken("true"); yylval->logicalValue = true; return PT_True;};
+"false" {dumpToken("false"); yylval->logicalValue = false; return PT_False;};
 "this" {dumpToken("this"); return PT_This;};
 "new" {dumpToken("new"); return PT_New;};
 "return" {dumpToken("return"); return PT_Return;}
@@ -60,18 +60,18 @@ extern void dumpToken(std::string token);
 "," {dumpToken(","); return PT_Coma;};
 [a-zA-Z]+[a-zA-Z0-9_]* { 
 		dumpToken("ID");
-		yylval.stringValue = (char*) std::malloc(strlen(yytext)+1);
-		strcpy_s(yylval.stringValue, strlen(yytext)+1, yytext);
+		yylval->stringValue = (char*) std::malloc(strlen(yytext)+1);
+		strcpy_s(yylval->stringValue, strlen(yytext)+1, yytext);
 		return PT_ID;
 	};
 
 [^,\.;=|/\%\*\-+><!&\(\)\[\]\{\} \t\n]* { 
 	dumpToken(yytext);
-	fprintf(stderr, "Line %d: Bad token %s.\n", yylloc.first_line, yytext);
+	fprintf(stderr, "Line %d: Bad token %s.\n", yylloc->first_line, yytext);
 	return PT_Error; }
 
 %%
 
-void yyerror(ITree** tree, const char* s) {
-	std::cerr << s << " in line: " << yylineno << std::endl;
+void yyerror(YYLTYPE* yyllocp, yyscan_t unused, ITree** resultTree, const char* msg) {
+	//std::cerr << msg << " in line: " << yylineno << std::endl;
 };

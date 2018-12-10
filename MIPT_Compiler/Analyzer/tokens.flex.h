@@ -515,7 +515,7 @@ extern int yylex \
 #undef yyTABLES_NAME
 #endif
 
-#line 73 "MIPT_Compiler\\Flex\\tokens.l"
+#line 74 "MIPT_Compiler\\Flex\\tokens.l"
 
 
 #line 521 "MIPT_Compiler/Analyzer/tokens.flex.h"

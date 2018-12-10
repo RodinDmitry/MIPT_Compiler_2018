@@ -71,7 +71,7 @@ public:
 };
 
 class CId;
-class CCallExpression : public CLValueExpression
+class CCallExpression : public IExpression
 {
 public:
 	CCallExpression(IExpression* caller, CId* function, CExpressionList* list, int line);

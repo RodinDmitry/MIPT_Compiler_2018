@@ -2,7 +2,7 @@
 #include <TypeGetter.h>
 #include <ErrorTable.h>
 
-void CTypeChecker::CheckTypes(ITree* startNode, std::string _tableName)
+void CTypeChecker::CheckTypes(ITree* startNode, const std::string& _tableName)
 {
 	cleanup();
 	tableName = _tableName;
@@ -59,14 +59,14 @@ void CTypeChecker::visit(CClass* node)
 
 void CTypeChecker::visit(CClassList* node)
 {
-	for (int i = node->classes.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(node->classes.size()) - 1; i >= 0; i--) {
 		waitingNodes.push_front(node->classes[i].get());
 	}
 }
 
 void CTypeChecker::visit(CExpressionList* node)
 {
-	for (int i = node->expressions.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(node->expressions.size()) - 1; i >= 0; i--) {
 		waitingNodes.push_front(node->expressions[i].get());
 	}
 }
@@ -168,6 +168,11 @@ void CTypeChecker::visit(CStatementList* node)
 	for (int i = 0; i < node->statements.size(); i++) {
 		waitingNodes.push_front(node->statements[i].get());
 	}
+}
+
+void CTypeChecker::visit(CVisibilityStatement* node)
+{
+	waitingNodes.push_front(node->statement.get());
 }
 
 void CTypeChecker::visit(CIfStatement* node)
@@ -289,6 +294,7 @@ bool CTypeChecker::notVoidCheck(IExpression* node)
 	if (nodeType->type == DT_Void) {
 		return false;
 	}
+	return true;
 }
 
 bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionList* list)
@@ -324,6 +330,7 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionLi
 	if (!hasCompatibleMethod) {
 		return false;
 	}
+	return true;
 }
 
 bool CTypeChecker::argumentCheck(const CFunctionInfo* info, std::vector<std::shared_ptr<CType>>& arguments)

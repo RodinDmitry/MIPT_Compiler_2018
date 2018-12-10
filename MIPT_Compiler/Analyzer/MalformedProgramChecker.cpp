@@ -78,7 +78,7 @@ void CMalformedProgramChecker::visit(CClass* node)
 
 void CMalformedProgramChecker::visit(CClassList* node)
 {
-	for (int i = node->classes.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(node->classes.size()) - 1; i >= 0; i--) {
 		waitingNodes.push_front(node->classes[i].get());
 	}
 }
@@ -90,7 +90,7 @@ void CMalformedProgramChecker::visit(IExpression*)
 
 void CMalformedProgramChecker::visit(CExpressionList* node)
 {
-	for (int i = node->expressions.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(node->expressions.size()) - 1; i >= 0; i--) {
 		waitingNodes.push_front(node->expressions[i].get());
 	}
 }
@@ -136,7 +136,7 @@ void CMalformedProgramChecker::visit(CIdExpression* node)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(node->id->name));
 	if (info == nullptr) {
-		CErrorTable::AddError(CErrorTable::UnknownVariable + node->id->name, node->GetLine());
+		// CErrorTable::AddError(CErrorTable::UnknownVariable + node->id->name, node->GetLine());
 	}
 }
 
@@ -217,9 +217,9 @@ void CMalformedProgramChecker::visit(CStatementList* node)
 	}
 }
 
-void CMalformedProgramChecker::visit(CVisibilityStatement*)
+void CMalformedProgramChecker::visit(CVisibilityStatement* node)
 {
-	// ignore
+	waitingNodes.push_back(node->statement.get());
 }
 
 void CMalformedProgramChecker::visit(CIfStatement* node)
@@ -248,7 +248,10 @@ void CMalformedProgramChecker::visit(CPrintStatement* node)
 
 void CMalformedProgramChecker::visit(CAssignStatement* node)
 {
-	// typeCheck(node->left.get(), node->right.get());
+	IExpression* leftNode = node->left.get();
+	if (dynamic_cast<CCallExpression*>(leftNode) != nullptr) {
+		CErrorTable::AddError(CErrorTable::TypeCheckFailed, node->GetLine());
+	}
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }

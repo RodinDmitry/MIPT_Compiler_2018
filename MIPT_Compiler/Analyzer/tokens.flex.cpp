@@ -645,10 +645,11 @@ static const flex_int32_t yy_rule_can_match_eol[48] =
 #include <string>
 #include <grammar.tab.h>
 
+#include <ErrorTable.h>
 extern void dumpToken(std::string token);
 #define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
-#line 650 "MIPT_Compiler/Analyzer/tokens.flex.cpp"
 #line 651 "MIPT_Compiler/Analyzer/tokens.flex.cpp"
+#line 652 "MIPT_Compiler/Analyzer/tokens.flex.cpp"
 
 #define INITIAL 0
 
@@ -927,10 +928,10 @@ YY_DECL
 		}
 
 	{
-#line 14 "MIPT_Compiler\\Flex\\tokens.l"
+#line 15 "MIPT_Compiler\\Flex\\tokens.l"
 
 
-#line 933 "MIPT_Compiler/Analyzer/tokens.flex.cpp"
+#line 934 "MIPT_Compiler/Analyzer/tokens.flex.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1002,228 +1003,228 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 16 "MIPT_Compiler\\Flex\\tokens.l"
+#line 17 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("ñomment\n");} ;
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 17 "MIPT_Compiler\\Flex\\tokens.l"
+#line 18 "MIPT_Compiler\\Flex\\tokens.l"
 ; {dumpToken("\n");}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 18 "MIPT_Compiler\\Flex\\tokens.l"
+#line 19 "MIPT_Compiler\\Flex\\tokens.l"
 ; // ignore all whitespace
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 19 "MIPT_Compiler\\Flex\\tokens.l"
+#line 20 "MIPT_Compiler\\Flex\\tokens.l"
 { dumpToken("number"); yylval->integerValue = atoi(yytext); return PT_Number;};
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 20 "MIPT_Compiler\\Flex\\tokens.l"
+#line 21 "MIPT_Compiler\\Flex\\tokens.l"
 { dumpToken("static"); return PT_Static;};
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 21 "MIPT_Compiler\\Flex\\tokens.l"
+#line 22 "MIPT_Compiler\\Flex\\tokens.l"
 { dumpToken("public"); return PT_Public;};
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 22 "MIPT_Compiler\\Flex\\tokens.l"
+#line 23 "MIPT_Compiler\\Flex\\tokens.l"
 { dumpToken("private"); return PT_Private;};
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "MIPT_Compiler\\Flex\\tokens.l"
+#line 25 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("void"); return PT_Void;};
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "MIPT_Compiler\\Flex\\tokens.l"
+#line 26 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("main"); return PT_Main;};
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 26 "MIPT_Compiler\\Flex\\tokens.l"
+#line 27 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("class"); return PT_Class;};
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "MIPT_Compiler\\Flex\\tokens.l"
+#line 28 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("extends"); return PT_Extends; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "MIPT_Compiler\\Flex\\tokens.l"
+#line 29 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("("); return PT_LeftRoundBracket;};
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 29 "MIPT_Compiler\\Flex\\tokens.l"
+#line 30 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken(")"); return PT_RightRoundBracket;};
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 30 "MIPT_Compiler\\Flex\\tokens.l"
+#line 31 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("String"); return PT_String;};
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 31 "MIPT_Compiler\\Flex\\tokens.l"
+#line 32 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("["); return PT_LeftSquareBracket;};
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 32 "MIPT_Compiler\\Flex\\tokens.l"
+#line 33 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("]"); return PT_RightSquareBracket;};
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 33 "MIPT_Compiler\\Flex\\tokens.l"
+#line 34 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("{"); return PT_LeftBrace;};
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 34 "MIPT_Compiler\\Flex\\tokens.l"
+#line 35 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("}"); return PT_RightBrace;};
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 35 "MIPT_Compiler\\Flex\\tokens.l"
+#line 36 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("int"); return PT_Integer;};
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 36 "MIPT_Compiler\\Flex\\tokens.l"
+#line 37 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("boolean"); return PT_Boolean;};
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 37 "MIPT_Compiler\\Flex\\tokens.l"
+#line 38 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("println"); return PT_Print;};
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 38 "MIPT_Compiler\\Flex\\tokens.l"
+#line 39 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("if"); return PT_If;};
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 39 "MIPT_Compiler\\Flex\\tokens.l"
+#line 40 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("else"); return PT_Else;};
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 40 "MIPT_Compiler\\Flex\\tokens.l"
+#line 41 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("while"); return PT_While;};
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 41 "MIPT_Compiler\\Flex\\tokens.l"
+#line 42 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("length"); return PT_Length;};
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 42 "MIPT_Compiler\\Flex\\tokens.l"
+#line 43 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("true"); yylval->logicalValue = true; return PT_True;};
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 43 "MIPT_Compiler\\Flex\\tokens.l"
+#line 44 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("false"); yylval->logicalValue = false; return PT_False;};
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 44 "MIPT_Compiler\\Flex\\tokens.l"
+#line 45 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("this"); return PT_This;};
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 45 "MIPT_Compiler\\Flex\\tokens.l"
+#line 46 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("new"); return PT_New;};
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 46 "MIPT_Compiler\\Flex\\tokens.l"
+#line 47 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("return"); return PT_Return;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 47 "MIPT_Compiler\\Flex\\tokens.l"
+#line 48 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("!"); return PT_Negation;};
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 48 "MIPT_Compiler\\Flex\\tokens.l"
+#line 49 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("&&"); return PT_And;};
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 49 "MIPT_Compiler\\Flex\\tokens.l"
+#line 50 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("<"); return PT_Less;};
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 50 "MIPT_Compiler\\Flex\\tokens.l"
+#line 51 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken(">"); return PT_More;};
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 51 "MIPT_Compiler\\Flex\\tokens.l"
+#line 52 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("+"); return PT_Plus;};
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 52 "MIPT_Compiler\\Flex\\tokens.l"
+#line 53 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("-"); return PT_Minus;};
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 53 "MIPT_Compiler\\Flex\\tokens.l"
+#line 54 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("*"); return PT_Multiplication;};
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 54 "MIPT_Compiler\\Flex\\tokens.l"
+#line 55 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("%"); return PT_IntegerDivision;};
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 55 "MIPT_Compiler\\Flex\\tokens.l"
+#line 56 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("/"); return PT_Division;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 56 "MIPT_Compiler\\Flex\\tokens.l"
+#line 57 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("||"); return PT_Or;};
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 57 "MIPT_Compiler\\Flex\\tokens.l"
+#line 58 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("="); return PT_Assign;};
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 58 "MIPT_Compiler\\Flex\\tokens.l"
+#line 59 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken(";"); return PT_Semicolon;};
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 59 "MIPT_Compiler\\Flex\\tokens.l"
+#line 60 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken("."); return PT_Dot;};
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 60 "MIPT_Compiler\\Flex\\tokens.l"
+#line 61 "MIPT_Compiler\\Flex\\tokens.l"
 {dumpToken(","); return PT_Coma;};
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 61 "MIPT_Compiler\\Flex\\tokens.l"
+#line 62 "MIPT_Compiler\\Flex\\tokens.l"
 { 
 		dumpToken("ID");
 		yylval->stringValue = (char*) std::malloc(strlen(yytext)+1);
@@ -1233,18 +1234,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 68 "MIPT_Compiler\\Flex\\tokens.l"
+#line 69 "MIPT_Compiler\\Flex\\tokens.l"
 { 
 	dumpToken(yytext);
-	fprintf(stderr, "Line %d: Bad token %s.\n", yylloc->first_line, yytext);
+	CErrorTable::AddError("Bad Token", yylloc->first_line);
 	return PT_Error; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 73 "MIPT_Compiler\\Flex\\tokens.l"
+#line 74 "MIPT_Compiler\\Flex\\tokens.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1247 "MIPT_Compiler/Analyzer/tokens.flex.cpp"
+#line 1248 "MIPT_Compiler/Analyzer/tokens.flex.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2406,9 +2407,10 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 73 "MIPT_Compiler\\Flex\\tokens.l"
+#line 74 "MIPT_Compiler\\Flex\\tokens.l"
 
 
 void yyerror(YYLTYPE* yyllocp, yyscan_t unused, ITree** resultTree, const char* msg) {
 	//std::cerr << msg << " in line: " << yylineno << std::endl;
+	CErrorTable::AddError(msg, yyllocp->first_line);
 };

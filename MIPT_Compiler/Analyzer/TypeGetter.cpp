@@ -2,8 +2,8 @@
 #include <SymbolTable.h>
 #include <ErrorTable.h>
 
-std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string& _symbolTable, 
-	std::string& _className, std::string& _functionName, int _entered, int _left)
+std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, const std::string& _symbolTable, 
+	const std::string& _className, const std::string& _functionName, int _entered, int _left)
 {
 	className = _className;
 	functionName = _functionName;
@@ -35,6 +35,7 @@ void CTypeGetter::visit(CBinaryExpression* node)
 			functionName, enterCount, leaveCount);
 		if (leftType == nullptr || rightType == nullptr) {
 			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
 		}
 
 		if (leftType->type != DT_Boolean || rightType->type != DT_Boolean) {
@@ -52,10 +53,12 @@ void CTypeGetter::visit(CBinaryExpression* node)
 			functionName, enterCount, leaveCount);
 		if (leftType == nullptr || rightType == nullptr) {
 			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
 		}
 
 		if (leftType->type != DT_Integer || rightType->type != DT_Integer) {
 			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
 		}
 		std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
 		resultingTypes.push_back(type);
@@ -72,6 +75,7 @@ void CTypeGetter::visit(CBinaryExpression* node)
 			functionName, enterCount, leaveCount);
 		if (leftType == nullptr || rightType == nullptr) {
 			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
 		}
 
 		if (leftType->type != DT_Integer || rightType->type != DT_Integer) {

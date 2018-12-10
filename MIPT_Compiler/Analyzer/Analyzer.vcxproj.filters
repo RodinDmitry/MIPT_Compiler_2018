@@ -83,6 +83,9 @@
     <ClCompile Include="TypeChecker.cpp">
       <Filter>Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="CommandLine.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -184,6 +187,12 @@
     <ClInclude Include="TypeChecker.h">
       <Filter>Visitor</Filter>
     </ClInclude>
+    <ClInclude Include="CommandLine.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCompiler.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
@@ -207,6 +216,9 @@
     </Filter>
     <Filter Include="ErrorTable">
       <UniqueIdentifier>{d1ab67f1-2378-4885-80dd-f99c150b7afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing">
+      <UniqueIdentifier>{2ffe0833-360d-4cfe-9614-d873a7b38420}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

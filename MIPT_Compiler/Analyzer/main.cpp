@@ -6,6 +6,8 @@ bool LEX_DUMP = false;
 std::ofstream bisonDumpFile;
 bool BISON_DUMP = true;
 
+std::string outFileName;
+
 void printTree(ITree* tree) {
 	CStackBuilder builder;
 	builder.BuildStack(tree);
@@ -37,7 +39,7 @@ void typeCheckTree(ITree* tree) {
 	checker.BuildTable(tree, "temp_name");
 	typeChecker.CheckTypes(tree, "temp_name");
 	std::ofstream errorStream;
-	errorStream.open("type_errors.txt", std::ofstream::out);
+	errorStream.open(outFileName, std::ofstream::out);
 	CErrorTable::Print(errorStream);
 }
 
@@ -70,12 +72,13 @@ void processFile(std::string name, int flag) {
 		lexDumpFile.close();
 		bisonDumpFile.close();
 	}
-	system("pause");
 }
 
 
 void parseArguments(int argc, char* argv[], int& flag, std::string& filePath) {
-	if (argc > 5) {
+	
+	assert(argc > 2);
+	if (argc > 6) {
 		return;
 	}
 	flag = NONE;
@@ -100,7 +103,8 @@ void parseArguments(int argc, char* argv[], int& flag, std::string& filePath) {
 	if (flag == NONE) {
 		flag = TREE_OUTPUT;
 	}
-	filePath = argv[argc - 1];
+	filePath = argv[argc - 2];
+	outFileName = argv[argc - 1];
 }
 
 void testLex() {
@@ -119,6 +123,7 @@ int main(int argc, char* argv[]) {
 	parseArguments(argc, argv, flag, filePath);
 
 	processFile(filePath, flag);
+	return 0;
 }
 
 void dumpToken(std::string token) {

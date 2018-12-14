@@ -2,12 +2,16 @@
 #include <SymbolTable.h>
 #include <ErrorTable.h>
 
-std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string _symbolTable, 
-	std::string _className, std::string _funcitonName)
+std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, const std::string& _symbolTable, 
+	const std::string& _className, const std::string& _functionName, int _entered, int _left)
 {
 	className = _className;
-	functionName = _funcitonName;
+	functionName = _functionName;
 	symbolTable = _symbolTable;
+	enterCount = _entered;
+	leaveCount = _left;
+	waitingNodes.clear();
+	resultingTypes.clear();
 	waitingNodes.push_back(node);
 	while (waitingNodes.size() > 0) {
 		ITree* current = waitingNodes.front();
@@ -20,8 +24,71 @@ std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, std::string _symb
 
 void CTypeGetter::visit(CBinaryExpression* node)
 {
-	waitingNodes.push_front(node->right.get());
-	waitingNodes.push_front(node->left.get());
+	CTypeGetter getter;
+	switch (node->operation)
+	{
+	case node->TOperator::O_And:
+	case node->TOperator::O_Or: {
+		std::shared_ptr<CType> leftType = getter.GetType(node->left.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		if (leftType == nullptr || rightType == nullptr) {
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
+		}
+
+		if (leftType->type != DT_Boolean || rightType->type != DT_Boolean) {
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+		}
+		std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
+		resultingTypes.push_back(type);
+		break;
+	}
+	case node->TOperator::O_Less:
+	case node->TOperator::O_More: {
+		std::shared_ptr<CType> leftType = getter.GetType(node->left.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		if (leftType == nullptr || rightType == nullptr) {
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
+		}
+
+		if (leftType->type != DT_Integer || rightType->type != DT_Integer) {
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
+		}
+		std::shared_ptr<CType> type(new CType(TDataType::DT_Boolean));
+		resultingTypes.push_back(type);
+		break;
+	}
+	case node->TOperator::O_Plus:
+	case node->TOperator::O_Minus:
+	case node->TOperator::O_Multiplication:
+	case node->TOperator::O_Division:
+	case node->TOperator::O_IntegerDivision: {
+		std::shared_ptr<CType> leftType = getter.GetType(node->left.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		std::shared_ptr<CType> rightType = getter.GetType(node->right.get(), symbolTable, className,
+			functionName, enterCount, leaveCount);
+		if (leftType == nullptr || rightType == nullptr) {
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+			return;
+		}
+
+		if (leftType->type != DT_Integer || rightType->type != DT_Integer) {
+			CErrorTable::AddError(CErrorTable::InvalidOperation, node->GetLine());
+		}
+		std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));
+		resultingTypes.push_back(type);
+		break;
+	}
+	default: {
+		assert(false);
+	}
+	}
 }
 
 void CTypeGetter::visit(CArrayExpression* )
@@ -32,23 +99,20 @@ void CTypeGetter::visit(CArrayExpression* )
 
 void CTypeGetter::visit(CCallExpression* node)
 {
-	const CClassInfo* classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(className));
+	CTypeGetter getter;
+	std::shared_ptr<CType> callerType = getter.GetType(node->caller.get(), symbolTable, className, functionName,
+		enterCount, leaveCount);
+	if (callerType->type != TDataType::DT_Instance) {
+		return;
+	}
+	const CClassInfo* classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(callerType->instance));
 	if (classInfo == nullptr) {
 		return;
 	}
-	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
-	CSymbol* symbol = CSymbol::GetSymbol(node->function->name);
-	const CFunctionInfo* info = nullptr;
-	for (int i = 0; i < methods.size(); i++) {
-		if (methods[i]->String() == symbol) {
-			info = methods[i];
-		}
-	}
-
-	if (info != nullptr) {
-		resultingTypes.push_back(info->GetType());
-	}
-	
+	const CFunctionInfo* method = classInfo->FindMethod(CSymbol::GetSymbol(node->function->name));
+	if (method != nullptr) {
+		resultingTypes.push_back(method->GetType());
+	}	
 }
 
 void CTypeGetter::visit(CValueExpression* node)
@@ -70,16 +134,24 @@ void CTypeGetter::visit(CNewExpression* node)
 
 void CTypeGetter::visit(CIdExpression* node)
 {
-	const CVariableInfo* info = CSymbolTable::FindMember(symbolTable, CSymbol::GetSymbol(node->id->name));
+	const CVariableInfo* info = CSymbolTable::FindLocalVariable(symbolTable, node->id->name, className,
+		functionName, enterCount, leaveCount);
 	if (info != nullptr) {
 		resultingTypes.push_back(info->GetType());
+	}
+	else {
+		auto classInfo = CSymbolTable::FindClass(symbolTable, CSymbol::GetSymbol(node->id->name));
+		if (classInfo != nullptr) {
+			std::shared_ptr<CType> type(new CType(classInfo->String()->String().c_str()));
+			resultingTypes.push_back(type);
+		}
 	}
 }
 
 void CTypeGetter::visit(CThisExpression* node)
 {
-	const CClassInfo* info = CSymbolTable::GetThis(symbolTable);
-	std::shared_ptr<CType> type(new CType(info->String()->String().c_str()));
+	std::shared_ptr<CType> type(new CType(className.c_str()));
+	resultingTypes.push_back(type);
 }
 
 void CTypeGetter::visit(CNotExpression* node)

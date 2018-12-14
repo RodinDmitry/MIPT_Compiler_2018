@@ -3,20 +3,28 @@
 #include <deque>
 #include <memory>
 #include <assert.h>
+#include <ErrorTable.h>
 
 class ITree;
 class IVisitor;
 
 class ITree {
 public:
+	ITree() = default;
+	virtual ~ITree() = default;
+	ITree(int line);
+
 	virtual void Accept(IVisitor* visitor);
 
-	virtual std::string GetLabel();
-	void AddToLabel(std::string adding);
+	virtual const std::string& GetLabel() const;
+	void AddToLabel(const std::string& adding);
+
+	int GetLine() const;
 
 protected:
 
 	std::string labelAddings = "";
+	int line = -1;
 };
 
 class CClassVisibilityStart : public ITree {
@@ -43,11 +51,11 @@ class CVisibilityBlockEnd : public ITree {
 	virtual void Accept(IVisitor* visitor) override;
 };
 
-inline std::string ITree::GetLabel() {
+inline const std::string& ITree::GetLabel() const {
 	assert(false);
 	return "";
 }
 
-inline void ITree::AddToLabel(std::string adding) {
+inline void ITree::AddToLabel(const std::string& adding) {
 	labelAddings += adding;
 }

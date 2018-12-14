@@ -119,19 +119,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Access.cpp" />
     <ClCompile Include="Argument.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassInfo.cpp" />
+    <ClCompile Include="CommandLine.cpp" />
     <ClCompile Include="ErrorTable.cpp" />
     <ClCompile Include="Expressions.cpp" />
-    <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
+    <ClCompile Include="MainCompiler.cpp" />
     <ClCompile Include="Modifier.cpp" />
     <ClCompile Include="NamespaceBlock.cpp" />
     <ClCompile Include="PrettyPrinter.cpp" />
@@ -155,20 +155,21 @@
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Access.h" />
     <ClInclude Include="Argument.h" />
     <ClInclude Include="BisonUtils.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="ClassInfo.h" />
+    <ClInclude Include="CommandLine.h" />
     <ClInclude Include="DataType.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="ErrorTable.h" />
     <ClInclude Include="Expressions.h" />
-    <ClInclude Include="Frame.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
+    <ClInclude Include="IR\Tree.h" />
+    <ClInclude Include="MainCompiler.h" />
     <ClInclude Include="NamespaceBlock.h" />
     <ClInclude Include="PrettyPrinter.h" />
     <ClInclude Include="StackBuilder.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Statement.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="MalformedProgramChecker.h" />
+    <ClInclude Include="tokens.flex.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="TypeChecker.h" />

@@ -44,7 +44,7 @@ const CFunctionInfo * CNamespaceBlock::FindMethod(const CSymbol * id) const
 	return nullptr;
 }
 
-const CVariableInfo * CNamespaceBlock::FindMember(const CSymbol * id) const
+const CVariableInfo* CNamespaceBlock::FindMember(const CSymbol* id) const
 {
 	for (int i = 0; i < members.size(); ++i) {
 		if (members[i].get()->String() == id) {
@@ -104,7 +104,7 @@ CFunctionNamespaceBlock::CFunctionNamespaceBlock(const CNamespaceBlock* _parent,
 	: CNamespaceBlock(_parent), funcToUpdate(function)
 {
 	function->SetParent(this);
-	const std::vector< const CVariableInfo* > arguments = function->GetArguments();
+	const std::vector< const CVariableInfo* >& arguments = function->GetArguments();
 	for (int i = 0; i < arguments.size(); ++i) {
 		AddMember(arguments[i]);
 	}

@@ -4,7 +4,7 @@
 #include <Statement.h>
 
 
-CMainArgument::CMainArgument(CId* _name) : name(_name)
+CMainArgument::CMainArgument(CId* _name, int _line) : name(_name), ITree(_line)
 {
 }
 
@@ -13,12 +13,12 @@ void CMainArgument::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CMainArgument::GetLabel()
+const std::string& CMainArgument::GetLabel() const
 {
 	return  "mainArgument" + labelAddings;;
 }
 
-CMainFunction::CMainFunction(CMainArgument* _argument, CStatementList* _body) : argument(_argument), body(_body)
+CMainFunction::CMainFunction(CMainArgument* _argument, CStatementList* _body, int _line) : argument(_argument), body(_body), ITree(_line)
 {
 }
 
@@ -27,21 +27,21 @@ void CMainFunction::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CMainFunction::GetLabel()
+const std::string& CMainFunction::GetLabel() const
 {
 	return  "mainFunc" + labelAddings;;
 }
 
-CMain::CMain(CId* _name, CMainFunction* _mainFunction) : name(_name), mainFunction(_mainFunction)
+CMain::CMain(CId* _name, CMainFunction* _mainFunction, int _line) : name(_name), mainFunction(_mainFunction), ITree(_line)
 {
 }
 
-void CMain::Accept(IVisitor* visitor)
+void CMain::Accept(IVisitor* visitor) 
 {
 	visitor->visit(this);
 }
 
-std::string CMain::GetLabel()
+const std::string& CMain::GetLabel() const
 {
 	return  "main" + labelAddings;;
 }

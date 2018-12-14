@@ -2,10 +2,10 @@
 #include <SymbolTable.h>
 
 CClassInfo::CClassInfo(const CSymbol * _name) 
-	: name(_name), extends()
+	: name(_name), extends(nullptr)
 {}
 
-CClassInfo::CClassInfo(const std::string& tableName, const CSymbol * _name, const CSymbol * _extends) 
+CClassInfo::CClassInfo(const std::string& tableName, const CSymbol* _name, const CSymbol* _extends) 
 	: name(_name), extends(_extends)
 {
 }
@@ -35,7 +35,7 @@ const std::vector<const CFunctionInfo*>& CClassInfo::GetMethods() const
 	return methods;
 }
 
-const CFunctionInfo * CClassInfo::FindMethod(const CSymbol * name) const
+const CFunctionInfo* CClassInfo::FindMethod(const CSymbol * name) const
 {
 	for (int i = 0; i < methods.size(); ++i) {
 		if (methods[i]->String() == name) {
@@ -48,4 +48,39 @@ const CFunctionInfo * CClassInfo::FindMethod(const CSymbol * name) const
 const CSymbol * CClassInfo::String() const
 {
 	return name;
+}
+
+const CSymbol * CClassInfo::GetBase() const
+{
+	return extends;
+}
+
+bool CClassInfo::HasCyclicInheritance(const std::string& tableName) const
+{
+	const CSymbol* target = name;
+	const CSymbol* current = name;
+	const CSymbol* parent = extends;
+
+	while (parent != nullptr) {
+		if (target == parent) {
+			return true;
+		}
+		current = parent;
+		const CClassInfo* info = CSymbolTable::FindClass(tableName, current);
+		parent = info->extends;
+	}
+
+	return false;
+}
+
+bool CClassInfo::InheritedFromKnownClass(const std::string& tableName) const
+{
+	if (extends == nullptr) {
+		return false;
+	}
+	const CClassInfo* info = CSymbolTable::FindClass(tableName, extends);
+	if (info == nullptr) {
+		return true;
+	}
+	return false;
 }

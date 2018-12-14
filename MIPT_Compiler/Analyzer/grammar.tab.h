@@ -41,14 +41,16 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 16 "MIPT_Compiler\\Bison\\grammar.y"
+#line 15 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
 #include <iostream>
+#include <MainCompiler.h>
+typedef void* yyscan_t;
 
 
 /* Line 2058 of yacc.c  */
-#line 52 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 54 "MIPT_Compiler/Analyzer/grammar.tab.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -113,7 +115,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 25 "MIPT_Compiler\\Bison\\grammar.y"
+#line 32 "MIPT_Compiler\\Bison\\grammar.y"
 
 
 	int integerValue;
@@ -124,7 +126,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 128 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 130 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -144,8 +146,7 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
 
-extern YYSTYPE yylval;
-extern YYLTYPE yylloc;
+
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
 int yyparse (void *YYPARSE_PARAM);
@@ -154,7 +155,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (ITree** resultTree);
+int yyparse (yyscan_t scanner, CMainCompiler* compiler);
 #else
 int yyparse ();
 #endif

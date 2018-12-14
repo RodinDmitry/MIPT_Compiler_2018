@@ -27,7 +27,7 @@ public:
 
 	static const CVariableInfo* FindLocalVariable(const std::string& tableName, const std::string& id,
 		const std::string& className, const std::string& func, int cntEnter, int cntLeave);
-
+	static bool IsDerived(const std::string& tableName, const std::string& derived, const std::string& base);
 private:
 	explicit CSymbolTable(const std::string& name);
 
@@ -48,6 +48,7 @@ private:
 
 	const CVariableInfo* FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const;
 	const CNamespaceBlock* switchToOffset(const CNamespaceBlock* block, int cntEnter, int cntLeave) const;
+	bool IsDerived(const std::string& derived, const std::string& base) const;
 
 	CNamespaceBlock* currentBlock;
 	const std::string tableName;

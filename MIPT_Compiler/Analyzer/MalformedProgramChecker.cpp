@@ -26,6 +26,9 @@ void CMalformedProgramChecker::visit(CArgumentList* node)
 	for (int i = 0; i < node->arguments.size(); i++) {
 		CVariableInfo* info = createVariableInfo(node->arguments[i].get());
 		if (info != nullptr) {
+			if (checkVariableDoubleDeclaration(info->String())) {
+				CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+			}
 			CSymbolTable::AddArgument(tableName, info);
 		}
 	}
@@ -34,6 +37,10 @@ void CMalformedProgramChecker::visit(CArgumentList* node)
 void CMalformedProgramChecker::visit(CClassDeclaration* node)
 {
 	assert(node->name != nullptr);
+
+	if (checkClassDoubleDeclaration(CSymbol::GetSymbol(node->name->name))) {
+		CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+	}
 	std::string name = node->name->name;
 	std::string extend = "";
 	if (node->extend != nullptr) {
@@ -71,7 +78,7 @@ void CMalformedProgramChecker::visit(CClass* node)
 
 void CMalformedProgramChecker::visit(CClassList* node)
 {
-	for (int i = node->classes.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(node->classes.size()) - 1; i >= 0; i--) {
 		waitingNodes.push_front(node->classes[i].get());
 	}
 }
@@ -83,7 +90,7 @@ void CMalformedProgramChecker::visit(IExpression*)
 
 void CMalformedProgramChecker::visit(CExpressionList* node)
 {
-	for (int i = node->expressions.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(node->expressions.size()) - 1; i >= 0; i--) {
 		waitingNodes.push_front(node->expressions[i].get());
 	}
 }
@@ -95,7 +102,6 @@ void CMalformedProgramChecker::visit(CLValueExpression*)
 
 void CMalformedProgramChecker::visit(CBinaryExpression* node)
 {
-	// typeCheck(node->left.get(), node->right.get());
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }
@@ -108,7 +114,6 @@ void CMalformedProgramChecker::visit(CArrayExpression* node)
 
 void CMalformedProgramChecker::visit(CCallExpression* node)
 {
-	// callerCheck(node->caller.get(), node->function.get(), node->list.get());
 	waitingNodes.push_front(node->caller.get());
 }
 
@@ -131,7 +136,7 @@ void CMalformedProgramChecker::visit(CIdExpression* node)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(node->id->name));
 	if (info == nullptr) {
-		CErrorTable::AddError("Unknown variable " + node->id->name);
+		// CErrorTable::AddError(CErrorTable::UnknownVariable + node->id->name, node->GetLine());
 	}
 }
 
@@ -157,6 +162,9 @@ void CMalformedProgramChecker::visit(CReturnExpression* node)
 
 void CMalformedProgramChecker::visit(CFunction* node)
 {
+	if (checkFunctionDoubleDeclaration(CSymbol::GetSymbol(node->name->name))) {
+		CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+	}
 	CFunctionInfo* info(createFunctionInfo(node));
 	if (info != nullptr) {
 		createLeavePlaceholder();
@@ -209,9 +217,9 @@ void CMalformedProgramChecker::visit(CStatementList* node)
 	}
 }
 
-void CMalformedProgramChecker::visit(CVisibilityStatement*)
+void CMalformedProgramChecker::visit(CVisibilityStatement* node)
 {
-	// ignore
+	waitingNodes.push_back(node->statement.get());
 }
 
 void CMalformedProgramChecker::visit(CIfStatement* node)
@@ -240,7 +248,10 @@ void CMalformedProgramChecker::visit(CPrintStatement* node)
 
 void CMalformedProgramChecker::visit(CAssignStatement* node)
 {
-	// typeCheck(node->left.get(), node->right.get());
+	IExpression* leftNode = node->left.get();
+	if (dynamic_cast<CCallExpression*>(leftNode) != nullptr) {
+		CErrorTable::AddError(CErrorTable::TypeCheckFailed, node->GetLine());
+	}
 	waitingNodes.push_front(node->right.get());
 	waitingNodes.push_front(node->left.get());
 }
@@ -249,6 +260,9 @@ void CMalformedProgramChecker::visit(CVariableStatement* node)
 {
 	CVariableInfo* info = createVariableInfo(node->variable.get());
 	if (info != nullptr) {
+		if (checkVariableDoubleDeclaration(info->String())) {
+			CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+		}
 		CSymbolTable::AddMember(tableName, info);
 	}
 }
@@ -272,6 +286,9 @@ void CMalformedProgramChecker::visit(CVariable* node)
 {
 	CVariableInfo* info = createVariableInfo(node);
 	if (info != nullptr) {
+		if (checkVariableDoubleDeclaration(info->String())) {
+			CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+		}
 		CSymbolTable::AddMember(tableName, info);
 	}
 }
@@ -294,21 +311,20 @@ CVariableInfo* CMalformedProgramChecker::createVariableInfo(CVariable* node)
 		return info;
 	}
 	catch (CUndefinedTypeException* exception) {
-		CErrorTable::AddError(exception);
+		CErrorTable::AddError(exception, node->GetLine());
 	}
 	return nullptr;
 }
 
 CFunctionInfo* CMalformedProgramChecker::createFunctionInfo(CFunction* node)
 {
-	// typeCheck(node->returns.get(), node->returnExpression.get());
 	try {
 		CFunctionInfo* info = new CFunctionInfo(tableName, CSymbol::GetSymbol(node->name->name),
 			CSymbol::GetSymbol(node->returns->instance), node->returns->type, node->visibility->type);
 		return info;
 	}
 	catch (CUndefinedTypeException* exception) {
-		CErrorTable::AddError(exception);
+		CErrorTable::AddError(exception, node->GetLine());
 	}
 	return nullptr;
 }
@@ -332,76 +348,30 @@ void CMalformedProgramChecker::cleanup()
 	waitingNodes.clear();
 	placeholders.clear();
 }
-/*
-void CMalformedProgramChecker::typeCheck(IExpression* left, IExpression* right)
+
+bool CMalformedProgramChecker::checkVariableDoubleDeclaration(const CSymbol * symbol)
 {
-	CTypeGetter getter;
-	std::shared_ptr<CType> leftType = getter.GetType(left, tableName);
-	typeCheck(leftType.get(), right);
+	const CVariableInfo* info = CSymbolTable::FindMember(tableName, symbol);
+	if (info != nullptr) {
+		return true;
+	}
+	return false;
 }
 
-void CMalformedProgramChecker::typeCheck(CType* type, IExpression* node)
+bool CMalformedProgramChecker::checkFunctionDoubleDeclaration(const CSymbol* symbol)
 {
-	CTypeGetter getter;
-	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
-	if (type->type != nodeType->type) {
-		if (type->type == DT_Integer && nodeType->type == DT_Boolean) {
-			return;
-		}
-		CErrorTable::AddError("Type check failed");
+	const CFunctionInfo* info = CSymbolTable::FindMethod(tableName, symbol);
+	if (info != nullptr) {
+		return true;
 	}
-	if (type->instance != nodeType->instance) {
-		CErrorTable::AddError("Type check failed");
-	}
-	
+	return false;
 }
 
-void CMalformedProgramChecker::notVoidCheck(IExpression * node)
+bool CMalformedProgramChecker::checkClassDoubleDeclaration(const CSymbol * symbol)
 {
-	CTypeGetter getter;
-	std::shared_ptr<CType> nodeType = getter.GetType(node, tableName);
-	if (nodeType->type == DT_Void) {
-		CErrorTable::AddError("Type check failed");
+	const CClassInfo* info = CSymbolTable::FindClass(tableName, symbol);
+	if (info != nullptr) {
+		return true;
 	}
+	return false;
 }
-
-void CMalformedProgramChecker::callerCheck(CId* caller, CId* function, CArgumentList* list)
-{
-	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(caller->name));
-	const CClassInfo* classInfo = CSymbolTable::FindClass(tableName, info->String());
-	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
-
-	std::vector<CType*> arguments;
-	for (int i = 0; i < list->arguments.size(); i++) {
-		arguments.push_back(list->arguments[i]->type.get());
-	}
-
-	bool hasCompatibleMethod = false;
-	for (int i = 0; i < methods.size(); i++) {
-		if (methods[i]->String()->String() == function->name) {
-			if (argumentCheck(methods[i], arguments)) {
-				hasCompatibleMethod = true;
-			}
-		}
-	}
-	if (!hasCompatibleMethod) {
-		CErrorTable::AddError("Invalid call");
-	}
-}
-
-bool CMalformedProgramChecker::argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments)
-{
-	const std::vector<const CVariableInfo*> variables = info->GetArguments();
-	if (arguments.size() != variables.size()) {
-		return false;
-	}
-	for (int i = 0; i < arguments.size(); i++) {
-		std::shared_ptr<CType> variableType = variables[i]->GetType();
-		if (variableType->type != arguments[i]->type || variableType->instance != arguments[i]->instance) {
-			return false;
-		}
-	}
-
-	return true;
-}
-*/

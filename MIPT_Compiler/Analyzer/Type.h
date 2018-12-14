@@ -5,13 +5,13 @@
 class CType : public ITree {
 public:
 	CType();
-	CType(const char* instance);
-	CType(TDataType type);
+	CType(const char* instance, int line = -1);
+	CType(TDataType type, int line = -1);
 
 	virtual void Accept(IVisitor* visitor) override;
 
 	TDataType type;
 	std::string instance;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

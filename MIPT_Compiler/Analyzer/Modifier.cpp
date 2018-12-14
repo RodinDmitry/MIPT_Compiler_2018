@@ -10,7 +10,7 @@ void CModifier::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CModifier::GetLabel()
+const std::string& CModifier::GetLabel() const
 {
 	return  "modifier" + labelAddings;;
 }

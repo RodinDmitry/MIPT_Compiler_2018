@@ -15,7 +15,7 @@ void CValue::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CValue::GetLabel()
+const std::string& CValue::GetLabel() const
 {
 	std::string name;
 	if (type == T_Boolean) {

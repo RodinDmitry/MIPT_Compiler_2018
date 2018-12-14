@@ -8,56 +8,56 @@ class CVariable;
 
 class CClassDeclaration : public ITree {
 public:
-	CClassDeclaration(CId* name, CId* extends);
+	CClassDeclaration(CId* name, CId* extends, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CId> name;
 	std::unique_ptr<CId> extend;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CClassInternals : public ITree {
 public:
-	CClassInternals(CFunction* function);
-	CClassInternals(CVariable* variable);
+	CClassInternals(CFunction* function, int _line);
+	CClassInternals(CVariable* variable, int _line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CFunction> function;
 	std::unique_ptr<CVariable> variable;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CClassInternalsList : public ITree {
 public:
-	
+	CClassInternalsList();
 	void Add(CClassInternals* item);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::vector<std::shared_ptr<CClassInternals>> internals;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CClass : public ITree {
 public:
-	CClass(CClassDeclaration* declaration, CClassInternalsList* internals);
+	CClass(CClassDeclaration* declaration, CClassInternalsList* internals, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CClassDeclaration> declaration;
 	std::unique_ptr<CClassInternalsList> internals;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CClassList : public ITree {
 public:
-
+	CClassList();
 	void Add(CClass* item);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::vector<std::shared_ptr<CClass>> classes;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

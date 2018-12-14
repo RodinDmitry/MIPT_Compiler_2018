@@ -6,10 +6,11 @@
 
 class CArgumentList : public ITree {
 public:
+	CArgumentList();
 	virtual void Accept(IVisitor* visitor) override;
 	void Add(CVariable* argument);
 
 	std::vector<std::shared_ptr<CVariable>> arguments;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

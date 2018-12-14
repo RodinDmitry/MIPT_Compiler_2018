@@ -1,7 +1,7 @@
 #include <Id.h>
 #include <Visitor.h>
 
-CId::CId(char* _name)
+CId::CId(char* _name, int _line) : ITree(_line)
 {
 	if (_name != nullptr) {
 		name = std::string(_name);
@@ -16,7 +16,7 @@ void CId::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CId::GetLabel()
+const std::string& CId::GetLabel() const
 {
 	return  name + labelAddings;;
 }

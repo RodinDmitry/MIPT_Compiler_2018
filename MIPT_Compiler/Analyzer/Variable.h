@@ -8,11 +8,11 @@ class CId;
 class CVariable : public ITree {
 public:
 
-	CVariable(CType* type, CId* name);
+	CVariable(CType* type, CId* name, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CType> type;
 	std::unique_ptr<CId> name;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

@@ -7,12 +7,11 @@
 
 class CProgram : public ITree {
 public:
-	CProgram(CMain* main, CClassList* classes);
+	CProgram(CMain* main, CClassList* classes, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::unique_ptr<CMain> main;
 	std::unique_ptr<CClassList> classes;
 
-	std::string GetLabel() override;
-	
+	const std::string& GetLabel() const override;
 };

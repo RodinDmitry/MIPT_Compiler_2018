@@ -45,7 +45,7 @@ const CClassInfo * CSymbolTable::GetThis() const
 
 const CClassInfo * CSymbolTable::FindClass(const CSymbol * id) const
 {
-	return currentBlock->FindClass(id);
+	return blocks.front()->FindClass(id);
 }
 
 const CFunctionInfo * CSymbolTable::FindMethod(const CSymbol * id) const
@@ -58,11 +58,20 @@ const CVariableInfo * CSymbolTable::FindMember(const CSymbol* id) const
 	return currentBlock->FindMember(id);
 }
 
-const CVariableInfo * CSymbolTable::FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const
+const CVariableInfo* CSymbolTable::FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const
 {
 	const CClassInfo* cl = blocks.front()->FindClass(CSymbol::GetSymbol(className));
+	if (cl == nullptr) {
+		return nullptr;
+	}
 	const CFunctionInfo* funcInfo = cl->FindMethod(CSymbol::GetSymbol(func));
+	if (funcInfo == nullptr) {
+		return nullptr;
+	}
 	const CNamespaceBlock* currBlockPtr = switchToOffset(funcInfo->GetParent(), cntEnter, cntLeave);
+	if (currBlockPtr == nullptr) {
+		return nullptr;
+	}
 	return currBlockPtr->FindMember(CSymbol::GetSymbol(id));
 }
 
@@ -99,6 +108,23 @@ const CNamespaceBlock * CSymbolTable::switchToOffset(const CNamespaceBlock * blo
 		}
 	}
 	return currBlockPtr;
+}
+
+bool CSymbolTable::IsDerived(const std::string& derived, const std::string& base) const
+{
+	const CClassInfo* cl = FindClass(CSymbol::GetSymbol(derived));
+	assert(cl != nullptr);
+	const CSymbol* ext = cl->GetBase();
+	const CSymbol* baseSymbol = CSymbol::GetSymbol(base);
+	while (ext != nullptr) {
+		if (baseSymbol == ext) {
+			return true;
+		}
+		cl = FindClass(ext);
+		assert(cl != nullptr);
+		ext = cl->GetBase();
+	}
+	return false;
 }
 
 void CSymbolTable::CreateTable(const std::string & tableName)
@@ -172,6 +198,12 @@ const CVariableInfo * CSymbolTable::FindLocalVariable(const std::string & tableN
 {
 	assert(tables.find(tableName) != tables.end());
 	return tables[tableName]->FindLocalVariable(id, className, func, cntEnter, cntLeave);
+}
+
+bool CSymbolTable::IsDerived(const std::string& tableName, const std::string& derived, const std::string& base)
+{
+	assert(tables.find(tableName) != tables.end());
+	return tables[tableName]->IsDerived(derived, base);
 }
 
 CSymbolTable::CSymbolTable(const std::string& _name) : tableName(_name) {}

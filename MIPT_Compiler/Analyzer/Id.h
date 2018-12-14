@@ -4,10 +4,10 @@
 
 class CId : public ITree {
 public:
-	CId(char* name);
+	CId(char* name, int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::string name;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

@@ -6,7 +6,7 @@
 class CTypeChecker : public IVisitor {
 public:
 
-	void CheckTypes(ITree* startNode, std::string tableName);
+	void CheckTypes(ITree* startNode, const std::string& tableName);
 
 	virtual void visit(ITree*) override { assert(false); }
 	virtual void visit(CArgumentList*) override;
@@ -38,7 +38,7 @@ public:
 	virtual void visit(CProgram*) override;
 	virtual void visit(IStatement*) override;
 	virtual void visit(CStatementList*) override;
-	virtual void visit(CVisibilityStatement*) override {}
+	virtual void visit(CVisibilityStatement*) override;
 	virtual void visit(CIfStatement*) override;
 	virtual void visit(CWhileStatement*) override;
 	virtual void visit(CPrintStatement*) override;
@@ -49,6 +49,8 @@ public:
 	virtual void visit(CValue*) override {}
 	virtual void visit(CVariable*) override;
 	virtual void visit(CFunctionVisibilityEnd*) override;
+	virtual void visit(CClassVisibilityEnd*) override;
+	virtual void visit(CVisibilityBlockStart*) override;
 	virtual void visit(CVisibilityBlockEnd*) override;
 
 private:
@@ -56,8 +58,8 @@ private:
 	bool typeCheck(IExpression* left, IExpression* right);
 	bool typeCheck(CType* type, IExpression* node);
 	bool notVoidCheck(IExpression* node);
-	bool callerCheck(CId* caller, CId* function, CArgumentList* list);
-	bool argumentCheck(const CFunctionInfo* info, std::vector<CType*>& arguments);
+	bool callerCheck(IExpression* caller, CId* function, CExpressionList* list);
+	bool argumentCheck(const CFunctionInfo* info, std::vector<std::shared_ptr<CType>>& arguments);
 	void cleanup();
 	void createLeaveClassPlaceholder();
 	void createLeaveFunctionPlaceholder();
@@ -67,4 +69,6 @@ private:
 	std::string currentClassName = "";
 	std::string currentFunctionName = "";
 	std::vector<std::shared_ptr<ITree>> placeholders;
+	int blocksEntered = 0;
+	int blocksLeft = 0;
 };

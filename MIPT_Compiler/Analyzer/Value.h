@@ -22,5 +22,5 @@ public:
 	int value;
 	TType type;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

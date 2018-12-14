@@ -3,19 +3,19 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Argument.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Class.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="ClassInfo.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
     <ClCompile Include="Expressions.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Function.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="grammar.tab.cpp">
       <Filter>Bison</Filter>
@@ -24,37 +24,37 @@
       <Filter>SymbolTable</Filter>
     </ClCompile>
     <ClCompile Include="Id.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="MainClass.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Modifier.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="PrettyPrinter.cpp">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClCompile>
     <ClCompile Include="StackBuilder.cpp">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClCompile>
     <ClCompile Include="Value.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Variable.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Tree.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Type.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="Statement.cpp">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="tokens.flex.cpp">
       <Filter>Bison</Filter>
@@ -69,19 +69,19 @@
       <Filter>SymbolTable</Filter>
     </ClCompile>
     <ClCompile Include="MalformedProgramChecker.cpp">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClCompile>
     <ClCompile Include="ErrorTable.cpp">
       <Filter>ErrorTable</Filter>
     </ClCompile>
     <ClCompile Include="TypeGetter.cpp">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClCompile>
     <ClCompile Include="SymbolTable.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
     <ClCompile Include="TypeChecker.cpp">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClCompile>
     <ClCompile Include="CommandLine.cpp">
       <Filter>Processing</Filter>
@@ -92,19 +92,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Class.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="ClassInfo.h">
       <Filter>SymbolTable</Filter>
     </ClInclude>
     <ClInclude Include="Expressions.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Function.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="BisonUtils.h">
       <Filter>Bison</Filter>
@@ -113,43 +113,43 @@
       <Filter>Bison</Filter>
     </ClInclude>
     <ClInclude Include="Id.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="FunctionInfo.h">
       <Filter>SymbolTable</Filter>
     </ClInclude>
     <ClInclude Include="MainClass.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Modifier.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="PrettyPrinter.h">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="StackBuilder.h">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="Visitor.h">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="Value.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Variable.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Tree.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Type.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Statement.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Program.h">
-      <Filter>Tree</Filter>
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="Symbol.h">
       <Filter>SymbolTable</Filter>
@@ -179,16 +179,16 @@
       <Filter>Defines</Filter>
     </ClInclude>
     <ClInclude Include="MalformedProgramChecker.h">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="ErrorTable.h">
       <Filter>ErrorTable</Filter>
     </ClInclude>
     <ClInclude Include="TypeGetter.h">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="TypeChecker.h">
-      <Filter>Visitor</Filter>
+      <Filter>AST\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="CommandLine.h">
       <Filter>Processing</Filter>
@@ -199,18 +199,15 @@
     <ClInclude Include="tokens.flex.h">
       <Filter>Bison</Filter>
     </ClInclude>
+    <ClInclude Include="IR\Tree.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Visitor">
-      <UniqueIdentifier>{095caad2-4ef6-4fbe-9e89-0993f990f3de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree">
-      <UniqueIdentifier>{bd29ba48-872b-4a50-8467-7fafdc002d1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SymbolTable">
       <UniqueIdentifier>{c326526f-800b-449b-94b5-bc06623b8186}</UniqueIdentifier>
     </Filter>
@@ -225,6 +222,21 @@
     </Filter>
     <Filter Include="Processing">
       <UniqueIdentifier>{2ffe0833-360d-4cfe-9614-d873a7b38420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AST">
+      <UniqueIdentifier>{7388ab83-1bd2-4275-9c46-370fa76b109e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AST\Tree">
+      <UniqueIdentifier>{bd29ba48-872b-4a50-8467-7fafdc002d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AST\Visitor">
+      <UniqueIdentifier>{095caad2-4ef6-4fbe-9e89-0993f990f3de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IR">
+      <UniqueIdentifier>{a0ced05f-79cb-4d73-add1-0badcc5f0e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IR\Tree">
+      <UniqueIdentifier>{624c4661-6750-4263-9729-db2bc58ea904}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

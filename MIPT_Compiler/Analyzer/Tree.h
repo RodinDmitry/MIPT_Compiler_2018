@@ -11,12 +11,13 @@ class IVisitor;
 class ITree {
 public:
 	ITree() = default;
+	virtual ~ITree() = default;
 	ITree(int line);
 
 	virtual void Accept(IVisitor* visitor);
 
-	virtual std::string GetLabel();
-	void AddToLabel(std::string adding);
+	virtual const std::string& GetLabel();
+	void AddToLabel(const std::string& adding);
 
 	int GetLine() const;
 
@@ -50,11 +51,10 @@ class CVisibilityBlockEnd : public ITree {
 	virtual void Accept(IVisitor* visitor) override;
 };
 
-inline std::string ITree::GetLabel() {
+inline const std::string& ITree::GetLabel() {
 	assert(false);
-	return "";
 }
 
-inline void ITree::AddToLabel(std::string adding) {
+inline void ITree::AddToLabel(const std::string& adding) {
 	labelAddings += adding;
 }

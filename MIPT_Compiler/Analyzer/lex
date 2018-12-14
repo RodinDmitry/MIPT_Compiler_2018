@@ -92,9 +92,8 @@ class ID {
  
  ñomment
  public int ID ( int ID ) { 
- boolean ID ; 
  ID = ID ; 
- ID = new int [ ID ] ; ñomment
+ ID = new int [ ID ] ; 
  
  ID [ number ] = number ; 
  ID [ number ] = number ; 

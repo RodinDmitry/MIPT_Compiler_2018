@@ -24,38 +24,60 @@ void CMainCompiler::dumpLexToken(const std::string& token)
 
 void CMainCompiler::dumpSyntaxError(const std::string& name, int line)
 {
-	assert(false);
+	CErrorTable::AddError(name, line);
+}
+
+void CMainCompiler::SetRoot(ITree* _root)
+{
+	root.reset(_root);
+}
+
+CMainCompiler::~CMainCompiler()
+{
+	if (!args.HasCustomErrorsFile()) {
+		errorsFile.release();
+	}
 }
 
 void CMainCompiler::initStreams()
 {
 	std::unique_ptr<std::ofstream> tmpstr;
-	tmpstr.reset(new std::ofstream);
-	tmpstr->open(args.GetLexFileName(), std::ofstream::out);
-	lexDumpFile.reset(tmpstr.release());
 
-	tmpstr.reset(new std::ofstream);
-	tmpstr->open(args.GetBisonFileName(), std::ofstream::out);
-	bisonDumpFile.reset(tmpstr.release());
+	if (args.IsLexDumping()) {
+		tmpstr.reset(new std::ofstream);
+		tmpstr->open(args.GetLexFileName(), std::ofstream::out);
+		lexDumpFile.reset(tmpstr.release());
+	}
+
+	if (args.IsBisonDumping()) {
+		tmpstr.reset(new std::ofstream);
+		tmpstr->open(args.GetBisonFileName(), std::ofstream::out);
+		bisonDumpFile.reset(tmpstr.release());
+	}
 
 	if (args.HasCustomErrorsFile()) {
 		tmpstr.reset(new std::ofstream);
 		tmpstr->open(args.GetErrorsFileName(), std::ofstream::out);
 		errorsFile.reset(tmpstr.release());
 	}
+	else {
+		errorsFile.reset(&std::cerr);
+	}
 }
 
 void CMainCompiler::dumpAST()
 {
-	CStackBuilder builder;
-	builder.BuildStack(root.get());
+	if (args.IsASTDumping()) {
+		CStackBuilder builder;
+		builder.BuildStack(root.get());
 
-	CPrettyPrinter printer("graphs/printer.txt");
-	for (int i = static_cast<int>(builder.nodesStack.size()) - 1; i >= 0; i--) {
-		ITree* node = builder.nodesStack[i];
-		node->Accept(&printer);
+		CPrettyPrinter printer(args.GetASTFileName());
+		for (int i = static_cast<int>(builder.nodesStack.size()) - 1; i >= 0; i--) {
+			ITree* node = builder.nodesStack[i];
+			node->Accept(&printer);
+		}
+		printer.close();
 	}
-	printer.close();
 }
 
 void CMainCompiler::typeCheck()
@@ -67,14 +89,21 @@ void CMainCompiler::typeCheck()
 	CTypeChecker typeChecker;
 	checker.BuildTable(root.get(), "temp_name");
 	typeChecker.CheckTypes(root.get(), "temp_name");
-	//CErrorTable::Print(errorStream);
+	CErrorTable::Print(*errorsFile);
 }
 
 void CMainCompiler::buildAST()
 {
-	//fopen_s(&yyin, args.GetInputFileName().c_str(), "r");
+	yyscan_t scanner;
+	yylex_init(&scanner);
 
-	ITree* temp = nullptr;
-	//yyparse(&temp);
-	root.reset(temp);
+	FILE* str;
+	fopen_s(&str, args.GetInputFileName().c_str(), "r");
+
+	yyset_in(str, scanner);
+	yyparse(scanner, this);
+
+	yylex_destroy(scanner);
+
+	fclose(str);
 }

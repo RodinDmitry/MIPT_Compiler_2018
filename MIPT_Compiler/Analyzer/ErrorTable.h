@@ -6,7 +6,7 @@ class CErrorTable {
 public:
 	static void AddError(const std::string& message, int line);
 	static void AddError(CUndefinedTypeException* error, int line);
-	static void Print(std::ofstream& stream);
+	static void Print(std::ostream& stream);
 
 	static const std::string UnknownVariable;
 	static const std::string UnknownFunction;

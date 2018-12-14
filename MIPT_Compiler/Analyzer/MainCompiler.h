@@ -12,6 +12,9 @@ public:
 	void dumpBisonToken(const std::string& token);
 	void dumpLexToken(const std::string& token);
 	void dumpSyntaxError(const std::string& name, int line);
+
+	void SetRoot(ITree* root);
+	~CMainCompiler();
 private:
 	CCommandLineArguments args;
 	std::unique_ptr<ITree> root;

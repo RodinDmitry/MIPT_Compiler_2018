@@ -9,6 +9,9 @@
 
 #include <ErrorTable.h>
 extern void dumpToken(std::string token);
+
+#define YY_DECL int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner, CMainCompiler* compiler)
+
 #define YY_USER_ACTION yylloc->first_line = yylloc->last_line = yylineno;
 %}
 
@@ -73,7 +76,7 @@ extern void dumpToken(std::string token);
 
 %%
 
-void yyerror(YYLTYPE* yyllocp, yyscan_t unused, ITree** resultTree, const char* msg) {
+void yyerror(YYLTYPE* yyllocp, yyscan_t unused, CMainCompiler* compiler, const char* msg) {
 	//std::cerr << msg << " in line: " << yylineno << std::endl;
 	CErrorTable::AddError(msg, yyllocp->first_line);
 };

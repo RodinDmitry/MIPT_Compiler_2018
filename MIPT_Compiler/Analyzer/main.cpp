@@ -1,7 +1,7 @@
 #include <Defines.h>
 #include <iostream>
-#include <grammar.tab.h>
-#include <tokens.flex.h>
+#include <MainCompiler.h>
+
 
 std::ofstream lexDumpFile;
 bool LEX_DUMP = false;
@@ -62,17 +62,17 @@ void processFile(std::string name, int flag) {
 	fopen_s(&str, name.c_str(), "r");
 	
 
-	std::shared_ptr<ITree> resultTree;
+	/*std::shared_ptr<ITree> resultTree;
 	{
 		ITree* temp = nullptr;
 		yyset_in(str, scanner);
 		yyparse(scanner, &temp);
 		resultTree.reset(temp);
-	}
+	}*/
 	yylex_destroy(scanner);
 
 	
-	typeCheckTree(resultTree.get());
+	/*typeCheckTree(resultTree.get());
 
 	if ((flag & TREE_OUTPUT) == TREE_OUTPUT) {
 		printTree(resultTree.get());
@@ -80,7 +80,7 @@ void processFile(std::string name, int flag) {
 	if ((flag & TOKEN_LIST) == TOKEN_LIST) {
 		lexDumpFile.close();
 		bisonDumpFile.close();
-	}
+	}*/
 }
 
 
@@ -120,9 +120,10 @@ int main(int argc, char* argv[]) {
 	int flag;
 	std::string filePath;
 
-	parseArguments(argc, argv, flag, filePath);
-
-	processFile(filePath, flag);
+	//parseArguments(argc, argv, flag, filePath);
+	CMainCompiler compiler;
+	compiler.Process(argc, argv);
+	//processFile(filePath, flag);
 	return 0;
 }
 

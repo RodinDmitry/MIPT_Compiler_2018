@@ -5,8 +5,8 @@
 #include <TypeChecker.h>
 #include <ErrorTable.h>
 #include <string>
-
-extern int yyparse(ITree**);
+#include <grammar.tab.h>
+#include <tokens.flex.h>
 
 /*
 std::vector<std::string> goodSamples{ "BinarySearch.java", "BinaryTree.java", "BubbleSort.java",

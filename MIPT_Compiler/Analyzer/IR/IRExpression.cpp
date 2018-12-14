@@ -1,5 +1,6 @@
-#include <IR/Expression.h>
+#include <IR/IRExpression.h>
 #include <IR/IRVisitor.h>
+#include <IR/IRStatement.h>
 
 namespace IR {
 	void IExpression::Accept(IIRVisitor* visitor)

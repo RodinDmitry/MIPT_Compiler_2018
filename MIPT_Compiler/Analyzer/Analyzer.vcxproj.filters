@@ -92,13 +92,16 @@
     <ClCompile Include="IR\Temporary.cpp">
       <Filter>IR\Tree</Filter>
     </ClCompile>
-    <ClCompile Include="IR\Expression.cpp">
-      <Filter>IR\Tree</Filter>
-    </ClCompile>
     <ClCompile Include="IR\Label.cpp">
       <Filter>IR\Tree</Filter>
     </ClCompile>
-    <ClCompile Include="IR\Tree.cpp">
+    <ClCompile Include="IR\IRStatement.cpp">
+      <Filter>IR\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\IRExpression.cpp">
+      <Filter>IR\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\IRTree.cpp">
       <Filter>IR\Tree</Filter>
     </ClCompile>
   </ItemGroup>
@@ -211,13 +214,7 @@
     <ClInclude Include="tokens.flex.h">
       <Filter>Bison</Filter>
     </ClInclude>
-    <ClInclude Include="IR\Tree.h">
-      <Filter>IR\Tree</Filter>
-    </ClInclude>
     <ClInclude Include="IR\Label.h">
-      <Filter>IR\Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="IR\Expression.h">
       <Filter>IR\Tree</Filter>
     </ClInclude>
     <ClInclude Include="IR\Temporary.h">
@@ -225,6 +222,15 @@
     </ClInclude>
     <ClInclude Include="IR\IRVisitor.h">
       <Filter>IR</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRStatement.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRExpression.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRTree.h">
+      <Filter>IR\Tree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

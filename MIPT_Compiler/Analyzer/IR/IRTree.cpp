@@ -1,4 +1,4 @@
-#include <IR/Tree.h>
+#include <IR/IRTree.h>
 #include <IR/IRVisitor.h>
 
 namespace IR {

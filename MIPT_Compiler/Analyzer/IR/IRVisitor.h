@@ -1,6 +1,6 @@
 #pragma once
 
-#include <IR/Tree.h>
+#include <IR/IRTree.h>
 
 namespace IR {
 

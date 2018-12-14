@@ -5,21 +5,15 @@
 
 namespace IR {
 
-class IVisitor;
+class IIRVisitor;
 
 class ITree {
 public:
 	ITree() = default;
 	virtual ~ITree() = default;
 
-	virtual void Accept(IVisitor* visitor) = 0;
+	virtual void Accept(IIRVisitor* visitor);
 
-	virtual const std::string& GetLabel() { assert(false); }
-	void AddToLabel(const std::string& adding) { labelAddings += adding; }
-
-protected:
-
-	std::string labelAddings = "";
 };
 
 } // namespace IR

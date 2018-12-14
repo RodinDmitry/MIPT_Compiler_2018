@@ -19,7 +19,7 @@ void CLValueExpression::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CLValueExpression::GetLabel()
+const std::string& CLValueExpression::GetLabel()
 {
 	return  "lvalue" + labelAddings;;
 }
@@ -35,7 +35,7 @@ void CBinaryExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CBinaryExpression::GetLabel()
+const std::string& CBinaryExpression::GetLabel()
 {
 	std::string name;
 	switch (operation) {

@@ -129,6 +129,10 @@
     <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="Id.cpp" />
+    <ClCompile Include="IR\Expression.cpp" />
+    <ClCompile Include="IR\Label.cpp" />
+    <ClCompile Include="IR\Temporary.cpp" />
+    <ClCompile Include="IR\Tree.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="MainCompiler.cpp" />
@@ -168,6 +172,10 @@
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
+    <ClInclude Include="IR\Expression.h" />
+    <ClInclude Include="IR\IRVisitor.h" />
+    <ClInclude Include="IR\Label.h" />
+    <ClInclude Include="IR\Temporary.h" />
     <ClInclude Include="IR\Tree.h" />
     <ClInclude Include="MainCompiler.h" />
     <ClInclude Include="NamespaceBlock.h" />

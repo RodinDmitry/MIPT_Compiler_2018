@@ -136,6 +136,7 @@ void CMalformedProgramChecker::visit(CIdExpression* node)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(node->id->name));
 	if (info == nullptr) {
+		// рндн 
 		// CErrorTable::AddError(CErrorTable::UnknownVariable + node->id->name, node->GetLine());
 	}
 }

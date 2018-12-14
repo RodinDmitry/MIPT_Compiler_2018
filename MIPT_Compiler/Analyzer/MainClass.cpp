@@ -13,7 +13,7 @@ void CMainArgument::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CMainArgument::GetLabel()
+const std::string& CMainArgument::GetLabel() const
 {
 	return  "mainArgument" + labelAddings;;
 }
@@ -27,7 +27,7 @@ void CMainFunction::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CMainFunction::GetLabel()
+const std::string& CMainFunction::GetLabel() const
 {
 	return  "mainFunc" + labelAddings;;
 }
@@ -36,12 +36,12 @@ CMain::CMain(CId* _name, CMainFunction* _mainFunction, int _line) : name(_name),
 {
 }
 
-void CMain::Accept(IVisitor* visitor)
+void CMain::Accept(IVisitor* visitor) 
 {
 	visitor->visit(this);
 }
 
-std::string CMain::GetLabel()
+const std::string& CMain::GetLabel() const
 {
 	return  "main" + labelAddings;;
 }

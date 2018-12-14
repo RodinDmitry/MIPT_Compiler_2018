@@ -18,7 +18,7 @@ void CType::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CType::GetLabel()
+const std::string& CType::GetLabel() const
 {
 	std::string name;
 	switch (type) {

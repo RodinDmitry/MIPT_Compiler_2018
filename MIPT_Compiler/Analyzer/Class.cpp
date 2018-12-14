@@ -16,7 +16,7 @@ void CClassInternals::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CClassInternals::GetLabel()
+const std::string& CClassInternals::GetLabel() const
 {
 	return  "internal" + labelAddings;;
 }
@@ -30,7 +30,7 @@ void CClassDeclaration::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CClassDeclaration::GetLabel()
+const std::string& CClassDeclaration::GetLabel() const
 {
 	return  "classDeclaration" + labelAddings;;
 }
@@ -44,7 +44,7 @@ void CClass::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CClass::GetLabel()
+const std::string& CClass::GetLabel() const
 {
 	return  "class" + labelAddings;;
 }
@@ -62,7 +62,7 @@ void CClassInternalsList::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CClassInternalsList::GetLabel()
+const std::string& CClassInternalsList::GetLabel() const
 {
 	return  "internals" + labelAddings;;
 }
@@ -80,7 +80,7 @@ void CClassList::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CClassList::GetLabel()
+const std::string& CClassList::GetLabel() const
 {
 	return  "classes" + labelAddings;;
 }

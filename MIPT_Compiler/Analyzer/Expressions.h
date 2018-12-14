@@ -17,7 +17,7 @@ public:
 
 	std::vector<std::shared_ptr<IExpression>> expressions;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CLValueExpression : public IExpression
@@ -27,7 +27,7 @@ public:
 	CLValueExpression(int line);
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CBinaryExpression : public IExpression
@@ -54,7 +54,7 @@ public:
 	std::unique_ptr<IExpression> right;
 	TOperator operation;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CArrayExpression : public IExpression
@@ -67,7 +67,7 @@ public:
 	std::unique_ptr<IExpression> caller;
 	std::unique_ptr<IExpression> index;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CId;
@@ -82,7 +82,7 @@ public:
 	std::unique_ptr<CId> function;
 	std::unique_ptr<CExpressionList> list;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CCallLengthExpression : public IExpression
@@ -94,7 +94,7 @@ public:
 
 	std::unique_ptr<IExpression> caller;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 
@@ -108,7 +108,7 @@ public:
 
 	std::unique_ptr<IValue> value;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CNewArrayExpression : public IExpression
@@ -120,7 +120,7 @@ public:
 
 	std::unique_ptr<IExpression> expression;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CNewExpression : public IExpression
@@ -132,7 +132,7 @@ public:
 
 	std::unique_ptr<CId> id;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CIdExpression : public CLValueExpression
@@ -144,7 +144,7 @@ public:
 
 	std::unique_ptr<CId> id;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CThisExpression : public CLValueExpression
@@ -154,7 +154,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CNotExpression : public IExpression
@@ -166,7 +166,7 @@ public:
 
 	std::unique_ptr<IExpression> expression;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CBracketsExpression : public IExpression
@@ -178,7 +178,7 @@ public:
 
 	std::unique_ptr<IExpression> expression;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };
 
 class CReturnExpression : public IExpression {
@@ -188,5 +188,5 @@ public:
 
 	std::unique_ptr<IExpression> expression;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

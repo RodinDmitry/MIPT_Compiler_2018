@@ -40,6 +40,7 @@ void CCommandLineArguments::ParseArgs(int argc, char* argv[])
 			++i;
 		}
 	}
+	return;
 }
 
 bool CCommandLineArguments::IsLexDumping() const

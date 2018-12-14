@@ -22,9 +22,9 @@ private:
 	bool dumpBison = false;
 	bool dumpAST = false;
 	bool customErrors = false;
-	std::string lexFileName = "LEXdump.txt";
-	std::string bisonFileName = "BISONdump.txt";
-	std::string ASTFileName = "ASTFileName.txt";
+	std::string lexFileName = "dumps/LEXdump.txt";
+	std::string bisonFileName = "dumps/BISONdump.txt";
+	std::string ASTFileName = "dumps/ASTFileName.txt";
 	std::string inputFileName = "";
 	std::string syntaxErrorsFileName = "";
 	std::string tokensErrorsFileName = "";

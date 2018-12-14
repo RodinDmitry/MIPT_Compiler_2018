@@ -11,5 +11,5 @@ public:
 
 	TVisabilityModifierType type;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

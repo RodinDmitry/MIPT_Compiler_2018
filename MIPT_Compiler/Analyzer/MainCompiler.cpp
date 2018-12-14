@@ -6,6 +6,9 @@ void CMainCompiler::Process(int argc, char * argv[])
 {
 	args.ParseArgs(argc, argv);
 	initStreams();
+	buildAST();
+	dumpAST();
+	typeCheck();
 }
 
 void CMainCompiler::dumpBisonToken(const std::string & token)

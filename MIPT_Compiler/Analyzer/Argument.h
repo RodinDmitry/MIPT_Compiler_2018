@@ -12,5 +12,5 @@ public:
 
 	std::vector<std::shared_ptr<CVariable>> arguments;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

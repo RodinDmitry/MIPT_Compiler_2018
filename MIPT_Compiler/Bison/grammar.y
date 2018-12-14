@@ -9,8 +9,7 @@
 #include <string>
 #include <Tree.h>
 
-//extern void dumpBisonToken(std::string token);
-//extern void syntaxError(const std::string& name, int line);
+
 %}
 
 %code requires {

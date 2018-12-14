@@ -157,6 +157,7 @@
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Access.h" />
     <ClInclude Include="Argument.h" />
     <ClInclude Include="BisonUtils.h" />
     <ClInclude Include="Class.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="ErrorTable.h" />
     <ClInclude Include="Expressions.h" />
+    <ClInclude Include="Frame.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />

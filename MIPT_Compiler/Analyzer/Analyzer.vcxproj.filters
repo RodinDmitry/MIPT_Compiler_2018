@@ -210,6 +210,12 @@
     <ClInclude Include="IR\Tree.h">
       <Filter>IR\Tree</Filter>
     </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Access.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
@@ -245,6 +251,9 @@
     </Filter>
     <Filter Include="IR\Tree">
       <UniqueIdentifier>{624c4661-6750-4263-9729-db2bc58ea904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frame">
+      <UniqueIdentifier>{e543c9b4-457c-402c-96e2-bf8443c060f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

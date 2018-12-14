@@ -1,7 +1,8 @@
 %pure-parser
 %lex-param { yyscan_t scanner }
 %parse-param { yyscan_t scanner }
-%parse-param { ITree** resultTree}
+%parse-param { CMainCompiler* compiler}
+%lex-param { CMainCompiler* compiler}
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,22 +10,19 @@
 #include <Tree.h>
 
 
-extern FILE* yyin;
-
-extern void dumpBisonToken(std::string token);
-extern void syntaxError(const std::string& name, int line);
 %}
 
 %code requires {
 #include "../Analyzer/BisonUtils.h"
 #include <iostream>
+#include <MainCompiler.h>
 typedef void* yyscan_t;
 }
 
 
 %code{
-extern int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, yyscan_t scanner);
-extern void yyerror(YYLTYPE* yyllocp, yyscan_t unused, ITree** resultTree, const char* msg);
+extern int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, yyscan_t scanner, CMainCompiler* compiler);
+extern void yyerror(YYLTYPE* yyllocp, yyscan_t unused, CMainCompiler* compiler, const char* msg);
 }
 
 
@@ -119,9 +117,9 @@ extern void yyerror(YYLTYPE* yyllocp, yyscan_t unused, ITree** resultTree, const
 
 %%
 
-Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2), @1.first_line); *resultTree = $$;
+Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2), @1.first_line); compiler->SetRoot($$);
 } 
-	| error MainClass ClassDeclaration { syntaxError("Bad class definition", @1.first_line);
+	| error MainClass ClassDeclaration { compiler->dumpSyntaxError("Bad class definition", @1.first_line);
 										$$ = new CProgram(To<CMain>($2), To<CClassList>($3), @1.first_line);  yyerrok;} 
 ;
 
@@ -132,7 +130,7 @@ ClassDeclaration: { $$ = new CClassList(); }
 	| Class ClassDeclaration { To<CClassList>($2)->Add(To<CClass>($1)); $$ = $2; }
 
 Class: ClassStart LeftBrace ClassInternals RightBrace { $$ = new CClass(To<CClassDeclaration>($1), To<CClassInternalsList>($3), @1.first_line);}
-    | error {syntaxError("Bad class definition", @1.first_line); yyerrok; $$ = nullptr; };
+    | error {compiler->dumpSyntaxError("Bad class definition", @1.first_line); yyerrok; $$ = nullptr; };
 
 ClassStart: ClassWord PT_ID Extends { $$ = new CClassDeclaration(new CId($2, @2.first_line), new CId($3, @3.first_line), @1.first_line); }
 ;
@@ -144,7 +142,7 @@ Extends: { $$ = nullptr; }
 ClassInternals: {  $$ = new CClassInternalsList(); }
 	| Function ClassInternals { To<CClassInternalsList>($2)->Add(new CClassInternals(To<CFunction>($1), @1.first_line)); $$ = $2;}
 	| Variable Semicolon ClassInternals { To<CClassInternalsList>($3)->Add(new CClassInternals(To<CVariable>($1), @1.first_line)); $$ = $3;}
-	| error ClassInternals {syntaxError("Bad method or member", @1.first_line); yyerrok; $$ = $2; };
+	| error ClassInternals {compiler->dumpSyntaxError("Bad method or member", @1.first_line); yyerrok; $$ = $2; };
 
 MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace { 
 		 $$ = new CMainFunction(To<CMainArgument>($6), To<CStatementList>($9), @1.first_line); }
@@ -183,7 +181,7 @@ Type: Integer  { $$ = new CType(TDataType::DT_Integer, @1.first_line); }
 
 Statement: { $$ = new CStatementList();}
 	| StatementItem Statement { To<CStatementList>($2)->Add(To<IStatement>($1)); $$=$2;}
-	| error Statement {syntaxError("Bad Statement", @1.first_line); $$ = $2; yyerrok; }
+	| error Statement {compiler->dumpSyntaxError("Bad Statement", @1.first_line); $$ = $2; yyerrok; }
 ;
 
 StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To<IStatement>($2), @1.first_line); }
@@ -231,7 +229,7 @@ FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new C
 
 ExpressionList: { $$=new CExpressionList(); }
 	| Expressions { $$ = $1; }
-	| error ExpressionList {syntaxError("Bad expression", @1.first_line); yyerrok; $$ = $2; }
+	| error ExpressionList {compiler->dumpSyntaxError("Bad expression", @1.first_line); yyerrok; $$ = $2; }
 ;
 
 Expressions : Expression { $$=new CExpressionList(); To<CExpressionList>($$)->Add(To<IExpression>($1)); }
@@ -243,58 +241,58 @@ ValueT: PT_True { $$=new CValue(true, CValue::T_Boolean); }
 	| PT_Number { $$=new CValue($1, CValue::T_Integer); }
 ;
 
-This: PT_This {  dumpBisonToken("this"); }
+This: PT_This {  compiler->dumpBisonToken("this"); }
 ;
 
-ClassWord: PT_Class {  dumpBisonToken("class"); }
+ClassWord: PT_Class {  compiler->dumpBisonToken("class"); }
 ;
 
-ExtendsWord: PT_Extends { dumpBisonToken("extend"); }
+ExtendsWord: PT_Extends { compiler->dumpBisonToken("extend"); }
 ;
 
-Assign: PT_Assign {  dumpBisonToken("assign"); }
+Assign: PT_Assign {  compiler->dumpBisonToken("assign"); }
 ;
 
-Integer: PT_Integer {  dumpBisonToken("int"); }
+Integer: PT_Integer {  compiler->dumpBisonToken("int"); }
 ;
 
-Boolean: PT_Boolean {  dumpBisonToken("bool"); }
+Boolean: PT_Boolean {  compiler->dumpBisonToken("bool"); }
 ;
 
-LeftBrace: PT_LeftBrace {  dumpBisonToken("{"); }
+LeftBrace: PT_LeftBrace {  compiler->dumpBisonToken("{"); }
 ;
 
-RightBrace: PT_RightBrace {  dumpBisonToken("}"); }
+RightBrace: PT_RightBrace {  compiler->dumpBisonToken("}"); }
 ;
 
-LeftRoundBracket: PT_LeftRoundBracket {  dumpBisonToken("("); }
+LeftRoundBracket: PT_LeftRoundBracket {  compiler->dumpBisonToken("("); }
 ;
 
-RightRoundBracket: PT_RightRoundBracket {  dumpBisonToken(")"); }
+RightRoundBracket: PT_RightRoundBracket {  compiler->dumpBisonToken(")"); }
 ;
 
-LeftSquareBracket: PT_LeftSquareBracket {  dumpBisonToken("["); }
+LeftSquareBracket: PT_LeftSquareBracket {  compiler->dumpBisonToken("["); }
 ;
 
-RightSquareBracket: PT_RightSquareBracket {  dumpBisonToken("]"); }
+RightSquareBracket: PT_RightSquareBracket {  compiler->dumpBisonToken("]"); }
 ;
 
-Length: PT_Length {  dumpBisonToken("length"); }
+Length: PT_Length {  compiler->dumpBisonToken("length"); }
 ;
 
-New: PT_New {  dumpBisonToken("new"); }
+New: PT_New {  compiler->dumpBisonToken("new"); }
 ;
 
-Not: PT_Negation {  dumpBisonToken("!"); }
+Not: PT_Negation {  compiler->dumpBisonToken("!"); }
 ;
 
-Print: PT_Print {  dumpBisonToken("print"); }
+Print: PT_Print {  compiler->dumpBisonToken("print"); }
 ;
 
-Semicolon: PT_Semicolon {  dumpBisonToken("semicolon"); }
+Semicolon: PT_Semicolon {  compiler->dumpBisonToken("semicolon"); }
 ;
 
-While: PT_While { dumpBisonToken("while"); }
+While: PT_While { compiler->dumpBisonToken("while"); }
 ;
 
 %%

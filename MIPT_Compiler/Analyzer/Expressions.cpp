@@ -19,7 +19,7 @@ void CLValueExpression::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-const std::string& CLValueExpression::GetLabel()
+const std::string& CLValueExpression::GetLabel() const
 {
 	return  "lvalue" + labelAddings;;
 }
@@ -35,7 +35,7 @@ void CBinaryExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-const std::string& CBinaryExpression::GetLabel()
+const std::string& CBinaryExpression::GetLabel() const
 {
 	std::string name;
 	switch (operation) {
@@ -61,7 +61,7 @@ void CArrayExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CArrayExpression::GetLabel()
+const std::string& CArrayExpression::GetLabel() const
 {
 	return  "arrayExpression" + labelAddings;;
 }
@@ -73,7 +73,7 @@ void CCallExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CCallExpression::GetLabel()
+const std::string& CCallExpression::GetLabel() const
 {
 	return  "call" + labelAddings;;
 }
@@ -85,7 +85,7 @@ void CCallLengthExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CCallLengthExpression::GetLabel()
+const std::string& CCallLengthExpression::GetLabel() const
 {
 	return  "length" + labelAddings;;
 }
@@ -97,7 +97,7 @@ void CValueExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CValueExpression::GetLabel()
+const std::string& CValueExpression::GetLabel() const
 {
 	return  "valueExpr" + labelAddings;;
 }
@@ -109,7 +109,7 @@ void CNewArrayExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CNewArrayExpression::GetLabel()
+const std::string& CNewArrayExpression::GetLabel() const
 {
 	return  "newArray" + labelAddings;;
 }
@@ -121,7 +121,7 @@ void CIdExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CIdExpression::GetLabel()
+const std::string& CIdExpression::GetLabel() const
 {
 	return  "idExpression" + labelAddings;;
 }
@@ -133,7 +133,7 @@ void CThisExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CThisExpression::GetLabel()
+const std::string& CThisExpression::GetLabel() const
 {
 	return  "this" + labelAddings;;
 }
@@ -145,7 +145,7 @@ void CNotExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CNotExpression::GetLabel()
+const std::string& CNotExpression::GetLabel() const
 {
 	return  "notExpression" + labelAddings;;
 }
@@ -157,7 +157,7 @@ void CBracketsExpression::Accept(IVisitor* visitor)
 	visitor->visit( this );
 }
 
-std::string CBracketsExpression::GetLabel()
+const std::string& CBracketsExpression::GetLabel() const
 {
 	return  "brackets" + labelAddings;;
 }
@@ -175,7 +175,7 @@ void CExpressionList::Add(IExpression* expression)
 	expressions.push_back(ptr);
 }
 
-std::string CExpressionList::GetLabel()
+const std::string& CExpressionList::GetLabel() const
 {
 	return  "expressions" + labelAddings;;
 }
@@ -189,7 +189,7 @@ void CNewExpression::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CNewExpression::GetLabel()
+const std::string& CNewExpression::GetLabel() const
 {
 	return  "new" + labelAddings;;
 }
@@ -203,7 +203,7 @@ void CReturnExpression::Accept(IVisitor* visitior)
 	visitior->visit(this);
 }
 
-std::string CReturnExpression::GetLabel()
+const std::string& CReturnExpression::GetLabel() const
 {
 	return  "return" + labelAddings;;
 }

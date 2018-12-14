@@ -10,7 +10,7 @@ void CProgram::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CProgram::GetLabel()
+const std::string& CProgram::GetLabel() const
 {
 	return  "program" + labelAddings;;
 }

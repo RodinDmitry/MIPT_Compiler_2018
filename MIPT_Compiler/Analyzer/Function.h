@@ -22,5 +22,5 @@ public:
 	std::unique_ptr<CType> returns;
 	std::unique_ptr<CReturnExpression> returnExpression;
 
-	std::string GetLabel() override;
+	const std::string& GetLabel() const override;
 };

@@ -23,7 +23,7 @@ void CStatementList::Add(IStatement* statement)
 	statements.push_back(ptr);
 }
 
-std::string CStatementList::GetLabel()
+const std::string& CStatementList::GetLabel() const
 {
 	return  "statements" + labelAddings;;
 }
@@ -37,7 +37,7 @@ void CVisibilityStatement::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CVisibilityStatement::GetLabel()
+const std::string& CVisibilityStatement::GetLabel() const
 {
 	return  "visibility" + labelAddings;;
 }
@@ -52,7 +52,7 @@ void CIfStatement::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CIfStatement::GetLabel()
+const std::string& CIfStatement::GetLabel() const
 {
 	return  "if" + labelAddings;;
 }
@@ -67,7 +67,7 @@ void CWhileStatement::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CWhileStatement::GetLabel()
+const std::string& CWhileStatement::GetLabel() const
 {
 	return  "while" + labelAddings;;
 }
@@ -81,7 +81,7 @@ void CPrintStatement::Accept(IVisitor * visitor)
 	visitor->visit(this);
 }
 
-std::string CPrintStatement::GetLabel()
+const std::string& CPrintStatement::GetLabel() const
 {
 	return  "print" + labelAddings;;
 }
@@ -95,7 +95,7 @@ void CAssignStatement::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-std::string CAssignStatement::GetLabel()
+const std::string& CAssignStatement::GetLabel() const
 {
 	return "assign" + labelAddings;;
 }
@@ -109,7 +109,7 @@ void CVariableStatement::Accept(IVisitor * visitor)
 	visitor->visit(this);
 }
 
-std::string CVariableStatement::GetLabel()
+const std::string& CVariableStatement::GetLabel() const
 {
 	return "variable" + labelAddings;
 }

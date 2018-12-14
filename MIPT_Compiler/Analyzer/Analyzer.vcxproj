@@ -127,6 +127,7 @@
     <ClCompile Include="ErrorTable.cpp" />
     <ClCompile Include="Expressions.cpp" />
     <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="FrameVistor.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
@@ -168,9 +169,11 @@
     <ClInclude Include="ErrorTable.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="Frame.h" />
+    <ClInclude Include="FrameVistor.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="IFrame.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
     <ClInclude Include="IR\Tree.h" />
     <ClInclude Include="MainCompiler.h" />

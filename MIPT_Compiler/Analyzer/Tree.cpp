@@ -1,7 +1,10 @@
 #include <Tree.h>
 #include <Visitor.h>
+#include <IFrame.h>
 
 ITree::ITree(int _line) : line(_line) {};
+
+ITree::~ITree() {};
 
 void CClassVisibilityStart::Accept(IVisitor* visitor)
 {
@@ -35,6 +38,16 @@ void CVisibilityBlockEnd::Accept(IVisitor* visitor)
 
 int ITree::GetLine() const {
 	return line;
+}
+
+IFrame * ITree::GetFrame()
+{
+	return frame.get();
+}
+
+void ITree::SetFrame(std::shared_ptr<IFrame> _frame)
+{
+	frame = _frame;
 }
 
 void ITree::Accept(IVisitor* visitor) 

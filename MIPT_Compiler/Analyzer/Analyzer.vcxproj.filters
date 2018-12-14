@@ -97,6 +97,9 @@
     <ClCompile Include="Access.cpp">
       <Filter>Frame</Filter>
     </ClCompile>
+    <ClCompile Include="FrameVistor.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -214,6 +217,12 @@
       <Filter>Frame</Filter>
     </ClInclude>
     <ClInclude Include="Access.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameVistor.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrame.h">
       <Filter>Frame</Filter>
     </ClInclude>
   </ItemGroup>

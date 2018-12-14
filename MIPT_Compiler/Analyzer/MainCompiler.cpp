@@ -1,14 +1,20 @@
 #include <MainCompiler.h>
 #include <fstream>
 #include <Defines.h>
+#include <FrameVistor.h>
 
 void CMainCompiler::Process(int argc, char * argv[])
 {
 	args.ParseArgs(argc, argv);
+	tableName = args.GetInputFileName();
 	initStreams();
 	buildAST();
 	dumpAST();
 	typeCheck();
+	if (CErrorTable::HasErrors()) {
+		return;
+	}
+	AddFrames();
 }
 
 void CMainCompiler::dumpBisonToken(const std::string & token)
@@ -90,8 +96,8 @@ void CMainCompiler::typeCheck()
 
 	CMalformedProgramChecker checker;
 	CTypeChecker typeChecker;
-	checker.BuildTable(root.get(), "temp_name");
-	typeChecker.CheckTypes(root.get(), "temp_name");
+	checker.BuildTable(root.get(), tableName);
+	typeChecker.CheckTypes(root.get(), tableName);
 	CErrorTable::Print(*errorsFile);
 }
 
@@ -109,4 +115,10 @@ void CMainCompiler::buildAST()
 	yylex_destroy(scanner);
 
 	fclose(str);
+}
+
+void CMainCompiler::AddFrames()
+{
+	CFrameVisitor visitor;
+	visitor.AddFrames(root.get(), tableName);
 }

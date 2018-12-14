@@ -5,13 +5,14 @@
 #include <assert.h>
 #include <ErrorTable.h>
 
+class IFrame;
 class ITree;
 class IVisitor;
 
 class ITree {
 public:
 	ITree() = default;
-	virtual ~ITree() = default;
+	virtual ~ITree();
 	ITree(int line);
 
 	virtual void Accept(IVisitor* visitor);
@@ -21,8 +22,10 @@ public:
 
 	int GetLine() const;
 
+	IFrame* GetFrame();
+	void SetFrame(std::shared_ptr<IFrame> frame);
 protected:
-
+	std::shared_ptr<IFrame> frame;
 	std::string labelAddings = "";
 	int line = -1;
 };

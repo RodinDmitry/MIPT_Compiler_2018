@@ -35,6 +35,12 @@ void CErrorTable::Print(std::ostream& stream)
 	}
 }
 
+bool CErrorTable::HasErrors()
+{
+	createIfNotNull();
+	return !instance->errorMessages.empty();
+}
+
 void CErrorTable::createIfNotNull()
 {
 	if (instance == nullptr) {

@@ -168,6 +168,7 @@
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
+    <ClInclude Include="IR\Tree.h" />
     <ClInclude Include="MainCompiler.h" />
     <ClInclude Include="NamespaceBlock.h" />
     <ClInclude Include="PrettyPrinter.h" />

@@ -44,7 +44,7 @@ const CFunctionInfo * CNamespaceBlock::FindMethod(const CSymbol * id) const
 	return nullptr;
 }
 
-const CVariableInfo * CNamespaceBlock::FindMember(const CSymbol * id) const
+const CVariableInfo* CNamespaceBlock::FindMember(const CSymbol* id) const
 {
 	for (int i = 0; i < members.size(); ++i) {
 		if (members[i].get()->String() == id) {

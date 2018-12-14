@@ -5,7 +5,7 @@
 
 namespace IR {
 
-	void CStatement::Accept(IIRVisitor* visitor)
+	void IStatement::Accept(IIRVisitor* visitor)
 	{
 		visitor->visit(this);
 	}

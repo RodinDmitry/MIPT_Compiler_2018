@@ -122,22 +122,22 @@ private:
 	std::shared_ptr<const CExpressionList> arguments;
 };
 
-class CStatement;
+class IStatement;
 
 class CEseqExpression : public IExpression {
 public:
-	CEseqExpression(const CStatement* _statement, const IExpression* _expression) : 
+	CEseqExpression(const IStatement* _statement, const IExpression* _expression) : 
 		statement(_statement), expression(_expression) {}
-	CEseqExpression(std::shared_ptr<const CStatement> _statement, std::shared_ptr<const IExpression> _expression) : 
+	CEseqExpression(std::shared_ptr<const IStatement> _statement, std::shared_ptr<const IExpression> _expression) : 
 		statement(_statement), expression(_expression) {}
 	virtual ~CEseqExpression() = default;
 
 	virtual void Accept(IIRVisitor* visitor) override;
-	const CStatement* Statement() const { return statement.get(); }
+	const IStatement* Statement() const { return statement.get(); }
 	const IExpression* Expression() const { return expression.get(); }
 
 private:
-	std::shared_ptr<const CStatement> statement;
+	std::shared_ptr<const IStatement> statement;
 	std::shared_ptr<const IExpression> expression;
 };
 

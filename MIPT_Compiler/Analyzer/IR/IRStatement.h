@@ -6,9 +6,9 @@
 
 namespace IR {
 
-class CStatement : public ITree {
+class IStatement : public ITree {
 public:
-	virtual ~CStatement() = default;
+	virtual ~IStatement() = default;
 	virtual void Accept(IIRVisitor* visitor) override;
 };
 
@@ -23,7 +23,7 @@ enum class TLogicOperatorType : char {
 
 class IExpression;
 
-class CMoveStatement : public CStatement {
+class CMoveStatement : public IStatement {
 public:
 	CMoveStatement(const IExpression* _destination, const IExpression* _source) : destination(_destination), source(_source) {}
 	CMoveStatement(std::shared_ptr<const IExpression> _destination, std::shared_ptr<const IExpression> _source) : destination(_destination), source(_source) {}
@@ -38,7 +38,7 @@ private:
 	std::shared_ptr<const IExpression> source;
 };
 
-class CExpStatement : public CStatement {
+class CExpStatement : public IStatement {
 public:
 	CExpStatement(const IExpression* _expression) : expression(_expression) {}
 	CExpStatement(std::shared_ptr<const IExpression> _expression) : expression(_expression) {}
@@ -51,7 +51,7 @@ private:
 	std::shared_ptr<const IExpression> expression;
 };
 
-class CJumpStatement : public CStatement {
+class CJumpStatement : public IStatement {
 public:
 	CJumpStatement(CLabel _target) : target(_target) {}
 	virtual ~CJumpStatement() = default;
@@ -63,7 +63,7 @@ private:
 	CLabel target;
 };
 
-class CJumpConditionalStatement : public CStatement {
+class CJumpConditionalStatement : public IStatement {
 public:
 	CJumpConditionalStatement(TLogicOperatorType _operation,
 		const IExpression* _left, const IExpression* _right,
@@ -91,23 +91,23 @@ private:
 	TLogicOperatorType operation;
 };
 
-class CSeqStatement : public CStatement {
+class CSeqStatement : public IStatement {
 public:
-	CSeqStatement(const CStatement* _left, const CStatement* _right) : leftStatement(_left), rightStatement(_right) {}
-	CSeqStatement(std::shared_ptr<const CStatement> _left, std::shared_ptr<const CStatement> _right) : leftStatement(_left), rightStatement(_right) {}
+	CSeqStatement(const IStatement* _left, const IStatement* _right) : leftStatement(_left), rightStatement(_right) {}
+	CSeqStatement(std::shared_ptr<const IStatement> _left, std::shared_ptr<const IStatement> _right) : leftStatement(_left), rightStatement(_right) {}
 	~CSeqStatement() = default;
 
-	const CStatement* LeftStatement() const { return leftStatement.get(); }
-	const CStatement* RightStatement() const { return rightStatement.get(); }
+	const IStatement* LeftStatement() const { return leftStatement.get(); }
+	const IStatement* RightStatement() const { return rightStatement.get(); }
 
 	virtual void Accept(IIRVisitor* visitor) override;
 
 private:
-	std::shared_ptr<const CStatement> leftStatement;
-	std::shared_ptr<const CStatement> rightStatement;
+	std::shared_ptr<const IStatement> leftStatement;
+	std::shared_ptr<const IStatement> rightStatement;
 };
 
-class CLabelStatement : public CStatement {
+class CLabelStatement : public IStatement {
 public:
 	CLabelStatement(CLabel _label) : label(_label) {}
 	~CLabelStatement() = default;
@@ -118,21 +118,21 @@ private:
 	CLabel label;
 };
 
-class CStatementList : public CStatement {
+class CStatementList : public IStatement {
 public:
 	CStatementList() = default;
 
-	CStatementList(const CStatement* statement) { Add(statement); }
-	CStatementList(std::shared_ptr<const CStatement> statement) { Add(std::move(statement)); }
+	CStatementList(const IStatement* statement) { Add(statement); }
+	CStatementList(std::shared_ptr<const IStatement> statement) { Add(std::move(statement)); }
 
-	void Add(const CStatement* statement) { Add(std::shared_ptr<const CStatement>(statement)); }
-	void Add(std::shared_ptr<const CStatement> statement) { statements.push_back(statement); }
+	void Add(const IStatement* statement) { Add(std::shared_ptr<const IStatement>(statement)); }
+	void Add(std::shared_ptr<const IStatement> statement) { statements.push_back(statement); }
 
-	const std::vector<std::shared_ptr<const CStatement>>& Statements() const { return statements; }
+	const std::vector<std::shared_ptr<const IStatement>>& Statements() const { return statements; }
 	virtual void Accept(IIRVisitor* visitor) override;
 
 private:
-	std::vector<std::shared_ptr<const CStatement>> statements;
+	std::vector<std::shared_ptr<const IStatement>> statements;
 };
 
 } // namespace IR

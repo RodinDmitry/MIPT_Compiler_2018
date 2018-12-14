@@ -18,7 +18,7 @@ public:
 	virtual void visit(CMemExpression* node) = 0;
 	virtual void visit(CCallExpression* node) = 0;
 	virtual void visit(CEseqExpression* node) = 0;
-	virtual void visit(CStatement* node) = 0;
+	virtual void visit(IStatement* node) = 0;
 	virtual void visit(CMoveStatement* node) = 0;
 	virtual void visit(CExpStatement* node) = 0;
 	virtual void visit(CJumpStatement* node) = 0;

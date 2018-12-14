@@ -83,6 +83,12 @@
     <ClCompile Include="TypeChecker.cpp">
       <Filter>AST\Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Access.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
     <ClCompile Include="CommandLine.cpp">
       <Filter>Processing</Filter>
     </ClCompile>

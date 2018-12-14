@@ -14,5 +14,5 @@ public:
 	std::unique_ptr<CType> type;
 	std::unique_ptr<CId> name;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };

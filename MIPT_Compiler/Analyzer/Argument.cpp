@@ -14,7 +14,7 @@ void CArgumentList::Add(CVariable* argument)
 	arguments.push_back(ptr);
 }
 
-const std::string& CArgumentList::GetLabel() const
+std::string CArgumentList::GetLabel() const
 {
 	return  "arguments" + labelAddings;
 }

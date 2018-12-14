@@ -20,7 +20,7 @@ public:
 
 	std::vector<std::shared_ptr<IStatement>> statements;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CVisibilityStatement : public IStatement {
@@ -30,7 +30,7 @@ public:
 
 	std::unique_ptr<IStatement> statement;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CIfStatement : public IStatement {
@@ -42,7 +42,7 @@ public:
 	std::unique_ptr<IStatement> thenStatement;
 	std::unique_ptr<IStatement> elseStatement;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CWhileStatement : public IStatement {
@@ -53,7 +53,7 @@ public:
 	std::unique_ptr<IExpression> condition;
 	std::unique_ptr<IStatement> statement;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CPrintStatement : public IStatement {
@@ -63,7 +63,7 @@ public:
 
 	std::unique_ptr<IExpression> expression;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CAssignStatement : public IStatement {
@@ -74,7 +74,7 @@ public:
 	std::unique_ptr<CLValueExpression> left;
 	std::unique_ptr<IExpression> right;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 
@@ -86,5 +86,5 @@ public:
 
 	std::unique_ptr<CVariable> variable;
 	
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };

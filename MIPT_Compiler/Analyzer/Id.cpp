@@ -16,7 +16,7 @@ void CId::Accept(IVisitor* visitor)
 	visitor->visit(this);
 }
 
-const std::string& CId::GetLabel() const
+std::string CId::GetLabel() const
 {
 	return  name + labelAddings;;
 }

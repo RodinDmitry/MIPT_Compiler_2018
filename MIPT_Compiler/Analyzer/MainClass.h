@@ -11,7 +11,7 @@ public:
 
 	std::unique_ptr<CId> name;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CMainFunction : public ITree {
@@ -23,7 +23,7 @@ public:
 	std::unique_ptr<CMainArgument> argument;
 	std::unique_ptr<CStatementList> body;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CMain : public ITree {
@@ -35,5 +35,5 @@ public:
 	std::unique_ptr<CId> name;
 	std::unique_ptr<CMainFunction> mainFunction;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };

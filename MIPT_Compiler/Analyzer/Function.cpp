@@ -17,7 +17,7 @@ void CFunction::Accept(IVisitor * visitor)
 	visitor->visit(this);
 }
 
-const std::string& CFunction::GetLabel() const
+std::string CFunction::GetLabel() const
 {
 	return  "function" + labelAddings;
 }

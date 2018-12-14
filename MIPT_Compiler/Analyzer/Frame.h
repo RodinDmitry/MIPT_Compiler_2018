@@ -35,15 +35,12 @@ protected:
 	bool isFinalized = false;
 };
 
-class CNestedFrame : public CMiniJavaFrame {
+class CMiniJavaMethodFrame : public CMiniJavaFrame {
 public:
-
-};
-
-
-
-class CFunctionFrame : public CMiniJavaFrame {
-public:
+	CMiniJavaMethodFrame(const CType* classType, const CType* returnType);
+	virtual const IAccess* GetThis() const;
+	virtual const IAccess* GetReturn() const;
 private:
-
+	static const CSymbol* thisName;
+	static const CSymbol* returnName;
 };

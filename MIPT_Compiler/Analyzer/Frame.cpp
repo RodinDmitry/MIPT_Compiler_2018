@@ -2,12 +2,15 @@
 
 void CMiniJavaFrame::AddFormal(const CSymbol* name, const CType* type)
 {
-	AddLocal(name, type);
+	formals.emplace_back(new CInFrameAccess(currOffset));
+	namesMap.emplace(name, formals.back().get());
+	currOffset += GetOffset(type->type);
 }
 
 void CMiniJavaFrame::AddLocal(const CSymbol * name, const CType * type)
 {
 	locals.emplace_back(new CInFrameAccess(currOffset));
+	namesMap.emplace(name, locals.back().get());
 	currOffset += GetOffset(type->type);
 }
 
@@ -54,4 +57,21 @@ int CMiniJavaFrame::GetOffset(TDataType type)
 	}
 }
 
+const CSymbol* CMiniJavaMethodFrame::thisName = CSymbol::GetSymbol("$this$");
+const CSymbol* CMiniJavaMethodFrame::returnName = CSymbol::GetSymbol("$return$");
 
+CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CType* classType, const CType* returnType)
+{
+	AddFormal(thisName, classType);
+	AddLocal(returnName, returnType);
+}
+
+const IAccess * CMiniJavaMethodFrame::GetThis() const
+{
+	return FindFormalorLocal(thisName);
+}
+
+const IAccess * CMiniJavaMethodFrame::GetReturn() const
+{
+	return FindFormalorLocal(returnName);
+}

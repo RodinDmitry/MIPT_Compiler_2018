@@ -40,7 +40,11 @@ public:
 	CMiniJavaMethodFrame(const CType* classType, const CType* returnType);
 	virtual const IAccess* GetThis() const;
 	virtual const IAccess* GetReturn() const;
+	virtual const IAccess* GetFP() const;
+	virtual const IAccess* GetSP() const;
 private:
 	static const CSymbol* thisName;
 	static const CSymbol* returnName;
+	static const CSymbol* framePointerName;
+	static const CSymbol* stackPointerName;
 };

@@ -59,10 +59,15 @@ int CMiniJavaFrame::GetOffset(TDataType type)
 
 const CSymbol* CMiniJavaMethodFrame::thisName = CSymbol::GetSymbol("$this$");
 const CSymbol* CMiniJavaMethodFrame::returnName = CSymbol::GetSymbol("$return$");
+static const CSymbol* framePointerName = CSymbol::GetSymbol("$fp$");
+static const CSymbol* stackPointerName = CSymbol::GetSymbol("$sp$");
 
 CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CType* classType, const CType* returnType)
 {
 	AddFormal(thisName, classType);
+	std::unique_ptr<CType> ptr(new CType(DT_Integer));
+	AddLocal(framePointerName, ptr.get());
+	AddLocal(stackPointerName, ptr.get());
 	AddLocal(returnName, returnType);
 }
 
@@ -74,4 +79,14 @@ const IAccess * CMiniJavaMethodFrame::GetThis() const
 const IAccess * CMiniJavaMethodFrame::GetReturn() const
 {
 	return FindFormalorLocal(returnName);
+}
+
+const IAccess * CMiniJavaMethodFrame::GetFP() const
+{
+	return FindFormalorLocal(framePointerName);
+}
+
+const IAccess * CMiniJavaMethodFrame::GetSP() const
+{
+	return FindFormalorLocal(stackPointerName);
 }

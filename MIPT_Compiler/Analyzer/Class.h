@@ -14,7 +14,7 @@ public:
 	std::unique_ptr<CId> name;
 	std::unique_ptr<CId> extend;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CClassInternals : public ITree {
@@ -26,7 +26,7 @@ public:
 	std::unique_ptr<CFunction> function;
 	std::unique_ptr<CVariable> variable;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CClassInternalsList : public ITree {
@@ -37,7 +37,7 @@ public:
 
 	std::vector<std::shared_ptr<CClassInternals>> internals;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CClass : public ITree {
@@ -48,7 +48,7 @@ public:
 	std::unique_ptr<CClassDeclaration> declaration;
 	std::unique_ptr<CClassInternalsList> internals;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };
 
 class CClassList : public ITree {
@@ -59,5 +59,5 @@ public:
 
 	std::vector<std::shared_ptr<CClass>> classes;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };

@@ -13,5 +13,5 @@ public:
 	std::unique_ptr<CMain> main;
 	std::unique_ptr<CClassList> classes;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };

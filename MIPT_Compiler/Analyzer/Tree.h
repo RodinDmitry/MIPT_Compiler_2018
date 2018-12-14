@@ -16,7 +16,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor);
 
-	virtual const std::string& GetLabel() const;
+	virtual std::string GetLabel() const;
 	void AddToLabel(const std::string& adding);
 
 	int GetLine() const;
@@ -51,7 +51,7 @@ class CVisibilityBlockEnd : public ITree {
 	virtual void Accept(IVisitor* visitor) override;
 };
 
-inline const std::string& ITree::GetLabel() const {
+inline std::string ITree::GetLabel() const {
 	assert(false);
 	return "";
 }

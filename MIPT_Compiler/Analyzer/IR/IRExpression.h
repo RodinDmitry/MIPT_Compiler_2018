@@ -32,7 +32,7 @@ public:
 	void Add(IExpression* expression) { Add(std::shared_ptr<IExpression>(expression)); };
 	void Add(std::shared_ptr<IExpression> expression) { expressions.push_back(expression); }
 
-	const std::vector<std::shared_ptr<IExpression>>& Get() const { return expressions; }
+	const std::vector<std::shared_ptr<IExpression>> Get() const { return expressions; }
 
 private:
 	std::vector<std::shared_ptr<IExpression>> expressions;

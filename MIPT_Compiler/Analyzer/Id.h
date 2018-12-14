@@ -9,5 +9,5 @@ public:
 
 	std::string name;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };

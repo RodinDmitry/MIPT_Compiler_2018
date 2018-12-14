@@ -13,5 +13,5 @@ public:
 	TDataType type;
 	std::string instance;
 
-	const std::string& GetLabel() const override;
+	std::string GetLabel() const override;
 };

@@ -1,4 +1,5 @@
-#include "Access.h"
+#include <IR/IRStatement.h>
+#include <Access.h>
 
 CInFrameAccess::CInFrameAccess(int _offset) : offset(_offset) {}
 
@@ -22,5 +23,5 @@ CInRegAccess::CInRegAccess(std::shared_ptr<const IR::CTemp> _reg) : reg(_reg) {}
 
 std::shared_ptr<const IR::IExpression> CInRegAccess::GetExp(std::shared_ptr<const IR::IExpression> framePtr) const
 {
-	return std::make_shared<const IR::CTempExpression>(reg);
+	return std::make_shared<const IR::CTempExpression>(*reg);
 }

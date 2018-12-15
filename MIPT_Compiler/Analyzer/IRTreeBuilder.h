@@ -4,6 +4,7 @@
 #include <IR/IRTree.h>
 #include <TreeWrapper.h>
 #include <IFrame.h>
+#include <string>
 
 class CIRTreeBuilder : public IVisitor {
 public:
@@ -52,9 +53,13 @@ public:
 private:
 	std::shared_ptr<IR::ITreeWrapper> subtree;
 	std::shared_ptr<IFrame> currentFrame;
+	std::string callerClassName;
+	std::string currentClassName;
+	std::string symbolTableName;
 
 	IR::TLogicOperatorType convertOperatorLogic(CBinaryExpression::TOperator op);
 	IR::TOperator convertOperator(CBinaryExpression::TOperator op);
+	std::string makeMethodName(const std::string& className, const std::string& methodName);
 	void updateSubtree(IR::ITreeWrapper* tree);
 	void updateSubtree(std::shared_ptr<IR::ITreeWrapper> tree);
 };

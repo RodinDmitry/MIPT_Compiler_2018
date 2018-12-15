@@ -1,19 +1,21 @@
 #include <IRTreeBuilder.h>
+#include <SymbolTable.h>
 
 void CIRTreeBuilder::visit(ITree*)
 {
 	assert(false);
 }
 
-void CIRTreeBuilder::visit(CArgumentList *)
+void CIRTreeBuilder::visit(CArgumentList*)
+{
+	assert(false);
+}
+
+void CIRTreeBuilder::visit(CClassDeclaration*)
 {
 }
 
-void CIRTreeBuilder::visit(CClassDeclaration *)
-{
-}
-
-void CIRTreeBuilder::visit(CClassInternals *)
+void CIRTreeBuilder::visit(CClassInternals*)
 {
 }
 
@@ -34,8 +36,9 @@ void CIRTreeBuilder::visit(IExpression*)
 	assert(false);
 }
 
-void CIRTreeBuilder::visit(CExpressionList *)
+void CIRTreeBuilder::visit(CExpressionList*)
 {
+	assert(false);
 }
 
 void CIRTreeBuilder::visit(CLValueExpression*)
@@ -76,8 +79,6 @@ void CIRTreeBuilder::visit(CBinaryExpression* node)
 		break;
 	}
 	}
-
-	
 }
 
 void CIRTreeBuilder::visit(CArrayExpression* node)
@@ -91,8 +92,30 @@ void CIRTreeBuilder::visit(CArrayExpression* node)
 	updateSubtree(new IR::CExpressionWrapper(new IR::CBinaryExpression(IR::O_Plus, arrayStart, offset)));
 }
 
-void CIRTreeBuilder::visit(CCallExpression *)
+void CIRTreeBuilder::visit(CCallExpression* node)
 {
+	node->caller->Accept(this);
+	std::string methodCaller = callerClassName;
+	
+	IR::CExpressionList* expressionList = new IR::CExpressionList();
+	expressionList->Add(subtree->ToExpression());
+
+	const std::vector<std::shared_ptr<IExpression>>& expressions = node->list->expressions;
+
+	for (int i = static_cast<int>(expressions.size()); i >= 0; i--) {
+		expressions[i]->Accept(this);
+		expressionList->Add(subtree->ToExpression());
+	}
+
+	updateSubtree(new IR::CExpressionWrapper(new IR::CCallExpression(
+		new IR::CNameExpression(IR::CLabel(makeMethodName(methodCaller, node->function->name))), expressionList)));
+
+	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(methodCaller));
+	const CFunctionInfo* functionInfo = info->FindMethod(CSymbol::GetSymbol(node->function->name));
+	std::shared_ptr<CType> type = functionInfo->GetType();
+	if (type->type == TDataType::DT_Instance) {
+		callerClassName = type->instance;
+	}
 }
 
 void CIRTreeBuilder::visit(CValueExpression *)
@@ -113,14 +136,20 @@ void CIRTreeBuilder::visit(CIdExpression *)
 
 void CIRTreeBuilder::visit(CThisExpression *)
 {
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->GetThis()->GetExp(currentFrame->GetFramePtr())));
+	callerClassName = currentClassName;
 }
 
-void CIRTreeBuilder::visit(CNotExpression *)
+void CIRTreeBuilder::visit(CNotExpression* node)
 {
+	node->expression->Accept(this);
+	updateSubtree(new IR::CNegateConditionalWrapper(subtree));
 }
 
-void CIRTreeBuilder::visit(CBracketsExpression *)
+void CIRTreeBuilder::visit(CBracketsExpression* node)
 {
+	node->expression->Accept(this);
+	updateSubtree(new IR::CExpressionWrapper(subtree->ToExpression()));
 }
 
 void CIRTreeBuilder::visit(CReturnExpression *)
@@ -160,24 +189,94 @@ void CIRTreeBuilder::visit(IStatement*)
 	assert(false);
 }
 
-void CIRTreeBuilder::visit(CStatementList *)
+void CIRTreeBuilder::visit(CStatementList* node)
 {
+	std::vector<std::shared_ptr<IStatement>> statements = node->statements;
+	
+	std::shared_ptr<IR::ITreeWrapper> suffix = nullptr;
+
+	for (int i = 0; i < statements.size(); i++) {
+		statements[i]->Accept(this);
+		if (suffix == nullptr) {
+			suffix = subtree;
+		}
+		else {
+			suffix = std::shared_ptr<IR::ITreeWrapper>(new IR::CStatementWrapper(new IR::CSeqStatement(
+				subtree->ToStatement(), suffix->ToStatement())));
+		}
+	}
+
+	updateSubtree(suffix);
 }
 
-void CIRTreeBuilder::visit(CVisibilityStatement *)
+void CIRTreeBuilder::visit(CVisibilityStatement* node)
 {
+	node->statement->Accept(this);
 }
 
-void CIRTreeBuilder::visit(CIfStatement *)
+void CIRTreeBuilder::visit(CIfStatement* node)
 {
+	node->condition->Accept(this);
+	std::shared_ptr<IR::ITreeWrapper> condition = subtree;
+	node->thenStatement->Accept(this);
+	std::shared_ptr<IR::ITreeWrapper> conditionTrue = subtree;
+	
+
+	IR::CLabel labelTrue;
+	IR::CLabel labelFalse;
+	IR::CLabel labelJoin;
+
+	IR::CLabel* resultLabelFalse = &labelJoin;
+
+	std::shared_ptr<const IR::IStatement> suffix(new IR::CLabelStatement(labelJoin));
+
+	if (node->elseStatement != nullptr) {
+		resultLabelFalse = &labelFalse;
+		node->elseStatement->Accept(this);
+		std::shared_ptr<IR::ITreeWrapper> conditionFalse = subtree;
+
+		suffix = std::shared_ptr<IR::IStatement>(new IR::CSeqStatement(new IR::CLabelStatement(labelFalse),
+			new IR::CSeqStatement(conditionFalse->ToStatement(), suffix)));
+		suffix = std::shared_ptr<IR::IStatement>(new IR::CSeqStatement(
+			std::shared_ptr<IR::IStatement>(new IR::CJumpStatement(labelJoin)), suffix));
+	}
+
+	suffix = std::shared_ptr<IR::IStatement>(new IR::CSeqStatement(new IR::CLabelStatement(labelTrue), new IR::CSeqStatement(
+		conditionTrue->ToStatement(), suffix)));
+
+	updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(condition->ToConditional(labelTrue, *resultLabelFalse),
+		suffix)));
 }
 
-void CIRTreeBuilder::visit(CWhileStatement *)
+void CIRTreeBuilder::visit(CWhileStatement* node)
 {
+	node->condition->Accept(this);
+	std::shared_ptr<IR::ITreeWrapper> condition = subtree;
+	node->statement->Accept(this);
+	std::shared_ptr<IR::ITreeWrapper> statement = subtree;
+
+	IR::CLabel loop;
+	IR::CLabel body;
+	IR::CLabel done;
+
+	std::shared_ptr<const IR::IStatement> suffix(new IR::CSeqStatement(new IR::CJumpStatement(loop), new IR::CLabelStatement(done)));
+
+
+	suffix = std::shared_ptr <const IR::IStatement>(new IR::CSeqStatement(statement->ToStatement(), suffix));
+
+	updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(new IR::CLabelStatement(loop), new IR::CSeqStatement(
+		condition->ToConditional(body, done), std::shared_ptr<const IR::IStatement>(
+			new IR::CSeqStatement(std::shared_ptr<const IR::IStatement>(new IR::CLabelStatement(body)), suffix))))));
+	
 }
 
-void CIRTreeBuilder::visit(CPrintStatement *)
+void CIRTreeBuilder::visit(CPrintStatement* node)
 {
+	node->expression->Accept(this);
+	std::shared_ptr<IR::ITreeWrapper> wrapper = subtree;
+	std::shared_ptr<IR::CExpressionList> arguments(new IR::CExpressionList(wrapper->ToExpression()));
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("system.print", arguments)));
+	
 }
 
 void CIRTreeBuilder::visit(CAssignStatement* node)
@@ -196,10 +295,12 @@ void CIRTreeBuilder::visit(CVariableStatement*)
 
 void CIRTreeBuilder::visit(CType*)
 {
+	assert(false);
 }
 
 void CIRTreeBuilder::visit(IValue*)
 {
+	assert(false);
 }
 
 void CIRTreeBuilder::visit(CValue *)

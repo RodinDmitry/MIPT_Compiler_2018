@@ -28,14 +28,17 @@ enum TOperator {
 class CExpressionList : public IExpression {
 public:
 	virtual ~CExpressionList() = default;
+	CExpressionList() = default;
 	virtual void Accept(IIRVisitor* visitor) override;
-	void Add(IExpression* expression) { Add(std::shared_ptr<IExpression>(expression)); };
-	void Add(std::shared_ptr<IExpression> expression) { expressions.push_back(expression); }
+	CExpressionList(const IExpression* expression) { Add(expression); }
+	CExpressionList(std::shared_ptr<const IExpression> expression) { Add(expression); }
+	void Add(const IExpression* expression) { Add(std::shared_ptr<const IExpression>(expression)); };
+	void Add(std::shared_ptr<const IExpression> expression) { expressions.push_back(expression); }
 
-	const std::vector<std::shared_ptr<IExpression>> Get() const { return expressions; }
+	const std::vector<std::shared_ptr<const IExpression>> Get() const { return expressions; }
 
 private:
-	std::vector<std::shared_ptr<IExpression>> expressions;
+	std::vector<std::shared_ptr<const IExpression>> expressions;
 };
 
 class CConstExpression : public IExpression {

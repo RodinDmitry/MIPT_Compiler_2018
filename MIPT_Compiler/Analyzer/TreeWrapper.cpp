@@ -21,6 +21,7 @@ namespace IR {
 	std::shared_ptr<const IExpression> CStatementWrapper::ToExpression()
 	{
 		assert(false);
+		return std::shared_ptr<const IExpression>();
 	}
 
 	std::shared_ptr<const IStatement> CStatementWrapper::ToStatement()
@@ -31,6 +32,7 @@ namespace IR {
 	std::shared_ptr<const IStatement> CStatementWrapper::ToConditional(CLabel labelTrue, CLabel labelFalse)
 	{
 		assert(false);
+		return std::shared_ptr<const IStatement>();
 	}
 
 	std::shared_ptr<const IExpression> CConditionalWrapper::ToExpression()
@@ -47,6 +49,7 @@ namespace IR {
 	std::shared_ptr<const IStatement> CConditionalWrapper::ToStatement()
 	{
 		assert(false);
+		return std::shared_ptr<const IStatement>();
 	}
 
 	std::shared_ptr<const IStatement> CConditionalWrapper::ToConditional(CLabel labelTrue, CLabel labelFalse)

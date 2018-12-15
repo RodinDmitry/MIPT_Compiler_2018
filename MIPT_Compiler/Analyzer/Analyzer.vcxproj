@@ -148,16 +148,13 @@
     <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="TreeWrapper.cpp" />
     <ClCompile Include="Type.cpp" />
     <ClCompile Include="TypeChecker.cpp" />
     <ClCompile Include="TypeGetter.cpp" />
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="Variable.cpp" />
     <ClCompile Include="VariableInfo.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h" />
@@ -173,6 +170,7 @@
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
+    <ClInclude Include="IRTreeBuilder.h" />
     <ClInclude Include="IR\IRExpression.h" />
     <ClInclude Include="IR\IRVisitor.h" />
     <ClInclude Include="IR\Label.h" />
@@ -202,6 +200,7 @@
     <ClInclude Include="VariableInfo.h" />
     <ClInclude Include="VisabilityModifier.h" />
     <ClInclude Include="Visitor.h" />
+    <ClInclude Include="TreeWrapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

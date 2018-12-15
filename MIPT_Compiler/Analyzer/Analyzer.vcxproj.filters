@@ -118,6 +118,9 @@
     <ClCompile Include="TreeWrapper.cpp">
       <Filter>IR\Wrapper</Filter>
     </ClCompile>
+    <ClCompile Include="IRTreeBuilder.cpp">
+      <Filter>AST\Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">

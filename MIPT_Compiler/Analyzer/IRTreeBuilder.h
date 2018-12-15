@@ -1,6 +1,9 @@
 #pragma once
 
 #include <Visitor.h>
+#include <IR/IRTree.h>
+#include <TreeWrapper.h>
+#include <IFrame.h>
 
 class CIRTreeBuilder : public IVisitor {
 public:
@@ -45,4 +48,11 @@ public:
 	virtual void visit(IValue*) override;
 	virtual void visit(CValue*) override;
 	virtual void visit(CVariable*) override;
+
+private:
+	std::shared_ptr<IR::ITreeWrapper> subtree;
+	std::shared_ptr<IFrame> currentFrame;
+
+	void updateSubtree(IR::ITreeWrapper* tree);
+	void updateSubtree(std::shared_ptr<IR::ITreeWrapper> tree);
 };

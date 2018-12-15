@@ -335,7 +335,7 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionLi
 
 bool CTypeChecker::argumentCheck(const CFunctionInfo* info, std::vector<std::shared_ptr<CType>>& arguments)
 {
-	const std::vector<const CVariableInfo*> variables = info->GetArguments();
+	const std::vector<std::unique_ptr<const CVariableInfo> >& variables = info->GetArguments();
 	if (arguments.size() != variables.size()) {
 		return false;
 	}

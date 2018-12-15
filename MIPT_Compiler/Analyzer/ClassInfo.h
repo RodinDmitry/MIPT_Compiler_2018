@@ -1,5 +1,7 @@
 #pragma once
-#include <FunctionInfo.h>
+#include <Symbol.h>
+
+class CFunctionInfo;
 
 class CClassInfo {
 public:

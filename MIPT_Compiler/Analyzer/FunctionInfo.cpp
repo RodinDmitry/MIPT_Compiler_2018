@@ -3,7 +3,7 @@
 #include <Type.h>
 #include <UndefinedTypeException.h>
 
-CFunctionInfo::CFunctionInfo(const CSymbol* _name, std::shared_ptr<CType> _dataType, const CClassInfo* _classInfo,
+CFunctionInfo::CFunctionInfo(const CSymbol* _name, const CType* _dataType, const CClassInfo* _classInfo,
 		TVisabilityModifierType _modifierType)
 	:name(_name), classInfo(_classInfo), dataType(_dataType), modifierType(_modifierType) {}
 
@@ -50,7 +50,7 @@ const CVariableInfo * CFunctionInfo::GetVariable(const CSymbol * name) const
 
 const CVariableInfo * CFunctionInfo::FindVariable(const CSymbol * name)
 {
-	GetCurrentBlock()->FindLocal(name);
+	return GetCurrentBlock()->FindLocal(name);
 }
 
 const CSymbol * CFunctionInfo::String() const
@@ -58,25 +58,16 @@ const CSymbol * CFunctionInfo::String() const
 	return name;
 }
 
-std::shared_ptr<CType> CFunctionInfo::GetType() const
+const CType* CFunctionInfo::GetType() const
 {
 	return dataType;
 }
 
 void CFunctionInfo::EnterBlock()
 {
-	if (blocks.back().get() == currentBlock) {
-		blocks.emplace_back(currentBlock);
-		currentBlock = blocks.back().get();
-	}
-	else {
-		for (int i = 0; i < blocks.size() - 1; ++i) {
-			if (blocks[i].get() == currentBlock) {
-				currentBlock = blocks[i + 1].get();
-				break;
-			}
-		}
-	}
+	blocks.emplace_back(std::make_unique<CNamespaceBlock>(GetCurrentBlock()));
+	currentBlock = blocks.back().get();
+	assert(currentBlock != nullptr);
 }
 
 void CFunctionInfo::LeaveBlock()

@@ -6,10 +6,10 @@ std::map<const std::string, std::unique_ptr<CSymbolTable> > CSymbolTable::tables
 void CSymbolTable::CreateClass(const std::string& name, const std::string& extends)
 {
 	if (extends == "") {
-		classes.emplace_back(CSymbol::GetSymbol(name));
+		classes.emplace_back(std::make_unique<CClassInfo>(CSymbol::GetSymbol(name)));
 	}
 	else {
-		classes.emplace_back(CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends));
+		classes.emplace_back(std::make_unique<CClassInfo>(CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends)));
 	}
 	currentClass = classes.back().get();
 }
@@ -47,6 +47,7 @@ const CClassInfo * CSymbolTable::FindClass(const CSymbol * id) const
 			return classes[i].get();
 		}
 	}
+	return nullptr;
 }
 
 const CFunctionInfo * CSymbolTable::FindMethod(const CSymbol * id) const
@@ -110,6 +111,7 @@ const CNamespaceBlock * CSymbolTable::switchToOffset(const CNamespaceBlock * blo
 		}
 	}
 	return currBlockPtr;*/
+	return nullptr;
 }
 
 bool CSymbolTable::IsDerived(const std::string& derived, const std::string& base) const
@@ -132,7 +134,6 @@ bool CSymbolTable::IsDerived(const std::string& derived, const std::string& base
 void CSymbolTable::CreateTable(const std::string & tableName)
 {
 	tables.emplace(tableName, new CSymbolTable(tableName));
-	tables[tableName]->AddBlock();
 }
 
 void CSymbolTable::AddBlock(const std::string & tableName)

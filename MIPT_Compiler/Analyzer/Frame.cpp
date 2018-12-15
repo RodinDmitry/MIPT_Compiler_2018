@@ -67,7 +67,7 @@ CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo, const CF
 	AddRegister(stackPointerName, stackPointerName);
 	AddLocal(returnName);
 
-	for (const CVariableInfo* var : info->GetArguments()) {
+	for (const std::unique_ptr<const CVariableInfo>& var : info->GetArguments()) {
 		AddFormal(var->String());
 	}
 	for (const CVariableInfo* var : info->GetLocals()) {

@@ -111,7 +111,8 @@ void CTypeGetter::visit(CCallExpression* node)
 	}
 	const CFunctionInfo* method = classInfo->FindMethod(CSymbol::GetSymbol(node->function->name));
 	if (method != nullptr) {
-		resultingTypes.push_back(method->GetType());
+		std::shared_ptr<CType> type(new CType(*(method->GetType())));
+		resultingTypes.push_back(type);
 	}	
 }
 

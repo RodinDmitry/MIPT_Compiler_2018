@@ -1,5 +1,6 @@
-#include "ClassInfo.h"
 #include <SymbolTable.h>
+#include <Type.h>
+#include <ClassInfo.h>
 
 CClassInfo::CClassInfo(const CSymbol * _name) 
 	: name(_name), extends(nullptr)

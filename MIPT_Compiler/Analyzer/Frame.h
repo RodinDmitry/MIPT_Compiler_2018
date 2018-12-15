@@ -13,19 +13,19 @@ public:
 
 	virtual void AddFormal(const CSymbol* name) override;
 	virtual void AddLocal(const CSymbol* name) override;
-	virtual int FormalsCount() const;
-	virtual const IAccess* GetFormal(int index) const;
-	virtual const IAccess* FindFormalorLocal(const CSymbol* name) const;
+	virtual int FormalsCount() const override;
+	virtual const IAccess* GetFormal(int index) const override;
+	virtual const IAccess* FindFormalorLocal(const CSymbol* name) const override;
 
-	virtual std::shared_ptr<const IR::IExpression> GetWordSize() const;
-	virtual const std::shared_ptr<const IR::IExpression> GetFramePtr() const;
+	virtual std::shared_ptr<const IR::IExpression> GetWordSize() const override;
+	virtual const std::shared_ptr<const IR::IExpression> GetFramePtr() const override;
 
-	virtual const IAccess* GetThis() const;
-	virtual const IAccess* GetReturn() const;
-	virtual const IAccess* GetFP() const;
-	virtual const IAccess* GetSP() const;
+	virtual const IAccess* GetThis() const override;
+	virtual const IAccess* GetReturn() const override;
+	virtual const IAccess* GetFP() const override;
+	virtual const IAccess* GetSP() const override;
 
-	std::shared_ptr<const IR::IExpression> ExternalCall(const std::string& functionName, std::shared_ptr<const IR::CExpressionList> args) const;
+	std::shared_ptr<const IR::IExpression> ExternalCall(const std::string& functionName, std::shared_ptr<const IR::CExpressionList> args) const override;
 private:
 	void initStatic();
 

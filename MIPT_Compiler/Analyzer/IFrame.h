@@ -14,7 +14,6 @@ public:
 	virtual std::shared_ptr<const IR::IExpression> GetWordSize() const = 0;
 	virtual const IAccess* GetFormal(int index) const = 0;
 	virtual const IAccess* FindFormalorLocal(const CSymbol* name) const = 0;
-	virtual int GetTotalSize() const = 0;
 	virtual const std::shared_ptr<const IR::IExpression> GetFramePtr() const = 0;
 
 	virtual const IAccess* GetThis() const = 0;

@@ -1,4 +1,5 @@
-#include "Frame.h"
+#include <Frame.h>
+#include <IR/IRStatement.h>
 
 void CMiniJavaMethodFrame::AddFormal(const CSymbol* name)
 {
@@ -47,7 +48,7 @@ CSymbol* CMiniJavaMethodFrame::thisName = nullptr;
 CSymbol* CMiniJavaMethodFrame::returnName = nullptr;
 CSymbol* CMiniJavaMethodFrame::framePointerName = nullptr;
 CSymbol* CMiniJavaMethodFrame::stackPointerName = nullptr;
-const static int wordSize = 4;
+const int CMiniJavaMethodFrame::wordSize = 4;
 
 CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CType* classType, const CType* returnType)
 {

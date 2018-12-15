@@ -18,6 +18,7 @@ public:
 private:
 	CCommandLineArguments args;
 	std::unique_ptr<ITree> root;
+	std::string tableName;
 
 	std::unique_ptr<std::ostream> lexDumpFile;
 	std::unique_ptr<std::ostream> bisonDumpFile;
@@ -28,5 +29,6 @@ private:
 	void dumpAST();
 	void typeCheck();
 	void buildAST();
+	void AddFrames();
 
 };

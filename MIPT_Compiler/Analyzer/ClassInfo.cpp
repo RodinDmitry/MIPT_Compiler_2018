@@ -84,3 +84,8 @@ bool CClassInfo::InheritedFromKnownClass(const std::string& tableName) const
 	}
 	return false;
 }
+
+std::shared_ptr<CType> CClassInfo::GetType() const
+{
+	return std::shared_ptr<CType>(new CType(name->String().c_str()));
+}

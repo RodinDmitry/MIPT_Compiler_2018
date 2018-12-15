@@ -15,6 +15,7 @@ public:
 	const CSymbol* GetBase() const;
 	bool HasCyclicInheritance(const std::string& tableName) const;
 	bool InheritedFromKnownClass(const std::string& tableName) const;
+	std::shared_ptr<CType> GetType() const;
 private:
 	const CSymbol* name;
 	const CSymbol* extends;

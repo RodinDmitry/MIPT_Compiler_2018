@@ -7,6 +7,7 @@ public:
 	static void AddError(const std::string& message, int line);
 	static void AddError(CUndefinedTypeException* error, int line);
 	static void Print(std::ostream& stream);
+	static bool HasErrors();
 
 	static const std::string UnknownVariable;
 	static const std::string UnknownFunction;

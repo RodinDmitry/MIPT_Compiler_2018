@@ -104,6 +104,17 @@
     <ClCompile Include="IR\IRTree.cpp">
       <Filter>IR\Tree</Filter>
     </ClCompile>
+    <ClCompile Include="Access.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="Frame.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Access.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameVistor.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
     <ClCompile Include="TreeWrapper.cpp">
       <Filter>IR\Wrapper</Filter>
     </ClCompile>
@@ -235,12 +246,28 @@
     <ClInclude Include="IR\IRTree.h">
       <Filter>IR\Tree</Filter>
     </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Access.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameVistor.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrame.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
     <ClInclude Include="IRTreeBuilder.h">
       <Filter>AST\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="TreeWrapper.h">
       <Filter>IR\Wrapper</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
+    <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SymbolTable">
@@ -272,6 +299,9 @@
     </Filter>
     <Filter Include="IR\Tree">
       <UniqueIdentifier>{624c4661-6750-4263-9729-db2bc58ea904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frame">
+      <UniqueIdentifier>{e543c9b4-457c-402c-96e2-bf8443c060f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="IR\Wrapper">
       <UniqueIdentifier>{81e88d54-fc75-4935-b829-25aee94522ed}</UniqueIdentifier>

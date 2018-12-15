@@ -119,12 +119,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Access.cpp" />
     <ClCompile Include="Argument.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ClassInfo.cpp" />
     <ClCompile Include="CommandLine.cpp" />
     <ClCompile Include="ErrorTable.cpp" />
     <ClCompile Include="Expressions.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="FrameVistor.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
@@ -157,6 +160,11 @@
     <ClCompile Include="VariableInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="input.txt" />
+    <Text Include="output.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Access.h" />
     <ClInclude Include="Argument.h" />
     <ClInclude Include="BisonUtils.h" />
     <ClInclude Include="Class.h" />
@@ -166,9 +174,12 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="ErrorTable.h" />
     <ClInclude Include="Expressions.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="FrameVistor.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="IFrame.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
     <ClInclude Include="IRTreeBuilder.h" />
     <ClInclude Include="IR\IRExpression.h" />

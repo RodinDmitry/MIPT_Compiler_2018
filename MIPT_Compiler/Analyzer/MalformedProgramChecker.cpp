@@ -192,7 +192,16 @@ void CMalformedProgramChecker::visit(CMainFunction* node)
 
 void CMalformedProgramChecker::visit(CMain* node)
 {
+	createLeavePlaceholder();
 	waitingNodes.push_front(node->mainFunction.get());
+	assert(node->name != nullptr);
+
+	if (checkClassDoubleDeclaration(CSymbol::GetSymbol(node->name->name))) {
+		CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+	}
+	std::string name = node->name->name;
+	std::string extend = "";
+	CSymbolTable::CreateClass(tableName, name, extend);
 }
 
 void CMalformedProgramChecker::visit(CModifier*)

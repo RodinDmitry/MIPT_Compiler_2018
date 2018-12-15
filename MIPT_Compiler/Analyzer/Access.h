@@ -1,24 +1,26 @@
 #pragma once
+#include <IR/IRExpression.h>
 
 class IAccess {
 public:
+	virtual std::shared_ptr<const IR::IExpression> GetExp(std::shared_ptr<const IR::IExpression> framePtr) const = 0;
 	virtual ~IAccess() {};
 };
 
 class CInRegAccess : public IAccess {
 public:
-	CInRegAccess(int _reg);
-	int GetReg() const;
+	CInRegAccess(std::shared_ptr<const IR::CTemp> reg);
+	std::shared_ptr<const IR::IExpression> GetExp(std::shared_ptr<const IR::IExpression> framePtr) const override;
 
 	~CInRegAccess() {};
 private:
-	int reg;
+	std::shared_ptr<const IR::CTemp> reg;
 };
 
 class CInFrameAccess : public IAccess {
 public:
 	CInFrameAccess(int _offset);
-	int GetOffset() const;
+	std::shared_ptr<const IR::IExpression> GetExp(std::shared_ptr<const IR::IExpression> framePtr) const override;
 
 	~CInFrameAccess() {};
 private:

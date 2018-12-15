@@ -1,33 +1,30 @@
 #include "Frame.h"
 
-void CMiniJavaFrame::AddFormal(const CSymbol* name, const CType* type)
+void CMiniJavaMethodFrame::AddFormal(const CSymbol* name)
 {
 	formals.emplace_back(new CInFrameAccess(currOffset));
 	namesMap.emplace(name, formals.back().get());
-	currOffset += GetOffset(type->type);
+	currOffset += wordSize;
 }
 
-void CMiniJavaFrame::AddLocal(const CSymbol * name, const CType * type)
+void CMiniJavaMethodFrame::AddLocal(const CSymbol * name)
 {
 	locals.emplace_back(new CInFrameAccess(currOffset));
 	namesMap.emplace(name, locals.back().get());
-	currOffset += GetOffset(type->type);
+	currOffset += wordSize;
 }
 
-int CMiniJavaFrame::FormalsCount() const
+int CMiniJavaMethodFrame::FormalsCount() const
 {
-	if (!isFinalized) {
-		return -1;
-	}
 	return formals.size();
 }
 
-const IAccess * CMiniJavaFrame::GetFormal(int index) const
+const IAccess * CMiniJavaMethodFrame::GetFormal(int index) const
 {
 	return formals[index].get();
 }
 
-const IAccess * CMiniJavaFrame::FindFormalorLocal(const CSymbol * name) const
+const IAccess * CMiniJavaMethodFrame::FindFormalorLocal(const CSymbol * name) const
 {
 	auto var = namesMap.find(name);
 	if (var != namesMap.end()) {
@@ -36,56 +33,44 @@ const IAccess * CMiniJavaFrame::FindFormalorLocal(const CSymbol * name) const
 	return nullptr;
 }
 
-void CMiniJavaFrame::Finalize()
+std::shared_ptr<const IR::IExpression> CMiniJavaMethodFrame::GetWordSize() const
 {
-	isFinalized = true;
+	return std::make_shared<const IR::CConstExpression>(wordSize);
 }
 
-int CMiniJavaFrame::GetTotalSize() const
+const std::shared_ptr<const IR::IExpression> CMiniJavaMethodFrame::GetFramePtr() const
 {
-	if (!isFinalized) {
-		return -1;
-	}
-	return currOffset;
-}
-
-int CMiniJavaFrame::GetOffset(TDataType type)
-{
-	switch (type) {
-		case TDataType::DT_Boolean: return 1;
-		default: return 4;
-	}
+	return GetFP()->GetExp(nullptr);
 }
 
 CSymbol* CMiniJavaMethodFrame::thisName = nullptr;
 CSymbol* CMiniJavaMethodFrame::returnName = nullptr;
 CSymbol* CMiniJavaMethodFrame::framePointerName = nullptr;
 CSymbol* CMiniJavaMethodFrame::stackPointerName = nullptr;
+const static int wordSize = 4;
 
 CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CType* classType, const CType* returnType)
 {
 	initStatic();
-	AddFormal(thisName, classType);
-	std::unique_ptr<CType> ptr(new CType(DT_Integer));
-	AddLocal(framePointerName, ptr.get());
-	AddLocal(stackPointerName, ptr.get());
-	AddLocal(returnName, returnType);
+	AddRegister(thisName, thisName);
+	AddRegister(framePointerName, framePointerName);
+	AddRegister(stackPointerName, stackPointerName);
+	AddLocal(returnName);
 }
 
 CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo, const CFunctionInfo* info)
 {
 	initStatic();
-	AddFormal(thisName, classInfo->GetType().get());
-	std::unique_ptr<CType> ptr(new CType(DT_Integer));
-	AddLocal(framePointerName, ptr.get());
-	AddLocal(stackPointerName, ptr.get());
-	AddLocal(returnName, info->GetType().get());
+	AddRegister(thisName, thisName);
+	AddRegister(framePointerName, framePointerName);
+	AddRegister(stackPointerName, stackPointerName);
+	AddLocal(returnName);
 
 	for (const CVariableInfo* var : info->GetArguments()) {
-		AddFormal(var->String(), var->GetType().get());
+		AddFormal(var->String());
 	}
 	for (const CVariableInfo* var : info->GetLocals()) {
-		AddLocal(var->String(), var->GetType().get());
+		AddLocal(var->String());
 	}
 }
 
@@ -117,4 +102,14 @@ void CMiniJavaMethodFrame::initStatic()
 		framePointerName = CSymbol::GetSymbol("$fp$");
 		stackPointerName = CSymbol::GetSymbol("$sp$");
 	}
+}
+
+void CMiniJavaMethodFrame::AddRegister(const CSymbol * regName, const CSymbol * name)
+{
+	locals.emplace_back(new CInRegAccess(std::make_shared< const IR::CTemp >(regName->String())));
+	namesMap.emplace(name, locals.back().get());
+}
+
+std::shared_ptr<const IR::IExpression> CMiniJavaMethodFrame::ExternalCall(const std::string& functionName, std::shared_ptr<const IR::CExpressionList> args) const {
+	return std::make_shared<const IR::CCallExpression>(std::make_shared<const IR::CNameExpression>(IR::CLabel(functionName)), args);
 }

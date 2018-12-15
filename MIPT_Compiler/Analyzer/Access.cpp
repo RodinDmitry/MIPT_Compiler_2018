@@ -2,14 +2,25 @@
 
 CInFrameAccess::CInFrameAccess(int _offset) : offset(_offset) {}
 
-int CInFrameAccess::GetOffset() const
+std::shared_ptr<const IR::IExpression> CInFrameAccess::GetExp(std::shared_ptr<const IR::IExpression> framePtr) const
 {
-	return offset;
+	std::shared_ptr<const IR::IExpression> offsetExpression;
+	if (offset != 0) {
+		offsetExpression = std::move(std::make_shared<const IR::CBinaryExpression>(
+				IR::O_Plus,
+				framePtr,
+				std::make_shared<const IR::CConstExpression>(offset)
+			));
+	}
+	else {
+		offsetExpression = std::move(framePtr);
+	}
+	return std::move(std::make_shared<const IR::CMemExpression>(std::move(offsetExpression)));
 }
 
-CInRegAccess::CInRegAccess(int _reg) : reg(_reg) {}
+CInRegAccess::CInRegAccess(std::shared_ptr<const IR::CTemp> _reg) : reg(_reg) {}
 
-int CInRegAccess::GetReg() const
+std::shared_ptr<const IR::IExpression> CInRegAccess::GetExp(std::shared_ptr<const IR::IExpression> framePtr) const
 {
-	return reg;
+	return std::make_shared<const IR::CTempExpression>(reg);
 }

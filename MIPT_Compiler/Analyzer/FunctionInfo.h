@@ -1,33 +1,40 @@
 #pragma once
-#include <VariableInfo.h>
+#include <NamespaceBlock.h>
 #include <VisabilityModifier.h>
+#include <ClassInfo.h>
 #include <vector>
 #include <string>
 #include <Type.h>
 
-class CNamespaceBlock;
 
-class CFunctionInfo {
+class CFunctionInfo : public CNamespaceBlock {
 public:
-	CFunctionInfo(std::string& table, const CSymbol* _name, const CSymbol* _userType,
-		TDataType _returnType, TVisabilityModifierType _modifierType);
-	void AddArgument(const CVariableInfo* argument);
-	void AddLocal(const CVariableInfo* local);
-	void AddArguments(std::vector<const CVariableInfo* >&& _arguments);
-	const std::vector<const CVariableInfo* >& GetArguments () const;
+	CFunctionInfo( const CSymbol* _name, std::shared_ptr<CType> _dataType, const CClassInfo* classInfo,
+			TVisabilityModifierType _modifierType);
+	
+	void AddArgument(std::unique_ptr<const CVariableInfo> argument);
+	void AddLocalVar(std::unique_ptr<const CVariableInfo> local);
+	const std::vector<std::unique_ptr<const CVariableInfo> >& GetArguments() const;
 	const std::vector<const CVariableInfo* >& GetLocals() const;
 	const CVariableInfo* GetVariable(const CSymbol* name) const;
+	const CVariableInfo* FindVariable(const CSymbol* name);
 	const CSymbol* String() const;
 	std::shared_ptr<CType> GetType() const;
-	void SetParent(const CNamespaceBlock* parentBlock);
-	const CNamespaceBlock* GetParent() const;
+
+	void EnterBlock();
+	void LeaveBlock();
 private:
-	const CNamespaceBlock* parentBlock;
 	const CSymbol* name;
-	const CSymbol* userType;
-	const TDataType returnType;
+	const CClassInfo* classInfo;
+
+	CNamespaceBlock* currentBlock;
+
 	const TVisabilityModifierType modifierType;
-	std::vector<const CVariableInfo* > arguments;
-	std::vector<const CVariableInfo* > locals;
+	std::vector<std::unique_ptr<const CVariableInfo> > arguments;
+	std::vector<std::pair<const CVariableInfo*, const CNamespaceBlock*> > localsBlocks;
 	std::shared_ptr<CType> dataType;
+
+	std::vector<std::unique_ptr<CNamespaceBlock> > blocks;
+
+	CNamespaceBlock* GetCurrentBlock();
 };

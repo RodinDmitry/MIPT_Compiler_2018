@@ -5,62 +5,63 @@ std::map<const std::string, std::unique_ptr<CSymbolTable> > CSymbolTable::tables
 
 void CSymbolTable::CreateClass(const std::string& name, const std::string& extends)
 {
-	assert(currentBlock != nullptr);
-	CClassInfo* clDecl;
 	if (extends == "") {
-		clDecl = new CClassInfo(CSymbol::GetSymbol(name));
+		classes.emplace_back(CSymbol::GetSymbol(name));
 	}
 	else {
-		clDecl = new CClassInfo(tableName, CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends));
+		classes.emplace_back(CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends));
 	}
-	blocks.emplace_back(new CClassNamespaceBlock(currentBlock, clDecl));
-	currentBlock->AddClass(clDecl);
-	currentBlock = blocks.back().get();
-	assert(currentBlock != nullptr);
+	currentClass = classes.back().get();
 }
 
 void CSymbolTable::AddFunctionBlock(CFunctionInfo * function)
 {
-	assert(currentBlock != nullptr);
-	blocks.emplace_back(new CFunctionNamespaceBlock(currentBlock, function));
-	currentBlock->AddMethod(function);
-	currentBlock = blocks.back().get();
-	assert(currentBlock != nullptr);
+	functionInfo = function;
+	currentClass->AddMethod(function);
 }
 
 void CSymbolTable::AddArgument(const CVariableInfo * argument)
 {
-	currentBlock->AddArgument(argument);
+	functionInfo->AddArgument(std::unique_ptr<const CVariableInfo>(argument));
 }
 
 void CSymbolTable::AddMember(const CVariableInfo * variable)
 {
-	currentBlock->AddMember(variable);
+	currentClass->AddMember(variable);
+}
+
+void CSymbolTable::AddLocal(const CVariableInfo * variable)
+{
+	functionInfo->AddLocal(std::unique_ptr<const CVariableInfo>(variable));
 }
 
 const CClassInfo * CSymbolTable::GetThis() const
 {
-	return currentBlock->GetThis();
+	return currentClass;
 }
 
 const CClassInfo * CSymbolTable::FindClass(const CSymbol * id) const
 {
-	return blocks.front()->FindClass(id);
+	for (int i = 0; i < classes.size(); ++i) {
+		if (classes[i]->String() == id) {
+			return classes[i].get();
+		}
+	}
 }
 
 const CFunctionInfo * CSymbolTable::FindMethod(const CSymbol * id) const
 {
-	return currentBlock->FindMethod(id);
+	return currentClass->FindMethod(id);
 }
 
 const CVariableInfo * CSymbolTable::FindMember(const CSymbol* id) const
 {
-	return currentBlock->FindMember(id);
+	return currentClass->FindMember(id);
 }
 
 const CVariableInfo* CSymbolTable::FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const
 {
-	const CClassInfo* cl = blocks.front()->FindClass(CSymbol::GetSymbol(className));
+	const CClassInfo* cl = FindClass(CSymbol::GetSymbol(className));
 	if (cl == nullptr) {
 		return nullptr;
 	}
@@ -68,16 +69,17 @@ const CVariableInfo* CSymbolTable::FindLocalVariable(const std::string& id, cons
 	if (funcInfo == nullptr) {
 		return nullptr;
 	}
+	/*
 	const CNamespaceBlock* currBlockPtr = switchToOffset(funcInfo->GetParent(), cntEnter, cntLeave);
 	if (currBlockPtr == nullptr) {
 		return nullptr;
-	}
-	return currBlockPtr->FindMember(CSymbol::GetSymbol(id));
+	}*/
+	return funcInfo->GetVariable(CSymbol::GetSymbol(id));
 }
 
 const CNamespaceBlock * CSymbolTable::switchToOffset(const CNamespaceBlock * block, int cntEnter, int cntLeave) const
 {
-	int currBlock = -1;
+	/*int currBlock = -1;
 	for (int i = 0; i < blocks.size(); ++i) {
 		if (blocks[i].get() == block) {
 			currBlock = i;
@@ -107,7 +109,7 @@ const CNamespaceBlock * CSymbolTable::switchToOffset(const CNamespaceBlock * blo
 			}
 		}
 	}
-	return currBlockPtr;
+	return currBlockPtr;*/
 }
 
 bool CSymbolTable::IsDerived(const std::string& derived, const std::string& base) const
@@ -169,6 +171,12 @@ void CSymbolTable::AddMember(const std::string & tableName, const CVariableInfo 
 	tables[tableName]->AddMember(variable);
 }
 
+void CSymbolTable::AddLocal(const std::string & tableName, const CVariableInfo * variable)
+{
+	assert(tables.find(tableName) != tables.end());
+	return tables[tableName]->AddLocal(variable);
+}
+
 const CClassInfo* CSymbolTable::GetThis(const std::string& tableName)
 {
 	assert(tables.find(tableName) != tables.end());
@@ -210,17 +218,10 @@ CSymbolTable::CSymbolTable(const std::string& _name) : tableName(_name) {}
 
 void CSymbolTable::AddBlock()
 {
-	blocks.emplace_back(new CNamespaceBlock(currentBlock));
-	currentBlock = blocks.back().get();
-	assert(currentBlock != nullptr);
+	functionInfo->EnterBlock();
 }
 
 void CSymbolTable::LeaveBlock()
 {
-	const CNamespaceBlock* block = currentBlock->GetParent();
-	if (block == nullptr) {
-		block = blocks.front().get();
-	}
-	currentBlock = const_cast<CNamespaceBlock*>(block);
-	assert(currentBlock != nullptr);
+	functionInfo->LeaveBlock();
 }

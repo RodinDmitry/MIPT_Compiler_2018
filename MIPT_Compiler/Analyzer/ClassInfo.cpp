@@ -5,10 +5,9 @@ CClassInfo::CClassInfo(const CSymbol * _name)
 	: name(_name), extends(nullptr)
 {}
 
-CClassInfo::CClassInfo(const std::string& tableName, const CSymbol* _name, const CSymbol* _extends) 
+CClassInfo::CClassInfo(const CSymbol* _name, const CSymbol* _extends) 
 	: name(_name), extends(_extends)
-{
-}
+{}
 
 void CClassInfo::AddMember(const CVariableInfo * member)
 {
@@ -40,6 +39,16 @@ const CFunctionInfo* CClassInfo::FindMethod(const CSymbol * name) const
 	for (int i = 0; i < methods.size(); ++i) {
 		if (methods[i]->String() == name) {
 			return methods[i];
+		}
+	}
+	return nullptr;
+}
+
+const CVariableInfo * CClassInfo::FindMember(const CSymbol * name) const
+{
+	for (int i = 0; i < members.size(); ++i) {
+		if (members[i]->String() == name) {
+			return members[i];
 		}
 	}
 	return nullptr;

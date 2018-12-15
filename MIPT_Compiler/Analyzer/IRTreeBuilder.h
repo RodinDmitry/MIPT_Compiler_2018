@@ -53,6 +53,8 @@ private:
 	std::shared_ptr<IR::ITreeWrapper> subtree;
 	std::shared_ptr<IFrame> currentFrame;
 
+	IR::TLogicOperatorType convertOperatorLogic(CBinaryExpression::TOperator op);
+	IR::TOperator convertOperator(CBinaryExpression::TOperator op);
 	void updateSubtree(IR::ITreeWrapper* tree);
 	void updateSubtree(std::shared_ptr<IR::ITreeWrapper> tree);
 };

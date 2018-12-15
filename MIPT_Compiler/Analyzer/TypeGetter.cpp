@@ -102,6 +102,10 @@ void CTypeGetter::visit(CCallExpression* node)
 	CTypeGetter getter;
 	std::shared_ptr<CType> callerType = getter.GetType(node->caller.get(), symbolTable, className, functionName,
 		enterCount, leaveCount);
+	if (!callerType) {
+		callerType = getter.GetType(node->caller.get(), symbolTable, className, functionName,
+			enterCount, leaveCount);
+	}
 	if (callerType->type != TDataType::DT_Instance) {
 		return;
 	}

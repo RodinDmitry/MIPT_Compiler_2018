@@ -129,7 +129,20 @@ class Tree{
 	int nti ;
 
 	ntb = false ;
+
+
+
+
+
+
 	nti = num2 + 1 ;
+
+
+
+
+
+
+
 	if (num1 < num2) ntb = false ;
 	else if (!(num1 < nti)) ntb = false ;
 	else ntb = true ;

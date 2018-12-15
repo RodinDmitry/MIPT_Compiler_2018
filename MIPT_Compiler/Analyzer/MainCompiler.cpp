@@ -10,11 +10,11 @@ void CMainCompiler::Process(int argc, char * argv[])
 	initStreams();
 	buildAST();
 	dumpAST();
-	typeCheck();
+	//typeCheck();
 	if (CErrorTable::HasErrors()) {
 		return;
 	}
-	AddFrames();
+	//AddFrames();
 }
 
 void CMainCompiler::dumpBisonToken(const std::string & token)

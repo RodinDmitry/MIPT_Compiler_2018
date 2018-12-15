@@ -6,10 +6,10 @@ std::map<const std::string, std::unique_ptr<CSymbolTable> > CSymbolTable::tables
 void CSymbolTable::CreateClass(const std::string& name, const std::string& extends)
 {
 	if (extends == "") {
-		classes.emplace_back(std::make_unique<CClassInfo>(CSymbol::GetSymbol(name)));
+		classes.emplace_back(std::make_unique<CClassInfo>(tableName, CSymbol::GetSymbol(name)));
 	}
 	else {
-		classes.emplace_back(std::make_unique<CClassInfo>(CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends)));
+		classes.emplace_back(std::make_unique<CClassInfo>(tableName, CSymbol::GetSymbol(name), CSymbol::GetSymbol(extends)));
 	}
 	currentClass = classes.back().get();
 }

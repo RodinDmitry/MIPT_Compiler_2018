@@ -56,8 +56,8 @@ public:
 	CRelativeConditionalWrapper(TLogicOperatorType _operatorType, const IExpression* _operandLeft, 
 		const IExpression* _operandRight) : operatorType(_operatorType), operandLeft(_operandLeft), operandRight(_operandRight) {}
 
-	CRelativeConditionalWrapper(TLogicOperatorType _operatorType, std::unique_ptr<const IExpression> _operandLeft,
-		std::unique_ptr<const IExpression> _operandRight) : operatorType(_operatorType), operandLeft(std::move(_operandLeft)),
+	CRelativeConditionalWrapper(TLogicOperatorType _operatorType, std::shared_ptr<const IExpression> _operandLeft,
+		std::shared_ptr<const IExpression> _operandRight) : operatorType(_operatorType), operandLeft(std::move(_operandLeft)),
 			operandRight(std::move(_operandRight)) {}
 
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;

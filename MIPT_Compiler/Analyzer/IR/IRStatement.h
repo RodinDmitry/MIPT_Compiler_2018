@@ -16,9 +16,7 @@ enum class TLogicOperatorType : char {
 	LOT_EQ,
 	LOT_NE,
 	LOT_LT,
-	LOT_GT,
-	LOT_LE,
-	LOT_GE,
+	LOT_GT
 };
 
 class IExpression;

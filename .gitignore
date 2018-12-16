@@ -1,3 +1,13 @@
 Debug/
 .vs/
 ~*
+*.output
+*.bmp
+*.svg
+*.png
+*.txt
+grammar.output
+printer.txt
+/MIPT_Compiler/Analyzer/x64/Release
+/MIPT_Compiler/Bison/x64/Release
+/MIPT_Compiler/Flex/x64/Release

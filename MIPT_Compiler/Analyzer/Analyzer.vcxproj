@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -84,8 +84,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\rodin\Documents\repos\MIPT_Compiler_2018;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018\MIPT_Compiler;../../..;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Graphviz2.38\include\graphviz;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018\MIPT_Compiler;../../..;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\Graphviz2.38\lib\release\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -116,19 +121,98 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Access.cpp" />
+    <ClCompile Include="Argument.cpp" />
+    <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ClassInfo.cpp" />
+    <ClCompile Include="CommandLine.cpp" />
+    <ClCompile Include="ErrorTable.cpp" />
+    <ClCompile Include="Expressions.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="FrameVistor.cpp" />
+    <ClCompile Include="Function.cpp" />
+    <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
+    <ClCompile Include="Id.cpp" />
+    <ClCompile Include="IRPrinter.cpp" />
+    <ClCompile Include="IRTreeBuilder.cpp" />
+    <ClCompile Include="IR\IRExpression.cpp" />
+    <ClCompile Include="IR\Label.cpp" />
+    <ClCompile Include="IR\IRStatement.cpp" />
+    <ClCompile Include="IR\Temporary.cpp" />
+    <ClCompile Include="IR\IRTree.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainClass.cpp" />
+    <ClCompile Include="MainCompiler.cpp" />
+    <ClCompile Include="Modifier.cpp" />
+    <ClCompile Include="NamespaceBlock.cpp" />
+    <ClCompile Include="PrettyPrinter.cpp" />
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="StackBuilder.cpp" />
+    <ClCompile Include="Statement.cpp" />
+    <ClCompile Include="Symbol.cpp" />
+    <ClCompile Include="MalformedProgramChecker.cpp" />
+    <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
+    <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="TreeWrapper.cpp" />
+    <ClCompile Include="Type.cpp" />
+    <ClCompile Include="TypeChecker.cpp" />
+    <ClCompile Include="TypeGetter.cpp" />
+    <ClCompile Include="Value.cpp" />
+    <ClCompile Include="Variable.cpp" />
+    <ClCompile Include="VariableInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="output.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="Access.h" />
+    <ClInclude Include="Argument.h" />
     <ClInclude Include="BisonUtils.h" />
+    <ClInclude Include="Class.h" />
+    <ClInclude Include="ClassInfo.h" />
+    <ClInclude Include="CommandLine.h" />
+    <ClInclude Include="DataType.h" />
     <ClInclude Include="Defines.h" />
-    <ClInclude Include="Entities.h" />
+    <ClInclude Include="ErrorTable.h" />
+    <ClInclude Include="Expressions.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="FrameVistor.h" />
+    <ClInclude Include="Function.h" />
+    <ClInclude Include="FunctionInfo.h" />
     <ClInclude Include="grammar.tab.h" />
+    <ClInclude Include="IFrame.h" />
+    <ClInclude Include="InvalidDefinitionException.h" />
+    <ClInclude Include="IRPrinter.h" />
+    <ClInclude Include="IRTreeBuilder.h" />
+    <ClInclude Include="IR\IRExpression.h" />
+    <ClInclude Include="IR\IRVisitor.h" />
+    <ClInclude Include="IR\Label.h" />
+    <ClInclude Include="IR\IRStatement.h" />
+    <ClInclude Include="IR\Temporary.h" />
+    <ClInclude Include="IR\IRTree.h" />
+    <ClInclude Include="MainCompiler.h" />
+    <ClInclude Include="NamespaceBlock.h" />
+    <ClInclude Include="PrettyPrinter.h" />
+    <ClInclude Include="StackBuilder.h" />
+    <ClInclude Include="Symbol.h" />
+    <ClInclude Include="Id.h" />
+    <ClInclude Include="MainClass.h" />
+    <ClInclude Include="Modifier.h" />
+    <ClInclude Include="Program.h" />
+    <ClInclude Include="Statement.h" />
+    <ClInclude Include="SymbolTable.h" />
+    <ClInclude Include="MalformedProgramChecker.h" />
+    <ClInclude Include="tokens.flex.h" />
+    <ClInclude Include="Tree.h" />
+    <ClInclude Include="Type.h" />
+    <ClInclude Include="TypeChecker.h" />
+    <ClInclude Include="TypeGetter.h" />
+    <ClInclude Include="UndefinedTypeException.h" />
+    <ClInclude Include="Value.h" />
+    <ClInclude Include="Variable.h" />
+    <ClInclude Include="VariableInfo.h" />
+    <ClInclude Include="VisabilityModifier.h" />
+    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="TreeWrapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

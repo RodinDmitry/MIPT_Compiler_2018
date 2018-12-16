@@ -1,8 +1,12 @@
-#include <iostream>
 #include <Defines.h>
+#include <iostream>
+#include <MainCompiler.h>
+//#include <vld.h>
 
-int main() {
-	FILE *stream;
-	freopen_s(&stream, "input.txt", "r", stdin);
-	freopen_s(&stream, "output.txt", "w", stdout);
+
+
+int main(int argc, char* argv[]) {
+	CMainCompiler compiler;
+	compiler.Process(argc, argv);
+	return 0;
 }

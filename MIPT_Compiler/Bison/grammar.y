@@ -1,17 +1,33 @@
+%pure-parser
+%lex-param { yyscan_t scanner }
+%parse-param { yyscan_t scanner }
+%parse-param { CMainCompiler* compiler}
+%lex-param { CMainCompiler* compiler}
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
+#include <Tree.h>
 
-extern int yylex();
-extern "C++" int yyparse();
-extern FILE* yyin;
 
-void yyerror(const char* s){};
 %}
 
 %code requires {
 #include "../Analyzer/BisonUtils.h"
+#include <iostream>
+#include <MainCompiler.h>
+typedef void* yyscan_t;
 }
+
+
+%code{
+extern int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, yyscan_t scanner, CMainCompiler* compiler);
+extern void yyerror(YYLTYPE* yyllocp, yyscan_t unused, CMainCompiler* compiler, const char* msg);
+}
+
+
+
+%define parse.lac full
 
 %union {
 
@@ -19,232 +35,264 @@ void yyerror(const char* s){};
 	bool logicalValue;
 	char* stringValue;
 	
-	Tree* node;
+	ITree* node;
 }
+%locations
 
-// Типы
+%token PT_Error
+// Г’ГЁГЇГ»
 %token PT_Void
 %token PT_String 
 %token<integerValue> PT_Number
 %token PT_Boolean PT_Integer
-//Логические константы
+//Г‹Г®ГЈГЁГ·ГҐГ±ГЄГЁГҐ ГЄГ®Г­Г±ГІГ Г­ГІГ»
 %token<logicalValue> PT_True PT_False
-// Части для классов
+// Г—Г Г±ГІГЁ Г¤Г«Гї ГЄГ«Г Г±Г±Г®Гў
 %token PT_Class PT_Static PT_Public PT_Private PT_Extends
-//Точка входа
+//Г’Г®Г·ГЄГ  ГўГµГ®Г¤Г 
 %token PT_Main
-// Принт
+// ГЏГ°ГЁГ­ГІ
 %token PT_Print
-//Условные операторы
+//Г“Г±Г«Г®ГўГ­Г»ГҐ Г®ГЇГҐГ°Г ГІГ®Г°Г»
 %token PT_If PT_While PT_Else
-// Что-то
+// Г—ГІГ®-ГІГ®
 %token PT_Length
-// Ключевые слова
+// ГЉГ«ГѕГ·ГҐГўГ»ГҐ Г±Г«Г®ГўГ 
 %token PT_This PT_New
-// Логические операции
+// Г‹Г®ГЈГЁГ·ГҐГ±ГЄГЁГҐ Г®ГЇГҐГ°Г Г¶ГЁГЁ
 
-// Точка с запятой
+// Г’Г®Г·ГЄГ  Г± Г§Г ГЇГїГІГ®Г©
 %token PT_Semicolon
-// Переменная
+// ГЏГҐГ°ГҐГ¬ГҐГ­Г­Г Гї
 %token<stringValue> PT_ID
-%token PT_EOF
 %token PT_Dot
 %token PT_Coma
 %token PT_Return
 
 %type<node> ValueT
 %type<node> Expression
-%type<node> BinaryOperator
+%type<integerValue> BinaryOperator
 %type<node> FunctionCall
 %type<node> Expressions
 %type<node> ExpressionList
+%type<node> Type
+%type<node> Statement
+%type<node> StatementItem
+%type<node> Variable
+%type<node> Argument
+%type<node> ArgumentsList
+%type<node> Function
+%type<node> MainArgument
+%type<node> Return
+%type<node> Visibility
+%type<node> MainFunction
+%type<node> ClassInternals
+%type<stringValue> Extends
+%type<node> Goal
+%type<node> MainClass
+%type<node> Class
+%type<node> ClassStart
+%type<node> ClassDeclaration
+%type<node> LvalueExpression
+
+%destructor { free($$); } <stringValue>
 
 %left PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
 %left PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
 %left PT_Dot
 %left PT_Negation 
 %left PT_Multiplication PT_Division PT_IntegerDivision 
-%left PT_Equal PT_And PT_Or PT_More PT_Less PT_Plus PT_Minus
+%left PT_Assign PT_And PT_Or PT_More PT_Less PT_Plus PT_Minus
 
 %left BRACKETS
 %left ARRAY
 %left LENGTH CALL
 %right NOT 
 %left BINARY 
-
+%left PT_If
+%left PT_Else
 
 %start Goal
 
 %%
 
-Goal: MainClass ClassDeclaration PT_EOF { printf("Start \n"); }  
+Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassList>($2), @1.first_line); compiler->SetRoot($$);
+} 
+	| error MainClass ClassDeclaration { compiler->dumpSyntaxError("Bad class definition", @1.first_line);
+										$$ = new CProgram(To<CMain>($2), To<CClassList>($3), @1.first_line);  yyerrok;} 
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { printf("MainClass \n"); } 
+MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { $$ = new CMain(new CId($2, @2.first_line), To<CMainFunction>($4), @1.first_line);free($2);} 
 ;
 
-ClassDeclaration: 
-	| Class ClassDeclaration
+ClassDeclaration: { $$ = new CClassList(); }
+	| Class ClassDeclaration { To<CClassList>($2)->Add(To<CClass>($1)); $$ = $2; }
 
-Class: ClassStart LeftBrace ClassInternals RightBrace { printf("Class \n"); }
+Class: ClassStart LeftBrace ClassInternals RightBrace { $$ = new CClass(To<CClassDeclaration>($1), To<CClassInternalsList>($3), @1.first_line);}
+    | error {compiler->dumpSyntaxError("Bad class definition", @1.first_line); yyerrok; $$ = nullptr; };
+
+ClassStart: ClassWord PT_ID Extends { $$ = new CClassDeclaration(new CId($2, @2.first_line), new CId($3, @3.first_line), @1.first_line); free($2);}
 ;
 
-ClassStart: ClassWord PT_ID Extends
+Extends: { $$ = nullptr; }
+	| ExtendsWord PT_ID { $$ = $2;}
 ;
 
-Extends: 
-	| ExtendsWord PT_ID
+ClassInternals: {  $$ = new CClassInternalsList(); }
+	| Function ClassInternals { To<CClassInternalsList>($2)->Add(new CClassInternals(To<CFunction>($1), @1.first_line)); $$ = $2;}
+	| Variable Semicolon ClassInternals { To<CClassInternalsList>($3)->Add(new CClassInternals(To<CVariable>($1), @1.first_line)); $$ = $3;}
+	| error ClassInternals {compiler->dumpSyntaxError("Bad method or member", @1.first_line); yyerrok; $$ = $2; };
+
+MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument RightRoundBracket LeftBrace Statement RightBrace { 
+		 $$ = new CMainFunction(To<CMainArgument>($6), To<CStatementList>($9), @1.first_line); }
 ;
 
-ClassInternals: { printf("Empty internals \n"); }
-	| Function ClassInternals { printf("Function \n"); }
-	| Variable ClassInternals { printf("Filed \n"); }
+MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  $$ = new CMainArgument(new CId($4, @4.first_line), @1.first_line);free($4); }
 ;
 
-MainFunction: PT_Public PT_Static PT_Void PT_Main MainArgument LeftBrace Statement RightBrace { printf("Main \n"); }
+Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace 
+{ $$ = new CFunction(To<CModifier>($1), new CId($3, @3.first_line), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnExpression>($7), @1.first_line); free($3);}
 ;
 
-MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID
+Visibility: PT_Public { $$ = new CModifier(TVisabilityModifierType::VMT_Public); }
+	| PT_Private { $$ = new CModifier(TVisabilityModifierType::VMT_Private); }
 ;
 
-Function: Visibility PT_ID ArgumentsList LeftBrace Statement Return RightBrace { printf("Function Decl \n"); }
+Return: PT_Return Expression Semicolon { $$ = new CReturnExpression(To<IExpression>($2), @1.first_line); }
 ;
 
-Visibility: PT_Public
-	| PT_Private
+ArgumentsList: LeftRoundBracket RightRoundBracket { $$ = new CArgumentList(); }
+	| LeftRoundBracket Argument RightRoundBracket { $$ = $2;}
 ;
 
-Return: PT_Return Expression Semicolon
+Argument : Variable { $$ = new CArgumentList(); To<CArgumentList>($$)->Add(To<CVariable>($1));}
+	| Variable PT_Coma Argument {  To<CArgumentList>($3)->Add(To<CVariable>($1)); $$ = $3; }
 ;
 
-ArgumentsList: LeftRoundBracket RightRoundBracket { printf("Zero Argumens \n"); }
-	| LeftRoundBracket Argument RightRoundBracket { printf("Argument List \n"); }
+Variable: Type PT_ID { $$ = new CVariable(To<CType>($1), new CId($2, @2.first_line), @1.first_line); free($2);}
 ;
 
-Argument : Variable { printf("Last Variable \n"); }
-	| Variable PT_Coma Argument { printf("Variable \n"); }
+Type: Integer  { $$ = new CType(TDataType::DT_Integer, @1.first_line); }
+	| Integer PT_LeftSquareBracket PT_RightSquareBracket  { $$ = new CType(TDataType::DT_IntegerArray, @1.first_line); }
+	| Boolean  { $$ = new CType(TDataType::DT_Boolean, @1.first_line); }
+	| PT_ID { $$ = new CType($1, @1.first_line); free($1);}
+	| PT_Void  { $$ = new CType(); }
 ;
 
-Variable: Type PT_ID Semicolon { printf("Variable \n"); }
+Statement: { $$ = new CStatementList();}
+	| StatementItem Statement { To<CStatementList>($2)->Add(To<IStatement>($1)); $$=$2;}
+	| error Statement {compiler->dumpSyntaxError("Bad Statement", @1.first_line); $$ = $2; yyerrok; }
 ;
 
-Type: Integer  { printf("Integer \n"); }
-	| Integer PT_LeftSquareBracket PT_RightSquareBracket { printf("Array of Int \n"); }
-	| Boolean { printf("Bool \n"); }
-	| PT_ID { printf("User Type \n"); }
+StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To<IStatement>($2), @1.first_line); }
+	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem PT_Else StatementItem { $$ = new CIfStatement(To<IExpression>($3), To<IStatement>($5), To<IStatement>($7), @1.first_line); }
+	| PT_If LeftRoundBracket Expression RightRoundBracket StatementItem { $$ =  new CIfStatement(To<IExpression>($3), To<IStatement>($5), nullptr, @1.first_line); }
+	| While LeftRoundBracket Expression RightRoundBracket  StatementItem { $$ = new CWhileStatement(To<IExpression>($3), To<IStatement>($5), @1.first_line); }
+	| Print LeftRoundBracket Expression RightRoundBracket Semicolon { $$ = new CPrintStatement(To<IExpression>($3), @1.first_line); }
+	| LvalueExpression Assign Expression Semicolon { $$ = new CAssignStatement(To<CLValueExpression>($1), To<IExpression>($3), @1.first_line); }
+	| Variable Semicolon { $$ = new CVariableStatement(To<CVariable>($1), @1.first_line); }
 ;
 
-Statement: { printf("Empty Statement \n"); }
-	| StatementList { printf("Non empty statement \n"); }
+LvalueExpression: 
+	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new CArrayExpression(To<IExpression>($1), To<IExpression>($3), @1.first_line);}
+	| LvalueExpression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<IExpression>($1)); $$=$3;}
+	| PT_ID { $$=new CIdExpression(new CId ($1, @1.first_line), @1.first_line); free($1);}
+	| This { $$=new CThisExpression();}
+	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new CNewExpression(new CId($2, @2.first_line), @1.first_line); free($2);}
+	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$ = new CBracketsExpression(To<IExpression>($2), @1.first_line);}
 ;
 
-StatementList: LeftBrace StatementList RightBrace { printf("Visibility \n"); }
-	| If LeftRoundBracket Expression RightRoundBracket StatementList PT_Else Statement
-	| While LeftRoundBracket Expression RightRoundBracket  StatementList
-	| Print LeftRoundBracket Expression RightRoundBracket Semicolon
-	| PT_ID Equals Expression Semicolon
-	| PT_ID LeftSquareBracket Expression RightSquareBracket Equals Expression Semicolon
-
+Expression: LvalueExpression { $$=$1; }
+	| Expression BinaryOperator Expression %prec BINARY { $$=new CBinaryExpression(To<IExpression>($1), To<IExpression>($3), static_cast<CBinaryExpression::TOperator>($2), @1.first_line);}	
+	| LvalueExpression MethodCall Length %prec LENGTH { $$ = new CCallLengthExpression(To<IExpression>($1), @1.first_line);}	
+	| ValueT { $$=new CValueExpression(To<IValue>($1), @1.first_line); }
+	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new CNewArrayExpression(To<IExpression>($4), @1.first_line);}
+	| Not Expression %prec NOT { $$ = new CNotExpression(To<IExpression>($2), @1.first_line); }
 ;
 
-Expression: Expression BinaryOperator Expression %prec BINARY { $$=new Expression(ToExpr($1), ToExpr($3), ToBinOp($2), exst::BinaryOperator_STATE);}
-	| Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new Expression(ToExpr($1), ToExpr($3), exst::SquareBracket_STATE);}
-	| Expression MethodCall Length %prec LENGTH { $$=new Expression(ToExpr($1), exst::Length_STATE);}
-	| Expression MethodCall FunctionCall %prec CALL { $$=new Expression(ToExpr($1), ToFcall($3), exst::FunctionCall_STATE);}
-	| ValueT { $$=new Expression(ToVal($1), exst::Value_STATE);}
-	| PT_ID { $$=new Expression(new Identifier($1), exst::ID_STATE);}
-	| This { $$=new Expression(exst::This_State);}
-	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new Expression(ToExpr($4), exst::Array_STATE);}
-	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new Expression(new Identifier($2), exst::NewObj_STATE);}
-	| Not Expression %prec NOT { $$=new Expression(exst::Not_STATE); }
-	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$=$2;}
+BinaryOperator : PT_Plus { $$=CBinaryExpression::O_Plus; }
+	| PT_Minus { $$=CBinaryExpression::O_Minus; }
+	| PT_Division { $$=CBinaryExpression::O_Division; }
+	| PT_IntegerDivision { $$=CBinaryExpression::O_IntegerDivision; }
+	| PT_And { $$=CBinaryExpression::O_And; }
+	| PT_Or { $$=CBinaryExpression::O_Or; }
+	| PT_Multiplication { $$=CBinaryExpression::O_Multiplication; }
+	| PT_Less { $$=CBinaryExpression::O_Less; }
+	| PT_More { $$=CBinaryExpression::O_More; }
 ;
 
-BinaryOperator : PT_Plus { $$=new BinaryOperator(boot::PT_Plus); }
-	| PT_Minus { $$=new BinaryOperator(boot::PT_Minus); }
-	| PT_Division { $$=new BinaryOperator(boot::PT_Division); }
-	| PT_IntegerDivision { $$=new BinaryOperator(boot::PT_IntegerDivision); }
-	| PT_And { $$=new BinaryOperator(boot::PT_And); }
-	| PT_Or { $$=new BinaryOperator(boot::PT_Or); }
-	| PT_Multiplication { $$=new BinaryOperator(boot::PT_Multiplication); }
-	| PT_Less { $$=new BinaryOperator(boot::PT_Less); }
-	| PT_More { $$=new BinaryOperator(boot::PT_More); }
+MethodCall: PT_Dot {}
 ;
 
-MethodCall: PT_Dot
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<IExpression>(nullptr), new CId($1, @1.first_line), To<CExpressionList>($3), @1.first_line);free($1); }
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new FunctionCall(ToExpr($3), new Identifier($1)); }
+ExpressionList: { $$=new CExpressionList(); }
+	| Expressions { $$ = $1; }
+	| error ExpressionList {compiler->dumpSyntaxError("Bad expression", @1.first_line); yyerrok; $$ = $2; }
 ;
 
-ExpressionList: { $$=new Expression(exst::Empty_STATE);}
-	| Expressions { $$=new Expression(ToExpr($1), exst::List_STATE);}
+Expressions : Expression { $$=new CExpressionList(); To<CExpressionList>($$)->Add(To<IExpression>($1)); }
+	| Expression PT_Coma Expressions { $$=$3; To<CExpressionList>($$)->Add(To<IExpression>($1)); }
 ;
 
-Expressions : Expression { $$=new Expression(ToExpr($1), exst::List_STATE);}
-	| Expression PT_Coma Expressions { $$=new Expression(ToExpr($1), ToExpr($3), exst::List_STATE);}
+ValueT: PT_True { $$=new CValue(true, CValue::T_Boolean); }
+	| PT_False { $$=new CValue(true, CValue::T_Boolean); }
+	| PT_Number { $$=new CValue($1, CValue::T_Integer); }
 ;
 
-ValueT: PT_True { $$=new Value(true);}
-	| PT_False { $$=new Value(false);}
-	| PT_Number { $$=new Value($1);}
+This: PT_This {  compiler->dumpBisonToken("this"); }
 ;
 
-This: PT_This
+ClassWord: PT_Class {  compiler->dumpBisonToken("class"); }
 ;
 
-ClassWord: PT_Class { printf("Class \n"); }
+ExtendsWord: PT_Extends { compiler->dumpBisonToken("extend"); }
 ;
 
-ExtendsWord: PT_Extends { printf("Extends \n"); }
+Assign: PT_Assign {  compiler->dumpBisonToken("assign"); }
 ;
 
-Equals: PT_Equal
+Integer: PT_Integer {  compiler->dumpBisonToken("int"); }
 ;
 
-If: PT_If
+Boolean: PT_Boolean {  compiler->dumpBisonToken("bool"); }
 ;
 
-Integer: PT_Integer
+LeftBrace: PT_LeftBrace {  compiler->dumpBisonToken("{"); }
 ;
 
-Boolean: PT_Boolean
+RightBrace: PT_RightBrace {  compiler->dumpBisonToken("}"); }
 ;
 
-LeftBrace: PT_LeftBrace
+LeftRoundBracket: PT_LeftRoundBracket {  compiler->dumpBisonToken("("); }
 ;
 
-RightBrace: PT_RightBrace
+RightRoundBracket: PT_RightRoundBracket {  compiler->dumpBisonToken(")"); }
 ;
 
-LeftRoundBracket: PT_LeftRoundBracket
+LeftSquareBracket: PT_LeftSquareBracket {  compiler->dumpBisonToken("["); }
 ;
 
-RightRoundBracket: PT_RightRoundBracket
+RightSquareBracket: PT_RightSquareBracket {  compiler->dumpBisonToken("]"); }
 ;
 
-LeftSquareBracket: PT_LeftSquareBracket
+Length: PT_Length {  compiler->dumpBisonToken("length"); }
 ;
 
-RightSquareBracket: PT_RightSquareBracket
+New: PT_New {  compiler->dumpBisonToken("new"); }
 ;
 
-Length: PT_Length
+Not: PT_Negation {  compiler->dumpBisonToken("!"); }
 ;
 
-New: PT_New
+Print: PT_Print {  compiler->dumpBisonToken("print"); }
 ;
 
-Not: PT_Negation
+Semicolon: PT_Semicolon {  compiler->dumpBisonToken("semicolon"); }
 ;
 
-Print: PT_Print
-;
-
-Semicolon: PT_Semicolon
-;
-
-While: PT_While
+While: PT_While { compiler->dumpBisonToken("while"); }
 ;
 
 %%

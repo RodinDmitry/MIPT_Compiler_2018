@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="tokens.l" />
+    <Flex Include="tokens.l">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </Flex>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Analyzer\grammar.tab.h" />
@@ -95,6 +97,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Flex>
+      <HeaderFile>%(Filename).flex.h</HeaderFile>
+    </Flex>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

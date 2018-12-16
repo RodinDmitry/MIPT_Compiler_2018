@@ -1,50 +1,315 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Файлы заголовков">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Argument.cpp">
+      <Filter>AST\Tree</Filter>
     </ClCompile>
-    <ClCompile Include="tokens.flex.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="Class.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassInfo.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="Expressions.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Function.cpp">
+      <Filter>AST\Tree</Filter>
     </ClCompile>
     <ClCompile Include="grammar.tab.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Bison</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionInfo.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="Id.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="MainClass.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Modifier.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="PrettyPrinter.cpp">
+      <Filter>AST\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="StackBuilder.cpp">
+      <Filter>AST\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="Value.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Variable.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Type.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Statement.cpp">
+      <Filter>AST\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens.flex.cpp">
+      <Filter>Bison</Filter>
+    </ClCompile>
+    <ClCompile Include="Symbol.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="NamespaceBlock.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="VariableInfo.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="MalformedProgramChecker.cpp">
+      <Filter>AST\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorTable.cpp">
+      <Filter>ErrorTable</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeGetter.cpp">
+      <Filter>AST\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolTable.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeChecker.cpp">
+      <Filter>AST\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandLine.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="MainCompiler.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\Temporary.cpp">
+      <Filter>IR\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\Label.cpp">
+      <Filter>IR\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\IRStatement.cpp">
+      <Filter>IR\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\IRExpression.cpp">
+      <Filter>IR\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\IRTree.cpp">
+      <Filter>IR\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Access.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="Frame.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Access.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameVistor.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeWrapper.cpp">
+      <Filter>IR\Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="IRTreeBuilder.cpp">
+      <Filter>AST\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="IRPrinter.cpp">
+      <Filter>IR</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Defines.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="Argument.h">
+      <Filter>AST\Tree</Filter>
     </ClInclude>
-    <ClInclude Include="Entities.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="Class.h">
+      <Filter>AST\Tree</Filter>
     </ClInclude>
-    <ClInclude Include="grammar.tab.h">
-      <Filter>Исходные файлы</Filter>
+    <ClInclude Include="ClassInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Expressions.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>AST\Tree</Filter>
     </ClInclude>
     <ClInclude Include="BisonUtils.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Bison</Filter>
     </ClInclude>
+    <ClInclude Include="grammar.tab.h">
+      <Filter>Bison</Filter>
+    </ClInclude>
+    <ClInclude Include="Id.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="MainClass.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Modifier.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="PrettyPrinter.h">
+      <Filter>AST\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="StackBuilder.h">
+      <Filter>AST\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>AST\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Value.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Variable.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Statement.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>AST\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Symbol.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolTable.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="NamespaceBlock.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableInfo.h">
+      <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="UndefinedTypeException.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidDefinitionException.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="VisabilityModifier.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="DataType.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="MalformedProgramChecker.h">
+      <Filter>AST\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorTable.h">
+      <Filter>ErrorTable</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeGetter.h">
+      <Filter>AST\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeChecker.h">
+      <Filter>AST\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandLine.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCompiler.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens.flex.h">
+      <Filter>Bison</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\Label.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\Temporary.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRVisitor.h">
+      <Filter>IR</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRStatement.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRExpression.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRTree.h">
+      <Filter>IR\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Access.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameVistor.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrame.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="IRTreeBuilder.h">
+      <Filter>AST\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeWrapper.h">
+      <Filter>IR\Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="IRPrinter.h">
+      <Filter>IR</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="SymbolTable">
+      <UniqueIdentifier>{c326526f-800b-449b-94b5-bc06623b8186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bison">
+      <UniqueIdentifier>{21b47ac6-d6a0-4ebb-949a-ef470058f49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Defines">
+      <UniqueIdentifier>{30ecba1f-6f49-416c-b4e9-ffb17711fa20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ErrorTable">
+      <UniqueIdentifier>{d1ab67f1-2378-4885-80dd-f99c150b7afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing">
+      <UniqueIdentifier>{2ffe0833-360d-4cfe-9614-d873a7b38420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AST">
+      <UniqueIdentifier>{7388ab83-1bd2-4275-9c46-370fa76b109e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AST\Tree">
+      <UniqueIdentifier>{bd29ba48-872b-4a50-8467-7fafdc002d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AST\Visitor">
+      <UniqueIdentifier>{095caad2-4ef6-4fbe-9e89-0993f990f3de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IR">
+      <UniqueIdentifier>{a0ced05f-79cb-4d73-add1-0badcc5f0e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IR\Tree">
+      <UniqueIdentifier>{624c4661-6750-4263-9729-db2bc58ea904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frame">
+      <UniqueIdentifier>{e543c9b4-457c-402c-96e2-bf8443c060f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IR\Wrapper">
+      <UniqueIdentifier>{81e88d54-fc75-4935-b829-25aee94522ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

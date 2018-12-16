@@ -41,13 +41,16 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2058 of yacc.c  */
-#line 12 "MIPT_Compiler\\Bison\\grammar.y"
+#line 15 "MIPT_Compiler\\Bison\\grammar.y"
 
 #include "../Analyzer/BisonUtils.h"
+#include <iostream>
+#include <MainCompiler.h>
+typedef void* yyscan_t;
 
 
 /* Line 2058 of yacc.c  */
-#line 51 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 54 "MIPT_Compiler/Analyzer/grammar.tab.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -55,29 +58,29 @@ extern int yydebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     PT_Void = 258,
-     PT_String = 259,
-     PT_Number = 260,
-     PT_Boolean = 261,
-     PT_Integer = 262,
-     PT_True = 263,
-     PT_False = 264,
-     PT_Class = 265,
-     PT_Static = 266,
-     PT_Public = 267,
-     PT_Private = 268,
-     PT_Extends = 269,
-     PT_Main = 270,
-     PT_Print = 271,
-     PT_If = 272,
-     PT_While = 273,
-     PT_Else = 274,
-     PT_Length = 275,
-     PT_This = 276,
-     PT_New = 277,
-     PT_Semicolon = 278,
-     PT_ID = 279,
-     PT_EOF = 280,
+     PT_Error = 258,
+     PT_Void = 259,
+     PT_String = 260,
+     PT_Number = 261,
+     PT_Boolean = 262,
+     PT_Integer = 263,
+     PT_True = 264,
+     PT_False = 265,
+     PT_Class = 266,
+     PT_Static = 267,
+     PT_Public = 268,
+     PT_Private = 269,
+     PT_Extends = 270,
+     PT_Main = 271,
+     PT_Print = 272,
+     PT_If = 273,
+     PT_While = 274,
+     PT_Else = 275,
+     PT_Length = 276,
+     PT_This = 277,
+     PT_New = 278,
+     PT_Semicolon = 279,
+     PT_ID = 280,
      PT_Dot = 281,
      PT_Coma = 282,
      PT_Return = 283,
@@ -97,7 +100,7 @@ extern int yydebug;
      PT_More = 297,
      PT_Or = 298,
      PT_And = 299,
-     PT_Equal = 300,
+     PT_Assign = 300,
      BRACKETS = 301,
      ARRAY = 302,
      CALL = 303,
@@ -112,25 +115,37 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 16 "MIPT_Compiler\\Bison\\grammar.y"
+#line 32 "MIPT_Compiler\\Bison\\grammar.y"
 
 
 	int integerValue;
 	bool logicalValue;
 	char* stringValue;
 	
-	Tree* node;
+	ITree* node;
 
 
 /* Line 2058 of yacc.c  */
-#line 127 "MIPT_Compiler/Analyzer/grammar.tab.h"
+#line 130 "MIPT_Compiler/Analyzer/grammar.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
-extern YYSTYPE yylval;
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} YYLTYPE;
+# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
@@ -140,7 +155,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (void);
+int yyparse (yyscan_t scanner, CMainCompiler* compiler);
 #else
 int yyparse ();
 #endif

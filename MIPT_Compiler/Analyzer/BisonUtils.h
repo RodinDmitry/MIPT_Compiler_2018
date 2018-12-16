@@ -1,30 +1,23 @@
 #pragma once
-#include "Entities.h"
 
-using exst = Expression::ExpressionState;
-using boot = BinaryOperator::OperationType;
 
-inline Expression* ToExpr(Tree* node)
+#include <Expressions.h>
+#include <Argument.h>
+#include <Class.h>
+#include <Function.h>
+#include <Id.h>
+#include <MainClass.h>
+#include <Modifier.h>
+#include <Program.h>
+#include <Statement.h>
+#include <Tree.h>
+#include <Type.h>
+#include <Value.h>
+#include <Variable.h>
+
+
+template<class T>
+inline T* To(ITree* node)
 {
-	return static_cast<Expression*>(node);
-}
-
-inline BinaryOperator* ToBinOp(Tree* node)
-{
-	return static_cast<BinaryOperator*>(node);
-}
-
-inline FunctionCall* ToFcall(Tree* node)
-{
-	return static_cast<FunctionCall*>(node);
-}
-
-inline Value* ToVal(Tree* node)
-{
-	return static_cast<Value*>(node);
-}
-
-inline Identifier* ToID(Tree* node)
-{
-	return static_cast<Identifier*>(node);
+	return static_cast<T*>(node);
 }

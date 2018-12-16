@@ -22,7 +22,7 @@ public:
 
 	int GetLine() const;
 
-	IFrame* GetFrame();
+	std::shared_ptr<IFrame> GetFrame();
 	void SetFrame(std::shared_ptr<IFrame> frame);
 protected:
 	std::shared_ptr<IFrame> frame;

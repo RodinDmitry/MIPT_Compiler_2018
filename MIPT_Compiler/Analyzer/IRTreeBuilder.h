@@ -5,6 +5,7 @@
 #include <TreeWrapper.h>
 #include <IFrame.h>
 #include <string>
+#include <map>
 
 class CIRTreeBuilder : public IVisitor {
 public:
@@ -57,6 +58,7 @@ private:
 	std::string callerClassName;
 	std::string currentClassName;
 	std::string symbolTableName;
+	std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>> methods;
 
 	IR::TLogicOperatorType convertOperatorLogic(CBinaryExpression::TOperator op);
 	IR::TOperator convertOperator(CBinaryExpression::TOperator op);

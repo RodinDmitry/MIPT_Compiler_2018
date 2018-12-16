@@ -13,24 +13,42 @@ void CIRTreeBuilder::visit(CArgumentList*)
 	assert(false);
 }
 
-void CIRTreeBuilder::visit(CClassDeclaration*)
+void CIRTreeBuilder::visit(CClassDeclaration* node)
 {
+	assert(false);
 }
 
-void CIRTreeBuilder::visit(CClassInternals*)
+void CIRTreeBuilder::visit(CClassInternals* node)
 {
+	if (node->function != nullptr) {
+		node->function->Accept(this);
+	}
 }
 
-void CIRTreeBuilder::visit(CClassInternalsList *)
+void CIRTreeBuilder::visit(CClassInternalsList* node)
 {
+	const std::vector<std::shared_ptr<CClassInternals>>& internals = node->internals;
+	
+	for (int i = static_cast<int>(internals.size()) - 1; i >= 0; i--) {
+		internals[i]->Accept(this);
+		if (internals[i]->function != nullptr) {
+			std::string methodName = makeMethodName(currentClassName, internals[i]->function->name->name);
+			methods[CSymbol::GetSymbol(methodName) ] = subtree;
+		}
+	}
 }
 
-void CIRTreeBuilder::visit(CClass *)
+void CIRTreeBuilder::visit(CClass* node)
 {
+	currentClassName = node->declaration->name->name;
+	node->internals->Accept(this);
 }
 
-void CIRTreeBuilder::visit(CClassList *)
+void CIRTreeBuilder::visit(CClassList* node)
 {
+	for (int i = static_cast<int>(node->classes.size()) - 1; i >= 0; i--) {
+		node->classes[i]->Accept(this);
+	}
 }
 
 void CIRTreeBuilder::visit(IExpression*)
@@ -104,7 +122,7 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 
 	const std::vector<std::shared_ptr<IExpression>>& expressions = node->list->expressions;
 
-	for (int i = static_cast<int>(expressions.size()); i >= 0; i--) {
+	for (int i = static_cast<int>(expressions.size()) - 1; i >= 0; i--) {
 		expressions[i]->Accept(this);
 		expressionList->Add(subtree->ToExpression());
 	}
@@ -156,8 +174,10 @@ void CIRTreeBuilder::visit(CNewExpression* node)
 
 }
 
-void CIRTreeBuilder::visit(CIdExpression *)
+void CIRTreeBuilder::visit(CIdExpression* node)
 {
+	const IAccess* address = currentFrame->FindFormalorLocal(CSymbol::GetSymbol(node->id->name));
+	updateSubtree(new IR::CExpressionWrapper(address->GetExp(currentFrame->GetFramePtr())));
 }
 
 void CIRTreeBuilder::visit(CThisExpression *)
@@ -178,16 +198,29 @@ void CIRTreeBuilder::visit(CBracketsExpression* node)
 	updateSubtree(new IR::CExpressionWrapper(subtree->ToExpression()));
 }
 
-void CIRTreeBuilder::visit(CReturnExpression *)
+void CIRTreeBuilder::visit(CReturnExpression* node)
 {
+	node->expression->Accept(this);
 }
 
-void CIRTreeBuilder::visit(CFunction *)
+void CIRTreeBuilder::visit(CFunction* node)
 {
+	currentFrame = node->GetFrame();
+	std::string methodFullName = makeMethodName(currentClassName, node->name->name);
+	node->body->Accept(this);
+	std::shared_ptr<IR::ITreeWrapper> functionBody = subtree;
+
+	node->returnExpression->Accept(this);
+	std::shared_ptr<const IR::IExpression> returnExpression = subtree->ToExpression();
+
+	updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(new IR::CLabelStatement(IR::CLabel(methodFullName)),
+		new IR::CSeqStatement(functionBody->ToStatement(), std::shared_ptr<const IR::IStatement>(
+			new IR::CMoveStatement(currentFrame->GetReturn()->GetExp(currentFrame->GetFramePtr()), returnExpression))))));
 }
 
 void CIRTreeBuilder::visit(CId *)
 {
+	assert(false);
 }
 
 void CIRTreeBuilder::visit(CMainArgument *)
@@ -301,7 +334,7 @@ void CIRTreeBuilder::visit(CPrintStatement* node)
 	node->expression->Accept(this);
 	std::shared_ptr<IR::ITreeWrapper> wrapper = subtree;
 	std::shared_ptr<IR::CExpressionList> arguments(new IR::CExpressionList(wrapper->ToExpression()));
-	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("system.print", arguments)));
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("print", arguments)));
 	
 }
 
@@ -342,7 +375,7 @@ void CIRTreeBuilder::visit(CVariable *)
 void CIRTreeBuilder::visit(CCallLengthExpression* node)
 {
 	std::shared_ptr<IR::CExpressionList> arguments(new IR::CExpressionList());
-	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("system.print", arguments)));
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("length", arguments)));
 }
 
 IR::TLogicOperatorType CIRTreeBuilder::convertOperatorLogic(CBinaryExpression::TOperator op)
@@ -378,6 +411,11 @@ IR::TOperator CIRTreeBuilder::convertOperator(CBinaryExpression::TOperator op)
 		return IR::TOperator();
 	}
 	
+}
+
+std::string CIRTreeBuilder::makeMethodName(const std::string & className, const std::string & methodName)
+{
+	return className + "@" + methodName;
 }
 
 void CIRTreeBuilder::updateSubtree(IR::ITreeWrapper* tree)

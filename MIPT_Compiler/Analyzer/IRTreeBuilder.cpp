@@ -187,6 +187,11 @@ void CIRTreeBuilder::visit(CIdExpression* node)
 {
 	const IAccess* address = currentFrame->FindFormalorLocal(CSymbol::GetSymbol(node->id->name));
 	updateSubtree(new IR::CExpressionWrapper(address->GetExp(currentFrame->GetFramePtr())));
+	const CVariableInfo* info = CSymbolTable::FindLocalVariable(symbolTableName, node->id->name, currentClassName, currentFrame->GetFunctionName(), 0, 0);
+	assert(info != nullptr);
+	if (info->GetType()->type == DT_Instance) {
+		callerClassName = info->GetType()->instance;
+	}
 }
 
 void CIRTreeBuilder::visit(CThisExpression *)

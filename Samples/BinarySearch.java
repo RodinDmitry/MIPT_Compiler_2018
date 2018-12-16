@@ -67,7 +67,7 @@ class BS{
 	    if (right < left) var_cont = false ;
 	    else nt = 0 ;
 	}
-
+	
 	if (this.Compare(aux01,num)) bs01 = true ;
 	else bs01 = false ;
 	return bs01 ;

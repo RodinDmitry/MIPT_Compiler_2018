@@ -182,6 +182,7 @@
     <ClInclude Include="grammar.tab.h" />
     <ClInclude Include="IFrame.h" />
     <ClInclude Include="InvalidDefinitionException.h" />
+    <ClInclude Include="IRPrinter.h" />
     <ClInclude Include="IRTreeBuilder.h" />
     <ClInclude Include="IR\IRExpression.h" />
     <ClInclude Include="IR\IRVisitor.h" />

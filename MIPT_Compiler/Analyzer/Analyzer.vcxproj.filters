@@ -267,6 +267,9 @@
     <ClInclude Include="TreeWrapper.h">
       <Filter>IR\Wrapper</Filter>
     </ClInclude>
+    <ClInclude Include="IRPrinter.h">
+      <Filter>IR</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />

@@ -20,7 +20,8 @@ public:
 	virtual const IAccess* GetReturn() const = 0;
 	virtual const IAccess* GetFP() const = 0;
 	virtual const IAccess* GetSP() const = 0;
-
+	virtual const std::string& GetFunctionName() const = 0;
+	virtual const std::string& GetClassName() const = 0;
 	virtual std::shared_ptr<const IR::IExpression> ExternalCall(const std::string& functionName, std::shared_ptr<const IR::CExpressionList> args) const = 0;
 
 	virtual ~IFrame() = default;

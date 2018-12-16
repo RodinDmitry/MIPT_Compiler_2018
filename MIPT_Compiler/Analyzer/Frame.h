@@ -8,8 +8,8 @@
 
 class CMiniJavaMethodFrame : public IFrame {
 public:
-	CMiniJavaMethodFrame(const CType* classType, const CType* returnType);
-	CMiniJavaMethodFrame(const CClassInfo* classInfo, const CFunctionInfo* info);
+	CMiniJavaMethodFrame(const CClassInfo*, const CFunctionInfo* info);
+	CMiniJavaMethodFrame(const CClassInfo*, const IAccess* _thisAccess);
 
 	virtual void AddFormal(const CSymbol* name) override;
 	virtual void AddLocal(const CSymbol* name) override;
@@ -24,15 +24,21 @@ public:
 	virtual const IAccess* GetReturn() const override;
 	virtual const IAccess* GetFP() const override;
 	virtual const IAccess* GetSP() const override;
+	virtual const std::string& GetFunctionName() const;
+	virtual const std::string& GetClassName() const;
 
 	std::shared_ptr<const IR::IExpression> ExternalCall(const std::string& functionName, std::shared_ptr<const IR::CExpressionList> args) const override;
 private:
 	void initStatic();
 
 	int currOffset = 0;
+	std::shared_ptr<IFrame> classFrame;
+	const IAccess* thisAccess;
 	std::vector< std::unique_ptr<const IAccess> > formals;
 	std::vector< std::unique_ptr<const IAccess> > locals;
 	std::map< const CSymbol*, const IAccess* > namesMap;
+	const std::string functionName;
+	const std::string className;
 
 	static CSymbol* thisName;
 	static CSymbol* returnName;
@@ -41,4 +47,5 @@ private:
 	const static int wordSize;
 
 	void AddRegister(const CSymbol* regName, const CSymbol* name);
+	virtual void AddMember(const CSymbol* name);
 };

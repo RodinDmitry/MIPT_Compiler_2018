@@ -10,6 +10,8 @@
 class CIRTreeBuilder : public IVisitor {
 public:
 
+	std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> BuildIRTree(ITree* tree);
+
 	virtual void visit(ITree*) override;
 	virtual void visit(CArgumentList*) override;
 	virtual void visit(CClassDeclaration*) override;
@@ -58,7 +60,7 @@ private:
 	std::string callerClassName;
 	std::string currentClassName;
 	std::string symbolTableName;
-	std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>> methods;
+	std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> methods;
 
 	IR::TLogicOperatorType convertOperatorLogic(CBinaryExpression::TOperator op);
 	IR::TOperator convertOperator(CBinaryExpression::TOperator op);

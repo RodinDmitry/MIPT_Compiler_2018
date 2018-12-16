@@ -3,6 +3,13 @@
 #include <FunctionInfo.h>
 #include <ClassInfo.h>
 
+std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> CIRTreeBuilder::BuildIRTree(ITree * tree)
+{
+	methods.reset(new std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>());
+	tree->Accept(this);
+	return methods;
+}
+
 void CIRTreeBuilder::visit(ITree*)
 {
 	assert(false);
@@ -33,7 +40,7 @@ void CIRTreeBuilder::visit(CClassInternalsList* node)
 		internals[i]->Accept(this);
 		if (internals[i]->function != nullptr) {
 			std::string methodName = makeMethodName(currentClassName, currentFrame->GetFunctionName());
-			methods[CSymbol::GetSymbol(methodName)] = subtree;
+			(*methods)[CSymbol::GetSymbol(methodName)] = subtree;
 		}
 	}
 }
@@ -242,7 +249,7 @@ void CIRTreeBuilder::visit(CMain* node)
 	updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(std::shared_ptr<const IR::IStatement>(
 				new IR::CLabelStatement(IR::CLabel(methodFullName))), mainFunction->ToStatement())));
 
-	methods[CSymbol::GetSymbol(methodFullName)] = subtree;
+	(*methods)[CSymbol::GetSymbol(methodFullName)] = subtree;
 }
 
 void CIRTreeBuilder::visit(CModifier*)

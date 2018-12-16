@@ -35,7 +35,7 @@ private:
 	std::vector< std::pair<std::string, ITree*> > labels;
 
 	void visitIfNotNull(const ITree* node, const std::string& currentNode);
-	std::string labelNode(const std::string& name);
+	std::string labelNode(const std::string& name, const std::string& adding);
 	std::string operationName(TLogicOperatorType type);
 	std::string operatorName(TOperator type);
 };

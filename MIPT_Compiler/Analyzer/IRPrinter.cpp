@@ -31,7 +31,7 @@ void IR::CIRPrinterVisitor::visit(const IExpression* node)
 
 void IR::CIRPrinterVisitor::visit(const CExpressionList* node)
 {
-	std::string name = labelNode("ExpressionList");
+	std::string name = labelNode("ExpressionList","");
 	for (int i = 0; i < node->Get().size(); ++i) {
 		visitIfNotNull(node->Get()[i].get(), name);
 	}
@@ -40,25 +40,25 @@ void IR::CIRPrinterVisitor::visit(const CExpressionList* node)
 
 void IR::CIRPrinterVisitor::visit(const CConstExpression* node)
 {
-	std::string name = labelNode("Const_" + std::to_string(node->Get()));
+	std::string name = labelNode("Const_" ,std::to_string(node->Get()));
 	nodes.push_front(name);
 }
 
 void IR::CIRPrinterVisitor::visit(const CNameExpression* node)
 {
-	std::string name = labelNode("Name_" + node->Get().GetLabel());
+	std::string name = labelNode("Name_" ,node->Get().GetLabel());
 	nodes.push_front(name);
 }
 
 void IR::CIRPrinterVisitor::visit(const CTempExpression* node)
 {
-	std::string name = labelNode("Temp_" + node->Temporary().Get());
+	std::string name = labelNode("Temp_",node->Temporary().Get());
 	nodes.push_front(name);
 }
 
 void IR::CIRPrinterVisitor::visit(const CBinaryExpression* node)
 {
-	std::string name = labelNode("BINOP_" + operatorName(node->Operation()));
+	std::string name = labelNode("BINOP_",operatorName(node->Operation()));
 	visitIfNotNull(node->LeftOperand(), name);
 	visitIfNotNull(node->RightOperand(), name);
 	nodes.push_front(name);
@@ -66,14 +66,14 @@ void IR::CIRPrinterVisitor::visit(const CBinaryExpression* node)
 
 void IR::CIRPrinterVisitor::visit(const CMemExpression* node)
 {
-	std::string name = labelNode("Mem");
+	std::string name = labelNode("Mem","");
 	visitIfNotNull(node->Get(), name);
 	nodes.push_front(name);
 }
 
 void IR::CIRPrinterVisitor::visit(const CCallExpression* node)
 {
-	std::string name = labelNode("Call");
+	std::string name = labelNode("Call","");
 	visitIfNotNull(node->Arguments(), name);
 	visitIfNotNull(node->Function(), name);
 	nodes.push_front(name);
@@ -81,7 +81,7 @@ void IR::CIRPrinterVisitor::visit(const CCallExpression* node)
 
 void IR::CIRPrinterVisitor::visit(const CEseqExpression* node)
 {
-	std::string name = labelNode("ESEQ");
+	std::string name = labelNode("ESEQ","");
 	visitIfNotNull(node->Expression(), name);
 	visitIfNotNull(node->Statement(), name);
 	nodes.push_front(name);
@@ -94,7 +94,7 @@ void IR::CIRPrinterVisitor::visit(const IStatement* node)
 
 void IR::CIRPrinterVisitor::visit(const CMoveStatement* node)
 {
-	std::string name = labelNode("Move");
+	std::string name = labelNode("Move","");
 	visitIfNotNull(node->Source(), name);
 	visitIfNotNull(node->Destination(), name);
 	nodes.push_front(name);
@@ -102,20 +102,20 @@ void IR::CIRPrinterVisitor::visit(const CMoveStatement* node)
 
 void IR::CIRPrinterVisitor::visit(const CExpStatement* node)
 {
-	std::string name = labelNode("ExpStatement");
+	std::string name = labelNode("ExpStatement","");
 	visitIfNotNull(node->Expression(), name);
 	nodes.push_front(name);
 }
 
 void IR::CIRPrinterVisitor::visit(const CJumpStatement* node)
 {
-	std::string name = labelNode("Jump_"+node->Target().GetLabel());
+	std::string name = labelNode("Jump_",node->Target().GetLabel());
 	nodes.push_front(name);
 }
 
 void IR::CIRPrinterVisitor::visit(const CJumpConditionalStatement* node)
 {
-	std::string name = labelNode("CJump_" + node->TrueLabel().GetLabel() + "_" 
+	std::string name = labelNode("CJump_", node->TrueLabel().GetLabel() + "_" 
 		+ node->FalseLabel().GetLabel() + "_" + operationName(node->Operation()));
 	visitIfNotNull(node->Left(), name);
 	visitIfNotNull(node->Right(), name);
@@ -124,7 +124,7 @@ void IR::CIRPrinterVisitor::visit(const CJumpConditionalStatement* node)
 
 void IR::CIRPrinterVisitor::visit(const CSeqStatement* node)
 {
-	std::string name = labelNode("SEQ");
+	std::string name = labelNode("SEQ","");
 	visitIfNotNull(node->LeftStatement(), name);
 	visitIfNotNull(node->RightStatement(), name);
 	nodes.push_front(name);
@@ -132,7 +132,7 @@ void IR::CIRPrinterVisitor::visit(const CSeqStatement* node)
 
 void IR::CIRPrinterVisitor::visit(const CLabelStatement* node)
 {
-	std::string name = labelNode("Label_" + node->Label().GetLabel());
+	std::string name = labelNode("Label_",node->Label().GetLabel());
 	nodes.push_front(name);
 }
 
@@ -147,10 +147,10 @@ void IR::CIRPrinterVisitor::visitIfNotNull(const ITree* node, const std::string&
 	}
 }
 
-std::string IR::CIRPrinterVisitor::labelNode(const std::string& name)
+std::string IR::CIRPrinterVisitor::labelNode(const std::string& name, const std::string& adding)
 {
 	std::string nodeName = name + std::to_string(lastId++);
-	output << nodeName << " [ label = \"" << name << "\"]" << std::endl;
+	output << nodeName << " [ label = \"" << name+adding << "\"]" << std::endl;
 	return nodeName;
 }
 

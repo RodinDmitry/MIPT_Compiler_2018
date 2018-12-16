@@ -20,6 +20,7 @@ void CMainCompiler::Process(int argc, char * argv[])
 	}
 	AddFrames();
 	buildIR();
+	dumpIR();
 }
 
 void CMainCompiler::dumpBisonToken(const std::string & token)

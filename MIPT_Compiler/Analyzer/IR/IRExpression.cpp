@@ -38,4 +38,8 @@ namespace IR {
 	{
 		visitor->visit(this);
 	}
+	void CConstExpression::Accept(IIRVisitor * visitor) const
+	{
+		visitor->visit(this);
+	}
 }

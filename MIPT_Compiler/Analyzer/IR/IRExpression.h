@@ -48,7 +48,7 @@ public:
 	explicit CConstExpression(int _value) : value(_value) {}
 	
 	int Get() const { return value; }
-
+	virtual void Accept(IIRVisitor* visitor) const override;
 private:
 	int value;
 };

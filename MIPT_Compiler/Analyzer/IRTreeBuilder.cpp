@@ -454,7 +454,7 @@ IR::TOperator CIRTreeBuilder::convertOperator(CBinaryExpression::TOperator op)
 
 std::string CIRTreeBuilder::makeMethodName(const std::string & className, const std::string & methodName)
 {
-	return className + "@" + methodName;
+	return className + "_" + methodName;
 }
 
 void CIRTreeBuilder::updateSubtree(IR::ITreeWrapper* tree)

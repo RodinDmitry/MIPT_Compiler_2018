@@ -5,4 +5,4 @@
 
 https://trello.com/b/Q1DeX96x/compiler-dashboard
 
-python test.py MIPT_Compiler\x64\Debug\Analyzer.exe BadSamples/ Results/
+python test_all.py

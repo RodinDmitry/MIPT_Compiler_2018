@@ -31,8 +31,8 @@ public:
 	virtual ~CExpressionList() = default;
 	CExpressionList() = default;
 	virtual void Accept(IIRVisitor* visitor) const override;
-	CExpressionList(const IExpression* expression) { Add(expression); }
-	CExpressionList(std::shared_ptr<const IExpression> expression) { Add(expression); }
+	explicit CExpressionList(const IExpression* expression) { Add(expression); }
+	explicit CExpressionList(std::shared_ptr<const IExpression> expression) { Add(expression); }
 	void Add(const IExpression* expression) { Add(std::shared_ptr<const IExpression>(expression)); };
 	void Add(std::shared_ptr<const IExpression> expression) { expressions.push_back(expression); }
 

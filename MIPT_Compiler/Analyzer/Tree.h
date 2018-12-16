@@ -13,7 +13,7 @@ class ITree {
 public:
 	ITree() = default;
 	virtual ~ITree();
-	ITree(int line);
+	explicit ITree(int line);
 
 	virtual void Accept(IVisitor* visitor);
 

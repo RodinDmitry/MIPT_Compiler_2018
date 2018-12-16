@@ -51,7 +51,7 @@ private:
 
 class CJumpStatement : public IStatement {
 public:
-	explicit CJumpStatement(CLabel _target) : target(_target) {}
+	explicit CJumpStatement(const CLabel& _target) : target(_target) {}
 	virtual ~CJumpStatement() = default;
 
 	virtual void Accept(IIRVisitor* visitor) const override;
@@ -65,11 +65,11 @@ class CJumpConditionalStatement : public IStatement {
 public:
 	CJumpConditionalStatement(TLogicOperatorType _operation,
 		const IExpression* _left, const IExpression* _right,
-		CLabel _labelTrue, CLabel _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
+		const CLabel& _labelTrue, const CLabel& _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
 			labelFalse(_labelFalse) {}
 	CJumpConditionalStatement(TLogicOperatorType _operation,
 		std::shared_ptr<const IExpression> _left, std::shared_ptr<const IExpression> _right,
-		CLabel _labelTrue, CLabel _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
+		const CLabel& _labelTrue, const CLabel& _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
 		labelFalse(_labelFalse) {}
 	virtual ~CJumpConditionalStatement() = default;
 
@@ -107,7 +107,7 @@ private:
 
 class CLabelStatement : public IStatement {
 public:
-	explicit CLabelStatement(CLabel _label) : label(_label) {}
+	explicit CLabelStatement(const CLabel& _label) : label(_label) {}
 	~CLabelStatement() = default;
 
 	CLabel Label() const { return label; }

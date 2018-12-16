@@ -121,7 +121,7 @@ public:
 	CStatementList() = default;
 
 	explicit CStatementList(const IStatement* statement) { Add(statement); }
-	explicit CStatementList(std::shared_ptr<const IStatement> statement) { Add(std::move(statement)); }
+	explicit CStatementList(std::shared_ptr<const IStatement> statement) { Add(statement); }
 
 	void Add(const IStatement* statement) { Add(std::shared_ptr<const IStatement>(statement)); }
 	void Add(std::shared_ptr<const IStatement> statement) { statements.push_back(statement); }

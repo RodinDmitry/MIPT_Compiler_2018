@@ -175,7 +175,7 @@ void CIRTreeBuilder::visit(CNewExpression* node)
 
 	IR::IExpression* total_size = new IR::CBinaryExpression(IR::TOperator::O_Multiplication, 
 		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(classSize)), currentFrame->GetWordSize());
-
+	//TODO
 	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
 		new IR::CExpressionList(total_size)))));
 

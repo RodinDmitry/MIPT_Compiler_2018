@@ -35,7 +35,7 @@ private:
 	std::deque<std::string> nodes;
 	std::vector< std::pair<std::string, ITree*> > labels;
 
-	void visitIfNotNull(const ITree* node, std::string currentNode);
+	void visitIfNotNull(const ITree* node, const std::string& currentNode);
 	std::string labelNode(std::string name);
 	std::string operationName(TLogicOperatorType type);
 	std::string operatorName(TOperator type);

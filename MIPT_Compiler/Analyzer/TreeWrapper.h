@@ -21,6 +21,7 @@ public:
 	virtual std::shared_ptr<const IStatement> ToStatement() override;
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
 
+	virtual ~CExpressionWrapper() = default;
 private:
 	std::shared_ptr<const IExpression> expression;
 };
@@ -33,6 +34,7 @@ public:
 	virtual std::shared_ptr<const IStatement> ToStatement() override;
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
 
+	virtual ~CStatementWrapper() = default;
 private:
 	std::shared_ptr<const IStatement> statement;
 };
@@ -61,7 +63,7 @@ public:
 			operandRight(_operandRight) {}
 
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
-
+	virtual ~CRelativeConditionalWrapper() = default;
 private:
 	TLogicOperatorType operatorType;
 	std::shared_ptr<const IExpression> operandLeft;
@@ -74,6 +76,7 @@ public:
 		: operandLeft(_operandLeft), operandRight(_operandRight) {}
 
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
+	virtual ~CAndConditionalWrapper() = default;
 private:
 	std::shared_ptr<ITreeWrapper> operandLeft;
 	std::shared_ptr<ITreeWrapper> operandRight;
@@ -85,6 +88,7 @@ public:
 		: operandLeft(_operandLeft), operandRight(_operandRight) {}
 
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
+	virtual ~COrConditionalWrapper() = default;
 private:
 	std::shared_ptr<ITreeWrapper> operandLeft;
 	std::shared_ptr<ITreeWrapper> operandRight;
@@ -96,6 +100,7 @@ public:
 		: wrapper(_wrapper) {}
 
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
+	virtual ~CNegateConditionalWrapper() = default;
 private:
 	std::shared_ptr<ITreeWrapper> wrapper;
 };

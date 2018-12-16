@@ -2,6 +2,7 @@
 
 #include <IR/IRTree.h>
 #include <IR/Label.h>
+#include <IR/IRExpression.h>
 #include <ErrorTable.h>
 #include <vector>
 
@@ -94,7 +95,7 @@ class CSeqStatement : public IStatement {
 public:
 	CSeqStatement(const IStatement* _left, const IStatement* _right) : leftStatement(_left), rightStatement(_right) {}
 	CSeqStatement(std::shared_ptr<const IStatement> _left, std::shared_ptr<const IStatement> _right) : leftStatement(_left), rightStatement(_right) {}
-	~CSeqStatement() = default;
+	virtual ~CSeqStatement() = default;
 
 	const IStatement* LeftStatement() const { return leftStatement.get(); }
 	const IStatement* RightStatement() const { return rightStatement.get(); }
@@ -109,7 +110,7 @@ private:
 class CLabelStatement : public IStatement {
 public:
 	explicit CLabelStatement(const CLabel& _label) : label(_label) {}
-	~CLabelStatement() = default;
+	virtual ~CLabelStatement() = default;
 
 	CLabel Label() const { return label; }
 	virtual void Accept(IIRVisitor* visitor) const override;
@@ -120,7 +121,7 @@ private:
 class CStatementList : public IStatement {
 public:
 	CStatementList() = default;
-
+	virtual ~CStatementList() = default;
 	explicit CStatementList(const IStatement* statement) { Add(statement); }
 	explicit CStatementList(std::shared_ptr<const IStatement> statement) { Add(statement); }
 

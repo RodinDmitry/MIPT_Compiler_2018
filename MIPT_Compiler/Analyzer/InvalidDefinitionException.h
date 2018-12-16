@@ -4,7 +4,7 @@
 
 class CInvalidDefinitionException : public std::exception {
 public:
-	CInvalidDefinitionException(const std::string& _idName);
+	explicit CInvalidDefinitionException(const std::string& _idName);
 	const std::string& GetIdName();
 private:
 	const std::string& idName;

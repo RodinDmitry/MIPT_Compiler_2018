@@ -7,16 +7,16 @@ std::shared_ptr<const IR::IExpression> CInFrameAccess::GetExp(std::shared_ptr<co
 {
 	std::shared_ptr<const IR::IExpression> offsetExpression;
 	if (offset != 0) {
-		offsetExpression = std::move(std::make_shared<const IR::CBinaryExpression>(
+		offsetExpression = std::make_shared<const IR::CBinaryExpression>(
 				IR::O_Plus,
 				framePtr,
 				std::make_shared<const IR::CConstExpression>(offset)
-			));
+			);
 	}
 	else {
-		offsetExpression = std::move(framePtr);
+		offsetExpression = framePtr;
 	}
-	return std::move(std::make_shared<const IR::CMemExpression>(std::move(offsetExpression)));
+	return std::make_shared<const IR::CMemExpression>(offsetExpression);
 }
 
 CInRegAccess::CInRegAccess(std::shared_ptr<const IR::CTemp> _reg) : reg(_reg) {}
@@ -33,14 +33,14 @@ std::shared_ptr<const IR::IExpression> CInClassAccess::GetExp(std::shared_ptr<co
 {
 	std::shared_ptr<const IR::IExpression> offsetExpression;
 	if (offset != 0) {
-		offsetExpression = std::move(std::make_shared<const IR::CBinaryExpression>(
+		offsetExpression = std::make_shared<const IR::CBinaryExpression>(
 			IR::O_Plus,
 			thisAccess->GetExp(framePtr),
 			std::make_shared<const IR::CConstExpression>(offset)
-			));
+			);
 	}
 	else {
 		offsetExpression = thisAccess->GetExp(framePtr);
 	}
-	return std::make_shared<const IR::CMemExpression>(std::move(offsetExpression));
+	return std::make_shared<const IR::CMemExpression>(offsetExpression);
 }

@@ -24,8 +24,8 @@ public:
 	virtual const IAccess* GetReturn() const override;
 	virtual const IAccess* GetFP() const override;
 	virtual const IAccess* GetSP() const override;
-	virtual const std::string& GetFunctionName() const;
-	virtual const std::string& GetClassName() const;
+	virtual const std::string& GetFunctionName() const override;
+	virtual const std::string& GetClassName() const override;
 
 	std::shared_ptr<const IR::IExpression> ExternalCall(const std::string& functionName, std::shared_ptr<const IR::CExpressionList> args) const override;
 private:

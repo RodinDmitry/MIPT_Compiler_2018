@@ -147,7 +147,7 @@ void IR::CIRPrinterVisitor::visit(const CStatementList* node)
 
 int IR::CIRPrinterVisitor::lastId = 0;
 
-void IR::CIRPrinterVisitor::visitIfNotNull(const ITree* node, std::string currentNode)
+void IR::CIRPrinterVisitor::visitIfNotNull(const ITree* node, const std::string& currentNode)
 {
 	if (node != nullptr) {
 		node->Accept(this);

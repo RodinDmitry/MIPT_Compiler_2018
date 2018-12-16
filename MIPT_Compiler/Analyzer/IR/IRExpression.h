@@ -68,7 +68,7 @@ private:
 class CTempExpression : public IExpression {
 public:
 	explicit CTempExpression(const CTemp& _temp) : temp(_temp) {}
-	~CTempExpression() = default;
+	virtual ~CTempExpression() = default;
 
 	const CTemp& Temporary() const { return temp; }
 	virtual void Accept(IIRVisitor* visitor) const override;

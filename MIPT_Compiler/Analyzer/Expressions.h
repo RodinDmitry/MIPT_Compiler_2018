@@ -5,7 +5,7 @@
 class IExpression : public ITree {
 public:
 	IExpression() = default;
-	IExpression(int line);
+	explicit IExpression(int line);
 	virtual void Accept(IVisitor* visitor) override;
 };
 
@@ -24,7 +24,7 @@ class CLValueExpression : public IExpression
 {
 public:
 	CLValueExpression() = default;
-	CLValueExpression(int line);
+	explicit  CLValueExpression(int line);
 	virtual void Accept(IVisitor* visitor) override;
 
 	std::string GetLabel() const override;

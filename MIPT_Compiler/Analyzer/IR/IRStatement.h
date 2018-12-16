@@ -38,8 +38,8 @@ private:
 
 class CExpStatement : public IStatement {
 public:
-	CExpStatement(const IExpression* _expression) : expression(_expression) {}
-	CExpStatement(std::shared_ptr<const IExpression> _expression) : expression(_expression) {}
+	explicit CExpStatement(const IExpression* _expression) : expression(_expression) {}
+	explicit CExpStatement(std::shared_ptr<const IExpression> _expression) : expression(_expression) {}
 	virtual ~CExpStatement() = default;
 
 	virtual void Accept(IIRVisitor* visitor) const override;
@@ -51,7 +51,7 @@ private:
 
 class CJumpStatement : public IStatement {
 public:
-	CJumpStatement(CLabel _target) : target(_target) {}
+	explicit CJumpStatement(const CLabel& _target) : target(_target) {}
 	virtual ~CJumpStatement() = default;
 
 	virtual void Accept(IIRVisitor* visitor) const override;
@@ -65,11 +65,11 @@ class CJumpConditionalStatement : public IStatement {
 public:
 	CJumpConditionalStatement(TLogicOperatorType _operation,
 		const IExpression* _left, const IExpression* _right,
-		CLabel _labelTrue, CLabel _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
+		const CLabel& _labelTrue, const CLabel& _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
 			labelFalse(_labelFalse) {}
 	CJumpConditionalStatement(TLogicOperatorType _operation,
 		std::shared_ptr<const IExpression> _left, std::shared_ptr<const IExpression> _right,
-		CLabel _labelTrue, CLabel _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
+		const CLabel& _labelTrue, const CLabel& _labelFalse) : operation(_operation), left(_left), right(_right), labelTrue(_labelTrue),
 		labelFalse(_labelFalse) {}
 	virtual ~CJumpConditionalStatement() = default;
 
@@ -107,7 +107,7 @@ private:
 
 class CLabelStatement : public IStatement {
 public:
-	CLabelStatement(CLabel _label) : label(_label) {}
+	explicit CLabelStatement(const CLabel& _label) : label(_label) {}
 	~CLabelStatement() = default;
 
 	CLabel Label() const { return label; }
@@ -120,8 +120,8 @@ class CStatementList : public IStatement {
 public:
 	CStatementList() = default;
 
-	CStatementList(const IStatement* statement) { Add(statement); }
-	CStatementList(std::shared_ptr<const IStatement> statement) { Add(std::move(statement)); }
+	explicit CStatementList(const IStatement* statement) { Add(statement); }
+	explicit CStatementList(std::shared_ptr<const IStatement> statement) { Add(std::move(statement)); }
 
 	void Add(const IStatement* statement) { Add(std::shared_ptr<const IStatement>(statement)); }
 	void Add(std::shared_ptr<const IStatement> statement) { statements.push_back(statement); }

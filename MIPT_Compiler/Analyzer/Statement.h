@@ -7,7 +7,7 @@
 class IStatement : public ITree
 {
 public:
-	IStatement(int line);
+	explicit IStatement(int line);
 	virtual void Accept(IVisitor* visitor) override;
 };
 

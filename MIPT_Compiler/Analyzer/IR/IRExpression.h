@@ -31,8 +31,8 @@ public:
 	virtual ~CExpressionList() = default;
 	CExpressionList() = default;
 	virtual void Accept(IIRVisitor* visitor) const override;
-	CExpressionList(const IExpression* expression) { Add(expression); }
-	CExpressionList(std::shared_ptr<const IExpression> expression) { Add(expression); }
+	explicit CExpressionList(const IExpression* expression) { Add(expression); }
+	explicit CExpressionList(std::shared_ptr<const IExpression> expression) { Add(expression); }
 	void Add(const IExpression* expression) { Add(std::shared_ptr<const IExpression>(expression)); };
 	void Add(std::shared_ptr<const IExpression> expression) { expressions.push_back(expression); }
 
@@ -45,7 +45,7 @@ private:
 class CConstExpression : public IExpression {
 public:
 	virtual ~CConstExpression() = default;
-	CConstExpression(int _value) : value(_value) {}
+	explicit CConstExpression(int _value) : value(_value) {}
 	
 	int Get() const { return value; }
 
@@ -56,7 +56,7 @@ private:
 class CNameExpression : public IExpression {
 public:
 	virtual ~CNameExpression() = default;
-	CNameExpression(const CLabel& label) : name(label) {}
+	explicit CNameExpression(const CLabel& label) : name(label) {}
 
 	virtual void Accept(IIRVisitor* visitor) const override;
 	const CLabel& Get() const { return name; }
@@ -67,7 +67,7 @@ private:
 
 class CTempExpression : public IExpression {
 public:
-	CTempExpression(const CTemp& _temp) : temp(_temp) {}
+	explicit CTempExpression(const CTemp& _temp) : temp(_temp) {}
 	~CTempExpression() = default;
 
 	const CTemp& Temporary() const { return temp; }
@@ -98,8 +98,8 @@ private:
 
 class CMemExpression : public IExpression {
 public:
-	CMemExpression(const IExpression* _address) : address(_address) {}
-	CMemExpression(std::shared_ptr<const IExpression> _address) : address(_address) {}
+	explicit CMemExpression(const IExpression* _address) : address(_address) {}
+	explicit CMemExpression(std::shared_ptr<const IExpression> _address) : address(_address) {}
 	virtual ~CMemExpression() = default;
 
 	virtual void Accept(IIRVisitor* visitor) const override;

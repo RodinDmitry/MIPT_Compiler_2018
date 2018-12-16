@@ -15,8 +15,8 @@ public:
 
 class CExpressionWrapper : public ITreeWrapper {
 public:
-	CExpressionWrapper(const IExpression* _expression) : expression(_expression) {}
-	CExpressionWrapper(std::shared_ptr<const IExpression> _expression) : expression(_expression) {}
+	explicit CExpressionWrapper(const IExpression* _expression) : expression(_expression) {}
+	explicit CExpressionWrapper(std::shared_ptr<const IExpression> _expression) : expression(_expression) {}
 	virtual std::shared_ptr<const IExpression> ToExpression() override;
 	virtual std::shared_ptr<const IStatement> ToStatement() override;
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
@@ -27,8 +27,8 @@ private:
 
 class CStatementWrapper : public ITreeWrapper {
 public:
-	CStatementWrapper(const IStatement* _statement) : statement(_statement) {}
-	CStatementWrapper(std::shared_ptr<const IStatement> _statement) : statement(_statement) {}
+	explicit CStatementWrapper(const IStatement* _statement) : statement(_statement) {}
+	explicit CStatementWrapper(std::shared_ptr<const IStatement> _statement) : statement(_statement) {}
 	virtual std::shared_ptr<const IExpression> ToExpression() override;
 	virtual std::shared_ptr<const IStatement> ToStatement() override;
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
@@ -41,8 +41,8 @@ class CConditionalWrapper : public ITreeWrapper {
 public:
 	CConditionalWrapper() = default;
 	virtual ~CConditionalWrapper() = default;
-	CConditionalWrapper(const IStatement* _statement) : statement(_statement) {}
-	CConditionalWrapper(std::shared_ptr<const IStatement> _statement) : statement(_statement) {}
+	explicit CConditionalWrapper(const IStatement* _statement) : statement(_statement) {}
+	explicit CConditionalWrapper(std::shared_ptr<const IStatement> _statement) : statement(_statement) {}
 	virtual std::shared_ptr<const IExpression> ToExpression() override;
 	virtual std::shared_ptr<const IStatement> ToStatement() override;
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;
@@ -92,7 +92,7 @@ private:
 
 class CNegateConditionalWrapper : public CConditionalWrapper {
 public:
-	CNegateConditionalWrapper(std::shared_ptr<ITreeWrapper> _wrapper)
+	explicit CNegateConditionalWrapper(std::shared_ptr<ITreeWrapper> _wrapper)
 		: wrapper(_wrapper) {}
 
 	virtual std::shared_ptr<const IStatement> ToConditional(CLabel labelTrue, CLabel labelFalse) override;

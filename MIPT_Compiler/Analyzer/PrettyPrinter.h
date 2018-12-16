@@ -5,7 +5,7 @@
 class CPrettyPrinter : public IVisitor {
 public:
 
-	CPrettyPrinter(std::string name);
+	explicit CPrettyPrinter(std::string name);
 
 	void close();
 

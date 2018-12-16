@@ -216,15 +216,35 @@ void CIRTreeBuilder::visit(CFunction* node)
 {
 	currentFrame = node->GetFrame();
 	std::string methodFullName = makeMethodName(currentClassName, node->name->name);
-	node->body->Accept(this);
-	std::shared_ptr<IR::ITreeWrapper> functionBody = subtree;
+	if (node->body != nullptr) {
+		node->body->Accept(this);
+		std::shared_ptr<IR::ITreeWrapper> functionBody = subtree;
 
-	node->returnExpression->Accept(this);
-	std::shared_ptr<const IR::IExpression> returnExpression = subtree->ToExpression();
+		if (node->returnExpression != nullptr) {
+			node->returnExpression->Accept(this);
+			std::shared_ptr<const IR::IExpression> returnExpression = subtree->ToExpression();
 
-	updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(new IR::CLabelStatement(IR::CLabel(methodFullName)),
-		new IR::CSeqStatement(functionBody->ToStatement(), std::shared_ptr<const IR::IStatement>(
-			new IR::CMoveStatement(currentFrame->GetReturn()->GetExp(currentFrame->GetFramePtr()), returnExpression))))));
+			updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(new IR::CLabelStatement(IR::CLabel(methodFullName)),
+				new IR::CSeqStatement(functionBody->ToStatement(), std::shared_ptr<const IR::IStatement>(
+					new IR::CMoveStatement(currentFrame->GetReturn()->GetExp(currentFrame->GetFramePtr()), returnExpression))))));
+		}
+		else {
+			updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(std::shared_ptr<const IR::IStatement>(
+				new IR::CLabelStatement(IR::CLabel(methodFullName))), functionBody->ToStatement())));
+		}
+	}
+	else {
+		if (node->returnExpression != nullptr) {
+			node->returnExpression->Accept(this);
+			std::shared_ptr<const IR::IExpression> returnExpression = subtree->ToExpression();
+
+			updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(
+				new IR::CLabelStatement(IR::CLabel(methodFullName)), new IR::CExpStatement(returnExpression))));
+		}
+		else {
+			updateSubtree(new IR::CStatementWrapper(new IR::CLabelStatement(IR::CLabel(methodFullName))));
+		}
+	}
 }
 
 void CIRTreeBuilder::visit(CId *)

@@ -141,15 +141,15 @@ void CSymbolTable::CreateTable(const std::string & tableName)
 	tables.emplace(tableName, new CSymbolTable(tableName));
 }
 
-void CSymbolTable::AddBlock(const std::string & tableName)
+void CSymbolTable::AddBlock(const std::string& tableName)
 {
-	assert(tables.find(tableName) != tables.end());
+	// assert(tables.find(tableName) != tables.end());
 	tables[tableName]->AddBlock();
 }
 
 void CSymbolTable::LeaveBlock(const std::string & tableName)
 {
-	assert(tables.find(tableName) != tables.end());
+	// assert(tables.find(tableName) != tables.end());
 	tables[tableName]->LeaveBlock();
 }
 

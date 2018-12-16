@@ -3,7 +3,7 @@
 #include <Type.h>
 #include <UndefinedTypeException.h>
 
-CFunctionInfo::CFunctionInfo(const CSymbol* _name, const CType* _dataType, const CClassInfo* _classInfo,
+CFunctionInfo::CFunctionInfo(const CSymbol* _name, std::shared_ptr<const CType> _dataType, const CClassInfo* _classInfo,
 		TVisabilityModifierType _modifierType)
 	:name(_name), classInfo(_classInfo), dataType(_dataType), modifierType(_modifierType) {}
 
@@ -63,7 +63,7 @@ const CSymbol * CFunctionInfo::String() const
 	return name;
 }
 
-const CType* CFunctionInfo::GetType() const
+std::shared_ptr<const CType> CFunctionInfo::GetType() const
 {
 	return dataType;
 }

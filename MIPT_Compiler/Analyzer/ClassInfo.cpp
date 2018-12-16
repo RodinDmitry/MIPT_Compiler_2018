@@ -10,29 +10,29 @@ CClassInfo::CClassInfo(const std::string& _tableName, const CSymbol* _name, cons
 	: name(_name), extends(_extends), tableName(_tableName)
 {}
 
-void CClassInfo::AddMember(const CVariableInfo * member)
+void CClassInfo::AddMember(std::unique_ptr<const CVariableInfo>&& member)
 {
-	members.push_back(member);
+	members.emplace_back(std::move(member));
 }
 
-void CClassInfo::AddMembers(std::vector<const CVariableInfo*>&& _members)
+void CClassInfo::AddMembers(std::vector<std::unique_ptr<const CVariableInfo>>&& _members)
 {
-	members = _members;
+	members = std::move(_members);
 }
 
-void CClassInfo::AddMethod(const CFunctionInfo * method)
+void CClassInfo::AddMethod(std::unique_ptr<const CFunctionInfo>&& method)
 {
-	methods.push_back(method);
+	methods.emplace_back(std::move(method));
 }
 
-void CClassInfo::AddMethods(std::vector<const CFunctionInfo*>&& _methods)
+void CClassInfo::AddMethods(std::vector<std::unique_ptr<const CFunctionInfo>>&& _methods)
 {
-	methods = _methods;
+	methods = std::move(_methods);
 }
 
 int CClassInfo::GetSize() const
 {
-	int size = 4 * members.size();
+	int size = members.size();
 	if (extends != nullptr) {
 		const CClassInfo* base = CSymbolTable::FindClass(tableName, extends);
 		if (base != nullptr) {
@@ -42,7 +42,7 @@ int CClassInfo::GetSize() const
 	return size;
 }
 
-const std::vector<const CFunctionInfo*>& CClassInfo::GetMethods() const
+const std::vector<std::unique_ptr<const CFunctionInfo>>& CClassInfo::GetMethods() const
 {
 	return methods;
 }
@@ -57,7 +57,7 @@ std::shared_ptr<std::vector<const CVariableInfo*>> CClassInfo::GetMembers() cons
 		}
 	}
 	for (int i = 0; i < members.size(); ++i) {
-		tmembers->push_back(members[i]);
+		tmembers->push_back(members[i].get());
 	}
 	return tmembers;
 }
@@ -66,7 +66,7 @@ const CFunctionInfo* CClassInfo::FindMethod(const CSymbol * name) const
 {
 	for (int i = 0; i < methods.size(); ++i) {
 		if (methods[i]->String() == name) {
-			return methods[i];
+			return methods[i].get();
 		}
 	}
 	if (extends != nullptr) {
@@ -82,7 +82,7 @@ const CVariableInfo * CClassInfo::FindMember(const CSymbol * name) const
 {
 	for (int i = 0; i < members.size(); ++i) {
 		if (members[i]->String() == name) {
-			return members[i];
+			return members[i].get();
 		}
 	}
 	if (extends != nullptr) {

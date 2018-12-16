@@ -10,7 +10,7 @@ public:
 class CInRegAccess : public IAccess {
 public:
 	explicit CInRegAccess(std::shared_ptr<const IR::CTemp> reg);
-	std::shared_ptr<const IR::IExpression> GetExp(std::shared_ptr<const IR::IExpression> framePtr) const override;
+	std::shared_ptr<const IR::IExpression> GetExp(std::shared_ptr<const IR::IExpression> null) const override;
 
 	~CInRegAccess() {};
 private:
@@ -19,13 +19,13 @@ private:
 
 class CInClassAccess : public IAccess {
 public:
-	CInClassAccess(int _offset, const IAccess* _thisAccess);
-	std::shared_ptr<const IR::IExpression> GetExp(std::shared_ptr<const IR::IExpression> framePtr) const override;
+	CInClassAccess(int _offset, std::shared_ptr<const IR::IExpression> thisExpr);
+	std::shared_ptr<const IR::IExpression> GetExp(std::shared_ptr<const IR::IExpression> null) const override;
 
 	~CInClassAccess() {};
 private:
 	int offset;
-	const IAccess* thisAccess;
+	std::shared_ptr<const IR::IExpression> thisExpr;
 };
 
 class CInFrameAccess : public IAccess {

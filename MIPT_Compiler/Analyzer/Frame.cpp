@@ -15,7 +15,7 @@ void CMiniJavaMethodFrame::AddLocal(const CSymbol* name)
 
 void CMiniJavaMethodFrame::addMember(const CSymbol * name)
 {
-	locals.emplace_back(new CInClassAccess(currOffset, thisAccess));
+	locals.emplace_back(new CInClassAccess(currOffset, thisExpr));
 	namesMap.emplace(name, locals.back().get());
 	currOffset += wordSize;
 }
@@ -63,7 +63,7 @@ CSymbol* CMiniJavaMethodFrame::stackPointerName = nullptr;
 const int CMiniJavaMethodFrame::wordSize = 4;
 
 CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo,const CFunctionInfo* info)
-	: className(classInfo->String()->String()), functionName(info->String()->String()), thisAccess(nullptr)
+	: className(classInfo->String()->String()), functionName(info->String()->String()), thisExpr(nullptr)
 {
 	initStatic();
 	addRegister(thisName, thisName);
@@ -78,11 +78,11 @@ CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo,const CFu
 	for (const CVariableInfo* var : *(localVars.get())) {
 		addLocal(var->String());
 	}
-	classFrame = std::make_shared<CMiniJavaMethodFrame>(classInfo, FindFormalorLocal(thisName));
+	classFrame = std::make_shared<CMiniJavaMethodFrame>(classInfo, FindFormalorLocal(thisName)->GetExp(nullptr));
 }
 
-CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* info, const IAccess* _thisAccess)
-	: thisAccess(_thisAccess)
+CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* info, std::shared_ptr<const IR::IExpression> _thisExpr)
+	: thisExpr(_thisExpr)
 {
 	initStatic();
 	std::shared_ptr<const std::vector<const CVariableInfo* >> localVars(info->GetMembers());

@@ -17,7 +17,7 @@ void CSymbolTable::CreateClass(const std::string& name, const std::string& exten
 void CSymbolTable::AddFunctionBlock(CFunctionInfo * function)
 {
 	functionInfo = function;
-	currentClass->AddMethod(function);
+	currentClass->AddMethod(std::unique_ptr<CFunctionInfo>(function));
 }
 
 void CSymbolTable::AddArgument(const CVariableInfo * argument)
@@ -27,7 +27,7 @@ void CSymbolTable::AddArgument(const CVariableInfo * argument)
 
 void CSymbolTable::AddMember(const CVariableInfo * variable)
 {
-	currentClass->AddMember(variable);
+	currentClass->AddMember(std::unique_ptr<const CVariableInfo>(variable));
 }
 
 void CSymbolTable::AddLocal(const CVariableInfo * variable)

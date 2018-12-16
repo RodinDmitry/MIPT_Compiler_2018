@@ -55,6 +55,7 @@ private:
 
 	CVariableInfo* createVariableInfo(CVariable*);
 	CFunctionInfo* createFunctionInfo(CFunction*);
+	CFunctionInfo* createFunctionInfo(CMainFunction*);
 	void createEnterPlaceholder();
 	void createLeavePlaceholder();
 	void cleanup();

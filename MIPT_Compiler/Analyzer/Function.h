@@ -19,7 +19,7 @@ public:
 	std::unique_ptr<CId> name;
 	std::unique_ptr<CArgumentList> arguments;
 	std::unique_ptr<CStatementList> body;
-	std::unique_ptr<CType> returns;
+	std::shared_ptr<CType> returns;
 	std::unique_ptr<CReturnExpression> returnExpression;
 
 	std::string GetLabel() const override;

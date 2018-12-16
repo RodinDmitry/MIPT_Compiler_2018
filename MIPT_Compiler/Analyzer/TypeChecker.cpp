@@ -320,7 +320,7 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionLi
 		return false;
 	}
 
-	const std::vector<const CFunctionInfo*> methods = classInfo->GetMethods();
+	const std::vector<std::unique_ptr<const CFunctionInfo>>& methods = classInfo->GetMethods();
 
 	std::vector<std::shared_ptr<CType>> arguments;
 	for (int i = 0; i < list->expressions.size(); i++) {
@@ -332,7 +332,7 @@ bool CTypeChecker::callerCheck(IExpression* caller, CId* function, CExpressionLi
 	bool hasCompatibleMethod = false;
 	for (int i = 0; i < methods.size(); i++) {
 		if (methods[i]->String()->String() == function->name) {
-			if (argumentCheck(methods[i], arguments)) {
+			if (argumentCheck(methods[i].get(), arguments)) {
 				hasCompatibleMethod = true;
 			}
 		}

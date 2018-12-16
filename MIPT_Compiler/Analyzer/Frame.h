@@ -9,7 +9,7 @@
 class CMiniJavaMethodFrame : public IFrame {
 public:
 	CMiniJavaMethodFrame(const CClassInfo*, const CFunctionInfo* info);
-	CMiniJavaMethodFrame(const CClassInfo*, const IAccess* _thisAccess);
+	CMiniJavaMethodFrame(const CClassInfo*, std::shared_ptr<const IR::IExpression> _thisExpr);
 
 	virtual void AddFormal(const CSymbol* name) override;
 	virtual void AddLocal(const CSymbol* name) override;
@@ -33,7 +33,7 @@ private:
 
 	int currOffset = 0;
 	std::shared_ptr<IFrame> classFrame;
-	const IAccess* thisAccess;
+	std::shared_ptr<const IR::IExpression> thisExpr;
 	std::vector< std::unique_ptr<const IAccess> > formals;
 	std::vector< std::unique_ptr<const IAccess> > locals;
 	std::map< const CSymbol*, const IAccess* > namesMap;

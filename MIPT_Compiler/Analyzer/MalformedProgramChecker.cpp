@@ -189,6 +189,14 @@ void CMalformedProgramChecker::visit(CMainArgument*)
 void CMalformedProgramChecker::visit(CMainFunction* node)
 {
 	waitingNodes.push_front(node->body.get());
+	if (checkFunctionDoubleDeclaration(CSymbol::GetSymbol("Main"))) {
+		CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
+	}
+	CFunctionInfo* info(createFunctionInfo(node));
+	if (info != nullptr) {
+		CSymbolTable::AddFunctionBlock(tableName, info);
+	}
+	waitingNodes.push_front(node->body.get());
 }
 
 void CMalformedProgramChecker::visit(CMain* node)
@@ -330,7 +338,19 @@ CVariableInfo* CMalformedProgramChecker::createVariableInfo(CVariable* node)
 CFunctionInfo* CMalformedProgramChecker::createFunctionInfo(CFunction* node)
 {
 	try {
-		CFunctionInfo* info = new CFunctionInfo(CSymbol::GetSymbol(node->name->name), node->returns.get(), CSymbolTable::GetThis(tableName), node->visibility->type);
+		CFunctionInfo* info = new CFunctionInfo(CSymbol::GetSymbol(node->name->name), node->returns, CSymbolTable::GetThis(tableName), node->visibility->type);
+		return info;
+	}
+	catch (CUndefinedTypeException* exception) {
+		CErrorTable::AddError(exception, node->GetLine());
+	}
+	return nullptr;
+}
+
+CFunctionInfo * CMalformedProgramChecker::createFunctionInfo(CMainFunction* node)
+{
+	try {
+		CFunctionInfo* info = new CFunctionInfo(CSymbol::GetSymbol("Main"), std::make_shared<CType>(), CSymbolTable::GetThis(tableName), VMT_Public);
 		return info;
 	}
 	catch (CUndefinedTypeException* exception) {

@@ -275,10 +275,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="output.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="SymbolTable">
       <UniqueIdentifier>{c326526f-800b-449b-94b5-bc06623b8186}</UniqueIdentifier>
     </Filter>

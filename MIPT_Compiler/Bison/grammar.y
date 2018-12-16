@@ -97,7 +97,6 @@ extern void yyerror(YYLTYPE* yyllocp, yyscan_t unused, CMainCompiler* compiler, 
 
 %destructor { free($$); } <stringValue>
 
-
 %left PT_LeftRoundBracket PT_LeftSquareBracket PT_LeftBrace 
 %left PT_RightRoundBracket PT_RightSquareBracket PT_RightBrace
 %left PT_Dot
@@ -123,7 +122,7 @@ Goal: MainClass ClassDeclaration { $$ = new CProgram(To<CMain>($1), To<CClassLis
 										$$ = new CProgram(To<CMain>($2), To<CClassList>($3), @1.first_line);  yyerrok;} 
 ;
 
-MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { $$ = new CMain(new CId($2, @2.first_line), To<CMainFunction>($4), @1.first_line); } 
+MainClass: ClassWord PT_ID LeftBrace MainFunction RightBrace { $$ = new CMain(new CId($2, @2.first_line), To<CMainFunction>($4), @1.first_line);free($2);} 
 ;
 
 ClassDeclaration: { $$ = new CClassList(); }
@@ -132,7 +131,7 @@ ClassDeclaration: { $$ = new CClassList(); }
 Class: ClassStart LeftBrace ClassInternals RightBrace { $$ = new CClass(To<CClassDeclaration>($1), To<CClassInternalsList>($3), @1.first_line);}
     | error {compiler->dumpSyntaxError("Bad class definition", @1.first_line); yyerrok; $$ = nullptr; };
 
-ClassStart: ClassWord PT_ID Extends { $$ = new CClassDeclaration(new CId($2, @2.first_line), new CId($3, @3.first_line), @1.first_line); }
+ClassStart: ClassWord PT_ID Extends { $$ = new CClassDeclaration(new CId($2, @2.first_line), new CId($3, @3.first_line), @1.first_line); free($2);}
 ;
 
 Extends: { $$ = nullptr; }
@@ -148,10 +147,11 @@ MainFunction: PT_Public PT_Static PT_Void PT_Main LeftRoundBracket MainArgument 
 		 $$ = new CMainFunction(To<CMainArgument>($6), To<CStatementList>($9), @1.first_line); }
 ;
 
-MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  $$ = new CMainArgument(new CId($4, @4.first_line), @1.first_line); }
+MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  $$ = new CMainArgument(new CId($4, @4.first_line), @1.first_line);free($4); }
 ;
 
-Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace { $$ = new CFunction(To<CModifier>($1), new CId($3, @3.first_line), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnExpression>($7), @1.first_line); }
+Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace 
+{ $$ = new CFunction(To<CModifier>($1), new CId($3, @3.first_line), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnExpression>($7), @1.first_line); free($3);}
 ;
 
 Visibility: PT_Public { $$ = new CModifier(TVisabilityModifierType::VMT_Public); }
@@ -169,13 +169,13 @@ Argument : Variable { $$ = new CArgumentList(); To<CArgumentList>($$)->Add(To<CV
 	| Variable PT_Coma Argument {  To<CArgumentList>($3)->Add(To<CVariable>($1)); $$ = $3; }
 ;
 
-Variable: Type PT_ID { $$ = new CVariable(To<CType>($1), new CId($2, @2.first_line), @1.first_line); }
+Variable: Type PT_ID { $$ = new CVariable(To<CType>($1), new CId($2, @2.first_line), @1.first_line); free($2);}
 ;
 
 Type: Integer  { $$ = new CType(TDataType::DT_Integer, @1.first_line); }
 	| Integer PT_LeftSquareBracket PT_RightSquareBracket  { $$ = new CType(TDataType::DT_IntegerArray, @1.first_line); }
 	| Boolean  { $$ = new CType(TDataType::DT_Boolean, @1.first_line); }
-	| PT_ID { $$ = new CType($1, @1.first_line); }
+	| PT_ID { $$ = new CType($1, @1.first_line); free($1);}
 	| PT_Void  { $$ = new CType(); }
 ;
 
@@ -196,9 +196,9 @@ StatementItem: LeftBrace Statement RightBrace { $$ = new CVisibilityStatement(To
 LvalueExpression: 
 	Expression LeftSquareBracket Expression RightSquareBracket %prec ARRAY{ $$=new CArrayExpression(To<IExpression>($1), To<IExpression>($3), @1.first_line);}
 	| LvalueExpression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<IExpression>($1)); $$=$3;}
-	| PT_ID { $$=new CIdExpression(new CId ($1, @1.first_line), @1.first_line);}
+	| PT_ID { $$=new CIdExpression(new CId ($1, @1.first_line), @1.first_line); free($1);}
 	| This { $$=new CThisExpression();}
-	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new CNewExpression(new CId($2, @2.first_line), @1.first_line);}
+	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new CNewExpression(new CId($2, @2.first_line), @1.first_line); free($2);}
 	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$ = new CBracketsExpression(To<IExpression>($2), @1.first_line);}
 ;
 
@@ -224,7 +224,7 @@ BinaryOperator : PT_Plus { $$=CBinaryExpression::O_Plus; }
 MethodCall: PT_Dot {}
 ;
 
-FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<IExpression>(nullptr), new CId($1, @1.first_line), To<CExpressionList>($3), @1.first_line); }
+FunctionCall: PT_ID LeftRoundBracket ExpressionList RightRoundBracket { $$=new CCallExpression(To<IExpression>(nullptr), new CId($1, @1.first_line), To<CExpressionList>($3), @1.first_line);free($1); }
 ;
 
 ExpressionList: { $$=new CExpressionList(); }

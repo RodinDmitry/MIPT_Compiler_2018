@@ -164,10 +164,6 @@
     <ClCompile Include="VariableInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="output.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Access.h" />
     <ClInclude Include="Argument.h" />
     <ClInclude Include="BisonUtils.h" />

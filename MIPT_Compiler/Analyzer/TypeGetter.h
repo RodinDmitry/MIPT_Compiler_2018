@@ -5,6 +5,8 @@
 
 class CTypeGetter : public IVisitor {
 public:
+
+	CTypeGetter();
 	std::shared_ptr<CType> GetType(IExpression* node, const std::string& symbolTable, const std::string& className,
 		const std::string& funcitonName, int entered, int left);
 	virtual void visit(ITree*) override { assert(false); }

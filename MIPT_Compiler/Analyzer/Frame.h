@@ -46,6 +46,7 @@ private:
 	static CSymbol* stackPointerName;
 	const static int wordSize;
 
-	void AddRegister(const CSymbol* regName, const CSymbol* name);
-	virtual void AddMember(const CSymbol* name);
+	void addRegister(const CSymbol* regName, const CSymbol* name);
+	void addMember(const CSymbol* name);
+	void addLocal(const CSymbol* name);
 };

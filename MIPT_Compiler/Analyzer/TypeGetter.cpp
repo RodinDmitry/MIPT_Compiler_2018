@@ -2,7 +2,11 @@
 #include <SymbolTable.h>
 #include <ErrorTable.h>
 
-std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, const std::string& _symbolTable, 
+CTypeGetter::CTypeGetter() : className(""), functionName(""), symbolTable(""), enterCount(0), leaveCount(0)
+{
+}
+
+std::shared_ptr<CType> CTypeGetter::GetType(IExpression* node, const std::string& _symbolTable,
 	const std::string& _className, const std::string& _functionName, int _entered, int _left)
 {
 	className = _className;

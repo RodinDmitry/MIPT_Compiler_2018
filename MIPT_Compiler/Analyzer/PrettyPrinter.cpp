@@ -2,14 +2,14 @@
 
 static int LastId = 0;
 
-void CPrettyPrinter::visitIfNotNull(ITree* node, std::string currentNode) {
+void CPrettyPrinter::visitIfNotNull(ITree* node, const std::string& currentNode) {
 	if (node != nullptr) {
 		output << currentNode << " -- " << nodes.front() << std::endl;
 		nodes.pop_front();
 	}
 }
 
-void CPrettyPrinter::visitIfNotNull(ITree* node, std::string currentNode, std::string adding)
+void CPrettyPrinter::visitIfNotNull(ITree* node, const std::string& currentNode, const std::string& adding)
 {
 	if (node != nullptr) {
 		node->AddToLabel(adding);

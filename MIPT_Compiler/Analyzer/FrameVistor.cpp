@@ -94,8 +94,8 @@ void CFrameVisitor::visit(CFunction* node)
 void CFrameVisitor::visit(CMainFunction* node)
 {
 	const CClassInfo* info = CSymbolTable::FindClass(tableName, currentClass);
-	node->SetFrame(std::make_shared<CMiniJavaMethodFrame>(info->GetType().get(),
-		std::make_shared<CType>(DT_Void).get()));
+	const CFunctionInfo* funcInfo = new CFunctionInfo(CSymbol::GetSymbol("main"), new CType(), info, VMT_Public);
+	node->SetFrame(std::make_shared<CMiniJavaMethodFrame>(info, funcInfo));
 }
 
 void CFrameVisitor::visit(CMain* node)

@@ -47,6 +47,21 @@ const std::vector<const CFunctionInfo*>& CClassInfo::GetMethods() const
 	return methods;
 }
 
+const std::vector<const CVariableInfo*>& CClassInfo::GetMembers() const
+{
+	std::vector<const CVariableInfo*> tmembers;
+	if (extends != nullptr) {
+		const CClassInfo* base = CSymbolTable::FindClass(tableName, extends);
+		if (base != nullptr) {
+			tmembers = base->GetMembers();
+		}
+	}
+	for (int i = 0; i < members.size(); ++i) {
+		tmembers.push_back(members[i]);
+	}
+	return tmembers;
+}
+
 const CFunctionInfo* CClassInfo::FindMethod(const CSymbol * name) const
 {
 	for (int i = 0; i < methods.size(); ++i) {

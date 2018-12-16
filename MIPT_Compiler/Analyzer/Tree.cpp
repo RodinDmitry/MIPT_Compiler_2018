@@ -40,9 +40,9 @@ int ITree::GetLine() const {
 	return line;
 }
 
-IFrame * ITree::GetFrame()
+std::shared_ptr<IFrame> ITree::GetFrame()
 {
-	return frame.get();
+	return frame;
 }
 
 void ITree::SetFrame(std::shared_ptr<IFrame> _frame)

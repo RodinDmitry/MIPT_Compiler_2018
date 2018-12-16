@@ -15,6 +15,13 @@ void CMiniJavaMethodFrame::AddLocal(const CSymbol * name)
 	currOffset += wordSize;
 }
 
+void CMiniJavaMethodFrame::AddMember(const CSymbol * name)
+{
+	locals.emplace_back(new CInClassAccess(currOffset, thisAccess));
+	namesMap.emplace(name, locals.back().get());
+	currOffset += wordSize;
+}
+
 int CMiniJavaMethodFrame::FormalsCount() const
 {
 	return formals.size();
@@ -31,7 +38,7 @@ const IAccess * CMiniJavaMethodFrame::FindFormalorLocal(const CSymbol * name) co
 	if (var != namesMap.end()) {
 		return (*var).second;
 	}
-	return nullptr;
+	return classFrame->FindFormalorLocal( name );
 }
 
 std::shared_ptr<const IR::IExpression> CMiniJavaMethodFrame::GetWordSize() const
@@ -50,16 +57,8 @@ CSymbol* CMiniJavaMethodFrame::framePointerName = nullptr;
 CSymbol* CMiniJavaMethodFrame::stackPointerName = nullptr;
 const int CMiniJavaMethodFrame::wordSize = 4;
 
-CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CType* classType, const CType* returnType)
-{
-	initStatic();
-	AddRegister(thisName, thisName);
-	AddRegister(framePointerName, framePointerName);
-	AddRegister(stackPointerName, stackPointerName);
-	AddLocal(returnName);
-}
-
-CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo, const CFunctionInfo* info)
+CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo,const CFunctionInfo* info)
+	: className(classInfo->String()->String()), functionName(info->String()->String())
 {
 	initStatic();
 	AddRegister(thisName, thisName);
@@ -72,6 +71,16 @@ CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo, const CF
 	}
 	for (const CVariableInfo* var : info->GetLocals()) {
 		AddLocal(var->String());
+	}
+	classFrame = std::make_shared<CMiniJavaMethodFrame>(classInfo, FindFormalorLocal(thisName));
+}
+
+CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* info, const IAccess* _thisAccess)
+	: thisAccess(_thisAccess)
+{
+	initStatic();
+	for (const CVariableInfo* var : info->GetMembers()) {
+		AddMember(var->String());
 	}
 }
 
@@ -93,6 +102,16 @@ const IAccess * CMiniJavaMethodFrame::GetFP() const
 const IAccess * CMiniJavaMethodFrame::GetSP() const
 {
 	return FindFormalorLocal(stackPointerName);
+}
+
+const std::string & CMiniJavaMethodFrame::GetFunctionName() const
+{
+	return functionName;
+}
+
+const std::string & CMiniJavaMethodFrame::GetClassName() const
+{
+	return className;
 }
 
 void CMiniJavaMethodFrame::initStatic()

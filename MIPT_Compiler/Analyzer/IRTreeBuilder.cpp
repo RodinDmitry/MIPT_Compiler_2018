@@ -114,7 +114,7 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 
 	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(methodCaller));
 	const CFunctionInfo* functionInfo = info->FindMethod(CSymbol::GetSymbol(node->function->name));
-	std::shared_ptr<CType> type = functionInfo->GetType();
+	std::shared_ptr<const CType> type = std::make_shared< const CType>(*(functionInfo->GetType()));
 	if (type->type == TDataType::DT_Instance) {
 		callerClassName = type->instance;
 	}

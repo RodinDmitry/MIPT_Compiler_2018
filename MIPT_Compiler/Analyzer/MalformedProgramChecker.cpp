@@ -139,11 +139,7 @@ void CMalformedProgramChecker::visit(CNewExpression* node)
 
 void CMalformedProgramChecker::visit(CIdExpression* node)
 {
-	const CVariableInfo* info = CSymbolTable::FindMember(tableName, CSymbol::GetSymbol(node->id->name));
-	if (info == nullptr) {
-		// рндн 
-		// CErrorTable::AddError(CErrorTable::UnknownVariable + node->id->name, node->GetLine());
-	}
+	//ignore
 }
 
 void CMalformedProgramChecker::visit(CThisExpression*)
@@ -301,7 +297,7 @@ void CMalformedProgramChecker::visit(CVariable* node)
 {
 	CVariableInfo* info = createVariableInfo(node);
 	if (info != nullptr) {
-		if (checkVariableDoubleDeclaration(info->String())) {
+		if (checkMemberDoubleDeclaration(info->String())) {
 			CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
 		}
 		CSymbolTable::AddMember(tableName, info);
@@ -363,9 +359,18 @@ void CMalformedProgramChecker::cleanup()
 	placeholders.clear();
 }
 
-bool CMalformedProgramChecker::checkVariableDoubleDeclaration(const CSymbol * symbol)
+bool CMalformedProgramChecker::checkMemberDoubleDeclaration(const CSymbol * symbol)
 {
 	const CVariableInfo* info = CSymbolTable::FindMember(tableName, symbol);
+	if (info != nullptr) {
+		return true;
+	}
+	return false;
+}
+
+bool CMalformedProgramChecker::checkVariableDoubleDeclaration(const CSymbol * symbol)
+{
+	const CVariableInfo* info = CSymbolTable::FindVariable(tableName, symbol);
 	if (info != nullptr) {
 		return true;
 	}

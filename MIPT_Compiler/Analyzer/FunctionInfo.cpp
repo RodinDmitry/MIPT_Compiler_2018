@@ -50,6 +50,11 @@ const CVariableInfo * CFunctionInfo::GetVariable(const CSymbol * name) const
 
 const CVariableInfo * CFunctionInfo::FindVariable(const CSymbol * name)
 {
+	for (int i = 0; i < arguments.size(); ++i) {
+		if (arguments[i]->String() == name) {
+			return arguments[i].get();
+		}
+	}
 	return GetCurrentBlock()->FindLocal(name);
 }
 

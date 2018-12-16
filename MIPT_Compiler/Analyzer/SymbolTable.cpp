@@ -60,6 +60,11 @@ const CVariableInfo * CSymbolTable::FindMember(const CSymbol* id) const
 	return currentClass->FindMember(id);
 }
 
+const CVariableInfo * CSymbolTable::FindVariable(const CSymbol * id) const
+{
+	return functionInfo->FindVariable( id );
+}
+
 const CVariableInfo* CSymbolTable::FindLocalVariable(const std::string& id, const std::string& className, const std::string& func, int cntEnter, int cntLeave) const
 {
 	const CClassInfo* cl = FindClass(CSymbol::GetSymbol(className));
@@ -200,6 +205,12 @@ const CVariableInfo * CSymbolTable::FindMember(const std::string & tableName, co
 {
 	assert(tables.find(tableName) != tables.end());
 	return tables[tableName]->FindMember(id);
+}
+
+const CVariableInfo * CSymbolTable::FindVariable(const std::string & tableName, const CSymbol * id)
+{
+	assert(tables.find(tableName) != tables.end());
+	return tables[tableName]->FindVariable(id);
 }
 
 const CVariableInfo * CSymbolTable::FindLocalVariable(const std::string & tableName, const std::string& id,

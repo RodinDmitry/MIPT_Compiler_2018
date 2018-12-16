@@ -61,6 +61,7 @@ private:
 	bool checkVariableDoubleDeclaration(const CSymbol* symbol);
 	bool checkFunctionDoubleDeclaration(const CSymbol* symbol);
 	bool checkClassDoubleDeclaration(const CSymbol* symbol);
+	bool checkMemberDoubleDeclaration(const CSymbol * symbol);
 
 	std::deque<ITree*> waitingNodes;
 	std::vector<std::shared_ptr<ITree>> placeholders;

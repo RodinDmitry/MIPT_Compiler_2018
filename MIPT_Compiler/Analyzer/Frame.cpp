@@ -8,16 +8,21 @@ void CMiniJavaMethodFrame::AddFormal(const CSymbol* name)
 	currOffset += wordSize;
 }
 
-void CMiniJavaMethodFrame::AddLocal(const CSymbol * name)
+void CMiniJavaMethodFrame::AddLocal(const CSymbol* name)
 {
-	locals.emplace_back(new CInFrameAccess(currOffset));
+	addLocal(name);
+}
+
+void CMiniJavaMethodFrame::addMember(const CSymbol * name)
+{
+	locals.emplace_back(new CInClassAccess(currOffset, thisAccess));
 	namesMap.emplace(name, locals.back().get());
 	currOffset += wordSize;
 }
 
-void CMiniJavaMethodFrame::AddMember(const CSymbol * name)
+void CMiniJavaMethodFrame::addLocal(const CSymbol * name)
 {
-	locals.emplace_back(new CInClassAccess(currOffset, thisAccess));
+	locals.emplace_back(new CInFrameAccess(currOffset));
 	namesMap.emplace(name, locals.back().get());
 	currOffset += wordSize;
 }
@@ -61,17 +66,17 @@ CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo,const CFu
 	: className(classInfo->String()->String()), functionName(info->String()->String()), thisAccess(nullptr)
 {
 	initStatic();
-	AddRegister(thisName, thisName);
-	AddRegister(framePointerName, framePointerName);
-	AddRegister(stackPointerName, stackPointerName);
-	AddLocal(returnName);
+	addRegister(thisName, thisName);
+	addRegister(framePointerName, framePointerName);
+	addRegister(stackPointerName, stackPointerName);
+	addLocal(returnName);
 
 	for (const std::unique_ptr<const CVariableInfo>& var : info->GetArguments()) {
 		AddFormal(var->String());
 	}
 	std::shared_ptr<const std::vector<const CVariableInfo* >> localVars(info->GetLocals());
 	for (const CVariableInfo* var : *(localVars.get())) {
-		AddLocal(var->String());
+		addLocal(var->String());
 	}
 	classFrame = std::make_shared<CMiniJavaMethodFrame>(classInfo, FindFormalorLocal(thisName));
 }
@@ -82,7 +87,7 @@ CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* info, const IAccess
 	initStatic();
 	std::shared_ptr<const std::vector<const CVariableInfo* >> localVars(info->GetMembers());
 	for (const CVariableInfo* var : *(localVars.get())) {
-		AddMember(var->String());
+		addMember(var->String());
 	}
 }
 
@@ -126,7 +131,7 @@ void CMiniJavaMethodFrame::initStatic()
 	}
 }
 
-void CMiniJavaMethodFrame::AddRegister(const CSymbol * regName, const CSymbol * name)
+void CMiniJavaMethodFrame::addRegister(const CSymbol * regName, const CSymbol * name)
 {
 	locals.emplace_back(new CInRegAccess(std::make_shared< const IR::CTemp >(regName->String())));
 	namesMap.emplace(name, locals.back().get());

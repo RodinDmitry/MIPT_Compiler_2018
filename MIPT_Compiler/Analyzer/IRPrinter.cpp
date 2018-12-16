@@ -156,7 +156,7 @@ void IR::CIRPrinterVisitor::visitIfNotNull(const ITree* node, const std::string&
 	}
 }
 
-std::string IR::CIRPrinterVisitor::labelNode(std::string name)
+std::string IR::CIRPrinterVisitor::labelNode(const std::string& name)
 {
 	std::string nodeName = name + std::to_string(lastId++);
 	output << nodeName << " [ label = \"" << name << "\"]" << std::endl;

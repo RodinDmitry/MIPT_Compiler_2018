@@ -118,21 +118,4 @@ private:
 	CLabel label;
 };
 
-class CStatementList : public IStatement {
-public:
-	CStatementList() = default;
-	virtual ~CStatementList() = default;
-	explicit CStatementList(const IStatement* statement) { Add(statement); }
-	explicit CStatementList(std::shared_ptr<const IStatement> statement) { Add(statement); }
-
-	void Add(const IStatement* statement) { Add(std::shared_ptr<const IStatement>(statement)); }
-	void Add(std::shared_ptr<const IStatement> statement) { statements.push_back(statement); }
-
-	const std::vector<std::shared_ptr<const IStatement>>& Statements() const { return statements; }
-	virtual void Accept(IIRVisitor* visitor) const override;
-
-private:
-	std::vector<std::shared_ptr<const IStatement>> statements;
-};
-
 } // namespace IR

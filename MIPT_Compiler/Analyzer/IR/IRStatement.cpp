@@ -40,9 +40,4 @@ namespace IR {
 		visitor->visit(this);
 	}
 
-	void IR::CStatementList::Accept(IIRVisitor* visitor) const
-	{
-		visitor->visit(this);
-	}
-
 } // namespace IR

@@ -32,8 +32,8 @@ void CIRTreeBuilder::visit(CClassInternalsList* node)
 	for (int i = static_cast<int>(internals.size()) - 1; i >= 0; i--) {
 		internals[i]->Accept(this);
 		if (internals[i]->function != nullptr) {
-			std::string methodName = makeMethodName(currentClassName, internals[i]->function->name->name);
-			methods[CSymbol::GetSymbol(methodName) ] = subtree;
+			std::string methodName = makeMethodName(currentClassName, currentFrame->GetFunctionName());
+			methods[CSymbol::GetSymbol(methodName)] = subtree;
 		}
 	}
 }
@@ -225,22 +225,35 @@ void CIRTreeBuilder::visit(CId *)
 
 void CIRTreeBuilder::visit(CMainArgument *)
 {
+	assert(false);
 }
 
-void CIRTreeBuilder::visit(CMainFunction *)
+void CIRTreeBuilder::visit(CMainFunction* node)
 {
+	node->body->Accept(this);
 }
 
-void CIRTreeBuilder::visit(CMain *)
+void CIRTreeBuilder::visit(CMain* node)
 {
+	node->mainFunction->Accept(this);
+	currentClassName = node->name->name;
+	std::string methodFullName = makeMethodName(currentClassName, currentFrame->GetFunctionName());
+	std::shared_ptr<IR::ITreeWrapper> mainFunction = subtree;
+	updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(std::shared_ptr<const IR::IStatement>(
+				new IR::CLabelStatement(IR::CLabel(methodFullName))), mainFunction->ToStatement())));
+
+	methods[CSymbol::GetSymbol(methodFullName)] = subtree;
 }
 
-void CIRTreeBuilder::visit(CModifier *)
+void CIRTreeBuilder::visit(CModifier*)
 {
+	assert(false);
 }
 
-void CIRTreeBuilder::visit(CProgram *)
+void CIRTreeBuilder::visit(CProgram* node)
 {
+	node->main->Accept(this);
+	node->classes->Accept(this);
 }
 
 void CIRTreeBuilder::visit(IStatement*)
@@ -350,7 +363,7 @@ void CIRTreeBuilder::visit(CAssignStatement* node)
 
 void CIRTreeBuilder::visit(CVariableStatement* node)
 {
-	//TODO
+	assert(false);
 }
 
 void CIRTreeBuilder::visit(CType*)
@@ -368,8 +381,9 @@ void CIRTreeBuilder::visit(CValue* node)
 	updateSubtree(new IR::CExpressionWrapper(new IR::CConstExpression(node->value)));
 }
 
-void CIRTreeBuilder::visit(CVariable *)
+void CIRTreeBuilder::visit(CVariable*)
 {
+	assert(false);
 }
 
 void CIRTreeBuilder::visit(CCallLengthExpression* node)

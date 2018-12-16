@@ -368,7 +368,8 @@ void CIRTreeBuilder::visit(CAssignStatement* node)
 	node->right->Accept(this);
 	std::shared_ptr<IR::ITreeWrapper> rightTree = subtree;
 
-	updateSubtree(new IR::CStatementWrapper(new IR::CMoveStatement(leftTree->ToExpression(),rightTree->ToExpression())));
+	updateSubtree(new IR::CStatementWrapper(new IR::CMoveStatement(leftTree->ToExpression(), 
+		rightTree->ToExpression())));
 }
 
 void CIRTreeBuilder::visit(CVariableStatement* node)

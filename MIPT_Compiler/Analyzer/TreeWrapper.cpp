@@ -37,13 +37,13 @@ namespace IR {
 
 	std::shared_ptr<const IExpression> CConditionalWrapper::ToExpression()
 	{
-		CTempExpression* temp = new CTempExpression(CTemp());
+		std::shared_ptr<CTempExpression> temp(new CTempExpression(CTemp()));
 		CLabel labelTrue;
 		CLabel labelFalse;
-		return std::shared_ptr<const IExpression>(new CEseqExpression(new CSeqStatement(
-			new CMoveStatement(temp, new CConstExpression(1)), new CSeqStatement(ToConditional(labelTrue, labelFalse),
+		return std::shared_ptr<const IExpression>(new CEseqExpression(std::shared_ptr<IStatement>(new CSeqStatement(
+			new CMoveStatement(temp, std::shared_ptr<const IExpression>(new CConstExpression(1))), new CSeqStatement(ToConditional(labelTrue, labelFalse),
 				std::shared_ptr<const CSeqStatement>( new CSeqStatement( new CLabelStatement(labelFalse), new CSeqStatement( 
-					new CMoveStatement(temp, new CConstExpression(0)), new CLabelStatement(labelTrue) ) ) ) ) ), temp ) );
+					new CMoveStatement(temp, std::shared_ptr<const IExpression>(new CConstExpression(0))), new CLabelStatement(labelTrue) ) ) ) ) ) ), temp ) );
 	}
 
 	std::shared_ptr<const IStatement> CConditionalWrapper::ToStatement()

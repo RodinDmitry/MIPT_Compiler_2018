@@ -2,6 +2,7 @@
 
 #include <IR/IRTree.h>
 #include <IR/Label.h>
+#include <ErrorTable.h>
 #include <vector>
 
 namespace IR {

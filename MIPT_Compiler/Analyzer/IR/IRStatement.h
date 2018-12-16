@@ -3,6 +3,7 @@
 #include <IR/IRTree.h>
 #include <IR/Label.h>
 #include <IR/IRExpression.h>
+#include <ErrorTable.h>
 #include <vector>
 
 namespace IR {

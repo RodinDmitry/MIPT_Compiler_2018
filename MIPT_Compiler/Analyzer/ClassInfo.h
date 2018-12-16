@@ -11,6 +11,7 @@ public:
 	void AddMembers(std::vector<const CVariableInfo* >&& _members);
 	void AddMethod(const CFunctionInfo* method);
 	void AddMethods(std::vector<const CFunctionInfo* >&& _methods);
+	int GetSize() const;
 	const std::vector<const CFunctionInfo*>& GetMethods() const;
 	const CFunctionInfo* FindMethod(const CSymbol* name) const;
 	const CVariableInfo* FindMember(const CSymbol* name) const;

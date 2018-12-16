@@ -1,5 +1,7 @@
 #include <IRTreeBuilder.h>
 #include <SymbolTable.h>
+#include <FunctionInfo.h>
+#include <ClassInfo.h>
 
 void CIRTreeBuilder::visit(ITree*)
 {
@@ -118,16 +120,40 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 	}
 }
 
-void CIRTreeBuilder::visit(CValueExpression *)
+void CIRTreeBuilder::visit(CValueExpression* node)
 {
+	node->value->Accept(this);
 }
 
-void CIRTreeBuilder::visit(CNewArrayExpression *)
+void CIRTreeBuilder::visit(CNewArrayExpression* node)
 {
+	node->expression->Accept(this);
+
+	std::shared_ptr<const IR::IExpression> expressionLength = subtree->ToExpression();
+
+
+	IR::IExpression* total_size = new IR::CBinaryExpression(IR::TOperator::O_Multiplication, 
+		std::shared_ptr<const IR::IExpression>(new IR::CBinaryExpression(IR::TOperator::O_Plus,
+		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(1)), expressionLength)), currentFrame->GetWordSize());
+
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
+		new IR::CExpressionList(total_size)))));
+
 }
 
-void CIRTreeBuilder::visit(CNewExpression *)
+void CIRTreeBuilder::visit(CNewExpression* node)
 {
+	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(node->id->name));
+	int classSize = info->GetSize();
+
+	IR::IExpression* total_size = new IR::CBinaryExpression(IR::TOperator::O_Multiplication, 
+		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(classSize)), currentFrame->GetWordSize());
+
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
+		new IR::CExpressionList(total_size)))));
+
+	callerClassName = node->id->name;
+
 }
 
 void CIRTreeBuilder::visit(CIdExpression *)
@@ -289,8 +315,9 @@ void CIRTreeBuilder::visit(CAssignStatement* node)
 	updateSubtree(new IR::CStatementWrapper(new IR::CMoveStatement(leftTree->ToExpression(),rightTree->ToExpression())));
 }
 
-void CIRTreeBuilder::visit(CVariableStatement*)
+void CIRTreeBuilder::visit(CVariableStatement* node)
 {
+	//TODO
 }
 
 void CIRTreeBuilder::visit(CType*)
@@ -303,12 +330,19 @@ void CIRTreeBuilder::visit(IValue*)
 	assert(false);
 }
 
-void CIRTreeBuilder::visit(CValue *)
+void CIRTreeBuilder::visit(CValue* node)
 {
+	updateSubtree(new IR::CExpressionWrapper(new IR::CConstExpression(node->value)));
 }
 
 void CIRTreeBuilder::visit(CVariable *)
 {
+}
+
+void CIRTreeBuilder::visit(CCallLengthExpression* node)
+{
+	std::shared_ptr<IR::CExpressionList> arguments(new IR::CExpressionList());
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("system.print", arguments)));
 }
 
 IR::TLogicOperatorType CIRTreeBuilder::convertOperatorLogic(CBinaryExpression::TOperator op)

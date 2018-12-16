@@ -1,4 +1,4 @@
-#include "SymbolTable.h"
+#include <SymbolTable.h>
 #include <assert.h>
 
 std::map<const std::string, std::unique_ptr<CSymbolTable> > CSymbolTable::tables;

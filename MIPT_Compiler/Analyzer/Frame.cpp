@@ -119,10 +119,10 @@ const std::string & CMiniJavaMethodFrame::GetClassName() const
 void CMiniJavaMethodFrame::initStatic()
 {
 	if (stackPointerName == nullptr) {
-		thisName = CSymbol::GetSymbol("$this$");
-		returnName = CSymbol::GetSymbol("$return$");
-		framePointerName = CSymbol::GetSymbol("$fp$");
-		stackPointerName = CSymbol::GetSymbol("$sp$");
+		thisName = CSymbol::GetSymbol("_this_");
+		returnName = CSymbol::GetSymbol("_return_");
+		framePointerName = CSymbol::GetSymbol("_fp_");
+		stackPointerName = CSymbol::GetSymbol("_sp_");
 	}
 }
 

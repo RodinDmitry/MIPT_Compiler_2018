@@ -1,14 +1,14 @@
-#include "ClassInfo.h"
 #include <SymbolTable.h>
+#include <Type.h>
+#include <ClassInfo.h>
 
-CClassInfo::CClassInfo(const CSymbol * _name) 
-	: name(_name), extends(nullptr)
+CClassInfo::CClassInfo(const std::string& _tableName, const CSymbol * _name)
+	: name(_name), extends(nullptr), tableName(_tableName)
 {}
 
-CClassInfo::CClassInfo(const std::string& tableName, const CSymbol* _name, const CSymbol* _extends) 
-	: name(_name), extends(_extends)
-{
-}
+CClassInfo::CClassInfo(const std::string& _tableName, const CSymbol* _name, const CSymbol* _extends)
+	: name(_name), extends(_extends), tableName(_tableName)
+{}
 
 void CClassInfo::AddMember(const CVariableInfo * member)
 {
@@ -40,6 +40,28 @@ const CFunctionInfo* CClassInfo::FindMethod(const CSymbol * name) const
 	for (int i = 0; i < methods.size(); ++i) {
 		if (methods[i]->String() == name) {
 			return methods[i];
+		}
+	}
+	if (extends != nullptr) {
+		const CClassInfo* base = CSymbolTable::FindClass(tableName, extends);
+		if (base != nullptr) {
+			return base->FindMethod(name);
+		}
+	}
+	return nullptr;
+}
+
+const CVariableInfo * CClassInfo::FindMember(const CSymbol * name) const
+{
+	for (int i = 0; i < members.size(); ++i) {
+		if (members[i]->String() == name) {
+			return members[i];
+		}
+	}
+	if (extends != nullptr) {
+		const CClassInfo* base = CSymbolTable::FindClass(tableName, extends);
+		if (base != nullptr) {
+			return base->FindMember(name);
 		}
 	}
 	return nullptr;

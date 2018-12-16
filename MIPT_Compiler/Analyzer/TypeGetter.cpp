@@ -102,6 +102,10 @@ void CTypeGetter::visit(CCallExpression* node)
 	CTypeGetter getter;
 	std::shared_ptr<CType> callerType = getter.GetType(node->caller.get(), symbolTable, className, functionName,
 		enterCount, leaveCount);
+	if (!callerType) {
+		callerType = getter.GetType(node->caller.get(), symbolTable, className, functionName,
+			enterCount, leaveCount);
+	}
 	if (callerType->type != TDataType::DT_Instance) {
 		return;
 	}
@@ -111,8 +115,15 @@ void CTypeGetter::visit(CCallExpression* node)
 	}
 	const CFunctionInfo* method = classInfo->FindMethod(CSymbol::GetSymbol(node->function->name));
 	if (method != nullptr) {
-		resultingTypes.push_back(method->GetType());
+		std::shared_ptr<CType> type(new CType(*(method->GetType())));
+		resultingTypes.push_back(type);
 	}	
+}
+
+void CTypeGetter::visit(CCallLengthExpression* node)
+{
+	std::shared_ptr<CType> type(new CType(DT_Integer));
+	resultingTypes.push_back(type);
 }
 
 void CTypeGetter::visit(CValueExpression* node)

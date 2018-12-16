@@ -14,6 +14,7 @@ const std::string CErrorTable::WrongIndex = "Array index must be integer ";
 const std::string CErrorTable::ReturnTypeMismatch = "Return type mismatch ";
 const std::string CErrorTable::InvalidPrint = "Unprintable type";
 const std::string CErrorTable::InvalidOperation = "Invalide binary operation";
+const std::string CErrorTable::ExpectedArray = "Expected Array";
 
 void CErrorTable::AddError(const std::string& message, int line)
 {

@@ -9,12 +9,15 @@ void CMainCompiler::Process(int argc, char * argv[])
 	tableName = args.GetInputFileName();
 	initStreams();
 	buildAST();
+	if (!root) {
+		return;
+	}
 	dumpAST();
 	typeCheck();
 	if (CErrorTable::HasErrors()) {
 		return;
 	}
-	AddFrames();
+	//AddFrames();
 }
 
 void CMainCompiler::dumpBisonToken(const std::string & token)

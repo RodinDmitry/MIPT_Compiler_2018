@@ -47,6 +47,7 @@ public:
 	virtual void visit(IValue*) override;
 	virtual void visit(CValue*) override;
 	virtual void visit(CVariable*) override;
+	virtual void visit(CCallLengthExpression*) override;
 
 	std::vector<ITree*> nodesStack;
 

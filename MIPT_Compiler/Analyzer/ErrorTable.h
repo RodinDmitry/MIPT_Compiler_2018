@@ -17,6 +17,7 @@ public:
 	static const std::string TypeCheckFailed;
 	static const std::string ExpectedBoolean;
 	static const std::string ExpectedInteger;
+	static const std::string ExpectedArray;
 	static const std::string WrongIndex;
 	static const std::string ReturnTypeMismatch;
 	static const std::string InvalidPrint;

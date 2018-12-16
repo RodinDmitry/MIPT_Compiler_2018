@@ -1,5 +1,5 @@
 #pragma once
-#include <NamespaceBlock.h>
+#include <FunctionInfo.h>
 #include <UndefinedTypeException.h>
 #include <map>
 
@@ -15,10 +15,10 @@ public:
 	static void CreateClass(const std::string& tableName, const std::string& name, const std::string& extends);
 	static void AddFunctionBlock(const std::string& tableName, CFunctionInfo* function);
 
-
 	//static void AddClass(const std::string& tableName, const CClassInfo* classDecl);
 	static void AddArgument(const std::string& tableName, const CVariableInfo* argument);
 	static void AddMember(const std::string& tableName, const CVariableInfo* variable);
+	static void AddLocal(const std::string& tableName, const CVariableInfo* variable);
 	
 	static const CClassInfo* GetThis(const std::string& tableName);
 	static const CClassInfo* FindClass(const std::string& tableName, const CSymbol* id);
@@ -28,6 +28,7 @@ public:
 	static const CVariableInfo* FindLocalVariable(const std::string& tableName, const std::string& id,
 		const std::string& className, const std::string& func, int cntEnter, int cntLeave);
 	static bool IsDerived(const std::string& tableName, const std::string& derived, const std::string& base);
+
 private:
 	explicit CSymbolTable(const std::string& name);
 
@@ -39,6 +40,7 @@ private:
 
 	void AddArgument(const CVariableInfo* argument);
 	void AddMember(const CVariableInfo* variable);
+	void AddLocal(const CVariableInfo* variable);
 
 	const CClassInfo* GetThis() const;
 
@@ -50,9 +52,11 @@ private:
 	const CNamespaceBlock* switchToOffset(const CNamespaceBlock* block, int cntEnter, int cntLeave) const;
 	bool IsDerived(const std::string& derived, const std::string& base) const;
 
-	CNamespaceBlock* currentBlock;
 	const std::string tableName;
-	std::vector<std::unique_ptr<CNamespaceBlock> > blocks;
+	CClassInfo* currentClass;
+	CFunctionInfo* functionInfo;
+	std::vector<std::unique_ptr<CClassInfo> > classes;
+
 	static std::map<const std::string, std::unique_ptr<CSymbolTable> > tables;
 	static CSymbolTable* currentTable;
 };

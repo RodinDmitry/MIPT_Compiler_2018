@@ -344,6 +344,14 @@ void CPrettyPrinter::visit(CCallExpression* node)
 	labels.push_back(std::make_pair(name, node));
 }
 
+void CPrettyPrinter::visit(CCallLengthExpression* node)
+{
+	std::string name = "callLen" + std::to_string(LastId++);
+	visitIfNotNull(node->caller.get(), name);
+	nodes.push_front(name);
+	labels.push_back(std::make_pair(name, node));
+}
+
 void CPrettyPrinter::visit(CValueExpression* node)
 {
 	std::string name = "valueExpr" + std::to_string(LastId++);

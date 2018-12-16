@@ -3,56 +3,54 @@
 #include <Type.h>
 #include <UndefinedTypeException.h>
 
-CFunctionInfo::CFunctionInfo(std::string& table, const CSymbol* _name, const CSymbol* _userType,
-		TDataType _returnType, TVisabilityModifierType _modifierType)
-	:name(_name), userType(_userType), returnType(_returnType), modifierType(_modifierType)
+CFunctionInfo::CFunctionInfo(const CSymbol* _name, const CType* _dataType, const CClassInfo* _classInfo,
+		TVisabilityModifierType _modifierType)
+	:name(_name), classInfo(_classInfo), dataType(_dataType), modifierType(_modifierType) {}
+
+void CFunctionInfo::AddArgument(std::unique_ptr<const CVariableInfo> argument)
 {
-	if (returnType == DT_Instance) {
-		dataType.reset(new CType(userType->String().c_str()));
-	}
-	else {
-		dataType.reset(new CType(returnType));
-	}
+	arguments.push_back(std::move(argument));
 }
 
-void CFunctionInfo::AddArgument(const CVariableInfo* argument)
+void CFunctionInfo::AddLocalVar(std::unique_ptr<const CVariableInfo> local)
 {
-	arguments.push_back(argument);
+	localsBlocks.emplace_back(local.get(), GetCurrentBlock());
+	GetCurrentBlock()->AddLocal(std::move(local));
 }
 
-void CFunctionInfo::AddLocal(const CVariableInfo * local)
-{
-	locals.push_back(local);
-}
-
-void CFunctionInfo::AddArguments(std::vector<const CVariableInfo*>&& _arguments)
-{
-	arguments = _arguments;
-}
-
-const std::vector<const CVariableInfo*>& CFunctionInfo::GetArguments() const
+const std::vector<std::unique_ptr<const CVariableInfo>>& CFunctionInfo::GetArguments() const
 {
 	return arguments;
 }
 
 const std::vector<const CVariableInfo*>& CFunctionInfo::GetLocals() const
 {
-	return locals;
+	std::vector<const CVariableInfo*> vars;
+	for (int i = 0; i < localsBlocks.size(); ++i) {
+		vars.push_back(localsBlocks[i].first);
+	}
+	return vars;
 }
+
 
 const CVariableInfo * CFunctionInfo::GetVariable(const CSymbol * name) const
 {
 	for (int i = 0; i < arguments.size(); ++i) {
 		if (arguments[i]->String() == name) {
-			return arguments[i];
+			return arguments[i].get();
 		}
 	}
-	for (int i = 0; i < locals.size(); ++i) {
-		if (locals[i]->String() == name) {
-			return locals[i];
+	for (int i = 0; i < localsBlocks.size(); ++i) {
+		if (localsBlocks[i].first->String() == name) {
+			return localsBlocks[i].first;
 		}
 	}
-	return nullptr;
+	return classInfo->FindMember(name);
+}
+
+const CVariableInfo * CFunctionInfo::FindVariable(const CSymbol * name)
+{
+	return GetCurrentBlock()->FindLocal(name);
 }
 
 const CSymbol * CFunctionInfo::String() const
@@ -60,17 +58,33 @@ const CSymbol * CFunctionInfo::String() const
 	return name;
 }
 
-std::shared_ptr<CType> CFunctionInfo::GetType() const
+const CType* CFunctionInfo::GetType() const
 {
 	return dataType;
 }
 
-void CFunctionInfo::SetParent(const CNamespaceBlock * _parentBlock)
+void CFunctionInfo::EnterBlock()
 {
-	parentBlock = _parentBlock;
+	blocks.emplace_back(std::make_unique<CNamespaceBlock>(GetCurrentBlock()));
+	currentBlock = blocks.back().get();
+	assert(currentBlock != nullptr);
 }
 
-const CNamespaceBlock * CFunctionInfo::GetParent() const
+void CFunctionInfo::LeaveBlock()
 {
-	return parentBlock;
+	assert(currentBlock != nullptr);
+	currentBlock = currentBlock->GetParent();
+	if (currentBlock == this) {
+		currentBlock = nullptr;
+	}
+}
+
+CNamespaceBlock * CFunctionInfo::GetCurrentBlock()
+{
+	if (currentBlock == nullptr) {
+		return this;
+	}
+	else {
+		return currentBlock;
+	}
 }

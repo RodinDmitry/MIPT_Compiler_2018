@@ -77,6 +77,7 @@ public:
 	virtual void visit(IValue*) = 0;
 	virtual void visit(CValue*) = 0;
 	virtual void visit(CVariable*) = 0;
+	virtual void visit(CCallLengthExpression*) = 0;
 	virtual void visit(CClassVisibilityStart*) { assert(false); }
 	virtual void visit(CClassVisibilityEnd*) { assert(false); }
 	virtual void visit(CFunctionVisibilityStart*) { assert(false); }

@@ -4,7 +4,7 @@
 #include <Type.h>
 #include <vector>
 #include <map>
-#include <ClassInfo.h>
+#include <FunctionInfo.h>
 
 class CMiniJavaMethodFrame : public IFrame {
 public:

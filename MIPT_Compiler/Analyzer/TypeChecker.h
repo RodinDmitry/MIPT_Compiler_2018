@@ -52,6 +52,7 @@ public:
 	virtual void visit(CClassVisibilityEnd*) override;
 	virtual void visit(CVisibilityBlockStart*) override;
 	virtual void visit(CVisibilityBlockEnd*) override;
+	virtual void visit(CCallLengthExpression*) override;
 
 private:
 

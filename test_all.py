@@ -8,7 +8,7 @@ bad_test_folder = 'BadSamples/'
 result_folder = 'Results/'
 
 def process_folder(folder):
-    if not os.path.exists(folder):
+    if not os.path.exists(result_folder + folder):
         os.mkdir(result_folder + folder)
     for file in os.listdir(folder):
         test_file = folder + file

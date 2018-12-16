@@ -226,7 +226,7 @@ bool CSymbolTable::IsDerived(const std::string& tableName, const std::string& de
 	return tables[tableName]->IsDerived(derived, base);
 }
 
-CSymbolTable::CSymbolTable(const std::string& _name) : tableName(_name) {}
+CSymbolTable::CSymbolTable(const std::string& _name) : tableName(_name), functionInfo(nullptr) {}
 
 void CSymbolTable::AddBlock()
 {

@@ -121,6 +121,9 @@
     <ClCompile Include="IRTreeBuilder.cpp">
       <Filter>AST\Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="IRPrinter.cpp">
+      <Filter>IR</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">

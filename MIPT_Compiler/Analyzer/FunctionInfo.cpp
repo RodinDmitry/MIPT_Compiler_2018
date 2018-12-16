@@ -23,11 +23,11 @@ const std::vector<std::unique_ptr<const CVariableInfo>>& CFunctionInfo::GetArgum
 	return arguments;
 }
 
-const std::vector<const CVariableInfo*>& CFunctionInfo::GetLocals() const
+std::shared_ptr<const std::vector<const CVariableInfo* >> CFunctionInfo::GetLocals() const
 {
-	std::vector<const CVariableInfo*> vars;
+	std::shared_ptr<std::vector<const CVariableInfo* >> vars = std::make_shared< std::vector<const CVariableInfo* >>();
 	for (int i = 0; i < localsBlocks.size(); ++i) {
-		vars.push_back(localsBlocks[i].first);
+		vars->push_back(localsBlocks[i].first);
 	}
 	return vars;
 }

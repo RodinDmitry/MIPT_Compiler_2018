@@ -132,6 +132,7 @@
     <ClCompile Include="FunctionInfo.cpp" />
     <ClCompile Include="grammar.tab.cpp" />
     <ClCompile Include="Id.cpp" />
+    <ClCompile Include="IRPrinter.cpp" />
     <ClCompile Include="IRTreeBuilder.cpp" />
     <ClCompile Include="IR\IRExpression.cpp" />
     <ClCompile Include="IR\Label.cpp" />

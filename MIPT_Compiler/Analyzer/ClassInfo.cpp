@@ -47,9 +47,9 @@ const std::vector<const CFunctionInfo*>& CClassInfo::GetMethods() const
 	return methods;
 }
 
-const std::vector<const CVariableInfo*>& CClassInfo::GetMembers() const
+std::shared_ptr<std::vector<const CVariableInfo*>> CClassInfo::GetMembers() const
 {
-	std::vector<const CVariableInfo*> tmembers;
+	std::shared_ptr<std::vector<const CVariableInfo*>> tmembers = std::make_shared< std::vector<const CVariableInfo* >>();;
 	if (extends != nullptr) {
 		const CClassInfo* base = CSymbolTable::FindClass(tableName, extends);
 		if (base != nullptr) {
@@ -57,7 +57,7 @@ const std::vector<const CVariableInfo*>& CClassInfo::GetMembers() const
 		}
 	}
 	for (int i = 0; i < members.size(); ++i) {
-		tmembers.push_back(members[i]);
+		tmembers->push_back(members[i]);
 	}
 	return tmembers;
 }

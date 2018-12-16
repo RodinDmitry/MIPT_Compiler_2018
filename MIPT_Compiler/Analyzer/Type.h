@@ -10,7 +10,7 @@ public:
 
 	virtual void Accept(IVisitor* visitor) override;
 
-	TDataType type;
+	TDataType type = DT_Void;
 	std::string instance;
 
 	std::string GetLabel() const override;

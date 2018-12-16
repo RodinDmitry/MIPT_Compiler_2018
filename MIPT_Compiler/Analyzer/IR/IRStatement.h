@@ -9,7 +9,7 @@ namespace IR {
 class IStatement : public ITree {
 public:
 	virtual ~IStatement() = default;
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 };
 
 enum class TLogicOperatorType : char {
@@ -27,7 +27,7 @@ public:
 	CMoveStatement(std::shared_ptr<const IExpression> _destination, std::shared_ptr<const IExpression> _source) : destination(_destination), source(_source) {}
 	virtual ~CMoveStatement() = default;
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 	const IExpression* Destination() const { return destination.get(); }
 	const IExpression* Source() const { return source.get(); }
 
@@ -42,7 +42,7 @@ public:
 	CExpStatement(std::shared_ptr<const IExpression> _expression) : expression(_expression) {}
 	virtual ~CExpStatement() = default;
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 	const IExpression* Expression() const { return expression.get(); }
 
 private:
@@ -54,7 +54,7 @@ public:
 	CJumpStatement(CLabel _target) : target(_target) {}
 	virtual ~CJumpStatement() = default;
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 	CLabel Target() const { return target; }
 
 private:
@@ -79,7 +79,7 @@ public:
 	CLabel FalseLabel() const { return labelFalse; }
 	TLogicOperatorType Operation() const { return operation; }
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 
 private:
 	std::shared_ptr<const IExpression> left;
@@ -98,7 +98,7 @@ public:
 	const IStatement* LeftStatement() const { return leftStatement.get(); }
 	const IStatement* RightStatement() const { return rightStatement.get(); }
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 
 private:
 	std::shared_ptr<const IStatement> leftStatement;
@@ -111,7 +111,7 @@ public:
 	~CLabelStatement() = default;
 
 	CLabel Label() const { return label; }
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 private:
 	CLabel label;
 };
@@ -127,7 +127,7 @@ public:
 	void Add(std::shared_ptr<const IStatement> statement) { statements.push_back(statement); }
 
 	const std::vector<std::shared_ptr<const IStatement>>& Statements() const { return statements; }
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 
 private:
 	std::vector<std::shared_ptr<const IStatement>> statements;

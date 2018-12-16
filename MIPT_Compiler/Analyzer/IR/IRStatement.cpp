@@ -5,42 +5,42 @@
 
 namespace IR {
 
-	void IStatement::Accept(IIRVisitor* visitor)
+	void IStatement::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CMoveStatement::Accept(IIRVisitor* visitor)
+	void CMoveStatement::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CExpStatement::Accept(IIRVisitor* visitor)
+	void CExpStatement::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CJumpStatement::Accept(IIRVisitor* visitor)
+	void CJumpStatement::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CJumpConditionalStatement::Accept(IIRVisitor* visitor)
+	void CJumpConditionalStatement::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CSeqStatement::Accept(IIRVisitor* visitor)
+	void CSeqStatement::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CLabelStatement::Accept(IIRVisitor* visitor)
+	void CLabelStatement::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void IR::CStatementList::Accept(IIRVisitor* visitor)
+	void IR::CStatementList::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}

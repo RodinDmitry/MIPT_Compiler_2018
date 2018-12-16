@@ -2,9 +2,11 @@
 #include <SymbolTable.h>
 #include <FunctionInfo.h>
 #include <ClassInfo.h>
+#include <IR/IRStatement.h>
 
-std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> CIRTreeBuilder::BuildIRTree(ITree * tree)
+std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> CIRTreeBuilder::BuildIRTree(ITree * tree, const std::string& _symbolTableName)
 {
+	symbolTableName = _symbolTableName;
 	methods.reset(new std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>());
 	tree->Accept(this);
 	return methods;
@@ -237,6 +239,7 @@ void CIRTreeBuilder::visit(CMainArgument *)
 
 void CIRTreeBuilder::visit(CMainFunction* node)
 {
+	currentFrame = node->GetFrame();
 	node->body->Accept(this);
 }
 
@@ -370,7 +373,6 @@ void CIRTreeBuilder::visit(CAssignStatement* node)
 
 void CIRTreeBuilder::visit(CVariableStatement* node)
 {
-	assert(false);
 }
 
 void CIRTreeBuilder::visit(CType*)

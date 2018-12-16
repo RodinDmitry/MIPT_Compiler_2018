@@ -15,7 +15,7 @@ public:
 	void AddArgument(std::unique_ptr<const CVariableInfo> argument);
 	void AddLocalVar(std::unique_ptr<const CVariableInfo> local);
 	const std::vector<std::unique_ptr<const CVariableInfo> >& GetArguments() const;
-	const std::vector<const CVariableInfo* >& GetLocals() const;
+	std::shared_ptr<const std::vector<const CVariableInfo* >> GetLocals() const;
 	const CVariableInfo* GetVariable(const CSymbol* name) const;
 	const CVariableInfo* FindVariable(const CSymbol* name);
 	const CSymbol* String() const;

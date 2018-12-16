@@ -34,6 +34,14 @@ void CCommandLineArguments::ParseArgs(int argc, char* argv[])
 		if (strncmp(argv[i], "-a", 5) == 0) {
 			dumpAST = true;
 		}
+		if (strncmp(argv[i], "--irname", 10) == 0) {
+			dumpIR = true;
+			IRFileName = getNextName(argc, argv, i);
+			++i;
+		}
+		if (strncmp(argv[i], "-i", 5) == 0) {
+			dumpIR = true;
+		}
 		if (strncmp(argv[i], "--ename", 10) == 0) {
 			customErrors = true;
 			typeErrorsFileName = getNextName(argc, argv, i);
@@ -56,6 +64,11 @@ bool CCommandLineArguments::IsASTDumping() const
 bool CCommandLineArguments::IsBisonDumping() const
 {
 	return dumpBison;
+}
+
+bool CCommandLineArguments::IsIRDumping() const
+{
+	return dumpIR;
 }
 
 bool CCommandLineArguments::HasCustomErrorsFile() const
@@ -87,6 +100,11 @@ const std::string & CCommandLineArguments::GetErrorsFileName() const
 {
 	assert(customErrors);
 	return typeErrorsFileName;
+}
+
+const std::string & CCommandLineArguments::GetIRFileName() const
+{
+	return IRFileName;
 }
 
 std::string CCommandLineArguments::getNextName(int argc, char * argv[], int i)

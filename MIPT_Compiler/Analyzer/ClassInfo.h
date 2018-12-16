@@ -15,7 +15,7 @@ public:
 
 	int GetSize() const;
 	const std::vector<const CFunctionInfo*>& GetMethods() const;
-	const std::vector<const CVariableInfo*>& GetMembers() const;
+	std::shared_ptr<std::vector<const CVariableInfo*>> GetMembers() const;
 
 	const CFunctionInfo* FindMethod(const CSymbol* name) const;
 	const CVariableInfo* FindMember(const CSymbol* name) const;

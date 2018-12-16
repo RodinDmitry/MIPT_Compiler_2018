@@ -58,7 +58,7 @@ CSymbol* CMiniJavaMethodFrame::stackPointerName = nullptr;
 const int CMiniJavaMethodFrame::wordSize = 4;
 
 CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo,const CFunctionInfo* info)
-	: className(classInfo->String()->String()), functionName(info->String()->String())
+	: className(classInfo->String()->String()), functionName(info->String()->String()), thisAccess(nullptr)
 {
 	initStatic();
 	AddRegister(thisName, thisName);
@@ -69,7 +69,8 @@ CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* classInfo,const CFu
 	for (const std::unique_ptr<const CVariableInfo>& var : info->GetArguments()) {
 		AddFormal(var->String());
 	}
-	for (const CVariableInfo* var : info->GetLocals()) {
+	std::shared_ptr<const std::vector<const CVariableInfo* >> localVars(info->GetLocals());
+	for (const CVariableInfo* var : *(localVars.get())) {
 		AddLocal(var->String());
 	}
 	classFrame = std::make_shared<CMiniJavaMethodFrame>(classInfo, FindFormalorLocal(thisName));
@@ -79,7 +80,8 @@ CMiniJavaMethodFrame::CMiniJavaMethodFrame(const CClassInfo* info, const IAccess
 	: thisAccess(_thisAccess)
 {
 	initStatic();
-	for (const CVariableInfo* var : info->GetMembers()) {
+	std::shared_ptr<const std::vector<const CVariableInfo* >> localVars(info->GetMembers());
+	for (const CVariableInfo* var : *(localVars.get())) {
 		AddMember(var->String());
 	}
 }

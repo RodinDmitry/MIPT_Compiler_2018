@@ -12,7 +12,7 @@ public:
 	ITree() = default;
 	virtual ~ITree() = default;
 
-	virtual void Accept(IIRVisitor* visitor);
+	virtual void Accept(IIRVisitor* visitor) const;
 
 };
 

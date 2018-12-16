@@ -3,13 +3,14 @@
 #include <IR/IRTree.h>
 #include <IR/Label.h>
 #include <IR/Temporary.h>
+#include <IR/IRStatement.h>
 #include <vector>
 
 namespace IR {
 
 class IExpression : public ITree {
 public:
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 	virtual ~IExpression() = default;
 };
 
@@ -29,13 +30,13 @@ class CExpressionList : public IExpression {
 public:
 	virtual ~CExpressionList() = default;
 	CExpressionList() = default;
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 	CExpressionList(const IExpression* expression) { Add(expression); }
 	CExpressionList(std::shared_ptr<const IExpression> expression) { Add(expression); }
 	void Add(const IExpression* expression) { Add(std::shared_ptr<const IExpression>(expression)); };
 	void Add(std::shared_ptr<const IExpression> expression) { expressions.push_back(expression); }
 
-	const std::vector<std::shared_ptr<const IExpression>> Get() const { return expressions; }
+	const std::vector<std::shared_ptr<const IExpression>>& Get() const { return expressions; }
 
 private:
 	std::vector<std::shared_ptr<const IExpression>> expressions;
@@ -46,7 +47,7 @@ public:
 	virtual ~CConstExpression() = default;
 	CConstExpression(int _value) : value(_value) {}
 	
-	int Get() { return value; }
+	int Get() const { return value; }
 
 private:
 	int value;
@@ -57,7 +58,7 @@ public:
 	virtual ~CNameExpression() = default;
 	CNameExpression(const CLabel& label) : name(label) {}
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 	const CLabel& Get() const { return name; }
 
 private:
@@ -70,7 +71,7 @@ public:
 	~CTempExpression() = default;
 
 	const CTemp& Temporary() const { return temp; }
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 private:
 	CTemp temp;
 };
@@ -83,7 +84,7 @@ public:
 		operation(_operation), left(_left), right(_right) {}
 	virtual ~CBinaryExpression() = default;
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 
 	TOperator Operation() const { return operation; }
 	const IExpression* LeftOperand() const { return left.get(); }
@@ -101,7 +102,7 @@ public:
 	CMemExpression(std::shared_ptr<const IExpression> _address) : address(_address) {}
 	virtual ~CMemExpression() = default;
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 
 	const IExpression* Get() const { return address.get(); }
 
@@ -115,7 +116,7 @@ public:
 	CCallExpression(std::shared_ptr<const IExpression> _function, std::shared_ptr<const CExpressionList> _arguments) :
 		function(_function), arguments(_arguments) {}
 	virtual ~CCallExpression() = default;
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 
 	const IExpression* Function() const { return function.get(); }
 	const CExpressionList* Arguments() const { return arguments.get(); }
@@ -135,7 +136,7 @@ public:
 		statement(_statement), expression(_expression) {}
 	virtual ~CEseqExpression() = default;
 
-	virtual void Accept(IIRVisitor* visitor) override;
+	virtual void Accept(IIRVisitor* visitor) const override;
 	const IStatement* Statement() const { return statement.get(); }
 	const IExpression* Expression() const { return expression.get(); }
 

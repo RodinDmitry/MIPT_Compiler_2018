@@ -3,38 +3,38 @@
 #include <IR/IRStatement.h>
 
 namespace IR {
-	void IExpression::Accept(IIRVisitor* visitor)
+	void IExpression::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CExpressionList::Accept(IIRVisitor* visitor)
+	void CExpressionList::Accept(IIRVisitor* visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CNameExpression::Accept(IIRVisitor * visitor)
+	void CNameExpression::Accept(IIRVisitor * visitor) const
 	{
 		visitor->visit(this);
 	}
 
-	void CTempExpression::Accept(IIRVisitor * visitor)
+	void CTempExpression::Accept(IIRVisitor * visitor) const
 	{
 		visitor->visit(this);
 	}
-	void CBinaryExpression::Accept(IIRVisitor * visitor)
+	void CBinaryExpression::Accept(IIRVisitor * visitor) const
 	{
 		visitor->visit(this);
 	}
-	void CMemExpression::Accept(IIRVisitor * visitor)
+	void CMemExpression::Accept(IIRVisitor * visitor) const
 	{
 		visitor->visit(this);
 	}
-	void CCallExpression::Accept(IIRVisitor * visitor)
+	void CCallExpression::Accept(IIRVisitor * visitor) const
 	{
 		visitor->visit(this);
 	}
-	void CEseqExpression::Accept(IIRVisitor * visitor)
+	void CEseqExpression::Accept(IIRVisitor * visitor) const
 	{
 		visitor->visit(this);
 	}

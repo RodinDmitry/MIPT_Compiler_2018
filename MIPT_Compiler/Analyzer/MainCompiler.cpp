@@ -2,6 +2,7 @@
 #include <fstream>
 #include <Defines.h>
 #include <FrameVistor.h>
+#include <IRPrinter.h>
 
 void CMainCompiler::Process(int argc, char * argv[])
 {
@@ -17,7 +18,8 @@ void CMainCompiler::Process(int argc, char * argv[])
 	if (CErrorTable::HasErrors()) {
 		return;
 	}
-	//AddFrames();
+	AddFrames();
+	buildIR();
 }
 
 void CMainCompiler::dumpBisonToken(const std::string & token)
@@ -124,4 +126,22 @@ void CMainCompiler::AddFrames()
 {
 	CFrameVisitor visitor;
 	visitor.AddFrames(root.get(), tableName);
+}
+
+void CMainCompiler::buildIR()
+{
+	CIRTreeBuilder builder;
+	IRTrees = builder.BuildIRTree(root.get(), tableName);
+}
+
+void CMainCompiler::dumpIR()
+{
+	if (args.IsIRDumping()) {
+		IR::CIRPrinterVisitor printer(args.GetIRFileName());
+		std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
+		for (tree; tree != IRTrees->end(); ++tree) {
+			printer.PrintTree((*tree).second->ToStatement().get());
+		}
+		printer.close();
+	}
 }

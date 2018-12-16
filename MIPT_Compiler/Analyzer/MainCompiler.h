@@ -2,7 +2,9 @@
 
 #include <CommandLine.h>
 #include <Tree.h>
+#include <IRTreeBuilder.h>
 #include <iostream>
+#include <map>
 
 class CMainCompiler {
 public:
@@ -18,6 +20,7 @@ public:
 private:
 	CCommandLineArguments args;
 	std::unique_ptr<ITree> root;
+	std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> IRTrees;
 	std::string tableName;
 
 	std::unique_ptr<std::ostream> lexDumpFile;
@@ -30,5 +33,7 @@ private:
 	void typeCheck();
 	void buildAST();
 	void AddFrames();
+	void buildIR();
+	void dumpIR();
 
 };

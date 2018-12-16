@@ -8,24 +8,24 @@ namespace IR {
 
 class IIRVisitor {
 public:
-	virtual void visit(ITree* node) = 0;
-	virtual void visit(IExpression* node) = 0;
-	virtual void visit(CExpressionList* node) = 0;
-	virtual void visit(CConstExpression* node) = 0;
-	virtual void visit(CNameExpression* node) = 0;
-	virtual void visit(CTempExpression* node) = 0;
-	virtual void visit(CBinaryExpression* node) = 0;
-	virtual void visit(CMemExpression* node) = 0;
-	virtual void visit(CCallExpression* node) = 0;
-	virtual void visit(CEseqExpression* node) = 0;
-	virtual void visit(IStatement* node) = 0;
-	virtual void visit(CMoveStatement* node) = 0;
-	virtual void visit(CExpStatement* node) = 0;
-	virtual void visit(CJumpStatement* node) = 0;
-	virtual void visit(CJumpConditionalStatement* node) = 0;
-	virtual void visit(CSeqStatement* node) = 0;
-	virtual void visit(CLabelStatement* node) = 0;
-	virtual void visit(CStatementList* node) = 0;
+	virtual void visit(const ITree* node) = 0;
+	virtual void visit(const IExpression* node) = 0;
+	virtual void visit(const CExpressionList* node) = 0;
+	virtual void visit(const CConstExpression* node) = 0;
+	virtual void visit(const CNameExpression* node) = 0;
+	virtual void visit(const CTempExpression* node) = 0;
+	virtual void visit(const CBinaryExpression* node) = 0;
+	virtual void visit(const CMemExpression* node) = 0;
+	virtual void visit(const CCallExpression* node) = 0;
+	virtual void visit(const CEseqExpression* node) = 0;
+	virtual void visit(const IStatement* node) = 0;
+	virtual void visit(const CMoveStatement* node) = 0;
+	virtual void visit(const CExpStatement* node) = 0;
+	virtual void visit(const CJumpStatement* node) = 0;
+	virtual void visit(const CJumpConditionalStatement* node) = 0;
+	virtual void visit(const CSeqStatement* node) = 0;
+	virtual void visit(const CLabelStatement* node) = 0;
+	virtual void visit(const CStatementList* node) = 0;
 };
 
 }

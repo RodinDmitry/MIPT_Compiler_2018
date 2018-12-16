@@ -1,31 +1,44 @@
 #pragma once
 #include <IR/IRVisitor.h>
+#include <fstream>
+#include <deque>
 
 namespace IR {
 
 class CIRPrinterVisitor : IIRVisitor {
 public:
+	explicit CIRPrinterVisitor(const std::string& name);
+	void PrintTree(const ITree* root);
+	void close();
 
-	void PrintTree(ITree* root);
+	virtual void visit(const ITree* node) override;
+	virtual void visit(const IExpression* node) override;
+	virtual void visit(const CExpressionList* node) override;
+	virtual void visit(const CConstExpression* node) override;
+	virtual void visit(const CNameExpression* node) override;
+	virtual void visit(const CTempExpression* node) override;
+	virtual void visit(const CBinaryExpression* node) override;
+	virtual void visit(const CMemExpression* node) override;
+	virtual void visit(const CCallExpression* node) override;
+	virtual void visit(const CEseqExpression* node) override;
+	virtual void visit(const IStatement* node) override;
+	virtual void visit(const CMoveStatement* node) override;
+	virtual void visit(const CExpStatement* node) override;
+	virtual void visit(const CJumpStatement* node) override;
+	virtual void visit(const CJumpConditionalStatement* node) override;
+	virtual void visit(const CSeqStatement* node) override;
+	virtual void visit(const CLabelStatement* node) override;
+	virtual void visit(const CStatementList* node) override;
+private:
+	static int lastId;
+	std::ofstream output;
+	std::deque<std::string> nodes;
+	std::vector< std::pair<std::string, ITree*> > labels;
 
-	virtual void visit(ITree* node) override;
-	virtual void visit(IExpression* node) override;
-	virtual void visit(CExpressionList* node) override;
-	virtual void visit(CConstExpression* node) override;
-	virtual void visit(CNameExpression* node) override;
-	virtual void visit(CTempExpression* node) override;
-	virtual void visit(CBinaryExpression* node) override;
-	virtual void visit(CMemExpression* node) override;
-	virtual void visit(CCallExpression* node) override;
-	virtual void visit(CEseqExpression* node) override;
-	virtual void visit(IStatement* node) override;
-	virtual void visit(CMoveStatement* node) override;
-	virtual void visit(CExpStatement* node) override;
-	virtual void visit(CJumpStatement* node) override;
-	virtual void visit(CJumpConditionalStatement* node) override;
-	virtual void visit(CSeqStatement* node) override;
-	virtual void visit(CLabelStatement* node) override;
-	virtual void visit(CStatementList* node) override;
+	void visitIfNotNull(const ITree* node, std::string currentNode);
+	std::string labelNode(std::string name);
+	std::string operationName(TLogicOperatorType type);
+	std::string operatorName(TOperator type);
 };
 
 } //IR

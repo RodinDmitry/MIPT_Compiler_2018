@@ -120,6 +120,12 @@ void CTypeGetter::visit(CCallExpression* node)
 	}	
 }
 
+void CTypeGetter::visit(CCallLengthExpression* node)
+{
+	std::shared_ptr<CType> type(new CType(DT_Integer));
+	resultingTypes.push_back(type);
+}
+
 void CTypeGetter::visit(CValueExpression* node)
 {
 	waitingNodes.push_front(node->value.get());

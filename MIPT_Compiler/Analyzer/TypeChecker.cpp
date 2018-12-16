@@ -98,6 +98,16 @@ void CTypeChecker::visit(CCallExpression* node)
 	waitingNodes.push_front(node->caller.get());
 }
 
+void CTypeChecker::visit(CCallLengthExpression* node)
+{
+	CTypeGetter getter;
+	auto callerType = getter.GetType(node->caller.get(), tableName, currentClassName, currentFunctionName, blocksEntered, blocksLeft);
+	if (callerType->type != DT_Instance) {
+		CErrorTable::AddError(CErrorTable::ExpectedArray, node->GetLine());
+	}
+	waitingNodes.push_front(node->caller.get());
+}
+
 void CTypeChecker::visit(CNewArrayExpression* node)
 {
 	std::shared_ptr<CType> type(new CType(TDataType::DT_Integer));

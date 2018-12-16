@@ -32,7 +32,7 @@ void CSymbolTable::AddMember(const CVariableInfo * variable)
 
 void CSymbolTable::AddLocal(const CVariableInfo * variable)
 {
-	functionInfo->AddLocal(std::unique_ptr<const CVariableInfo>(variable));
+	functionInfo->AddLocalVar(std::unique_ptr<const CVariableInfo>(variable));
 }
 
 const CClassInfo * CSymbolTable::GetThis() const

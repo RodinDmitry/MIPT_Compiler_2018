@@ -117,6 +117,11 @@ void CMalformedProgramChecker::visit(CCallExpression* node)
 	waitingNodes.push_front(node->caller.get());
 }
 
+void CMalformedProgramChecker::visit(CCallLengthExpression* node)
+{
+	waitingNodes.push_front(node->caller.get());
+}
+
 void CMalformedProgramChecker::visit(CValueExpression*)
 {
 	//ignore
@@ -273,7 +278,7 @@ void CMalformedProgramChecker::visit(CVariableStatement* node)
 		if (checkVariableDoubleDeclaration(info->String())) {
 			CErrorTable::AddError(CErrorTable::DoubleDeclaration, node->GetLine());
 		}
-		CSymbolTable::AddMember(tableName, info);
+		CSymbolTable::AddLocal(tableName, info);
 	}
 }
 

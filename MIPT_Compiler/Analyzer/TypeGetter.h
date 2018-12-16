@@ -47,6 +47,7 @@ public:
 	virtual void visit(IValue*) override { assert(false); }
 	virtual void visit(CValue*) override;
 	virtual void visit(CVariable*) override { assert(false); }
+	virtual void visit(CCallLengthExpression*) override;
 
 private:  
 

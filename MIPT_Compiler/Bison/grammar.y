@@ -198,6 +198,8 @@ LvalueExpression:
 	| LvalueExpression MethodCall FunctionCall %prec CALL { To<CCallExpression>($3)->caller.reset(To<IExpression>($1)); $$=$3;}
 	| PT_ID { $$=new CIdExpression(new CId ($1, @1.first_line), @1.first_line);}
 	| This { $$=new CThisExpression();}
+	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new CNewExpression(new CId($2, @2.first_line), @1.first_line);}
+	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$ = new CBracketsExpression(To<IExpression>($2), @1.first_line);}
 ;
 
 Expression: LvalueExpression { $$=$1; }
@@ -205,9 +207,7 @@ Expression: LvalueExpression { $$=$1; }
 	| LvalueExpression MethodCall Length %prec LENGTH { $$ = new CCallLengthExpression(To<IExpression>($1), @1.first_line);}	
 	| ValueT { $$=new CValueExpression(To<IValue>($1), @1.first_line); }
 	| New Integer LeftSquareBracket Expression RightSquareBracket { $$=new CNewArrayExpression(To<IExpression>($4), @1.first_line);}
-	| New PT_ID LeftRoundBracket RightRoundBracket { $$=new CNewExpression(new CId($2, @2.first_line), @1.first_line);}
 	| Not Expression %prec NOT { $$ = new CNotExpression(To<IExpression>($2), @1.first_line); }
-	| LeftRoundBracket Expression RightRoundBracket %prec BRACKETS { $$ = new CBracketsExpression(To<IExpression>($2), @1.first_line);}
 ;
 
 BinaryOperator : PT_Plus { $$=CBinaryExpression::O_Plus; }

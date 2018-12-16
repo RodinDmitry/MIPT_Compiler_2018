@@ -91,6 +91,11 @@ void CStackBuilder::visit(CCallExpression* node)
 	addIfNotNull(node->caller.get());
 }
 
+void CStackBuilder::visit(CCallLengthExpression* node)
+{
+	addIfNotNull(node->caller.get());
+}
+
 void CStackBuilder::visit(CValueExpression* node)
 {
 	addIfNotNull(node->value.get());

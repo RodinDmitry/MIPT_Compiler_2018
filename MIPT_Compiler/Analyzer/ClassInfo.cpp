@@ -138,3 +138,21 @@ std::shared_ptr<CType> CClassInfo::GetType() const
 {
 	return std::shared_ptr<CType>(new CType(name->String().c_str()));
 }
+
+const CVirtualTable* CClassInfo::GetVirtualTable() const
+{
+	if (virtualTable == nullptr) {
+		if (extends != 0) {
+			const CClassInfo* parent = CSymbolTable::FindClass(tableName, extends);
+			assert(parent != 0);
+			virtualTable = std::make_unique<CVirtualTable>(*(parent->GetVirtualTable()));
+		}
+		else {
+			virtualTable = std::make_unique<CVirtualTable>();
+		}
+		for (int i = 0; i < methods.size(); ++i) {
+			virtualTable->ReplaceMethod(methods[i].get());
+		}
+	}
+	return virtualTable.get();
+}

@@ -124,6 +124,9 @@
     <ClCompile Include="IRPrinter.cpp">
       <Filter>IR</Filter>
     </ClCompile>
+    <ClCompile Include="VirtualTable.cpp">
+      <Filter>SymbolTable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -272,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="IRPrinter.h">
       <Filter>IR</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualTable.h">
+      <Filter>SymbolTable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

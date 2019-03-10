@@ -173,11 +173,16 @@ void CIRTreeBuilder::visit(CNewExpression* node)
 	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(node->id->name));
 	int classSize = info->GetSize();
 
-	IR::IExpression* total_size = new IR::CBinaryExpression(IR::TOperator::O_Multiplication, 
-		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(classSize)), currentFrame->GetWordSize());
-	//TODO
-	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
-		new IR::CExpressionList(total_size)))));
+	std::shared_ptr<const IR::IExpression> total_size = std::make_shared<const IR::CCallExpression>(IR::CBinaryExpression(IR::TOperator::O_Multiplication,
+		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(classSize)), currentFrame->GetWordSize()));
+
+	std::shared_ptr<const IR::IExpression> memory_allocation = currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
+		new IR::CExpressionList(new IR::CBinaryExpression(IR::TOperator::O_Plus, total_size, currentFrame->GetWordSize()))));
+
+	IR::IStatement* writeTableToPointer = new IR::CMoveStatement(memory_allocation, info->GetVirtualTable()->GetTableName());
+	IR::IExpression* updatePointer = new IR::CBinaryExpression(IR::TOperator::O_Plus, memory_allocation, currentFrame->GetWordSize());
+
+	updateSubtree(new IR::CExpressionWrapper(new IR::CEseqExpression(writeTableToPointer, updatePointer)));
 
 	callerClassName = node->id->name;
 

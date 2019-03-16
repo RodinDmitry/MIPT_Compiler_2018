@@ -199,7 +199,7 @@ void CIRTreeBuilder::visit(CIdExpression* node)
 	}
 }
 
-void CIRTreeBuilder::visit(CThisExpression *)
+void CIRTreeBuilder::visit(CThisExpression*)
 {
 	updateSubtree(new IR::CExpressionWrapper(currentFrame->GetThis()->GetExp(currentFrame->GetFramePtr())));
 	callerClassName = currentClassName;
@@ -247,12 +247,12 @@ void CIRTreeBuilder::visit(CFunction* node)
 	}
 }
 
-void CIRTreeBuilder::visit(CId *)
+void CIRTreeBuilder::visit(CId*)
 {
 	assert(false);
 }
 
-void CIRTreeBuilder::visit(CMainArgument *)
+void CIRTreeBuilder::visit(CMainArgument*)
 {
 	assert(false);
 }

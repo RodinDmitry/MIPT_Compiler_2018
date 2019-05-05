@@ -243,7 +243,7 @@ void CEseqRemoverVisitor::visit(const CJumpConditionalStatement* node)
 
 	if (leftEseq) {
 
-		resultStatement = std::shared_ptr<const IStatement>(new CJumpConditionalStatement(node->Operation(), leftEseq->Expression(), canonRight, node->TrueLabel(), node->FalseLabel));
+		resultStatement = std::shared_ptr<const IStatement>(new CJumpConditionalStatement(node->Operation(), leftEseq->Expression(), canonRight, node->TrueLabel(), node->FalseLabel()));
 		
 		if (rightEseq) {
 			resultStatement = processStatement(resultStatement);

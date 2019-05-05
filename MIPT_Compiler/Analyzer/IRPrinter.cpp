@@ -82,8 +82,8 @@ void IR::CIRPrinterVisitor::visit(const CCallExpression* node)
 void IR::CIRPrinterVisitor::visit(const CEseqExpression* node)
 {
 	std::string name = labelNode("ESEQ","");
-	visitIfNotNull(node->Expression(), name);
-	visitIfNotNull(node->Statement(), name);
+	visitIfNotNull(node->Expression().get(), name);
+	visitIfNotNull(node->Statement().get(), name);
 	nodes.push_front(name);
 }
 

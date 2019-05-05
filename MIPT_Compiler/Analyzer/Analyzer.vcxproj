@@ -136,6 +136,7 @@
     <ClCompile Include="Id.cpp" />
     <ClCompile Include="IRPrinter.cpp" />
     <ClCompile Include="IRTreeBuilder.cpp" />
+    <ClCompile Include="IR\EseqRemoverVisitor.cpp" />
     <ClCompile Include="IR\IRExpression.cpp" />
     <ClCompile Include="IR\Label.cpp" />
     <ClCompile Include="IR\IRStatement.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="DataType.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="ErrorTable.h" />
+    <ClInclude Include="EseqRemoverVisitor.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameVistor.h" />

@@ -8,6 +8,7 @@ namespace IR {
 
 class IIRVisitor {
 public:
+	virtual ~IIRVisitor() = default;
 	virtual void visit(const ITree* node) = 0;
 	virtual void visit(const IExpression* node) = 0;
 	virtual void visit(const CExpressionList* node) = 0;

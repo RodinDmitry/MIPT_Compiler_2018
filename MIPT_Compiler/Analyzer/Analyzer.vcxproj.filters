@@ -124,6 +124,9 @@
     <ClCompile Include="IRPrinter.cpp">
       <Filter>IR</Filter>
     </ClCompile>
+    <ClCompile Include="IR\EseqRemoverVisitor.cpp">
+      <Filter>IR\Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -240,9 +243,6 @@
     <ClInclude Include="IR\Temporary.h">
       <Filter>IR\Tree</Filter>
     </ClInclude>
-    <ClInclude Include="IR\IRVisitor.h">
-      <Filter>IR</Filter>
-    </ClInclude>
     <ClInclude Include="IR\IRStatement.h">
       <Filter>IR\Tree</Filter>
     </ClInclude>
@@ -272,6 +272,12 @@
     </ClInclude>
     <ClInclude Include="IRPrinter.h">
       <Filter>IR</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\IRVisitor.h">
+      <Filter>IR\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="EseqRemoverVisitor.h">
+      <Filter>IR\Visitor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -310,6 +316,9 @@
     </Filter>
     <Filter Include="IR\Wrapper">
       <UniqueIdentifier>{81e88d54-fc75-4935-b829-25aee94522ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IR\Visitor">
+      <UniqueIdentifier>{a1d85ffd-7c51-47b3-b8fe-650ebf2d52cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

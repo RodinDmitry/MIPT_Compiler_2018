@@ -26,6 +26,7 @@ public:
 	virtual void visit(const CJumpConditionalStatement* node) = 0;
 	virtual void visit(const CSeqStatement* node) = 0;
 	virtual void visit(const CLabelStatement* node) = 0;
+	virtual void visit(const CStatementList* node) = 0;
 };
 
 }

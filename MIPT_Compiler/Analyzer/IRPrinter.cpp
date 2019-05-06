@@ -136,6 +136,15 @@ void IR::CIRPrinterVisitor::visit(const CLabelStatement* node)
 	nodes.push_front(name);
 }
 
+void IR::CIRPrinterVisitor::visit(const CStatementList* node)
+{
+	std::string name = labelNode("StatementList", "");
+	for (int i = 0; i < node->Get().size(); ++i) {
+		visitIfNotNull(node->Get()[i].get(), name);
+	}
+	nodes.push_front(name);
+}
+
 int IR::CIRPrinterVisitor::lastId = 0;
 
 void IR::CIRPrinterVisitor::visitIfNotNull(const ITree* node, const std::string& currentNode)

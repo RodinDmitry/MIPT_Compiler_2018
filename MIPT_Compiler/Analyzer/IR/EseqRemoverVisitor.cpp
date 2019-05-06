@@ -288,6 +288,11 @@ void CEseqRemoverVisitor::visit(const CLabelStatement* node)
 	updateLastStatement(new CLabelStatement(node->Label()));
 }
 
+void CEseqRemoverVisitor::visit(const CStatementList * node)
+{
+	assert(false);
+}
+
 void CEseqRemoverVisitor::updateLastExpression(const IExpression* expression)
 {
 	lastExpression = std::shared_ptr<const IExpression>(expression);

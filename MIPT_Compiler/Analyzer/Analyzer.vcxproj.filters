@@ -121,13 +121,13 @@
     <ClCompile Include="IRTreeBuilder.cpp">
       <Filter>AST\Visitor</Filter>
     </ClCompile>
-    <ClCompile Include="IRPrinter.cpp">
-      <Filter>IR</Filter>
-    </ClCompile>
     <ClCompile Include="IR\EseqRemoverVisitor.cpp">
       <Filter>IR\Visitor</Filter>
     </ClCompile>
     <ClCompile Include="IR\CallUpliftVisitor.cpp">
+      <Filter>IR\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="IRPrinter.cpp">
       <Filter>IR\Visitor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -273,9 +273,6 @@
     <ClInclude Include="TreeWrapper.h">
       <Filter>IR\Wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="IRPrinter.h">
-      <Filter>IR</Filter>
-    </ClInclude>
     <ClInclude Include="IR\IRVisitor.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
@@ -283,6 +280,9 @@
       <Filter>IR\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="IR\CallUpliftVisitor.h">
+      <Filter>IR\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="IRPrinter.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
   </ItemGroup>

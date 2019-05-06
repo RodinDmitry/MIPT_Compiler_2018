@@ -28,6 +28,8 @@ public:
 	virtual void visit(const CJumpConditionalStatement* node) override;
 	virtual void visit(const CSeqStatement* node) override;
 	virtual void visit(const CLabelStatement* node) override;
+	virtual void visit(const CStatementList* node) override;
+
 private:
 	static int lastId;
 	std::ofstream output;

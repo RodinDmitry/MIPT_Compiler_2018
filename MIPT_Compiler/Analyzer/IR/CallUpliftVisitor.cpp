@@ -131,6 +131,11 @@ void CCallUpliftVisitor::visit(const CLabelStatement* node)
 	updateLastStatement(new CLabelStatement(node->Label()));
 }
 
+void CCallUpliftVisitor::visit(const CStatementList * node)
+{
+	assert(false);
+}
+
 void CCallUpliftVisitor::updateLastExpression(const IExpression* expression)
 {
 	updateLastExpression(std::shared_ptr<const IExpression>(expression));

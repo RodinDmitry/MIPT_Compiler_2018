@@ -141,6 +141,7 @@
     <ClCompile Include="IR\Label.cpp" />
     <ClCompile Include="IR\IRStatement.cpp" />
     <ClCompile Include="IR\CallUpliftVisitor.cpp" />
+    <ClCompile Include="IR\LinearizationVisitor.cpp" />
     <ClCompile Include="IR\Temporary.cpp" />
     <ClCompile Include="IR\IRTree.cpp" />
     <ClCompile Include="main.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="IR\IRVisitor.h" />
     <ClInclude Include="IR\Label.h" />
     <ClInclude Include="IR\IRStatement.h" />
+    <ClInclude Include="IR\LinearizationVisitor.h" />
     <ClInclude Include="IR\Temporary.h" />
     <ClInclude Include="IR\IRTree.h" />
     <ClInclude Include="MainCompiler.h" />

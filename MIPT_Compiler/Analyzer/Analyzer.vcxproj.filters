@@ -130,6 +130,9 @@
     <ClCompile Include="IRPrinter.cpp">
       <Filter>IR\Visitor</Filter>
     </ClCompile>
+    <ClCompile Include="IR\LinearizationVisitor.cpp">
+      <Filter>IR\Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -283,6 +286,9 @@
       <Filter>IR\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="IRPrinter.h">
+      <Filter>IR\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\LinearizationVisitor.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
   </ItemGroup>

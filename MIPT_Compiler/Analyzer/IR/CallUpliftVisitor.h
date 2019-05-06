@@ -7,7 +7,7 @@
 
 namespace IR {
 
-class CEseqRemoverVisitor : public IIRVisitor {
+class CCallUpliftVisitor : public IIRVisitor {
 public:
 
 	std::shared_ptr<const IStatement> getStatementTree();
@@ -40,12 +40,6 @@ private:
 
 	void updateLastStatement(const IStatement* statement);
 	void updateLastStatement(std::shared_ptr<const IStatement> statement);
-
-
-	std::shared_ptr<const IExpression> processExpression(std::shared_ptr<const IExpression> expression) const;
-	std::shared_ptr<const IStatement> processStatement(std::shared_ptr<const IStatement> statement) const;
-
-	bool areCommuting(const IStatement* statement, const IExpression* expression);
 
 	std::shared_ptr<const IExpression> lastExpression;
 	std::shared_ptr<const IStatement> lastStatement;

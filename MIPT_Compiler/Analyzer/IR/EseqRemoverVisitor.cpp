@@ -9,7 +9,7 @@ std::shared_ptr<const IStatement> CEseqRemoverVisitor::getStatementTree()
 
 std::shared_ptr<const IExpression> CEseqRemoverVisitor::getExpressionTree()
 {
-	return std::shared_ptr<const IExpression>();
+	return lastExpression;
 }
 
 void CEseqRemoverVisitor::visit(const ITree* node)
@@ -36,15 +36,15 @@ void CEseqRemoverVisitor::visit(const CExpressionList* node)
 
 void CEseqRemoverVisitor::visit(const CConstExpression* node)
 {
-	updateLastExpression(node);
+	updateLastExpression(new CConstExpression(node->Get()));
 }
 void CEseqRemoverVisitor::visit(const CNameExpression* node)
 {
-	updateLastExpression(node);
+	updateLastExpression(new CNameExpression(node->Get()));
 }
 void CEseqRemoverVisitor::visit(const CTempExpression* node)
 {
-	updateLastExpression(node);
+	updateLastExpression(new CTempExpression(node->Temporary()));
 }
 void CEseqRemoverVisitor::visit(const CBinaryExpression* node)
 {
@@ -206,7 +206,7 @@ void CEseqRemoverVisitor::visit(const CMoveStatement* node)
 
 	updateLastStatement(std::move(resultStatement));
 }
-void CEseqRemoverVisitor::visit(const CExpStatement * node)
+void CEseqRemoverVisitor::visit(const CExpStatement* node)
 {
 	node->Expression()->Accept(this);
 	std::shared_ptr<const IExpression> canonExpression = lastExpression;
@@ -226,7 +226,7 @@ void CEseqRemoverVisitor::visit(const CExpStatement * node)
 
 void CEseqRemoverVisitor::visit(const CJumpStatement* node)
 {
-	updateLastStatement(node);
+	updateLastStatement(new CJumpStatement(node->Target()));
 }
 
 void CEseqRemoverVisitor::visit(const CJumpConditionalStatement* node)
@@ -285,7 +285,7 @@ void CEseqRemoverVisitor::visit(const CSeqStatement* node)
 
 void CEseqRemoverVisitor::visit(const CLabelStatement* node)
 {
-	updateLastStatement(node);
+	updateLastStatement(new CLabelStatement(node->Label()));
 }
 
 void CEseqRemoverVisitor::updateLastExpression(const IExpression* expression)
@@ -298,14 +298,14 @@ void CEseqRemoverVisitor::updateLastExpression(std::shared_ptr<const IExpression
 	lastExpression = expression;
 }
 
-void CEseqRemoverVisitor::updateLastExpressionList(const CExpressionList* expressionList)
+void CEseqRemoverVisitor::updateLastExpressionList(const CExpressionList* list)
 {
-	lastExpressionList = std::shared_ptr<const CExpressionList>(expressionList);
+	lastExpressionList = std::shared_ptr<const CExpressionList>(list);
 }
 
-void CEseqRemoverVisitor::updateLastExpressionList(std::shared_ptr<const CExpressionList> expressionList)
+void CEseqRemoverVisitor::updateLastExpressionList(std::shared_ptr<const CExpressionList> list)
 {
-	lastExpressionList = expressionList;
+	lastExpressionList = list;
 }
 
 void CEseqRemoverVisitor::updateLastStatement(const IStatement* statement)

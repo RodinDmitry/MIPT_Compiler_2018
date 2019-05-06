@@ -140,6 +140,7 @@
     <ClCompile Include="IR\IRExpression.cpp" />
     <ClCompile Include="IR\Label.cpp" />
     <ClCompile Include="IR\IRStatement.cpp" />
+    <ClCompile Include="IR\CallUpliftVisitor.cpp" />
     <ClCompile Include="IR\Temporary.cpp" />
     <ClCompile Include="IR\IRTree.cpp" />
     <ClCompile Include="main.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="InvalidDefinitionException.h" />
     <ClInclude Include="IRPrinter.h" />
     <ClInclude Include="IRTreeBuilder.h" />
+    <ClInclude Include="IR\CallUpliftVisitor.h" />
     <ClInclude Include="IR\IRExpression.h" />
     <ClInclude Include="IR\IRVisitor.h" />
     <ClInclude Include="IR\Label.h" />

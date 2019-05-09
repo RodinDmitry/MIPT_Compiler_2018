@@ -32,11 +32,11 @@ void CClassInfo::AddMethods(std::vector<std::unique_ptr<const CFunctionInfo>>&& 
 
 int CClassInfo::GetSize() const
 {
-	int size = members.size();
+	int size = members.size() + 1;
 	if (extends != nullptr) {
 		const CClassInfo* base = CSymbolTable::FindClass(tableName, extends);
 		if (base != nullptr) {
-			size += base->GetSize();
+			size += base->GetSize() - 1;
 		}
 	}
 	return size;
@@ -145,10 +145,10 @@ const CVirtualTable* CClassInfo::GetVirtualTable() const
 		if (extends != 0) {
 			const CClassInfo* parent = CSymbolTable::FindClass(tableName, extends);
 			assert(parent != 0);
-			virtualTable = std::make_unique<CVirtualTable>(*(parent->GetVirtualTable()));
+			virtualTable = std::make_unique<CVirtualTable>(name->String(), *(parent->GetVirtualTable()));
 		}
 		else {
-			virtualTable = std::make_unique<CVirtualTable>();
+			virtualTable = std::make_unique<CVirtualTable>(name->String());
 		}
 		for (int i = 0; i < methods.size(); ++i) {
 			virtualTable->ReplaceMethod(methods[i].get());

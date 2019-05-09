@@ -1,8 +1,9 @@
 #include "VirtualTable.h"
 #include <FunctionInfo.h>
 
-CVirtualTable::CVirtualTable(const CVirtualTable& table) 
-	: methods(table.methods)
+CVirtualTable::CVirtualTable(const std::string _name, const CVirtualTable& table)
+	: name(_name), 
+	methods(table.methods)
 {}
 
 int CVirtualTable::GetMethodIndex(const CSymbol* name) const
@@ -23,4 +24,9 @@ void CVirtualTable::ReplaceMethod(const CFunctionInfo* method)
 	} else {
 		methods[index] = method;
 	}
+}
+
+std::shared_ptr<const IR::CNameExpression> CVirtualTable::GetTableName() const
+{
+	return std::make_shared<const IR::CNameExpression>(name);
 }

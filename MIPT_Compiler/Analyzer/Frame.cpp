@@ -15,7 +15,7 @@ void CMiniJavaMethodFrame::AddLocal(const CSymbol* name)
 
 void CMiniJavaMethodFrame::addMember(const CSymbol * name)
 {
-	locals.emplace_back(new CInClassAccess(currOffset, thisExpr));
+	locals.emplace_back(new CInClassAccess(currOffset + wordSize, thisExpr));
 	namesMap.emplace(name, locals.back().get());
 	currOffset += wordSize;
 }

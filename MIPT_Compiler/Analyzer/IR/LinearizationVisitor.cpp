@@ -7,7 +7,7 @@ std::shared_ptr<const IStatement> CLinearizationVisitor::getResult()
 	return lastStatement;
 }
 
-	void CLinearizationVisitor::visit(const ITree* node)
+void CLinearizationVisitor::visit(const ITree* node)
 {
 	assert(false);
 }
@@ -68,7 +68,7 @@ void CLinearizationVisitor::visit(const CMemExpression* node)
 	updateLastExpression(new CMemExpression(address));
 	distanceToSeqStack.back()--;
 }
-void CLinearizationVisitor::visit(const CCallExpression * node)
+void CLinearizationVisitor::visit(const CCallExpression* node)
 {
 	distanceToSeqStack.back()++;
 	node->Function()->Accept(this);

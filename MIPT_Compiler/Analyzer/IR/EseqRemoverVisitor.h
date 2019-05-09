@@ -5,59 +5,52 @@
 
 #include <IR/IRVisitor.h>
 
-namespace IRTree {
+namespace IR {
 
-	class CEseqEliminationVisitor : public CVisitor {
-	public:
-		CEseqEliminationVisitor(bool _verbose = false) : CVisitor(_verbose) {}
-		~CEseqEliminationVisitor() {}
+class CEseqRemoverVisitor : public IIRVisitor {
+public:
 
-		std::unique_ptr<const CStatement> ResultTree();
-		std::unique_ptr<const CStatement> ResultStatementTree();
-		std::unique_ptr<const CExpression> ResultExpressionTree();
+	std::shared_ptr<const IStatement> getStatementTree();
+	std::shared_ptr<const IExpression> getExpressionTree();
 
-		// Visitors for different node types.
-		void Visit(const CConstExpression* expression) override;
-		void Visit(const CNameExpression* expression) override;
-		void Visit(const CTempExpression* expression) override;
-		void Visit(const CBinaryExpression* expression) override;
-		void Visit(const CMemExpression* expression) override;
-		void Visit(const CCallExpression* expression) override;
-		void Visit(const CEseqExpression* expression) override;
+	virtual void visit(const ITree* node) override;
+	virtual void visit(const IExpression* node) override;
+	virtual void visit(const CExpressionList* node) override;
+	virtual void visit(const CConstExpression* node) override;
+	virtual void visit(const CNameExpression* node) override;
+	virtual void visit(const CTempExpression* node) override;
+	virtual void visit(const CBinaryExpression* node) override;
+	virtual void visit(const CMemExpression* node) override;
+	virtual void visit(const CCallExpression* node) override;
+	virtual void visit(const CEseqExpression* node) override;
+	virtual void visit(const IStatement* node) override;
+	virtual void visit(const CMoveStatement* node) override;
+	virtual void visit(const CExpStatement* node) override;
+	virtual void visit(const CJumpStatement* node) override;
+	virtual void visit(const CJumpConditionalStatement* node) override;
+	virtual void visit(const CSeqStatement* node) override;
+	virtual void visit(const CLabelStatement* node) override;
+	virtual void visit(const CStatementList* node) override;
 
-		void Visit(const CExpStatement* expression) override;
-		void Visit(const CJumpConditionalStatement* expression) override;
-		void Visit(const CJumpStatement* expression) override;
-		void Visit(const CLabelStatement* expression) override;
-		void Visit(const CMoveStatement* expression) override;
-		void Visit(const CSeqStatement* expression) override;
+private:
+	void updateLastExpression(const IExpression* expression);
+	void updateLastExpression(std::shared_ptr<const IExpression> expression);
 
-		void Visit(const CExpressionList* list) override;
-		void Visit(const CStatementList* list) override;
+	void updateLastExpressionList(const CExpressionList* list);
+	void updateLastExpressionList(std::shared_ptr<const CExpressionList> list);
 
-	private:
-		void updateLastExpression(const CExpression* newLastExpression);
-		void updateLastExpression(std::unique_ptr<const CExpression> newLastExpression);
+	void updateLastStatement(const IStatement* statement);
+	void updateLastStatement(std::shared_ptr<const IStatement> statement);
 
-		void updateLastExpressionList(const CExpressionList* newLastExpressionList);
-		void updateLastExpressionList(std::unique_ptr<const CExpressionList> newLastExpressionList);
 
-		void updateLastStatement(const CStatement* newLastStatement);
-		void updateLastStatement(std::unique_ptr<const CStatement> newLastStatement);
+	std::shared_ptr<const IExpression> processExpression(std::shared_ptr<const IExpression> expression) const;
+	std::shared_ptr<const IStatement> processStatement(std::shared_ptr<const IStatement> statement) const;
 
-		void updateLastStatementList(const CStatementList* newLastStatementList);
-		void updateLastStatementList(std::unique_ptr<const CStatementList> newLastStatementList);
+	bool areCommuting(const IStatement* statement, const IExpression* expression);
 
-		std::unique_ptr<const CExpression> canonizeExpressionSubtree(std::unique_ptr<const CExpression> expression) const;
-		std::unique_ptr<const CStatement> canonizeStatementSubtree(std::unique_ptr<const CStatement> statement) const;
+	std::shared_ptr<const IExpression> lastExpression;
+	std::shared_ptr<const IStatement> lastStatement;
+	std::shared_ptr<const CExpressionList> lastExpressionList;
+};
 
-		bool areCommuting(const CStatement* statement, const CExpression* expression);
-		const CEseqExpression* castToEseqExpression(const CExpression* expression);
-
-		std::unique_ptr<const CExpression> lastExpression;
-		std::unique_ptr<const CStatement> lastStatement;
-		std::unique_ptr<const CExpressionList> lastExpressionList;
-		std::unique_ptr<const CStatementList> lastStatementList;
-	};
-
-}
+} // namespace IR

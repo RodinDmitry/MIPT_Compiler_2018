@@ -36,4 +36,8 @@ private:
 	void buildIR();
 	void dumpIR();
 
+	void updateCalls();
+	void removeEseq();
+	void linearizeTree();
+
 };

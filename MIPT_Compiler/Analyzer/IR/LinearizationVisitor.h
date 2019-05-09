@@ -10,6 +10,8 @@ namespace IR {
 class CLinearizationVisitor : public IIRVisitor {
 public:
 
+	CLinearizationVisitor(): distanceToSeqStack(1, std::numeric_limits<int>::max() - 1) {}
+
 	std::shared_ptr<const IStatement> getResult();
 
 	virtual void visit(const ITree* node) override;

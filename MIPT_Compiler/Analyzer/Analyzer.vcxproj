@@ -177,7 +177,6 @@
     <ClInclude Include="DataType.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="ErrorTable.h" />
-    <ClInclude Include="EseqRemoverVisitor.h" />
     <ClInclude Include="Expressions.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameVistor.h" />
@@ -189,6 +188,7 @@
     <ClInclude Include="IRPrinter.h" />
     <ClInclude Include="IRTreeBuilder.h" />
     <ClInclude Include="IR\CallUpliftVisitor.h" />
+    <ClInclude Include="IR\EseqRemoverVisitor.h" />
     <ClInclude Include="IR\IRExpression.h" />
     <ClInclude Include="IR\IRVisitor.h" />
     <ClInclude Include="IR\Label.h" />

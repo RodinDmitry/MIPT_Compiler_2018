@@ -4,7 +4,7 @@
 #include <ClassInfo.h>
 #include <IR/IRStatement.h>
 
-std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> CIRTreeBuilder::BuildIRTree(ITree * tree, const std::string& _symbolTableName)
+std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> CIRTreeBuilder::BuildIRTree(ITree* tree, const std::string& _symbolTableName)
 {
 	symbolTableName = _symbolTableName;
 	methods.reset(new std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>());

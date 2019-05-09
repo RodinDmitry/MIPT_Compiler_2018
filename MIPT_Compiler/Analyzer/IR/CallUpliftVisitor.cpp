@@ -2,6 +2,16 @@
 
 namespace IR {
 
+std::shared_ptr<const IStatement> CCallUpliftVisitor::getStatementTree()
+{
+	return lastStatement;
+}
+
+std::shared_ptr<const IExpression> CCallUpliftVisitor::getExpressionTree()
+{
+	return lastExpression;
+}
+
 void CCallUpliftVisitor::visit(const ITree* node)
 {
 	assert(false);

@@ -282,9 +282,6 @@
     <ClInclude Include="IR\IRVisitor.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
-    <ClInclude Include="EseqRemoverVisitor.h">
-      <Filter>IR\Visitor</Filter>
-    </ClInclude>
     <ClInclude Include="IR\CallUpliftVisitor.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
@@ -296,6 +293,9 @@
     </ClInclude>
     <ClInclude Include="VirtualTable.h">
       <Filter>SymbolTable</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\EseqRemoverVisitor.h">
+      <Filter>IR\Visitor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

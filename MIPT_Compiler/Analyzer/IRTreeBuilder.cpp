@@ -125,9 +125,15 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 {
 	node->caller->Accept(this);
 	std::string methodCaller = callerClassName;
-	
+	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(methodCaller));
+	const CSymbol* funcName = CSymbol::GetSymbol(node->function->name);
+
+	IR::CTemp callerObject;
+	std::shared_ptr<IR::IStatement> moveStatement = std::make_shared<IR::CMoveStatement>(
+		std::make_shared<IR::CTempExpression>(callerObject), subtree->ToExpression());
+
 	IR::CExpressionList* expressionList = new IR::CExpressionList();
-	expressionList->Add(subtree->ToExpression());
+	expressionList->Add(std::make_shared<IR::CTempExpression>(callerObject));
 
 	const std::vector<std::shared_ptr<IExpression>>& expressions = node->list->expressions;
 
@@ -135,11 +141,16 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 		expressions[i]->Accept(this);
 		expressionList->Add(subtree->ToExpression());
 	}
+	
+	std::shared_ptr<IR::IExpression> virtualTable = std::make_shared<IR::CMemExpression>(
+		std::make_shared<IR::CTempExpression>(callerObject));
+	std::shared_ptr<IR::IExpression> function = std::make_shared<IR::CBinaryExpression>(IR::O_Plus, virtualTable,
+		std::make_shared<IR::CConstExpression>(info->GetVirtualTable()->GetMethodIndex(funcName)));
+	std::shared_ptr<IR::IExpression> functionCall = std::make_shared<IR::CCallExpression>(
+		new IR::CNameExpression(IR::CLabel(makeMethodName(methodCaller, node->function->name))), expressionList);
+	updateSubtree(std::make_shared<IR::CExpressionWrapper>(std::make_shared<IR::CEseqExpression>(
+		moveStatement, functionCall)));
 
-	updateSubtree(new IR::CExpressionWrapper(new IR::CCallExpression(
-		new IR::CNameExpression(IR::CLabel(makeMethodName(methodCaller, node->function->name))), expressionList)));
-
-	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(methodCaller));
 	const CFunctionInfo* functionInfo = info->FindMethod(CSymbol::GetSymbol(node->function->name));
 	std::shared_ptr<const CType> type = std::make_shared< const CType>(*(functionInfo->GetType()));
 	if (type->type == TDataType::DT_Instance) {
@@ -173,11 +184,21 @@ void CIRTreeBuilder::visit(CNewExpression* node)
 	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(node->id->name));
 	int classSize = info->GetSize();
 
-	IR::IExpression* total_size = new IR::CBinaryExpression(IR::TOperator::O_Multiplication, 
+	std::shared_ptr<const IR::IExpression> total_size = std::make_shared<const IR::CBinaryExpression>(IR::TOperator::O_Multiplication,
 		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(classSize)), currentFrame->GetWordSize());
-	//TODO
-	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
-		new IR::CExpressionList(total_size)))));
+
+	std::shared_ptr<const IR::IExpression> memory_allocation = currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
+		new IR::CExpressionList(new IR::CBinaryExpression(IR::TOperator::O_Plus, total_size, currentFrame->GetWordSize()))));
+
+	IR::CTemp allocationAddr;
+	std::shared_ptr<IR::IStatement> moveStatement = std::make_shared<IR::CMoveStatement>(
+		std::make_shared<IR::CTempExpression>(allocationAddr), memory_allocation);
+
+	IR::IStatement* writeTableToPointer = new IR::CMoveStatement(std::make_shared<IR::CTempExpression>(allocationAddr), info->GetVirtualTable()->GetTableName());
+	//IR::IExpression* updatePointer = new IR::CBinaryExpression(IR::TOperator::O_Plus, memory_allocation, currentFrame->GetWordSize());
+
+	updateSubtree(new IR::CExpressionWrapper(new IR::CEseqExpression(moveStatement, 
+		std::make_shared<IR::CEseqExpression>(writeTableToPointer, new IR::CTempExpression(allocationAddr)))));
 
 	callerClassName = node->id->name;
 
@@ -194,7 +215,7 @@ void CIRTreeBuilder::visit(CIdExpression* node)
 	}
 }
 
-void CIRTreeBuilder::visit(CThisExpression *)
+void CIRTreeBuilder::visit(CThisExpression*)
 {
 	updateSubtree(new IR::CExpressionWrapper(currentFrame->GetThis()->GetExp(currentFrame->GetFramePtr())));
 	callerClassName = currentClassName;
@@ -242,12 +263,12 @@ void CIRTreeBuilder::visit(CFunction* node)
 	}
 }
 
-void CIRTreeBuilder::visit(CId *)
+void CIRTreeBuilder::visit(CId*)
 {
 	assert(false);
 }
 
-void CIRTreeBuilder::visit(CMainArgument *)
+void CIRTreeBuilder::visit(CMainArgument*)
 {
 	assert(false);
 }

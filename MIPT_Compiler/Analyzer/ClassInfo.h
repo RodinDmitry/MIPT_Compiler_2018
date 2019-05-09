@@ -1,4 +1,6 @@
 #pragma once
+
+#include <VirtualTable.h>
 #include <Symbol.h>
 
 class CFunctionInfo;
@@ -24,9 +26,13 @@ public:
 	bool HasCyclicInheritance(const std::string& tableName) const;
 	bool InheritedFromKnownClass(const std::string& tableName) const;
 	std::shared_ptr<CType> GetType() const;
+
+	const CVirtualTable* GetVirtualTable() const;
+
 private:
 	const CSymbol* name;
 	const CSymbol* extends;
+	mutable std::unique_ptr<CVirtualTable> virtualTable = nullptr;
 	const std::string& tableName;
 	std::vector<std::unique_ptr<const CVariableInfo> > members;
 	std::vector<std::unique_ptr<const CFunctionInfo> > methods;

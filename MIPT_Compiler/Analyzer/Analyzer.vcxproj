@@ -165,6 +165,7 @@
     <ClCompile Include="Value.cpp" />
     <ClCompile Include="Variable.cpp" />
     <ClCompile Include="VariableInfo.cpp" />
+    <ClCompile Include="VirtualTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Access.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="Value.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="VariableInfo.h" />
+    <ClInclude Include="VirtualTable.h" />
     <ClInclude Include="VisabilityModifier.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="TreeWrapper.h" />

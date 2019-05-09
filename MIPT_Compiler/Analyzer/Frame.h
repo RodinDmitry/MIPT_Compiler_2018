@@ -17,7 +17,7 @@ public:
 	virtual const IAccess* GetFormal(int index) const override;
 	virtual const IAccess* FindFormalorLocal(const CSymbol* name) const override;
 
-	virtual std::shared_ptr<const IR::IExpression> GetWordSize() const override;
+	virtual int GetWordSize() const override;
 	virtual const std::shared_ptr<const IR::IExpression> GetFramePtr() const override;
 
 	virtual const IAccess* GetThis() const override;

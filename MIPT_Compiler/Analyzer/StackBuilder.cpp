@@ -130,7 +130,7 @@ void CStackBuilder::visit(CBracketsExpression* node)
 	addIfNotNull(node->expression.get());
 }
 
-void CStackBuilder::visit(CReturnExpression* node)
+void CStackBuilder::visit(CReturnStatement* node)
 {
 	addIfNotNull(node->expression.get());
 }

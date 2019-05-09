@@ -144,8 +144,8 @@ void CTypeChecker::visit(CFunction* node)
 {
 	createLeaveFunctionPlaceholder();
 	currentFunctionName = node->name->name;
-	if (!typeCheck(node->returns.get(), node->returnExpression.get())) {
-		typeCheck(node->returns.get(), node->returnExpression.get());
+	if (!typeCheck(node->returns.get(), node->returnExpression->expression.get())) {
+		typeCheck(node->returns.get(), node->returnExpression->expression.get());
 		CErrorTable::AddError(CErrorTable::ReturnTypeMismatch, node->GetLine());
 	}
 	waitingNodes.push_front(node->body.get());

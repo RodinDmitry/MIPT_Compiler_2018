@@ -57,7 +57,7 @@ public:
 	virtual void visit(CThisExpression*) = 0;
 	virtual void visit(CNotExpression*) = 0;
 	virtual void visit(CBracketsExpression*) = 0;
-	virtual void visit(CReturnExpression*) = 0;
+	virtual void visit(CReturnStatement*) = 0;
 	virtual void visit(CFunction*) = 0;
 	virtual void visit(CId*) = 0;
 	virtual void visit(CMainArgument*) = 0;

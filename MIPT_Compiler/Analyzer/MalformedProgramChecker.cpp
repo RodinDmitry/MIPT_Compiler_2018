@@ -157,7 +157,7 @@ void CMalformedProgramChecker::visit(CBracketsExpression* node)
 	waitingNodes.push_front(node->expression.get());
 }
 
-void CMalformedProgramChecker::visit(CReturnExpression* node)
+void CMalformedProgramChecker::visit(CReturnStatement* node)
 {
 	waitingNodes.push_front(node->expression.get());
 }

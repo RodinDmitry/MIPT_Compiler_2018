@@ -88,3 +88,13 @@ public:
 	
 	std::string GetLabel() const override;
 };
+
+class CReturnStatement : public IStatement {
+public:
+	CReturnStatement(IExpression* expression, int line);
+	virtual void Accept(IVisitor* visitior) override;
+
+	std::unique_ptr<IExpression> expression;
+
+	std::string GetLabel() const override;
+};

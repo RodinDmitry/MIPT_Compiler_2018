@@ -180,13 +180,3 @@ public:
 
 	std::string GetLabel() const override;
 };
-
-class CReturnExpression : public IExpression {
-public:
-	CReturnExpression(IExpression* expression, int line);
-	virtual void Accept(IVisitor* visitior) override;
-
-	std::unique_ptr<IExpression> expression;
-
-	std::string GetLabel() const override;
-};

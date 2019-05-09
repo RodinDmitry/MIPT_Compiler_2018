@@ -28,7 +28,7 @@ void CMainCompiler::Process(int argc, char * argv[])
 
 	updateCalls();
 	removeEseq();
-	linearizeTree();
+	//linearizeTree();
 	dumpIR();
 }
 

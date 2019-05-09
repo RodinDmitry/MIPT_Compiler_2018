@@ -57,7 +57,7 @@ void CPrettyPrinter::visit(CBracketsExpression* node)
 	labels.push_back(std::make_pair(name, node));
 }
 
-void CPrettyPrinter::visit(CReturnExpression* node)
+void CPrettyPrinter::visit(CReturnStatement* node)
 {
 	std::string name = "return" + std::to_string(LastId++);
 	visitIfNotNull(node->expression.get(), name);

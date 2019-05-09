@@ -193,17 +193,3 @@ std::string CNewExpression::GetLabel() const
 {
 	return  "new" + labelAddings;;
 }
-
-CReturnExpression::CReturnExpression(IExpression* _expression, int _line) : expression(_expression), IExpression(_line)
-{
-}
-
-void CReturnExpression::Accept(IVisitor* visitior)
-{
-	visitior->visit(this);
-}
-
-std::string CReturnExpression::GetLabel() const
-{
-	return  "return" + labelAddings;;
-}

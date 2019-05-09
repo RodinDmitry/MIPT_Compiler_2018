@@ -132,7 +132,7 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 	std::shared_ptr<IR::IStatement> moveStatement = std::make_shared<IR::CMoveStatement>(
 		std::make_shared<IR::CTempExpression>(callerObject), subtree->ToExpression());
 
-	IR::CExpressionList* expressionList = new IR::CExpressionList();
+	std::shared_ptr<IR::CExpressionList> expressionList = std::make_shared<IR::CExpressionList>();
 	expressionList->Add(std::make_shared<IR::CTempExpression>(callerObject));
 
 	const std::vector<std::shared_ptr<IExpression>>& expressions = node->list->expressions;
@@ -147,7 +147,7 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 	std::shared_ptr<IR::IExpression> function = std::make_shared<IR::CBinaryExpression>(IR::O_Plus, virtualTable,
 		std::make_shared<IR::CConstExpression>(info->GetVirtualTable()->GetMethodIndex(funcName)));
 	std::shared_ptr<IR::IExpression> functionCall = std::make_shared<IR::CCallExpression>(
-		new IR::CNameExpression(IR::CLabel(makeMethodName(methodCaller, node->function->name))), expressionList);
+		function, expressionList);
 	updateSubtree(std::make_shared<IR::CExpressionWrapper>(std::make_shared<IR::CEseqExpression>(
 		moveStatement, functionCall)));
 

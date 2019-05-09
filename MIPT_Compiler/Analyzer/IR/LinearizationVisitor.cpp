@@ -26,6 +26,7 @@ void CLinearizationVisitor::visit(const CExpressionList* node)
 		expressions[i]->Accept(this);
 		newList->Add(lastExpression);
 	}
+	updateLastExpressionList(newList);
 }
 
 void CLinearizationVisitor::visit(const CConstExpression* node)
@@ -113,7 +114,7 @@ void CLinearizationVisitor::visit(const CExpStatement* node)
 	std::shared_ptr<IStatement> result(new CExpStatement(expression));
 	saveResult(result);
 
-	distanceToSeqStack.back()++;
+	distanceToSeqStack.back()--;
 }
 
 void CLinearizationVisitor::visit(const CJumpStatement* node)
@@ -158,7 +159,7 @@ void CLinearizationVisitor::visit(const CSeqStatement* node)
 		statementStack.pop_back();
 	}
 
-	distanceToSeqStack.back()++;
+	distanceToSeqStack.back()--;
 
 }
 

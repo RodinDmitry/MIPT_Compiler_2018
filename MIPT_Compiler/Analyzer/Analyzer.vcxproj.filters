@@ -136,6 +136,9 @@
     <ClCompile Include="VirtualTable.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
+    <ClCompile Include="IR\BlockVisitor.cpp">
+      <Filter>IR\Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -295,6 +298,9 @@
       <Filter>SymbolTable</Filter>
     </ClInclude>
     <ClInclude Include="IR\EseqRemoverVisitor.h">
+      <Filter>IR\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\BlockVisitor.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
   </ItemGroup>

@@ -143,6 +143,7 @@
     <ClCompile Include="IR\CallUpliftVisitor.cpp" />
     <ClCompile Include="IR\LinearizationVisitor.cpp" />
     <ClCompile Include="IR\BlockVisitor.cpp" />
+    <ClCompile Include="IR\TraceBuilderVisitor.cpp" />
     <ClCompile Include="IR\Temporary.cpp" />
     <ClCompile Include="IR\IRTree.cpp" />
     <ClCompile Include="main.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Symbol.cpp" />
     <ClCompile Include="MalformedProgramChecker.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
+    <ClCompile Include="Synthesis\TraceBuilder.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TreeWrapper.cpp" />
@@ -198,6 +200,7 @@
     <ClInclude Include="IR\LinearizationVisitor.h" />
     <ClInclude Include="IR\Temporary.h" />
     <ClInclude Include="IR\IRTree.h" />
+    <ClInclude Include="IR\TraceBuilderVisitor.h" />
     <ClInclude Include="MainCompiler.h" />
     <ClInclude Include="NamespaceBlock.h" />
     <ClInclude Include="PrettyPrinter.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="Statement.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="MalformedProgramChecker.h" />
+    <ClInclude Include="Synthesis\TraceBuilder.h" />
     <ClInclude Include="tokens.flex.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />

@@ -4,7 +4,7 @@ namespace IR {
 
 void CBlockVisitor::visit(const CLabelStatement* node)
 {
-	lastVisitedLabel = node->Label;
+	lastVisitedLabel = node->Label();
 	lastVisitedNodeType = TNodeType::LABEL;
 }
 

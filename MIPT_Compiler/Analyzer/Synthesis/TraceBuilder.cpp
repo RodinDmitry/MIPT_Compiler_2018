@@ -64,6 +64,7 @@ CBlock CTraceBuilder::getFirstUnused()
 {
 	CBlock block = *blocks.begin();
 	blocks.erase(block);
+	return block;
 }
 
 } // namespace Synthesis

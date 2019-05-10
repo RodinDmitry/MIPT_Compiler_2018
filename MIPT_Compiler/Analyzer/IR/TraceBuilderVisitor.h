@@ -10,10 +10,10 @@ namespace IR {
 class CTraceBuilderVisitor : public IIRVisitor {
 public:
 
-	inline const std::string getLabel() { return startLabel->GetLabel(); }
-	inline const std::string getTrueTarget() { return trueTargetLabel->GetLabel(); }
-	inline const std::string getFalseTarget() { return falseTragetLabel->GetLabel(); }
-	inline bool isConditional() { return isConditional; }
+	inline const std::string& getLabel() { return startLabel->GetLabel(); }
+	inline const std::string& getTrueTarget() { return trueTargetLabel->GetLabel(); }
+	inline const std::string& getFalseTarget() { return falseTragetLabel->GetLabel(); }
+	inline bool isConditional() { return isJumpConditional; }
 
 
 	virtual void visit(const ITree* node) override { assert(false); }
@@ -40,7 +40,7 @@ private:
 	CLabel* startLabel;
 	CLabel* trueTargetLabel;
 	CLabel* falseTragetLabel;
-	bool isConditional;
+	bool isJumpConditional;
 };
 
 } // namespace IR

@@ -4,13 +4,13 @@ namespace IR {
 
 void CTraceBuilderVisitor::visit(const CJumpStatement* node)
 {
-	isConditional = false;
+	isJumpConditional = false;
 	trueTargetLabel = &node->Target();
 }
 
 void CTraceBuilderVisitor::visit(const CJumpConditionalStatement* node)
 {
-	isConditional = true;
+	isJumpConditional = true;
 	trueTargetLabel = &node->TrueLabel();
 	falseTragetLabel = &node->FalseLabel();
 }

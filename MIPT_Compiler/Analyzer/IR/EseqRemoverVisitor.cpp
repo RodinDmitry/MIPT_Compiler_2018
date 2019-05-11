@@ -52,30 +52,30 @@ void CEseqRemoverVisitor::visit(const CBinaryExpression* node)
 	std::shared_ptr<const IExpression> leftCanon = lastExpression;
 	node->RightOperand()->Accept(this);
 	std::shared_ptr<const IExpression> rightCanon = lastExpression;
-	const CEseqExpression* leftEseq = dynamic_cast<const CEseqExpression*>(node->LeftOperand());
-	const CEseqExpression* rightEseq = dynamic_cast<const CEseqExpression*>(node->RightOperand());
+	const CEseqExpression* leftEseq = dynamic_cast<const CEseqExpression*>(leftCanon.get());
+	const CEseqExpression* rightEseq = dynamic_cast<const CEseqExpression*>(rightCanon.get());
 
 	std::shared_ptr<const IExpression> resultExpression;
 
 	if (leftEseq) {
-		resultExpression = std::shared_ptr<const IExpression>(new CEseqExpression(leftEseq->Statement(),
-			std::shared_ptr<const IExpression>(new CBinaryExpression(node->Operation(), leftEseq->Expression(), rightCanon))));
+		resultExpression = std::make_shared<const CEseqExpression>(leftEseq->Statement(),
+			std::make_shared<const CBinaryExpression>(node->Operation(), leftEseq->Expression(), rightCanon));
 		if (rightEseq) {
 			resultExpression = this->processExpression(resultExpression);
 		}
 	} else if (rightEseq) {
 		if (areCommuting(rightEseq->Statement().get(), leftCanon.get())) {
-			resultExpression = std::shared_ptr<const IExpression>(new CEseqExpression(rightEseq->Statement(), std::shared_ptr<IExpression>(new CBinaryExpression(node->Operation(), leftCanon, rightEseq->Expression()))));
+			resultExpression = std::make_shared<const CEseqExpression>(rightEseq->Statement(),
+				std::make_shared<const CBinaryExpression>(node->Operation(), leftCanon, rightEseq->Expression()));
 		} else {
 			CTemp temp;
-			resultExpression = std::shared_ptr<const IExpression>(new CEseqExpression(new CMoveStatement(
-				std::shared_ptr<const IExpression>(new CTempExpression(temp)), leftCanon),
-				new CEseqExpression(rightEseq->Statement(), std::shared_ptr<const IExpression>(new CBinaryExpression(node->Operation(),
-					std::shared_ptr<const IExpression>(new CTempExpression(temp)), rightEseq->Expression())))));
-			resultExpression = processExpression(resultExpression);
+			std::shared_ptr<const IStatement> leftSubtree = std::make_shared<const CMoveStatement>(std::make_shared<const CTempExpression>(temp), leftCanon);
+			std::shared_ptr<const IExpression> rightSubtree = std::make_shared<const CEseqExpression>(rightEseq->Statement(), 
+				std::make_shared<const CBinaryExpression>(node->Operation(), std::make_shared<const CTempExpression>(temp), rightEseq->Expression()));
+			resultExpression = processExpression(std::make_shared<const CEseqExpression>(leftSubtree, rightSubtree));
 		}
 	} else {
-		resultExpression = std::shared_ptr<const IExpression>(new CBinaryExpression(node->Operation(), leftCanon, rightCanon));
+		resultExpression = std::make_shared<const CBinaryExpression>(node->Operation(), leftCanon, rightCanon);
 	}
 
 	updateLastExpression(resultExpression);
@@ -84,14 +84,14 @@ void CEseqRemoverVisitor::visit(const CMemExpression* node)
 {
 	node->Get()->Accept(this);
 	std::shared_ptr<const IExpression> canon = getExpressionTree();
-	const CEseqExpression* addressEseq = dynamic_cast<const CEseqExpression*>(node->Get());
+	const CEseqExpression* addressEseq = dynamic_cast<const CEseqExpression*>(canon.get());
 	std::shared_ptr<const IExpression> resultExpression;
 
 	if (addressEseq) {
-		resultExpression = std::shared_ptr<const IExpression>(new CEseqExpression(addressEseq->Statement(), std::shared_ptr<const IExpression>(new CMemExpression(addressEseq->Expression()))));
+		resultExpression = std::make_shared<const CEseqExpression>(addressEseq->Statement(), std::make_shared<const CMemExpression>(addressEseq->Expression()));
 	}
 	else {
-		resultExpression = std::shared_ptr<const IExpression>(new CMemExpression(canon));
+		resultExpression = std::make_shared<const CMemExpression>(canon);
 	}
 
 	updateLastExpression(resultExpression);
@@ -115,15 +115,17 @@ void CEseqRemoverVisitor::visit(const CCallExpression* node)
 		if (argumentEseq) {
 			newStatements.push_back(argumentEseq->Statement());
 		}
+
 		CTemp temp;
 		tempExpressionList->Add(new CTempExpression(temp));
 		std::shared_ptr<const IExpression> moveSourceExpression;
+
 		if (argumentEseq) {
 			moveSourceExpression = argumentEseq->Expression();
 		} else {
 			moveSourceExpression = canonArguments[i];
 		}
-		std::shared_ptr<const IStatement> moveStatement = std::shared_ptr<const IStatement>(new CMoveStatement(std::shared_ptr<const IExpression>(new CTempExpression(temp)), moveSourceExpression));
+		std::shared_ptr<const IStatement> moveStatement = std::make_shared<const CMoveStatement>(std::make_shared<const CTempExpression>(temp), moveSourceExpression);
 		newStatements.push_back(moveStatement);
 
 	}
@@ -133,11 +135,11 @@ void CEseqRemoverVisitor::visit(const CCallExpression* node)
 		std::shared_ptr<const IStatement> suffix = newStatements.back();
 		newStatements.pop_back();
 		for (int i = 0; i < newStatements.size(); i++) {
-			suffix = std::shared_ptr<const IStatement>(new CSeqStatement(newStatements[i], suffix));
+			suffix = std::make_shared<const CSeqStatement>(newStatements[i], suffix);
 		}
 
-		resultExpression = std::shared_ptr<const IExpression>(new CEseqExpression(suffix, 
-			std::shared_ptr<const IExpression>(new CCallExpression(canonFunction, tempExpressionList))));
+		resultExpression = std::make_shared<const CEseqExpression>(suffix,
+			std::make_shared<const CCallExpression>(canonFunction, tempExpressionList));
 	} else {
 		resultExpression = std::shared_ptr<const IExpression>(new CCallExpression(canonFunction, canonArgumentsList));
 	}
@@ -157,10 +159,9 @@ void CEseqRemoverVisitor::visit(const CEseqExpression* node)
 	std::shared_ptr<const IExpression> resultExpression;
 
 	if (expressionEseq) {
-		resultExpression = std::shared_ptr<const IExpression>(new CEseqExpression(std::shared_ptr<const IStatement>(
-			new CSeqStatement(canonStatement, expressionEseq->Statement())), expressionEseq->Expression()));
+		resultExpression = std::make_shared<const CEseqExpression>(std::make_shared<const CSeqStatement>(canonStatement, expressionEseq->Statement()), expressionEseq->Expression());
 	} else {
-		resultExpression = std::shared_ptr<const IExpression>(new CEseqExpression(canonStatement, canonExpression));
+		resultExpression = std::make_shared<const CEseqExpression>(canonStatement, canonExpression);
 	}
 
 	updateLastExpression(resultExpression);
@@ -174,34 +175,34 @@ void CEseqRemoverVisitor::visit(const IStatement* node)
 void CEseqRemoverVisitor::visit(const CMoveStatement* node)
 {
 	node->Destination()->Accept(this);
-	std::shared_ptr<const IExpression> canonDestination = lastExpression;
+	std::shared_ptr<const IExpression> canonDest = lastExpression;
 	node->Source()->Accept(this);
 	std::shared_ptr<const IExpression> canonSource = lastExpression;
 
-	const CEseqExpression* destinationEseq = dynamic_cast<const CEseqExpression*>(canonDestination.get());
+	const CEseqExpression* destEseq = dynamic_cast<const CEseqExpression*>(canonDest.get());
 	const CEseqExpression* sourceEseq = dynamic_cast<const CEseqExpression*>(canonSource.get());
 
 	std::shared_ptr<const IStatement> resultStatement;
-
-	if (destinationEseq) {
-		resultStatement = std::shared_ptr<const IStatement>(new CMoveStatement(destinationEseq->Expression(), canonSource));
+	if (destEseq) {
+		resultStatement = std::make_shared<const CMoveStatement>(destEseq->Expression(), canonSource);
+		
 		if (sourceEseq) {
 			resultStatement = processStatement(resultStatement);
 		}
-		resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(destinationEseq->Statement(), resultStatement));
-	} else if (sourceEseq) {
-		if (areCommuting(sourceEseq->Statement().get(), canonDestination.get())) {
-			resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(sourceEseq->Statement(), 
-				std::shared_ptr<const IStatement>(new CMoveStatement(canonDestination, sourceEseq->Expression()))));
+		resultStatement = std::make_shared<const CSeqStatement>(destEseq->Statement(), resultStatement);
+	}
+	else if (sourceEseq) {
+		if (areCommuting(sourceEseq->Statement().get(), canonDest.get())) {
+			resultStatement = std::make_shared<const CSeqStatement>(sourceEseq->Statement(), std::make_shared<const CMoveStatement>(canonDest, sourceEseq->Expression()));
 		} else {
+			// TODO MEM
+			#pragma warning("TODO")
 			CTemp temp;
-			resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(new CMoveStatement(
-				std::shared_ptr<const IExpression>(new CTempExpression(temp)), canonDestination), 
-				new CSeqStatement(sourceEseq->Statement(), std::shared_ptr<const IStatement>(
-					new CMoveStatement(std::shared_ptr<const IExpression>(new CTempExpression(temp)), sourceEseq->Expression())))));
+			resultStatement = std::make_shared<const CSeqStatement>(std::make_shared<const CMoveStatement>(std::make_shared<const CTempExpression>(temp), canonDest),
+				std::make_shared<const CSeqStatement>(sourceEseq->Statement(), std::make_shared<const CMoveStatement>(std::make_shared<const CTempExpression>(temp), sourceEseq->Expression())));
 		}
 	} else {
-		resultStatement = std::shared_ptr<const IStatement>(new CMoveStatement(canonDestination, canonSource));
+		resultStatement = std::make_shared<const CMoveStatement>(canonDest, canonSource);
 	}
 
 	updateLastStatement(std::move(resultStatement));
@@ -216,12 +217,12 @@ void CEseqRemoverVisitor::visit(const CExpStatement* node)
 	std::shared_ptr<const IStatement> resultStatement;
 	if (expressionEseq) {
 
-		resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(expressionEseq->Statement(), std::shared_ptr<const IStatement>(new CExpStatement(expressionEseq->Expression()))));
+		resultStatement = std::make_shared<const CSeqStatement>(expressionEseq->Statement(), std::make_shared<const CExpStatement>(expressionEseq->Expression()));
 	} else {
-		resultStatement = std::shared_ptr<const IStatement>(new CExpStatement(canonExpression));
+		resultStatement = std::make_shared<const CExpStatement>(canonExpression);
 	}
 
-	updateLastStatement(std::move(resultStatement));
+	updateLastStatement(resultStatement);
 }
 
 void CEseqRemoverVisitor::visit(const CJumpStatement* node)
@@ -243,27 +244,27 @@ void CEseqRemoverVisitor::visit(const CJumpConditionalStatement* node)
 
 	if (leftEseq) {
 
-		resultStatement = std::shared_ptr<const IStatement>(new CJumpConditionalStatement(node->Operation(), leftEseq->Expression(), canonRight, node->TrueLabel(), node->FalseLabel()));
+		resultStatement = std::make_shared<const CJumpConditionalStatement>(node->Operation(), leftEseq->Expression(), canonRight, node->TrueLabel(), node->FalseLabel());
 		
 		if (rightEseq) {
 			resultStatement = processStatement(resultStatement);
 		}
-		resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(leftEseq->Statement(), resultStatement));
+		resultStatement = std::make_shared<const CSeqStatement>(leftEseq->Statement(), resultStatement);
 	}
 	else if (rightEseq) {
 		if (areCommuting(rightEseq->Statement().get(), canonLeft.get())) {
 
-			resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(rightEseq->Statement(), std::shared_ptr<const IStatement>(
-				new CJumpConditionalStatement(node->Operation(), canonLeft, rightEseq->Expression(), node->TrueLabel(), node->FalseLabel()))));
+			resultStatement = std::make_shared<const CSeqStatement>(rightEseq->Statement(), 
+				std::make_shared<const CJumpConditionalStatement>(node->Operation(), canonLeft, rightEseq->Expression(), node->TrueLabel(), node->FalseLabel()));
 		} else {
 			CTemp temp;
-
-			resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(new CMoveStatement(std::shared_ptr<const IExpression>(new CTempExpression(temp)), canonLeft),
-				new CSeqStatement(rightEseq->Statement(), std::shared_ptr<const IStatement>(new CJumpConditionalStatement(node->Operation(), std::shared_ptr<const IExpression>(
-					new CTempExpression(temp)), rightEseq->Expression(), node->TrueLabel(), node->FalseLabel())))));
+			resultStatement = nullptr;
+			resultStatement = std::make_shared<const CSeqStatement>(std::make_shared<const CMoveStatement>(std::make_shared<const CTempExpression>(temp), canonLeft),
+				std::make_shared<const CSeqStatement>(rightEseq->Statement(), std::make_shared<const CJumpConditionalStatement>(node->Operation(),
+				std::make_shared<const CMemExpression>(std::make_shared<const CTempExpression>(temp)), rightEseq->Expression(), node->TrueLabel(), node->FalseLabel())));
 		}
 	} else {
-		resultStatement = std::shared_ptr<const IStatement>(new CJumpConditionalStatement(node->Operation(), canonLeft, canonRight, node->TrueLabel(), node->FalseLabel()));
+		resultStatement = std::make_shared<const CJumpConditionalStatement>(node->Operation(), canonLeft, canonRight, node->TrueLabel(), node->FalseLabel());
 	}
 
 	updateLastStatement(resultStatement);
@@ -277,7 +278,7 @@ void CEseqRemoverVisitor::visit(const CSeqStatement* node)
 	node->RightStatement()->Accept(this);
 	std::shared_ptr<const IStatement> canonRight = lastStatement;
 
-	std::shared_ptr<const IStatement> resultStatement = std::shared_ptr<const IStatement>(new CSeqStatement(canonLeft, canonRight));
+	std::shared_ptr<const IStatement> resultStatement = std::make_shared<const CSeqStatement>(canonLeft, canonRight);
 
 	updateLastStatement(resultStatement);
 

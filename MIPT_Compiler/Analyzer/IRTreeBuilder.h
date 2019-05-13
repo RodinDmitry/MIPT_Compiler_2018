@@ -32,7 +32,7 @@ public:
 	virtual void visit(CThisExpression*) override;
 	virtual void visit(CNotExpression*) override;
 	virtual void visit(CBracketsExpression*) override;
-	virtual void visit(CReturnExpression*) override;
+	virtual void visit(CReturnStatement*) override;
 	virtual void visit(CFunction*) override;
 	virtual void visit(CId*) override;
 	virtual void visit(CMainArgument*) override;

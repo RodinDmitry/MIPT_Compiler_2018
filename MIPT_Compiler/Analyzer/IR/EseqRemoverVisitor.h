@@ -1,15 +1,17 @@
 #pragma once
+
+#include <cassert>
+#include <memory>
+
 #include <IR/IRVisitor.h>
-#include <fstream>
-#include <deque>
 
 namespace IR {
 
-class CIRPrinterVisitor : IIRVisitor {
+class CEseqRemoverVisitor : public IIRVisitor {
 public:
-	explicit CIRPrinterVisitor(const std::string& name);
-	void PrintTree(const ITree* root);
-	void close();
+
+	std::shared_ptr<const IStatement> getStatementTree();
+	std::shared_ptr<const IExpression> getExpressionTree();
 
 	virtual void visit(const ITree* node) override;
 	virtual void visit(const IExpression* node) override;
@@ -31,15 +33,24 @@ public:
 	virtual void visit(const CStatementList* node) override;
 
 private:
-	static int lastId;
-	std::ofstream output;
-	std::deque<std::string> nodes;
-	std::vector< std::pair<std::string, ITree*> > labels;
+	void updateLastExpression(const IExpression* expression);
+	void updateLastExpression(std::shared_ptr<const IExpression> expression);
 
-	void visitIfNotNull(const ITree* node, const std::string& currentNode);
-	std::string labelNode(const std::string& name, const std::string& adding);
-	std::string operationName(TLogicOperatorType type);
-	std::string operatorName(TOperator type);
+	void updateLastExpressionList(const CExpressionList* list);
+	void updateLastExpressionList(std::shared_ptr<const CExpressionList> list);
+
+	void updateLastStatement(const IStatement* statement);
+	void updateLastStatement(std::shared_ptr<const IStatement> statement);
+
+
+	std::shared_ptr<const IExpression> processExpression(std::shared_ptr<const IExpression> expression) const;
+	std::shared_ptr<const IStatement> processStatement(std::shared_ptr<const IStatement> statement) const;
+
+	bool areCommuting(const IStatement* statement, const IExpression* expression);
+
+	std::shared_ptr<const IExpression> lastExpression;
+	std::shared_ptr<const IStatement> lastStatement;
+	std::shared_ptr<const CExpressionList> lastExpressionList;
 };
 
-} //IR
+} // namespace IR

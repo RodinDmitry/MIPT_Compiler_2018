@@ -114,3 +114,16 @@ std::string CVariableStatement::GetLabel() const
 	return "variable" + labelAddings;
 }
 
+CReturnStatement::CReturnStatement(IExpression* _expression, int _line) : expression(_expression), IStatement(_line)
+{
+}
+
+void CReturnStatement::Accept(IVisitor* visitior)
+{
+	visitior->visit(this);
+}
+
+std::string CReturnStatement::GetLabel() const
+{
+	return  "return" + labelAddings;;
+}

@@ -82,8 +82,8 @@ void IR::CIRPrinterVisitor::visit(const CCallExpression* node)
 void IR::CIRPrinterVisitor::visit(const CEseqExpression* node)
 {
 	std::string name = labelNode("ESEQ","");
-	visitIfNotNull(node->Expression(), name);
-	visitIfNotNull(node->Statement(), name);
+	visitIfNotNull(node->Expression().get(), name);
+	visitIfNotNull(node->Statement().get(), name);
 	nodes.push_front(name);
 }
 
@@ -133,6 +133,15 @@ void IR::CIRPrinterVisitor::visit(const CSeqStatement* node)
 void IR::CIRPrinterVisitor::visit(const CLabelStatement* node)
 {
 	std::string name = labelNode("Label_",node->Label().GetLabel());
+	nodes.push_front(name);
+}
+
+void IR::CIRPrinterVisitor::visit(const CStatementList* node)
+{
+	std::string name = labelNode("StatementList", "");
+	for (int i = 0; i < node->Get().size(); ++i) {
+		visitIfNotNull(node->Get()[i].get(), name);
+	}
 	nodes.push_front(name);
 }
 

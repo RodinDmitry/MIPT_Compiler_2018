@@ -181,7 +181,7 @@ void CTypeGetter::visit(CBracketsExpression* node)
 	waitingNodes.push_front(node->expression.get());
 }
 
-void CTypeGetter::visit(CReturnExpression* node)
+void CTypeGetter::visit(CReturnStatement* node)
 {
 	waitingNodes.push_front(node->expression.get());
 }

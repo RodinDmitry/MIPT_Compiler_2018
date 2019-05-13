@@ -3,6 +3,10 @@
 #include <Defines.h>
 #include <FrameVistor.h>
 #include <IRPrinter.h>
+#include <IR/CallUpliftVisitor.h>
+#include <IR/EseqRemoverVisitor.h>
+#include <IR/LinearizationVisitor.h>
+#include <TreeWrapper.h>
 
 void CMainCompiler::Process(int argc, char * argv[])
 {
@@ -20,6 +24,13 @@ void CMainCompiler::Process(int argc, char * argv[])
 	}
 	AddFrames();
 	buildIR();
+
+	dumpIR("original");
+	updateCalls();
+	dumpIR("calls");
+	removeEseq();
+	dumpIR("eseq");
+	linearizeTree();
 	dumpIR();
 }
 
@@ -135,14 +146,49 @@ void CMainCompiler::buildIR()
 	IRTrees = builder.BuildIRTree(root.get(), tableName);
 }
 
-void CMainCompiler::dumpIR()
+void CMainCompiler::dumpIR(const std::string& suffix)
 {
 	if (args.IsIRDumping()) {
-		IR::CIRPrinterVisitor printer(args.GetIRFileName());
+		IR::CIRPrinterVisitor printer(args.GetIRFileName() + suffix);
 		std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
 		for (tree; tree != IRTrees->end(); ++tree) {
 			printer.PrintTree((*tree).second->ToStatement().get());
+
 		}
 		printer.close();
+	}
+}
+
+void CMainCompiler::updateCalls()
+{
+	std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
+	for (tree; tree != IRTrees->end(); tree++) {
+		IR::CCallUpliftVisitor visitor;
+		(*tree).second->ToStatement()->Accept(&visitor);
+		std::shared_ptr<IR::CStatementWrapper> wrapper = std::make_shared<IR::CStatementWrapper>(visitor.getStatementTree());
+		IRTrees->at((*tree).first) = wrapper;
+	}
+
+}
+
+void CMainCompiler::removeEseq()
+{
+	std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
+	for (tree; tree != IRTrees->end(); tree++) {
+		IR::CEseqRemoverVisitor visitor;
+		(*tree).second->ToStatement()->Accept(&visitor);
+		std::shared_ptr<IR::CStatementWrapper> wrapper = std::make_shared<IR::CStatementWrapper>(visitor.getStatementTree());
+		IRTrees->at((*tree).first) = wrapper;
+	}
+}
+
+void CMainCompiler::linearizeTree()
+{
+	std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
+	for (tree; tree != IRTrees->end(); tree++) {
+		IR::CLinearizationVisitor visitor;
+		(*tree).second->ToStatement()->Accept(&visitor);
+		std::shared_ptr<IR::CStatementWrapper> wrapper = std::make_shared<IR::CStatementWrapper>(visitor.getResult());
+		IRTrees->at((*tree).first) = wrapper;
 	}
 }

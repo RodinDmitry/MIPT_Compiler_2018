@@ -34,6 +34,10 @@ private:
 	void buildAST();
 	void AddFrames();
 	void buildIR();
-	void dumpIR();
+	void dumpIR(const std::string& suffix = "");
+
+	void updateCalls();
+	void removeEseq();
+	void linearizeTree();
 
 };

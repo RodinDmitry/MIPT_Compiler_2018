@@ -46,9 +46,9 @@ const IAccess * CMiniJavaMethodFrame::FindFormalorLocal(const CSymbol * name) co
 	return classFrame->FindFormalorLocal( name );
 }
 
-std::shared_ptr<const IR::IExpression> CMiniJavaMethodFrame::GetWordSize() const
+int CMiniJavaMethodFrame::GetWordSize() const
 {
-	return std::make_shared<const IR::CConstExpression>(wordSize);
+	return wordSize;
 }
 
 const std::shared_ptr<const IR::IExpression> CMiniJavaMethodFrame::GetFramePtr() const

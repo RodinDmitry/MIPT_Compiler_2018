@@ -4,7 +4,7 @@
 #include <ClassInfo.h>
 #include <IR/IRStatement.h>
 
-std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> CIRTreeBuilder::BuildIRTree(ITree * tree, const std::string& _symbolTableName)
+std::shared_ptr<std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>> CIRTreeBuilder::BuildIRTree(ITree* tree, const std::string& _symbolTableName)
 {
 	symbolTableName = _symbolTableName;
 	methods.reset(new std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>());
@@ -117,7 +117,7 @@ void CIRTreeBuilder::visit(CArrayExpression* node)
 	node->index->Accept(this);
 	std::shared_ptr<const IR::IExpression> offset = subtree->ToExpression();
 	std::shared_ptr<const IR::IExpression> offsetExpr(new IR::CBinaryExpression(
-		IR::TOperator::O_Multiplication, offset, currentFrame->GetWordSize()));
+		IR::TOperator::O_Multiplication, offset, std::make_shared<IR::CConstExpression>(currentFrame->GetWordSize())));
 	updateSubtree(new IR::CExpressionWrapper(new IR::CBinaryExpression(IR::O_Plus, arrayStart, offset)));
 }
 
@@ -132,7 +132,7 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 	std::shared_ptr<IR::IStatement> moveStatement = std::make_shared<IR::CMoveStatement>(
 		std::make_shared<IR::CTempExpression>(callerObject), subtree->ToExpression());
 
-	IR::CExpressionList* expressionList = new IR::CExpressionList();
+	std::shared_ptr<IR::CExpressionList> expressionList = std::make_shared<IR::CExpressionList>();
 	expressionList->Add(std::make_shared<IR::CTempExpression>(callerObject));
 
 	const std::vector<std::shared_ptr<IExpression>>& expressions = node->list->expressions;
@@ -147,7 +147,7 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 	std::shared_ptr<IR::IExpression> function = std::make_shared<IR::CBinaryExpression>(IR::O_Plus, virtualTable,
 		std::make_shared<IR::CConstExpression>(info->GetVirtualTable()->GetMethodIndex(funcName)));
 	std::shared_ptr<IR::IExpression> functionCall = std::make_shared<IR::CCallExpression>(
-		new IR::CNameExpression(IR::CLabel(makeMethodName(methodCaller, node->function->name))), expressionList);
+		function, expressionList);
 	updateSubtree(std::make_shared<IR::CExpressionWrapper>(std::make_shared<IR::CEseqExpression>(
 		moveStatement, functionCall)));
 
@@ -167,15 +167,11 @@ void CIRTreeBuilder::visit(CNewArrayExpression* node)
 {
 	node->expression->Accept(this);
 
-	std::shared_ptr<const IR::IExpression> expressionLength = subtree->ToExpression();
+	std::shared_ptr<const IR::IExpression> expressionLength = std::make_shared<IR::CBinaryExpression>(IR::TOperator::O_Multiplication,
+		subtree->ToExpression(), std::make_shared<IR::CConstExpression>(currentFrame->GetWordSize()));
 
-
-	IR::IExpression* total_size = new IR::CBinaryExpression(IR::TOperator::O_Multiplication, 
-		std::shared_ptr<const IR::IExpression>(new IR::CBinaryExpression(IR::TOperator::O_Plus,
-		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(1)), expressionLength)), currentFrame->GetWordSize());
-
-	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
-		new IR::CExpressionList(total_size)))));
+	updateSubtree(new IR::CExpressionWrapper(currentFrame->ExternalCall("malloc",
+		std::make_shared<const IR::CExpressionList>(expressionLength))));
 
 }
 
@@ -184,11 +180,10 @@ void CIRTreeBuilder::visit(CNewExpression* node)
 	const CClassInfo* info = CSymbolTable::FindClass(symbolTableName, CSymbol::GetSymbol(node->id->name));
 	int classSize = info->GetSize();
 
-	std::shared_ptr<const IR::IExpression> total_size = std::make_shared<const IR::CBinaryExpression>(IR::TOperator::O_Multiplication,
-		std::shared_ptr<const IR::IExpression>(new IR::CConstExpression(classSize)), currentFrame->GetWordSize());
+	std::shared_ptr<const IR::IExpression> total_size = std::make_shared<IR::CConstExpression>(classSize * currentFrame->GetWordSize());
 
-	std::shared_ptr<const IR::IExpression> memory_allocation = currentFrame->ExternalCall("malloc", std::shared_ptr<const IR::CExpressionList>(
-		new IR::CExpressionList(new IR::CBinaryExpression(IR::TOperator::O_Plus, total_size, currentFrame->GetWordSize()))));
+	std::shared_ptr<const IR::IExpression> memory_allocation = currentFrame->ExternalCall("malloc", 
+		std::make_shared<IR::CExpressionList>(total_size));
 
 	IR::CTemp allocationAddr;
 	std::shared_ptr<IR::IStatement> moveStatement = std::make_shared<IR::CMoveStatement>(
@@ -233,9 +228,12 @@ void CIRTreeBuilder::visit(CBracketsExpression* node)
 	updateSubtree(new IR::CExpressionWrapper(subtree->ToExpression()));
 }
 
-void CIRTreeBuilder::visit(CReturnExpression* node)
+void CIRTreeBuilder::visit(CReturnStatement* node)
 {
 	node->expression->Accept(this);
+
+	updateSubtree(std::make_shared<IR::CStatementWrapper>(std::make_shared<IR::CMoveStatement>(
+		currentFrame->GetReturn()->GetExp(currentFrame->GetFramePtr()), subtree->ToExpression())));
 }
 
 void CIRTreeBuilder::visit(CFunction* node)
@@ -246,19 +244,18 @@ void CIRTreeBuilder::visit(CFunction* node)
 	std::shared_ptr<IR::ITreeWrapper> functionBody = subtree;
 	if (functionBody != nullptr) {
 		node->returnExpression->Accept(this);
-		std::shared_ptr<const IR::IExpression> returnExpression = subtree->ToExpression();
+		std::shared_ptr<const IR::IStatement> returnStatement = subtree->ToStatement();
 
 		updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(new IR::CLabelStatement(IR::CLabel(methodFullName)),
-			new IR::CSeqStatement(functionBody->ToStatement(), std::shared_ptr<const IR::IStatement>(
-				new IR::CMoveStatement(currentFrame->GetReturn()->GetExp(currentFrame->GetFramePtr()), returnExpression))))));
+			new IR::CSeqStatement(functionBody->ToStatement(), returnStatement))));
 		
 	}
 	else {
 		node->returnExpression->Accept(this);
-		std::shared_ptr<const IR::IExpression> returnExpression = subtree->ToExpression();
+		std::shared_ptr<const IR::IStatement> returnStatement = subtree->ToStatement();
 
-		updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(
-			new IR::CLabelStatement(IR::CLabel(methodFullName)), new IR::CExpStatement(returnExpression))));
+		updateSubtree(new IR::CStatementWrapper(new IR::CSeqStatement(std::make_shared<IR::CLabelStatement>(
+			IR::CLabel(methodFullName)), returnStatement)));
 		
 	}
 }

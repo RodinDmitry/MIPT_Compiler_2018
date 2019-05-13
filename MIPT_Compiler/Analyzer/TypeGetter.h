@@ -29,7 +29,7 @@ public:
 	virtual void visit(CThisExpression*) override;
 	virtual void visit(CNotExpression*) override;
 	virtual void visit(CBracketsExpression*) override;
-	virtual void visit(CReturnExpression*) override;
+	virtual void visit(CReturnStatement*) override;
 	virtual void visit(CFunction*) override { assert(false); }
 	virtual void visit(CId*) override { assert(false); }
 	virtual void visit(CMainArgument*) override { assert(false); }

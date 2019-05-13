@@ -6,7 +6,7 @@
 #include <Type.h>
 
 CFunction::CFunction(CModifier* _visibility, CId* _name, CArgumentList* _arguments, CStatementList* _body,
-	CType* _returns, CReturnExpression* _returnExpression, int _line) : visibility(_visibility), 
+	CType* _returns, CReturnStatement* _returnExpression, int _line) : visibility(_visibility), 
 	name(_name), arguments(_arguments), body(_body), returns(_returns), 
 	returnExpression(_returnExpression), ITree(_line)
 {

@@ -23,6 +23,22 @@ enum class TLogicOperatorType : char {
 
 class IExpression;
 
+class CStatementList : public IStatement {
+public:
+	virtual ~CStatementList() = default;
+	CStatementList() = default;
+	virtual void Accept(IIRVisitor* visitor) const override;
+	explicit CStatementList(const IStatement* statement) { Add(statement); }
+	explicit CStatementList(std::shared_ptr<const IStatement> expression) { Add(expression); }
+	void Add(const IStatement* statement) { Add(std::shared_ptr<const IStatement>(statement)); };
+	void Add(std::shared_ptr<const IStatement> statement) { statements.push_back(statement); }
+
+	const std::vector<std::shared_ptr<const IStatement>>& Get() const { return statements; }
+
+private:
+	std::vector<std::shared_ptr<const IStatement>> statements;
+};
+
 class CMoveStatement : public IStatement {
 public:
 	CMoveStatement(const IExpression* _destination, const IExpression* _source) : destination(_destination), source(_source) {}

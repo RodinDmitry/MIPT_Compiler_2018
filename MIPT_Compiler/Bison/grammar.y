@@ -151,14 +151,14 @@ MainArgument: PT_String LeftSquareBracket RightSquareBracket PT_ID {  $$ = new C
 ;
 
 Function: Visibility Type PT_ID ArgumentsList LeftBrace Statement Return RightBrace 
-{ $$ = new CFunction(To<CModifier>($1), new CId($3, @3.first_line), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnExpression>($7), @1.first_line); free($3);}
+{ $$ = new CFunction(To<CModifier>($1), new CId($3, @3.first_line), To<CArgumentList>($4), To<CStatementList>($6), To<CType>($2), To<CReturnStatement>($7), @1.first_line); free($3);}
 ;
 
 Visibility: PT_Public { $$ = new CModifier(TVisabilityModifierType::VMT_Public); }
 	| PT_Private { $$ = new CModifier(TVisabilityModifierType::VMT_Private); }
 ;
 
-Return: PT_Return Expression Semicolon { $$ = new CReturnExpression(To<IExpression>($2), @1.first_line); }
+Return: PT_Return Expression Semicolon { $$ = new CReturnStatement(To<IExpression>($2), @1.first_line); }
 ;
 
 ArgumentsList: LeftRoundBracket RightRoundBracket { $$ = new CArgumentList(); }

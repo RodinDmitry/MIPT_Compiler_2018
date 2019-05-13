@@ -137,8 +137,8 @@ public:
 	virtual ~CEseqExpression() = default;
 
 	virtual void Accept(IIRVisitor* visitor) const override;
-	const IStatement* Statement() const { return statement.get(); }
-	const IExpression* Expression() const { return expression.get(); }
+	std::shared_ptr<const IStatement> Statement() const { return statement; }
+	std::shared_ptr<const IExpression> Expression() const { return expression; }
 
 private:
 	std::shared_ptr<const IStatement> statement;

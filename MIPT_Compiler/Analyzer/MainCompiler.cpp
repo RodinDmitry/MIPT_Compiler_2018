@@ -24,10 +24,12 @@ void CMainCompiler::Process(int argc, char * argv[])
 	}
 	AddFrames();
 	buildIR();
-	
 
+	dumpIR("original");
 	updateCalls();
+	dumpIR("calls");
 	removeEseq();
+	dumpIR("eseq");
 	linearizeTree();
 	dumpIR();
 }
@@ -144,21 +146,21 @@ void CMainCompiler::buildIR()
 	IRTrees = builder.BuildIRTree(root.get(), tableName);
 }
 
-void CMainCompiler::dumpIR()
+void CMainCompiler::dumpIR(const std::string& suffix)
 {
 	if (args.IsIRDumping()) {
-		IR::CIRPrinterVisitor printer(args.GetIRFileName());
+		IR::CIRPrinterVisitor printer(args.GetIRFileName() + suffix);
 		std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
 		for (tree; tree != IRTrees->end(); ++tree) {
 			printer.PrintTree((*tree).second->ToStatement().get());
-		
+
 		}
 		printer.close();
 	}
 }
 
 void CMainCompiler::updateCalls()
-{	
+{
 	std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
 	for (tree; tree != IRTrees->end(); tree++) {
 		IR::CCallUpliftVisitor visitor;

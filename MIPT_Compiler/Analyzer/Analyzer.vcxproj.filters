@@ -136,6 +136,15 @@
     <ClCompile Include="VirtualTable.cpp">
       <Filter>SymbolTable</Filter>
     </ClCompile>
+    <ClCompile Include="IR\BlockVisitor.cpp">
+      <Filter>IR\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="IR\TraceBuilderVisitor.cpp">
+      <Filter>IR\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="Synthesis\TraceBuilder.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -297,6 +306,15 @@
     <ClInclude Include="IR\EseqRemoverVisitor.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
+    <ClInclude Include="IR\BlockVisitor.h">
+      <Filter>IR\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="IR\TraceBuilderVisitor.h">
+      <Filter>IR\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\TraceBuilder.h">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SymbolTable">
@@ -337,6 +355,9 @@
     </Filter>
     <Filter Include="IR\Visitor">
       <UniqueIdentifier>{a1d85ffd-7c51-47b3-b8fe-650ebf2d52cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Synthesis">
+      <UniqueIdentifier>{28d62d78-3135-4424-8beb-6c5ed2f8600d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

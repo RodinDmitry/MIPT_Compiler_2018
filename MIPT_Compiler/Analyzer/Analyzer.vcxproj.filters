@@ -145,6 +145,12 @@
     <ClCompile Include="Synthesis\TraceBuilder.cpp">
       <Filter>Synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="Synthesis\Commands.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="Synthesis\Patterns.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -313,6 +319,18 @@
       <Filter>IR\Visitor</Filter>
     </ClInclude>
     <ClInclude Include="Synthesis\TraceBuilder.h">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\Visitor.h">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\Node.h">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\Commands.h">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\Patterns.h">
       <Filter>Synthesis</Filter>
     </ClInclude>
   </ItemGroup>

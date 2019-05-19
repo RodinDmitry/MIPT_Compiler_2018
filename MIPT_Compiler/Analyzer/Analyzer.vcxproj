@@ -158,6 +158,8 @@
     <ClCompile Include="Symbol.cpp" />
     <ClCompile Include="MalformedProgramChecker.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
+    <ClCompile Include="Synthesis\Commands.cpp" />
+    <ClCompile Include="Synthesis\Patterns.cpp" />
     <ClCompile Include="Synthesis\TraceBuilder.cpp" />
     <ClCompile Include="tokens.flex.cpp" />
     <ClCompile Include="Tree.cpp" />
@@ -213,7 +215,11 @@
     <ClInclude Include="Statement.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="MalformedProgramChecker.h" />
+    <ClInclude Include="Synthesis\Commands.h" />
+    <ClInclude Include="Synthesis\Node.h" />
+    <ClInclude Include="Synthesis\Patterns.h" />
     <ClInclude Include="Synthesis\TraceBuilder.h" />
+    <ClInclude Include="Synthesis\Visitor.h" />
     <ClInclude Include="tokens.flex.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />

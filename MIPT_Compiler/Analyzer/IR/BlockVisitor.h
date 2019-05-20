@@ -10,6 +10,8 @@ namespace IR {
 class CBlockVisitor : public IIRVisitor {
 public:
 
+	CBlockVisitor();
+
 	inline std::shared_ptr<std::vector<std::shared_ptr<CStatementList>>> getResult() { return blocks; }
 
 	virtual void visit(const ITree* node) override { assert(false); }

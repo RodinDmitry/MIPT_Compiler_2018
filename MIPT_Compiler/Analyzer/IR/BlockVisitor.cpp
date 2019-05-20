@@ -2,6 +2,10 @@
 
 namespace IR {
 
+CBlockVisitor::CBlockVisitor()
+{
+	blocks = std::make_shared<std::vector<std::shared_ptr<CStatementList>>>();
+}
 void CBlockVisitor::visit(const CLabelStatement* node)
 {
 	lastVisitedLabel = node->Label();
@@ -22,6 +26,7 @@ void CBlockVisitor::visit(const CStatementList* node)
 			}
 			block = newBlock();
 		}
+		prevNodeType = lastVisitedNodeType;
 		block->Add(statementList[i]);
 	}
 	if (block) {

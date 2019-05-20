@@ -151,6 +151,12 @@
     <ClCompile Include="Synthesis\Patterns.cpp">
       <Filter>Synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="Synthesis\Tiling.cpp">
+      <Filter>Synthesis\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="Synthesis\CommandBuilder.cpp">
+      <Filter>Synthesis\Visitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Argument.h">
@@ -318,12 +324,6 @@
     <ClInclude Include="IR\TraceBuilderVisitor.h">
       <Filter>IR\Visitor</Filter>
     </ClInclude>
-    <ClInclude Include="Synthesis\TraceBuilder.h">
-      <Filter>Synthesis</Filter>
-    </ClInclude>
-    <ClInclude Include="Synthesis\Visitor.h">
-      <Filter>Synthesis</Filter>
-    </ClInclude>
     <ClInclude Include="Synthesis\Node.h">
       <Filter>Synthesis</Filter>
     </ClInclude>
@@ -332,6 +332,24 @@
     </ClInclude>
     <ClInclude Include="Synthesis\Patterns.h">
       <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\Visitor.h">
+      <Filter>Synthesis\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\Tiling.h">
+      <Filter>Synthesis\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\TraceBuilder.h">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\AsmCommand.h">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\CommandBuilder.h">
+      <Filter>Synthesis\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="Synthesis\TypeVisitor.h">
+      <Filter>Synthesis\Visitor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +394,9 @@
     </Filter>
     <Filter Include="Synthesis">
       <UniqueIdentifier>{28d62d78-3135-4424-8beb-6c5ed2f8600d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Synthesis\Visitor">
+      <UniqueIdentifier>{b3b36081-7a22-4edb-ac7b-7451141ed158}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

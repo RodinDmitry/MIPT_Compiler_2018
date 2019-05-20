@@ -144,8 +144,11 @@ void CIRTreeBuilder::visit(CCallExpression* node)
 	
 	std::shared_ptr<IR::IExpression> virtualTable = std::make_shared<IR::CMemExpression>(
 		std::make_shared<IR::CTempExpression>(callerObject));
-	std::shared_ptr<IR::IExpression> function = std::make_shared<IR::CBinaryExpression>(IR::O_Plus, virtualTable,
-		std::make_shared<IR::CConstExpression>(info->GetVirtualTable()->GetMethodIndex(funcName)));
+	//TODO
+	//std::shared_ptr<IR::IExpression> function = std::make_shared<IR::CBinaryExpression>(IR::O_Plus, virtualTable,
+	//	std::make_shared<IR::CConstExpression>(info->GetVirtualTable()->GetMethodIndex(funcName)));
+	IR::CLabel functionNameLabel(funcName->String());
+	std::shared_ptr<IR::IExpression> function = std::make_shared<IR::CNameExpression>(functionNameLabel);
 	std::shared_ptr<IR::IExpression> functionCall = std::make_shared<IR::CCallExpression>(
 		function, expressionList);
 	updateSubtree(std::make_shared<IR::CExpressionWrapper>(std::make_shared<IR::CEseqExpression>(

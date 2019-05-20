@@ -6,7 +6,11 @@
 #include <IR/CallUpliftVisitor.h>
 #include <IR/EseqRemoverVisitor.h>
 #include <IR/LinearizationVisitor.h>
+#include <IR/BlockVisitor.h>
+#include <IR/TraceBuilderVisitor.h>
+#include <Synthesis/CommandBuilder.h>
 #include <TreeWrapper.h>
+#include <sstream>
 
 void CMainCompiler::Process(int argc, char * argv[])
 {
@@ -32,6 +36,12 @@ void CMainCompiler::Process(int argc, char * argv[])
 	dumpIR("eseq");
 	linearizeTree();
 	dumpIR();
+
+	buildBlocks();
+	buildTraces();
+	buildTiling();
+	buildASM();
+	dumpAsm("asm");
 }
 
 void CMainCompiler::dumpBisonToken(const std::string & token)
@@ -156,6 +166,78 @@ void CMainCompiler::dumpIR(const std::string& suffix)
 
 		}
 		printer.close();
+	}
+}
+
+void CMainCompiler::dumpAsm(const std::string& suffix)
+{
+	std::ofstream output;
+	std::string name = args.GetIRFileName() + suffix;
+	output.open(name, std::ofstream::out);
+
+	for (auto code : codes) {
+		output << code << std::endl;
+	}
+	output.close();
+}
+
+void CMainCompiler::buildBlocks()
+{
+	programBlocks = std::make_shared< std::vector<Synthesis::CBlock>>();
+
+	std::map<const CSymbol*, std::shared_ptr<IR::ITreeWrapper>>::iterator tree = IRTrees->begin();
+	for (tree; tree != IRTrees->end(); ++tree) {
+		IR::CBlockVisitor visitor;
+		(*tree).second->ToStatement()->Accept(&visitor);
+		auto blocks = visitor.getResult();
+		for (int i = 0; i < blocks->size(); i++) {
+			programBlocks->push_back(blocks->at(i));
+		}
+	}
+}
+
+void CMainCompiler::buildTraces()
+{
+	Synthesis::CTraceBuilder builder;
+	traces = builder.buildTraces(programBlocks);
+	
+}
+
+void CMainCompiler::buildTiling()
+{
+	for (auto trace = traces->begin(); trace != traces->end(); ++trace) {
+		IR::CTraceBuilderVisitor traceVisitor;
+		trace->at(0)->Accept(&traceVisitor);
+		std::string label = traceVisitor.getLabel();
+
+		for (auto block = trace->begin(); block != trace->end(); ++block) {
+			
+			for (const auto& statement : (*block)->Get()) {
+				std::shared_ptr<Synthesis::CTilingVisitor> visitor =
+					std::make_shared<Synthesis::CTilingVisitor>(statement.get());
+				statement->Accept(visitor.get());
+				commands[label].push_back(visitor);
+			}
+
+		}
+	}
+}
+
+void CMainCompiler::buildASM()
+{
+	for (auto methodIt = commands.begin(); methodIt != commands.end(); ++methodIt) {
+		for (auto visitorIt = methodIt->second.begin(); visitorIt != methodIt->second.end(); ++visitorIt) {
+			Synthesis::CCommandBuilder builder;
+			(*visitorIt)->Result()->Accept(&builder);
+			for (const auto& line : builder.Result()) {
+				std::stringstream textStream;
+				textStream << line.Text();
+				for (const auto& reg : line.Registers()) {
+					textStream << ' ' << reg;
+				}
+				codes.push_back(textStream.str());
+			}
+		}
 	}
 }
 

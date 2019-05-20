@@ -5,19 +5,19 @@ namespace IR {
 void CTraceBuilderVisitor::visit(const CJumpStatement* node)
 {
 	isJumpConditional = false;
-	trueTargetLabel = &node->Target();
+	trueTargetLabel = node->Target().GetLabel();
 }
 
 void CTraceBuilderVisitor::visit(const CJumpConditionalStatement* node)
 {
 	isJumpConditional = true;
-	trueTargetLabel = &node->TrueLabel();
-	falseTragetLabel = &node->FalseLabel();
+	trueTargetLabel = node->TrueLabel().GetLabel();
+	falseTragetLabel = node->FalseLabel().GetLabel();
 }
 
 void CTraceBuilderVisitor::visit(const CLabelStatement* node)
 {
-	startLabel = &node->Label();
+	startLabel = node->Label().GetLabel();
 }
 
 void CTraceBuilderVisitor::visit(const CStatementList* node)

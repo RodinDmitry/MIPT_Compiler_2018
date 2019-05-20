@@ -1,6 +1,6 @@
 #include <Synthesis/Patterns.h>
 #include <limits>
-//#include <Synthesis/visitors/TypingVisitor.h>
+#include <Synthesis/TypeVisitor.h>
 #include <Synthesis/Commands.h>
 #include <IR/IRExpression.h>
 
@@ -8,10 +8,9 @@ namespace Synthesis {
 
 template <typename T>
 CPattern::ValidAndValue<const T*> CPattern::GetTypedNode(const IR::ITree* node) {
-	//CTypingVisitor<T> visitor;
-	//node->Accept(&visitor);
-	//const T* pointer = visitor.GetNode();
-	const T* pointer = dynamic_cast<const T*>(node);
+	CTypeVisitor<T> visitor;
+	node->Accept(&visitor);
+	const T* pointer = visitor.GetNode();
 	return ValidAndValue<const T*>(pointer != nullptr, pointer);
 }
 
@@ -19,8 +18,7 @@ int CPattern::GetDynamicPrice(const IR::ITree* node) {
 	auto iterator = dynamic->find(node);
 	if (iterator == dynamic->end()) {
 		return std::numeric_limits<int>::max();
-	}
-	else {
+	} else {
 		return iterator->second.first;
 	}
 }
@@ -52,6 +50,17 @@ void CTempPattern::Consume(const IR::ITree* node) {
 	}
 
 	(*dynamic)[*root] = std::make_pair(1, std::make_shared<CTempExpression>(root->Temporary().Get()));
+}
+
+void CNamePattern::Consume(const IR::ITree* node)
+{
+	const auto root = GetTypedNode<IR::CNameExpression>(node);
+
+	if (!root.IsValid()) {
+		return;
+	}
+	//#TODO
+	(*dynamic)[*root] = std::make_pair(1, std::make_shared<CTempExpression>(root->Get().GetLabel()));
 }
 
 void CLabelPattern::Consume(const IR::ITree* node) {
@@ -389,7 +398,15 @@ void CCallFunctionPattern::Consume(const IR::ITree* node) {
 		price += GetDynamicPrice(arguments[i].get());
 		commandArguments.push_back(GetDynamicValue(arguments[i].get()));
 	}
-	(*dynamic)[*root] = std::make_pair(price, std::make_shared<CCallFunctionCommand>(function->Get().GetLabel(), commandArguments));
+	//#TODO
+	std::string name;
+	if (function.IsValid()) {
+		name = function->Get().GetLabel();
+	}
+	else {
+		name = "This call funciton";
+	}
+	(*dynamic)[*root] = std::make_pair(price, std::make_shared<CCallFunctionCommand>(name, commandArguments));
 }
 
 void CJumpPattern::Consume(const IR::ITree* node) {
@@ -441,5 +458,7 @@ void CExpStatementPattern::Consume(const IR::ITree* node) {
 		(*dynamic)[*root] = std::make_pair(price, std::make_shared<CExpStatementCommand>(GetDynamicValue(expression)));
 	}
 }
+
+
 
 }

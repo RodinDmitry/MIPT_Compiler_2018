@@ -24,7 +24,8 @@ private:
 	CBlock findBlock(const std::string& startLabel);
 	CBlock getFirstUnused();
 
-	std::set<CBlock> blocks;
+	std::shared_ptr<std::vector<std::shared_ptr<IR::CStatementList>>> blocks;
+	std::vector<bool> isUsed;
 	
 	std::shared_ptr<std::vector<CTrace>> traces;
 };

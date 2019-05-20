@@ -5,6 +5,8 @@
 #include <IRTreeBuilder.h>
 #include <iostream>
 #include <map>
+#include <Synthesis/Tiling.h>
+#include <Synthesis/TraceBuilder.h>
 
 class CMainCompiler {
 public:
@@ -28,6 +30,14 @@ private:
 	std::unique_ptr<std::ostream> errorsFile;
 
 
+	std::shared_ptr<std::vector<Synthesis::CBlock>> programBlocks;
+	std::shared_ptr<std::vector<Synthesis::CTrace>> traces;
+	std::vector<std::string> codes;
+
+
+	std::map<std::string, std::vector<std::shared_ptr<Synthesis::CTilingVisitor>>> commands;
+
+
 	void initStreams();
 	void dumpAST();
 	void typeCheck();
@@ -35,6 +45,12 @@ private:
 	void AddFrames();
 	void buildIR();
 	void dumpIR(const std::string& suffix = "");
+	void dumpAsm(const std::string& suffix = "");
+
+	void buildBlocks();
+	void buildTraces();
+	void buildTiling();
+	void buildASM();
 
 	void updateCalls();
 	void removeEseq();

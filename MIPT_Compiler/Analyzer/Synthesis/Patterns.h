@@ -49,6 +49,13 @@ namespace Synthesis {
 		void Consume(const IR::ITree* node) override;
 	};
 
+	class CNamePattern : public CPattern
+	{
+	public:
+		using CPattern::CPattern;
+		void Consume(const IR::ITree* node) override;
+	};
+
 	class CLabelPattern : public CPattern 
 	{
 	public:

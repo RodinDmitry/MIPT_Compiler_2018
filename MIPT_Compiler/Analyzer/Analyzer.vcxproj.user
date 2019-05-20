@@ -4,4 +4,8 @@
     <LocalDebuggerCommandArguments>-l -b -a --ename errors.txt --irname ../../Results/Samples/graph.txt ../../Samples/Factorial.java</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>-l -b -a --ename errors.txt --irname ../../Results/Samples/graph.txt ../../Samples/Factorial.java</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

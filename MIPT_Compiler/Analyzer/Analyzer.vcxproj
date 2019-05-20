@@ -114,10 +114,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\Graphviz2.38\include\graphviz;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018;C:\Users\rodin\Documents\repos\MIPT_Compiler_2018\MIPT_Compiler;../../..;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\Graphviz2.38\lib\release\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -158,6 +160,8 @@
     <ClCompile Include="Symbol.cpp" />
     <ClCompile Include="MalformedProgramChecker.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
+    <ClCompile Include="Synthesis\CommandBuilder.cpp" />
+    <ClCompile Include="Synthesis\Tiling.cpp" />
     <ClCompile Include="Synthesis\Commands.cpp" />
     <ClCompile Include="Synthesis\Patterns.cpp" />
     <ClCompile Include="Synthesis\TraceBuilder.cpp" />
@@ -215,10 +219,14 @@
     <ClInclude Include="Statement.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="MalformedProgramChecker.h" />
+    <ClInclude Include="Synthesis\AsmCommand.h" />
+    <ClInclude Include="Synthesis\CommandBuilder.h" />
+    <ClInclude Include="Synthesis\Tiling.h" />
     <ClInclude Include="Synthesis\Commands.h" />
     <ClInclude Include="Synthesis\Node.h" />
     <ClInclude Include="Synthesis\Patterns.h" />
     <ClInclude Include="Synthesis\TraceBuilder.h" />
+    <ClInclude Include="Synthesis\TypeVisitor.h" />
     <ClInclude Include="Synthesis\Visitor.h" />
     <ClInclude Include="tokens.flex.h" />
     <ClInclude Include="Tree.h" />
